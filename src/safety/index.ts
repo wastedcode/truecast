@@ -1,5 +1,12 @@
-import { lstatSync, realpathSync } from "node:fs";
-import { isAbsolute, resolve } from "node:path";
+import {
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  realpathSync,
+  writeFileSync,
+} from "node:fs";
+import { isAbsolute, join, resolve } from "node:path";
 import isPathInside from "is-path-inside";
 import { UnsafePathError } from "../errors.js";
 
@@ -7,7 +14,7 @@ const NUL = String.fromCharCode(0);
 
 /**
  * Resolve `rel` against `baseDir` and guarantee the result stays inside the REAL base dir.
- * This is the AUTHORITATIVE path-safety boundary; the zod `RelPath` is only a syntactic pre-filter.
+ * The AUTHORITATIVE path-safety boundary; the zod `RelPath` is only a syntactic pre-filter.
  * Defeats `..`, absolute paths, null bytes, and base-symlink trickery (the base is realpath'd).
  */
 export function resolveContained(baseDir: string, rel: string): string {
@@ -21,9 +28,23 @@ export function resolveContained(baseDir: string, rel: string): string {
   return target;
 }
 
-/** Assert a path is a regular file, NOT a symlink (lstat does not follow links). Rejects source symlinks. */
+/** Assert a path is a regular file, NOT a symlink (lstat does not follow links). */
 export function assertRegularFile(p: string): void {
   const st = lstatSync(p);
   if (st.isSymbolicLink()) throw new UnsafePathError(`symlink not allowed: ${p}`);
   if (!st.isFile()) throw new UnsafePathError(`not a regular file: ${p}`);
+}
+
+/** Recursive copy that REJECTS symlinks and special files — no symlink-escape into managed dirs. */
+export function copyTreeNoSymlinks(src: string, dest: string): void {
+  mkdirSync(dest, { recursive: true });
+  for (const name of readdirSync(src)) {
+    const s = join(src, name);
+    const d = join(dest, name);
+    const st = lstatSync(s);
+    if (st.isSymbolicLink()) throw new UnsafePathError(`symlink not allowed: ${s}`);
+    if (st.isDirectory()) copyTreeNoSymlinks(s, d);
+    else if (st.isFile()) writeFileSync(d, readFileSync(s));
+    else throw new UnsafePathError(`unsupported file type: ${s}`);
+  }
 }

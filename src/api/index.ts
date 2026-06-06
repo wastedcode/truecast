@@ -4,5 +4,6 @@ export * from "./doctor.js";
 export * from "./install.js";
 export * from "./list.js";
 export { autoApprove, denyByDefault, safeUpdateConfirm } from "./policy.js";
+export { isRiskyUpdate } from "../review/index.js";
 export * from "./remove.js";
 export * from "./update.js";

@@ -10,6 +10,7 @@ import {
   autoApprove,
   doctor,
   install,
+  isRiskyUpdate,
   list,
   remove,
   update,
@@ -177,8 +178,10 @@ function renderUpdatePlan(plan: UpdatePlan): void {
 
 function confirmUpdate(plan: UpdatePlan): Promise<boolean> {
   renderUpdatePlan(plan);
-  const risky = plan.changeClass === "major" || plan.downgrade || plan.tagMoved;
-  return ask(risky ? "This is a sensitive change. Proceed? [y/N] " : "Proceed? [y/N] ");
+  // one owner of "is this risky" — the same predicate the safe-default policy uses (no divergence)
+  return ask(
+    isRiskyUpdate(plan) ? "This is a sensitive change. Proceed? [y/N] " : "Proceed? [y/N] ",
+  );
 }
 
 function renderUpdate(results: UpdateResult[]): void {

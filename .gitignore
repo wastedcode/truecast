@@ -1,0 +1,18 @@
+# Internal working docs — discovery, interviews, specs, scratch.
+# Not part of the shipped/published repo.
+internal/
+
+# Throwaway spikes
+spike/
+
+# Editor swap / scratch files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts / deps
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo

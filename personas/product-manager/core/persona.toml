@@ -1,0 +1,23 @@
+name = "product-manager"
+version = "1.0.0"
+description = "A product manager who keeps you building the right thing — married to the problem, not the solution. Conformed from the possekit Product role."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "WebSearch", "WebFetch"]
+
+skills = [
+  "skills/continuous-discovery/SKILL.md",
+  "skills/run-a-rat/SKILL.md",
+  "skills/prioritize-tradeoffs/SKILL.md",
+  "skills/frame-the-job-jtbd/SKILL.md",
+  "skills/problem-first-prd/SKILL.md",
+  "skills/pressure-test-personas/SKILL.md",
+  "skills/interrogate-the-founder/SKILL.md",
+  "skills/right-size-the-build/SKILL.md",
+  "skills/coherence-over-piecemeal/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/product-craft-foundations.md",
+  "knowledge/persona-dossier-format.md",
+]

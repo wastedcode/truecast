@@ -82,15 +82,29 @@ export const PersonaManifest = z
   .strict();
 export type PersonaManifest = z.infer<typeof PersonaManifest>;
 
-/** A project's `.truecast/lock` entry — pins source + version + commit (integrity). */
-export const LockEntry = z.object({
-  source: SourceRef,
-  version: SemVer,
-  commit: z
-    .string()
-    .regex(/^[0-9a-f]{7,40}$/, "must be a git commit sha")
-    .or(z.literal("local")),
-});
+const Commit = z
+  .string()
+  .regex(/^[0-9a-f]{7,40}$/, "must be a git commit sha")
+  .or(z.literal("local"));
+
+/**
+ * A project's `.truecast/lock` entry. `spec` = "current" (track the global pointer) | a pinned semver.
+ * Back-compat (RR3): an old `{ version }` entry reads as `spec="current"` (preserve auto-follow).
+ */
+export const LockEntry = z.preprocess(
+  (v) => {
+    if (v && typeof v === "object" && !("spec" in v) && "version" in v) {
+      const { version: _version, ...rest } = v as Record<string, unknown>;
+      return { ...rest, spec: "current" };
+    }
+    return v;
+  },
+  z.object({
+    source: SourceRef,
+    spec: z.union([z.literal("current"), SemVer]),
+    commit: Commit,
+  }),
+);
 export type LockEntry = z.infer<typeof LockEntry>;
 
 export const Lock = z.object({
@@ -104,7 +118,7 @@ export const LedgerEntry = z.object({
   path: z.string().min(1).refine(noControlChars, "must not contain control characters"),
   sha256: z.string().regex(/^[0-9a-f]{64}$/, "must be a sha256 hex digest"),
   source: SourceRef,
-  kind: z.enum(["cache", "agent", "skill", "symlink"]),
+  kind: z.enum(["cache", "agent", "skill", "symlink", "meta"]),
 });
 export type LedgerEntry = z.infer<typeof LedgerEntry>;
 

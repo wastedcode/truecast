@@ -58,7 +58,7 @@ export function attachPersona(a: AttachArgs): void {
   const lock = existsSync(lockPath)
     ? LockSchema.parse(JSON.parse(readFileSync(lockPath, "utf8")))
     : { version: 1 as const, personas: {} as Record<string, LockEntry> };
-  lock.personas[name] = { source: a.source, version: a.cached.version, commit: a.commit };
+  lock.personas[name] = { source: a.source, spec: "current", commit: a.commit };
   writeFileSync(lockPath, JSON.stringify(lock, null, 2));
 
   appendGitignore(a.root, ".truecast/agents/*/core");

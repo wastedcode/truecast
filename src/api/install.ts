@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { attachPersona } from "../attach/index.js";
-import { cachePersona } from "../cache/index.js";
+import { cacheCandidate, promoteCurrent } from "../cache/index.js";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { TruecastError } from "../errors.js";
 import { fetchSource, parseSource } from "../fetch/index.js";
@@ -8,6 +8,7 @@ import { Ledger } from "../ledger/index.js";
 import { locateProject } from "../locate/index.js";
 import type { Logger } from "../log/index.js";
 import { materialize, skillLeaf } from "../materialize/index.js";
+import { readMeta, upsertVersion, writeMeta } from "../meta/index.js";
 import { type Persona, loadPersona } from "../persona/index.js";
 import { InstallPlan, type PlannedWrite } from "../schema/index.js";
 
@@ -99,8 +100,15 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
     if (!(await confirm(plan))) return { plan, applied: false };
 
     const ledger = await Ledger.load(config);
-    const cached = cachePersona(persona, config, ledger);
-    materialize(cached, persona, config, ledger);
+    const cached = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
+    materialize(cached, persona, config, ledger); // build the surface from the cached version
+    promoteCurrent(cached.name, cached.version, config, ledger); // re-point current LAST (RR1)
+    await writeMeta(
+      config,
+      cached.name,
+      upsertVersion(readMeta(config, cached.name), parsed.url, cached.version, fetched.commit),
+      ledger,
+    );
     if (projectRoot) {
       attachPersona({
         root: projectRoot,

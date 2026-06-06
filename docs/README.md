@@ -14,6 +14,7 @@ it's documented here.**
 | `update` · `list` · `remove` — CLI + programmatic | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | bundled persona: `product-manager` | ✅ shipped |
+| security: containment + clobber/drift guards + adversarial suite | ✅ shipped |
 | pinning a project to a fixed version (`--pin`) | ⏳ planned |
 | `sync` (re-materialize the surface from the cache) | ⏳ planned |
 | `publish` · `conform` | ⏳ planned |

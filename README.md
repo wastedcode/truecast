@@ -33,6 +33,10 @@ a global cache (`~/.truecast`), symlinks it into the project, scaffolds your edi
 materializes a native Claude Code subagent + skills under `~/.claude/`. Every file truecast writes is
 tracked in a manifest, so it never clobbers your own.
 
+## Docs
+[`docs/`](docs/) — [install](docs/install.md), [authoring personas](docs/authoring-personas.md), and a
+shipped-vs-planned status table. (Kept in step with the code: a feature isn't done until it's documented.)
+
 ## Develop
 ```sh
 pnpm install

@@ -1,0 +1,44 @@
+# Authoring a persona
+
+A persona is a directory with a `core/` (and optionally an `instance-template/`). The bundled
+[`personas/product-manager`](../personas/product-manager) is the worked example.
+
+## Layout
+```
+my-persona/
+  core/
+    persona.toml             the manifest / corpus index
+    agent.md                 identity — who they are, their bar (the "Why")
+    skills/<name>/SKILL.md    a procedure (a Claude Code skill: frontmatter + body)
+    knowledge/<name>.md       reference material the agent reads/greps
+  instance-template/
+    mandate.md               scaffolded into the consumer's repo as their editable job
+```
+
+## `core/persona.toml`
+```toml
+name = "product-manager"        # ^[a-z][a-z0-9-]*  (≤ 64 chars)
+version = "1.0.0"               # semver
+description = "…"               # optional, for listings
+identity = "agent.md"           # relative path inside core/
+skills = ["skills/run-a-rat/SKILL.md", "skills/frame-the-job-jtbd/SKILL.md"]
+knowledge = ["knowledge/product-craft-foundations.md"]
+modelHint = "opus"             # optional
+tools = ["Read", "Grep", "WebSearch", "WebFetch"]   # from the allowlist; shown to the user at install
+```
+
+Every path is **relative and contained** in `core/` (no `..`, no symlinks, no absolute paths) —
+enforced at install. `tools` must come from the grantable set: `Read, Grep, Glob, WebSearch, WebFetch,
+Bash, Edit, Write, NotebookEdit` — and is surfaced for approval before any write.
+
+## Conventions
+- **`agent.md` is identity only** — portable craft, no project/orchestration specifics. The *job* lives
+  in the instance (a generic starter goes in `instance-template/mandate.md`).
+- **Skills are `SKILL.md` folders** with `name` + `description` frontmatter; the `description` controls
+  when Claude auto-invokes the skill.
+- **The agent reads its corpus via the manifest** — it `Read`s the paths listed in `persona.toml`. Keep
+  the manifest the source of truth for what exists.
+
+## Validate
+The schema + every referenced file are checked at install. The repo also tests the bundled persona
+against the schema in `src/schema/default-persona.test.ts` — mirror that pattern for your own persona.

@@ -22,14 +22,14 @@ export function cacheCandidate(persona: Persona, config: Config, ledger: Ledger)
   const { name, version } = persona.manifest;
   const dest = paths.personaCache(config, name, version); // .../<ver>/core
   if (!(existsSync(dest) && ledger.owns(dest) && !ledger.isDrifted(dest))) {
-    ledger.guard(dest, name); // an un-owned cache dir already there ⇒ collision (don't clobber)
+    ledger.guard(dest); // an un-owned cache dir already there ⇒ collision (don't clobber)
     mkdirSync(dirname(dest), { recursive: true });
     const staging = `${dest}.staging-${process.pid}`;
     rmSync(staging, { recursive: true, force: true });
     copyTreeNoSymlinks(persona.coreDir, staging); // rejects symlinks in the source
     if (existsSync(dest)) rmSync(dest, { recursive: true, force: true });
     renameSync(staging, dest); // same-dir rename → atomic, no EXDEV (rebuilt from source on drift)
-    ledger.recordDir(dest, "cache", name);
+    ledger.recordDir(dest, "cache");
   }
   return { name, version, coreDir: dest };
 }
@@ -55,5 +55,5 @@ export function promoteCurrent(
   }
   const current = paths.currentLink(config, name);
   atomicSymlink(version, current); // relative target → current/core resolves to <ver>/core (atomic swap)
-  ledger.record({ path: current, sha256: sha256(version), source: name, kind: "symlink" });
+  ledger.record({ path: current, sha256: sha256(version), kind: "symlink" });
 }

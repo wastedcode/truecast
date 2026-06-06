@@ -11,7 +11,7 @@ import { loadPersona, readManifest } from "../persona/index.js";
 import { classify, computeChanges, toolsDiff } from "../review/index.js";
 import { UpdatePlan } from "../schema/index.js";
 import { installedPersonas, runningVersion } from "../state/index.js";
-import { safeUpdateConfirm } from "./policy.js";
+import { type Confirm, defaultConsent } from "./consent.js";
 
 /** Programmatic inputs for `update` (CLI flags map 1:1). Omit `name` to update every installed persona. */
 export interface UpdateOptions {
@@ -28,25 +28,25 @@ export interface UpdateOptions {
 export interface UpdateCtx {
   config?: Config | undefined;
   logger?: Logger | undefined;
-  /** Gate before any global write. The plan carries `changeClass`/`toolsAdded`/`downgrade`/`tagMoved`.
-   *  DEFAULT = `safeUpdateConfirm`: applies safe (patch/minor) updates, holds back risky ones
-   *  (`result.blocked`). Pass `autoApprove` for unattended adoption of everything. */
-  confirm?: ((plan: UpdatePlan) => boolean | Promise<boolean>) | undefined;
+  /** Consent gate; the plan carries `changeClass`/`toolsAdded`/`downgrade`/`tagMoved`. DEFAULT =
+   *  `defaultConsent`: applies safe (patch/minor) updates, withholds risky ones (→ outcome `blocked`).
+   *  Pass `autoApprove` for unattended adoption of everything. */
+  confirm?: Confirm | undefined;
 }
+
+/**
+ * The outcome of an update, as a discriminated value (no boolean soup): exactly one of —
+ * `applied` (adopted), `up-to-date` (nothing newer), `blocked` (available but consent withheld),
+ * `dry-run` (planned only), `failed` (errored — `error` set). `plan` is present for all but
+ * `up-to-date` and an early `failed`.
+ */
+export type UpdateOutcome = "applied" | "up-to-date" | "blocked" | "dry-run" | "failed";
 
 export interface UpdateResult {
   persona: string;
-  /** null when already up to date (no candidate newer/different than what runs). */
+  outcome: UpdateOutcome;
   plan: UpdatePlan | null;
-  applied: boolean;
-  upToDate: boolean;
-  /**
-   * True when an update WAS available but `confirm` withheld approval — distinct from `upToDate` and
-   * `dryRun` so a programmatic caller never mistakes a safe-default refusal for "nothing to do" (R8).
-   * The default `confirm` rejects risky updates; pass `confirm: autoApprove` for unattended adoption.
-   */
-  blocked: boolean;
-  /** Set when this persona's transaction failed (update-all keeps going; RR7). */
+  /** Present iff `outcome === "failed"`. */
   error?: string | undefined;
 }
 
@@ -63,10 +63,8 @@ export async function update(opts: UpdateOptions, ctx: UpdateCtx = {}): Promise<
     } catch (err) {
       results.push({
         persona: name,
+        outcome: "failed",
         plan: null,
-        applied: false,
-        upToDate: false,
-        blocked: false,
         error: err instanceof Error ? err.message : String(err),
       });
     }
@@ -118,7 +116,7 @@ async function updateOne(
     const tagMoved =
       candidateVer === running && !!recordedCommit && fetched.commit !== recordedCommit;
     if (candidateVer === running && !tagMoved && !version) {
-      return { persona: name, plan: null, applied: false, upToDate: true, blocked: false };
+      return { persona: name, outcome: "up-to-date", plan: null };
     }
 
     const currentCore = paths.currentCore(config, name);
@@ -146,15 +144,14 @@ async function updateOne(
       tagMoved,
     });
 
-    if (opts.dryRun)
-      return { persona: name, plan, applied: false, upToDate: false, blocked: false };
-    const confirm = ctx.confirm ?? safeUpdateConfirm; // safe default: reject risky updates (R8)
-    if (!(await confirm(plan))) {
-      return { persona: name, plan, applied: false, upToDate: false, blocked: true };
+    if (opts.dryRun) return { persona: name, outcome: "dry-run", plan };
+    const confirm = ctx.confirm ?? defaultConsent; // safe default: withholds risky updates (R8)
+    if (!(await confirm({ kind: "update", plan }))) {
+      return { persona: name, outcome: "blocked", plan };
     }
 
-    // Apply under the home lock + write-through ledger (RR1 order: promote LAST).
-    await Ledger.transaction(config, (ledger) => {
+    // Apply under the persona lock + write-through ledger (RR1 order: promote LAST).
+    await Ledger.transaction(config, name, (ledger) => {
       const cached = cacheCandidate(persona, config, ledger);
       materialize(cached, persona, config, ledger, { force: opts.force });
       promoteCurrent(cached.name, cached.version, config, ledger);
@@ -166,7 +163,7 @@ async function updateOne(
       );
     });
     ctx.logger?.info({ persona: name, from: running, to: candidateVer }, "updated");
-    return { persona: name, plan, applied: true, upToDate: false, blocked: false };
+    return { persona: name, outcome: "applied", plan };
   } finally {
     await fetched.dispose();
   }

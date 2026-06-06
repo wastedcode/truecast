@@ -11,7 +11,7 @@ import { materialize, skillLeaf } from "../materialize/index.js";
 import { readMeta, upsertVersion, writeMeta } from "../meta/index.js";
 import { type Persona, loadPersona } from "../persona/index.js";
 import { InstallPlan, type PlannedWrite } from "../schema/index.js";
-import { autoApprove } from "./policy.js";
+import { type Confirm, defaultConsent } from "./consent.js";
 
 /** Programmatic inputs for `install` (CLI flags map 1:1 to these). */
 export interface InstallOptions {
@@ -38,8 +38,8 @@ export interface InstallOptions {
 export interface Ctx {
   config?: Config | undefined;
   logger?: Logger | undefined;
-  /** Called with the computed plan before any write. Default: auto-approve (caller consented). */
-  confirm?: ((plan: InstallPlan) => boolean | Promise<boolean>) | undefined;
+  /** Consent gate before any write. Default: approve (install is the user's explicit, named act). */
+  confirm?: Confirm | undefined;
 }
 
 export interface InstallResult {
@@ -99,11 +99,11 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
     });
 
     if (opts.dryRun) return { plan, applied: false };
-    const confirm = ctx.confirm ?? autoApprove;
-    if (!(await confirm(plan))) return { plan, applied: false };
+    const confirm = ctx.confirm ?? defaultConsent;
+    if (!(await confirm({ kind: "install", plan }))) return { plan, applied: false };
 
-    // All home mutations under the lock + write-through ledger (RR1 order preserved: promote LAST).
-    const cached = await Ledger.transaction(config, (ledger) => {
+    // All persona mutations under its lock + write-through ledger (RR1: promote LAST).
+    const cached = await Ledger.transaction(config, persona.manifest.name, (ledger) => {
       const c = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
       materialize(c, persona, config, ledger, { force: opts.force }); // build the surface
       promoteCurrent(c.name, c.version, config, ledger); // re-point current LAST (RR1)

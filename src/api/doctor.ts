@@ -7,7 +7,7 @@ import type { Logger } from "../log/index.js";
 import { materialize } from "../materialize/index.js";
 import { loadPersona } from "../persona/index.js";
 import { removeContained } from "../safety/index.js";
-import { cachedVersions, installedPersonas, runningVersion } from "../state/index.js";
+import { cachedVersions, personaDirs, runningVersion } from "../state/index.js";
 
 /**
  * Inspect + repair the truecast home (R9) — the recovery story for the states that refusals or a crash
@@ -48,122 +48,129 @@ export interface DoctorCtx {
 
 export async function doctor(opts: DoctorOptions = {}, ctx: DoctorCtx = {}): Promise<DoctorReport> {
   const config = ctx.config ?? resolveConfig();
-  return Ledger.transaction(config, (ledger) => {
-    const issues: DoctorIssue[] = [];
+  const issues: DoctorIssue[] = [];
 
-    // 1. owned files: vanished or hand-edited.
-    for (const e of ledger.all()) {
-      if (e.kind === "symlink") continue; // pointers are checked per-persona below
-      if (!existsSync(e.path)) {
-        issues.push({
-          kind: "missing-owned",
-          path: e.path,
-          persona: e.source,
-          detail: "a file truecast generated is gone; re-install or update to regenerate it",
-          healable: false,
-          healed: false,
-        });
-      } else if (ledger.isDrifted(e.path)) {
-        issues.push({
-          kind: "drift",
-          path: e.path,
-          persona: e.source,
-          detail:
-            "hand-edited since generated; run 'truecast update <name> --force' to discard, or restore it",
-          healable: false,
-          healed: false,
-        });
-      }
-    }
-
-    // 2. per-persona: a dangling `current` (healable by re-promoting the newest cached version).
-    for (const name of installedPersonas(config)) {
-      if (runningVersion(config, name) !== null) continue;
-      const versions = cachedVersions(config, name);
-      if (versions.length === 0) continue; // nothing to heal to
-      const latest = versions[0] as string;
-      const issue: DoctorIssue = {
-        kind: "dangling-current",
-        path: paths.currentLink(config, name),
-        persona: name,
-        detail: `current does not resolve; newest cached is ${latest}`,
-        healable: true,
-        healed: false,
-      };
-      if (opts.fix) {
-        try {
-          const persona = loadPersona(join(paths.personaDir(config, name), latest)); // re-validate
-          const cached = cacheCandidate(persona, config, ledger);
-          materialize(cached, persona, config, ledger, { force: true }); // heal overrides drift
-          promoteCurrent(name, latest, config, ledger);
-          issue.healed = true;
-        } catch (err) {
-          // one persona failing to heal must not abort the whole doctor run
-          issue.detail = `${issue.detail} — heal failed: ${err instanceof Error ? err.message : err}`;
-          ctx.logger?.warn({ persona: name, err }, "doctor: heal failed");
-        }
-      }
-      issues.push(issue);
-    }
-
-    // 3. stale staging / temp artifacts from a crashed copy or pointer swap (healable: remove).
-    for (const stale of scanStale(config)) {
-      const issue: DoctorIssue = {
-        kind: "stale-staging",
-        path: stale,
-        detail: "leftover staging/temp artifact from an interrupted write",
-        healable: true,
-        healed: false,
-      };
-      if (opts.fix) {
-        removeContained(config.truecastHome, stale);
-        issue.healed = true;
-      }
-      issues.push(issue);
-    }
-
-    // 4. cached version dirs not owned by the ledger (legacy/crash residue; report-only — may be wanted).
-    for (const name of installedPersonas(config)) {
-      for (const ver of cachedVersions(config, name)) {
-        const core = paths.personaCache(config, name, ver);
-        if (!ledger.owns(core)) {
-          issues.push({
-            kind: "orphan-cache",
-            path: core,
-            persona: name,
-            detail:
-              "a cached version truecast doesn't track; 'truecast remove <name> --global' to clear",
-            healable: false,
-            healed: false,
-          });
-        }
-      }
-    }
-
-    const unresolved = issues.filter((i) => !i.healed);
-    ctx.logger?.info(
-      { issues: issues.length, healed: issues.length - unresolved.length },
-      "doctor",
+  // Each persona is inspected (and healed) independently, under its own lock — no global ledger.
+  for (const name of personaDirs(config)) {
+    const personaIssues = await Ledger.transaction(config, name, (ledger) =>
+      inspectPersona(name, opts, config, ledger, ctx),
     );
-    return { issues, healthy: unresolved.length === 0 };
-  });
+    issues.push(...personaIssues);
+  }
+
+  const unresolved = issues.filter((i) => !i.healed).length;
+  ctx.logger?.info({ issues: issues.length, healed: issues.length - unresolved }, "doctor");
+  return { issues, healthy: unresolved === 0 };
 }
 
-/** Find leftover `*.staging-*` / `*.tmp-*` artifacts under the personas tree (shallow, bounded walk). */
-function scanStale(config: Config): string[] {
-  const root = paths.personasRoot(config);
-  if (!existsSync(root)) return [];
+function inspectPersona(
+  name: string,
+  opts: DoctorOptions,
+  config: Config,
+  ledger: Ledger,
+  ctx: DoctorCtx,
+): DoctorIssue[] {
+  const issues: DoctorIssue[] = [];
+
+  // 1. owned files: vanished or hand-edited.
+  for (const e of ledger.owned()) {
+    if (e.kind === "symlink") continue; // pointers are checked below
+    if (!existsSync(e.path)) {
+      issues.push({
+        kind: "missing-owned",
+        path: e.path,
+        persona: name,
+        detail: "a file truecast generated is gone; re-install or update to regenerate it",
+        healable: false,
+        healed: false,
+      });
+    } else if (ledger.isDrifted(e.path)) {
+      issues.push({
+        kind: "drift",
+        path: e.path,
+        persona: name,
+        detail: `hand-edited since generated; run 'truecast update ${name} --force' to discard, or restore it`,
+        healable: false,
+        healed: false,
+      });
+    }
+  }
+
+  // 2. a dangling `current` (healable by re-promoting the newest cached version).
+  const versions = cachedVersions(config, name);
+  if (runningVersion(config, name) === null && versions.length > 0) {
+    const latest = versions[0] as string;
+    const issue: DoctorIssue = {
+      kind: "dangling-current",
+      path: paths.currentLink(config, name),
+      persona: name,
+      detail: `current does not resolve; newest cached is ${latest}`,
+      healable: true,
+      healed: false,
+    };
+    if (opts.fix) {
+      try {
+        const persona = loadPersona(join(paths.personaDir(config, name), latest)); // re-validate
+        const cached = cacheCandidate(persona, config, ledger);
+        materialize(cached, persona, config, ledger, { force: true }); // heal overrides drift
+        promoteCurrent(name, latest, config, ledger);
+        issue.healed = true;
+      } catch (err) {
+        // a persona failing to heal must not abort the sweep
+        issue.detail = `${issue.detail} — heal failed: ${err instanceof Error ? err.message : err}`;
+        ctx.logger?.warn({ persona: name, err }, "doctor: heal failed");
+      }
+    }
+    issues.push(issue);
+  }
+
+  // 3. stale staging/temp artifacts from a crashed copy or pointer swap (healable: remove).
+  for (const stale of scanStale(config, name)) {
+    const issue: DoctorIssue = {
+      kind: "stale-staging",
+      path: stale,
+      persona: name,
+      detail: "leftover staging/temp artifact from an interrupted write",
+      healable: true,
+      healed: false,
+    };
+    if (opts.fix) {
+      removeContained(config.truecastHome, stale);
+      issue.healed = true;
+    }
+    issues.push(issue);
+  }
+
+  // 4. cached version dirs not owned by the ledger (legacy/crash residue; report-only — may be wanted).
+  for (const ver of versions) {
+    const core = paths.personaCache(config, name, ver);
+    if (!ledger.owns(core)) {
+      issues.push({
+        kind: "orphan-cache",
+        path: core,
+        persona: name,
+        detail:
+          "a cached version truecast doesn't track; 'truecast remove <name> --global' to clear",
+        healable: false,
+        healed: false,
+      });
+    }
+  }
+
+  return issues;
+}
+
+/** Find leftover `*.staging-*` / `*.tmp-*` artifacts under one persona's dir (shallow, bounded). */
+function scanStale(config: Config, name: string): string[] {
+  const personaDir = paths.personaDir(config, name);
   const hits: string[] = [];
   const isStale = (n: string): boolean => n.includes(".staging-") || n.includes(".tmp-");
-  for (const name of readdirSync(root)) {
-    const personaDir = join(root, name);
-    for (const entry of safeReaddir(personaDir)) {
-      if (isStale(entry)) hits.push(join(personaDir, entry));
-      else {
-        const verDir = join(personaDir, entry);
-        for (const inner of safeReaddir(verDir)) {
-          if (isStale(inner)) hits.push(join(verDir, inner));
-        }
+  for (const entry of safeReaddir(personaDir)) {
+    if (isStale(entry)) hits.push(join(personaDir, entry));
+    else {
+      const verDir = join(personaDir, entry);
+      for (const inner of safeReaddir(verDir)) {
+        if (isStale(inner)) hits.push(join(verDir, inner));
       }
     }
   }

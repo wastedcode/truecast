@@ -51,21 +51,21 @@ for accumulated lessons. To search, target \`core/\` and \`instance/\` explicitl
 the symlinked core.
 `;
 
-  ledger.writeFile(paths.claudeAgent(config, name), body, "agent", name, opts);
+  ledger.writeFile(paths.claudeAgent(config, name), body, "agent", opts);
 
   // write the desired skills
   const desired = new Set<string>();
   for (const s of m.skills) {
     const destDir = paths.claudeSkillDir(config, name, skillLeaf(s));
     desired.add(destDir);
-    ledger.assertWritable(destDir, name, opts);
+    ledger.assertWritable(destDir, opts);
     rmSync(destDir, { recursive: true, force: true });
     copyTreeNoSymlinks(dirname(join(cached.coreDir, s)), destDir); // core/skills/<leaf>/
-    ledger.recordDir(destDir, "skill", name);
+    ledger.recordDir(destDir, "skill");
   }
 
   // prune skills this persona owns that the NEW version dropped (R5: no orphaned /skill left behind)
-  for (const e of ledger.ownedBy(name)) {
+  for (const e of ledger.owned()) {
     if (e.kind === "skill" && !desired.has(e.path)) ledger.removeOwned(e.path);
   }
 }

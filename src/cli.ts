@@ -2,6 +2,7 @@
 import { createInterface } from "node:readline/promises";
 import { Command } from "@commander-js/extra-typings";
 import {
+  type ConsentRequest,
   type DoctorReport,
   type InstallResult,
   type ListResult,
@@ -43,7 +44,7 @@ program
         dryRun: opts.dryRun,
         force: opts.force,
       },
-      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInstall },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInteractive },
     );
     renderInstall(result);
   });
@@ -58,10 +59,10 @@ program
     const { name, version } = splitTarget(target);
     const results = await update(
       { name, version, dryRun: opts.dryRun, force: opts.force },
-      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmUpdate },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInteractive },
     );
     renderUpdate(results);
-    if (results.some((r) => r.error)) process.exitCode = 1;
+    if (results.some((r) => r.outcome === "failed")) process.exitCode = 1;
   });
 
 program
@@ -86,7 +87,7 @@ program
   .action(async (name, opts) => {
     const result = await remove(
       { name, global: opts.global, purge: opts.purge, project: opts.project },
-      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmRemoveGlobal },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInteractive },
     );
     renderRemove(result);
   });
@@ -146,9 +147,22 @@ function renderInstallPlan(plan: InstallPlan): void {
   }
 }
 
-function confirmInstall(plan: InstallPlan): Promise<boolean> {
-  renderInstallPlan(plan);
-  return ask("Proceed? [y/N] ");
+/** The ONE interactive consent handler — renders the right thing per request kind, then prompts. */
+function confirmInteractive(req: ConsentRequest): Promise<boolean> {
+  switch (req.kind) {
+    case "install":
+      renderInstallPlan(req.plan);
+      return ask("Proceed? [y/N] ");
+    case "update":
+      renderUpdatePlan(req.plan);
+      return ask(
+        isRiskyUpdate(req.plan) ? "This is a sensitive change. Proceed? [y/N] " : "Proceed? [y/N] ",
+      );
+    case "remove-global":
+      process.stderr.write(`\nremove ${req.persona} GLOBALLY (cache + surface + meta).\n`);
+      process.stderr.write(`  ⚠ ${req.dependentsWarning}\n`);
+      return ask("Proceed? [y/N] ");
+  }
 }
 
 function renderInstall(result: InstallResult): void {
@@ -176,23 +190,29 @@ function renderUpdatePlan(plan: UpdatePlan): void {
   }
 }
 
-function confirmUpdate(plan: UpdatePlan): Promise<boolean> {
-  renderUpdatePlan(plan);
-  // one owner of "is this risky" — the same predicate the safe-default policy uses (no divergence)
-  return ask(
-    isRiskyUpdate(plan) ? "This is a sensitive change. Proceed? [y/N] " : "Proceed? [y/N] ",
-  );
-}
-
 function renderUpdate(results: UpdateResult[]): void {
   const w = process.stderr;
   for (const r of results) {
-    if (r.error) w.write(`✗ ${r.persona}: ${r.error}\n`);
-    else if (r.upToDate) w.write(`• ${r.persona}: already up to date\n`);
-    else if (r.applied && r.plan) w.write(`✓ ${r.persona}: ${r.plan.from} → ${r.plan.to}\n`);
-    else if (r.blocked && r.plan)
-      w.write(`⚠ ${r.persona}: ${r.plan.from} → ${r.plan.to} held back (not approved)\n`);
-    else if (r.plan) w.write(`(dry run) ${r.persona}: ${r.plan.from} → ${r.plan.to}\n`);
+    const span = r.plan ? `${r.plan.from} → ${r.plan.to}` : "";
+    switch (r.outcome) {
+      case "failed":
+        w.write(`✗ ${r.persona}: ${r.error}\n`);
+        break;
+      case "up-to-date":
+        w.write(`• ${r.persona}: already up to date\n`);
+        break;
+      case "applied":
+        w.write(`✓ ${r.persona}: ${span}\n`);
+        break;
+      case "blocked":
+        if (r.plan) renderUpdatePlan(r.plan); // show WHY it's sensitive
+        w.write(`⚠ ${r.persona}: ${span} held back (not approved)\n`);
+        break;
+      case "dry-run":
+        if (r.plan) renderUpdatePlan(r.plan); // a dry run's whole point: the change set + classification
+        w.write("(dry run — nothing written)\n");
+        break;
+    }
   }
 }
 
@@ -238,12 +258,6 @@ function renderDoctor(report: DoctorReport): void {
     w.write(
       `\n${unresolved} issue(s) need attention; run 'truecast doctor --fix' for the safe ones.\n`,
     );
-}
-
-function confirmRemoveGlobal(info: { name: string; dependentsWarning: string }): Promise<boolean> {
-  process.stderr.write(`\nremove ${info.name} GLOBALLY (cache + surface + meta).\n`);
-  process.stderr.write(`  ⚠ ${info.dependentsWarning}\n`);
-  return ask("Proceed? [y/N] ");
 }
 
 function renderRemove(result: RemoveResult): void {

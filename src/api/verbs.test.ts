@@ -76,7 +76,7 @@ describe("update", () => {
     writePersona(src, { version: "1.1.0", skills: ["greet", "summarize"], tools: ["Read"] });
     const [r] = await update({ name: "tester" }, { config, confirm: () => true });
 
-    expect(r.applied).toBe(true);
+    expect(r.outcome).toBe("applied");
     expect(r.plan?.to).toBe("1.1.0");
     expect(r.plan?.changeClass).toBe("minor"); // a skill was added
     // current re-points; the new skill is materialized; the project resolves it through the symlink
@@ -88,8 +88,7 @@ describe("update", () => {
   it("AC-U2: already latest ⇒ no writes, reports up to date", async () => {
     await installV1();
     const [r] = await update({ name: "tester" }, { config, confirm: () => true });
-    expect(r.upToDate).toBe(true);
-    expect(r.applied).toBe(false);
+    expect(r.outcome).toBe("up-to-date");
     expect(existsSync(cacheCore("1.0.0"))).toBe(true);
   });
 
@@ -111,7 +110,7 @@ describe("update", () => {
     });
     const [r] = await update({ name: "tester" }, { config, confirm: () => false });
     expect(r.plan?.changeClass).toBe("major");
-    expect(r.applied).toBe(false);
+    expect(r.outcome).toBe("blocked");
     expect(existsSync(cacheCore("1.3.0"))).toBe(false); // declined ⇒ nothing cached/promoted
   });
 
@@ -130,7 +129,7 @@ describe("update", () => {
     await installV1();
     writePersona(src, { version: "1.1.0", skills: ["greet", "summarize"], tools: ["Read"] });
     const [r] = await update({ name: "tester", dryRun: true }, { config });
-    expect(r.applied).toBe(false);
+    expect(r.outcome).toBe("dry-run");
     expect(r.plan?.to).toBe("1.1.0");
     expect(existsSync(cacheCore("1.1.0"))).toBe(false); // nothing written
   });

@@ -7,7 +7,7 @@ import { removeEntry } from "../lock/index.js";
 import type { Logger } from "../log/index.js";
 import { isSymlink, removeContained } from "../safety/index.js";
 import { PersonaName } from "../schema/index.js";
-import { denyByDefault } from "./policy.js";
+import { type Confirm, defaultConsent } from "./consent.js";
 
 export interface RemoveOptions {
   name: string;
@@ -23,12 +23,8 @@ export interface RemoveOptions {
 export interface RemoveCtx {
   config?: Config | undefined;
   logger?: Logger | undefined;
-  /** Required-consent gate for the destructive global path (R2). Default: DENY (must opt in, R8). */
-  confirm?:
-    | ((info: { name: string; global: true; dependentsWarning: string }) =>
-        | boolean
-        | Promise<boolean>)
-    | undefined;
+  /** Consent gate (only the destructive `--global` path asks). Default: DENY (must opt in, R8). */
+  confirm?: Confirm | undefined;
 }
 
 export interface RemoveResult {
@@ -85,10 +81,10 @@ function removeFromProject(name: string, opts: RemoveOptions, ctx: RemoveCtx): R
 async function removeGlobal(name: string, config: Config, ctx: RemoveCtx): Promise<RemoveResult> {
   const dependentsWarning =
     "Projects tracking this persona will break next session (they cannot be enumerated).";
-  const confirm = ctx.confirm ?? denyByDefault; // destructive ⇒ deny unless explicitly approved (R8)
+  const confirm = ctx.confirm ?? defaultConsent; // destructive ⇒ deny unless explicitly approved (R8)
 
-  return Ledger.transaction(config, async (ledger) => {
-    const owned = ledger.ownedBy(name);
+  return Ledger.transaction(config, name, async (ledger) => {
+    const owned = ledger.owned();
     if (owned.length === 0) {
       throw new TruecastError(
         "NOT_INSTALLED",
@@ -96,7 +92,7 @@ async function removeGlobal(name: string, config: Config, ctx: RemoveCtx): Promi
         "Run 'truecast list' to see installed personas.",
       );
     }
-    if (!(await confirm({ name, global: true, dependentsWarning }))) {
+    if (!(await confirm({ kind: "remove-global", persona: name, dependentsWarning }))) {
       return { name, scope: "global", applied: false, removed: [] };
     }
 

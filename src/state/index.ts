@@ -9,6 +9,15 @@ import { PersonaName } from "../schema/index.js";
  * Pure queries — no module here writes. update/list/remove read through these.
  */
 
+/** Every persona DIR on disk (valid name), regardless of meta validity — what `doctor` sweeps. */
+export function personaDirs(config: Config): string[] {
+  const base = paths.personasRoot(config);
+  if (!existsSync(base)) return [];
+  return readdirSync(base)
+    .filter((name) => PersonaName.safeParse(name).success && existsSync(join(base, name)))
+    .sort();
+}
+
 /** Installed persona names = subdirs of `personas/` that hold a `meta.json` (a valid install record). */
 export function installedPersonas(config: Config): string[] {
   const base = paths.personasRoot(config);

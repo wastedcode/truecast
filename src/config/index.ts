@@ -10,7 +10,7 @@ export type ManagedKind = LedgerEntry["kind"];
  * they take `Config` by injection and derive sub-paths via `paths`.
  */
 export interface Config {
-  /** Global truecast home: cache, manifest, proposals. */
+  /** Global truecast home: per-persona cache, ledgers, proposals. */
   readonly truecastHome: string;
   /** Claude Code home: the generated ergonomic surface lives here. */
   readonly claudeHome: string;
@@ -43,6 +43,9 @@ export const paths = {
   /** The per-persona global record (source + cached versions). */
   metaFile: (c: Config, name: string): string =>
     join(c.truecastHome, "personas", name, "meta.json"),
+  /** The per-persona ownership ledger (the paths truecast owns for this persona; clobber/drift guard). */
+  ledgerFile: (c: Config, name: string): string =>
+    join(c.truecastHome, "personas", name, "owned.json"),
   personaCache: (c: Config, name: string, ver: string): string =>
     join(c.truecastHome, "personas", name, ver, "core"),
   /** The `current → <ver>` pointer (update-once re-points this). */
@@ -51,7 +54,6 @@ export const paths = {
   /** The resolved core dir a project symlink targets: `current/core`. */
   currentCore: (c: Config, name: string): string =>
     join(c.truecastHome, "personas", name, "current", "core"),
-  manifest: (c: Config): string => join(c.truecastHome, "manifest.json"),
   proposals: (c: Config, name: string): string => join(c.truecastHome, "proposals", name),
 
   // --- generated ergonomic surface (managed, ledger-tracked) ---

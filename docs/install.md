@@ -26,29 +26,32 @@ Code** to load `@agent-<name>`.
 The CLI is a thin wrapper over a typed function — orchestrators (e.g. Posse) call it directly:
 
 ```ts
-import { install } from "truecast";
+import { install, autoApprove } from "truecast";
 
 const result = await install(
   { source: "./personas/product-manager", project: "/path/to/repo" },
-  { confirm: () => true }, // the approval policy is the caller's; CLI prompts, Posse auto-approves
+  { confirm: autoApprove }, // approval policy is the caller's; CLI prompts, Posse passes autoApprove
 );
 
 result.applied; // boolean (false for dryRun or a declined confirm)
 result.plan;    // the InstallPlan — also what you get back from { dryRun: true }
 ```
 
-`ctx` is `{ config?, logger?, confirm? }`, all optional. The library never prompts, prints, or exits —
-it returns data and throws typed `TruecastError`s (each carries a `.hint`).
+`ctx` is `{ config?, logger?, confirm? }`, all optional. `confirm` is the single `Confirm` type used by
+every verb — `(req: ConsentRequest) => boolean | Promise<boolean>`, where `req.kind` is `"install"`,
+`"update"`, or `"remove-global"`. The library never prompts, prints, or exits — it returns data and
+throws typed `TruecastError`s (each carries a `.hint`). With no `confirm`, the default approves an
+install (your explicit act). See [managing personas](managing-personas.md) for the full consent model.
 
 ## What it does
 `parseSource → fetch (sandboxed) → validate → cache → materialize → attach`, every managed write routed
-through a manifest so it never overwrites a file it doesn't own.
+through the persona's ledger so it never overwrites a file it doesn't own.
 
 ## Where things land
 ```
 ~/.truecast/personas/<name>/<ver>/core    the one real copy (global cache)
-~/.truecast/personas/<name>/current       → <ver>   (`update` re-points this)
-~/.truecast/manifest.json                 what truecast owns (hashes; the clobber guard)
+~/.truecast/personas/<name>/current       → <ver>   (`update` re-points this, atomically)
+~/.truecast/personas/<name>/owned.json    what truecast owns for <name> (hashes; clobber/drift guard)
 ~/.claude/agents/<name>.md                the @agent subagent          (generated)
 ~/.claude/skills/<name>-<skill>/          the /skills                   (generated)
 
@@ -56,4 +59,5 @@ through a manifest so it never overwrites a file it doesn't own.
 <repo>/.truecast/agents/<name>/instance/  mandate.md · work.md · research/  (YOURS, committed)
 <repo>/.truecast/lock                     pins <name> → source@version+commit (committed)
 ```
-Committed in your repo: only `instance/` + the lock. Everything else is global or generated.
+Committed in your repo: only `instance/` + the lock. Everything else is global or generated. Each persona
+has its **own** `owned.json` ledger + lock, so installs/updates of different personas run concurrently.

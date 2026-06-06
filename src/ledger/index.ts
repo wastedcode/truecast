@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, lstatSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import writeFileAtomic from "write-file-atomic";
-import { withHomeLock } from "../concurrency/index.js";
+import { withPersonaLock } from "../concurrency/index.js";
 import { type Config, isDirKind, paths, rootForKind } from "../config/index.js";
 import { CollisionError, DriftError } from "../errors.js";
 import { removeContained } from "../safety/index.js";
@@ -35,21 +35,30 @@ export interface WriteOptions {
   force?: boolean | undefined;
 }
 
+/** What a managed entry records, minus the owner (the ledger injects its persona). */
+type EntryInput = Omit<LedgerEntry, "source">;
+
 /**
- * The bookkeeping ledger + clobber guard — the single chokepoint that makes managed writes safe:
+ * One persona's ownership ledger + clobber guard — the chokepoint that makes managed writes safe:
  * truecast touches ONLY paths it owns, and a drifted (hand-edited) managed file is detectable.
  *
- * WRITE-THROUGH (R2): every mutation persists the manifest atomically as it happens, so after any
- * managed write returns, ownership of it is durable. A crash mid-operation therefore leaves files that
- * are already recorded as owned — the next run sees them as idempotent, never as orphaned collisions.
+ * PER-PERSONA (R3): there is one ledger file per persona (`personas/<name>/owned.json`), and every
+ * managed path is namespaced by persona, so different personas share no mutable state and run fully
+ * concurrently. WRITE-THROUGH (R2): each mutation persists atomically as it happens, so after any
+ * managed write returns its ownership is durable — a crash mid-op leaves files recorded as owned, and
+ * the next run treats them as idempotent rather than orphaned collisions.
  */
 export class Ledger {
   private readonly entries = new Map<string, LedgerEntry>();
-  constructor(private readonly config: Config) {}
+  private constructor(
+    private readonly config: Config,
+    /** The persona this ledger belongs to — the `source` of every entry it records. */
+    readonly persona: string,
+  ) {}
 
-  static async load(config: Config): Promise<Ledger> {
-    const l = new Ledger(config);
-    const p = paths.manifest(config);
+  static async load(config: Config, persona: string): Promise<Ledger> {
+    const l = new Ledger(config, persona);
+    const p = paths.ledgerFile(config, persona);
     if (existsSync(p)) {
       const parsed = LedgerSchema.safeParse(JSON.parse(readFileSync(p, "utf8")));
       if (parsed.success) for (const e of parsed.data.entries) l.entries.set(e.path, e);
@@ -58,11 +67,16 @@ export class Ledger {
   }
 
   /**
-   * Load the ledger under the home lock, run `fn`, and release — the lifecycle every mutating verb
-   * uses, so none of them hand-roll lock/load/save. Writes are durable as they happen (write-through).
+   * Run `fn` against `persona`'s ledger under that persona's lock (load → run → auto-persisted). The
+   * lifecycle every mutating verb uses; no verb hand-rolls lock/load/save, and distinct personas never
+   * block each other.
    */
-  static transaction<T>(config: Config, fn: (ledger: Ledger) => Promise<T> | T): Promise<T> {
-    return withHomeLock(config, async () => fn(await Ledger.load(config)));
+  static transaction<T>(
+    config: Config,
+    persona: string,
+    fn: (ledger: Ledger) => Promise<T> | T,
+  ): Promise<T> {
+    return withPersonaLock(config, persona, async () => fn(await Ledger.load(config, persona)));
   }
 
   owns(path: string): boolean {
@@ -84,22 +98,22 @@ export class Ledger {
   }
 
   /** Refuse to clobber a path that exists but truecast does not own (B5 — never silently shadow). */
-  guard(path: string, sourceLabel: string): void {
+  guard(path: string): void {
     if (existsSync(path) && !this.owns(path)) {
-      throw new CollisionError(path, `un-managed file already there (${sourceLabel})`);
+      throw new CollisionError(path, `un-managed file already there (${this.persona})`);
     }
   }
 
-  /** Persist the manifest atomically — called after every mutation (write-through, R2). */
+  /** Persist the ledger atomically — called after every mutation (write-through, R2). */
   private persist(): void {
-    const p = paths.manifest(this.config);
+    const p = paths.ledgerFile(this.config, this.persona);
     mkdirSync(dirname(p), { recursive: true });
     const data = { version: 1 as const, entries: [...this.entries.values()] };
     writeFileAtomic.sync(p, `${JSON.stringify(data, null, 2)}\n`);
   }
 
-  record(entry: LedgerEntry): void {
-    this.entries.set(entry.path, entry);
+  record(entry: EntryInput): void {
+    this.entries.set(entry.path, { ...entry, source: this.persona });
     this.persist();
   }
 
@@ -108,13 +122,8 @@ export class Ledger {
     if (this.entries.delete(path)) this.persist();
   }
 
-  /** Every managed path owned on behalf of `source` (a persona name) — what `remove --global` deletes. */
-  ownedBy(source: string): LedgerEntry[] {
-    return [...this.entries.values()].filter((e) => e.source === source);
-  }
-
-  /** All owned entries (for `doctor`'s reconcile sweep). */
-  all(): LedgerEntry[] {
+  /** Every managed path this persona owns — what `remove --global` deletes and `doctor` inspects. */
+  owned(): LedgerEntry[] {
     return [...this.entries.values()];
   }
 
@@ -122,28 +131,22 @@ export class Ledger {
    * Gate a managed write: refuse to clobber an un-owned file (B5) always, or a hand-edited owned one
    * (B1) unless `force` discards the edit (R1). `force` never lets truecast steal a foreign file.
    */
-  assertWritable(path: string, source: string, opts: WriteOptions = {}): void {
-    this.guard(path, source);
+  assertWritable(path: string, opts: WriteOptions = {}): void {
+    this.guard(path);
     if (!opts.force && this.owns(path) && this.isDrifted(path)) throw new DriftError(path);
   }
 
   /** The single managed-FILE write path: gate → atomic write → record (which persists). */
-  writeFile(
-    path: string,
-    data: string,
-    kind: LedgerEntry["kind"],
-    source: string,
-    opts: WriteOptions = {},
-  ): void {
-    this.assertWritable(path, source, opts);
+  writeFile(path: string, data: string, kind: LedgerEntry["kind"], opts: WriteOptions = {}): void {
+    this.assertWritable(path, opts);
     mkdirSync(dirname(path), { recursive: true });
     writeFileAtomic.sync(path, data);
-    this.record({ path, sha256: sha256(data), source, kind });
+    this.record({ path, sha256: sha256(data), kind });
   }
 
   /** Record a managed DIRECTORY the caller has (re)written, by its tree hash. */
-  recordDir(path: string, kind: LedgerEntry["kind"], source: string): void {
-    this.record({ path, sha256: sha256Tree(path), source, kind });
+  recordDir(path: string, kind: LedgerEntry["kind"]): void {
+    this.record({ path, sha256: sha256Tree(path), kind });
   }
 
   /**

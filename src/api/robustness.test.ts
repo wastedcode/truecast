@@ -87,7 +87,7 @@ describe("R1 — --force discards a hand-edit instead of wedging", () => {
     );
     // force succeeds and regenerates the file
     const [r] = await update({ name: "tester", force: true }, { config, confirm: () => true });
-    expect(r.applied).toBe(true);
+    expect(r.outcome).toBe("applied");
     expect(readFileSync(agentFile(), "utf8")).not.toBe("HAND EDITED\n");
   });
 });
@@ -153,8 +153,7 @@ describe("R8 — safe-default confirm", () => {
     await installV1();
     writePersona(src, { version: "2.0.0", skills: ["greet"], tools: ["Read", "Bash"] }); // new tool ⇒ major
     const [r] = await update({ name: "tester" }, { config }); // NO confirm provided
-    expect(r.applied).toBe(false);
-    expect(r.blocked).toBe(true);
+    expect(r.outcome).toBe("blocked");
     expect(r.plan?.changeClass).toBe("major");
   });
 
@@ -162,8 +161,7 @@ describe("R8 — safe-default confirm", () => {
     await installV1();
     writePersona(src, { version: "1.1.0", skills: ["greet", "summarize"], tools: ["Read"] }); // minor
     const [r] = await update({ name: "tester" }, { config });
-    expect(r.applied).toBe(true);
-    expect(r.blocked).toBe(false);
+    expect(r.outcome).toBe("applied");
   });
 
   it("remove --global with no confirm is denied by default", async () => {
@@ -241,8 +239,12 @@ describe("R3 — the home lock serializes concurrent operations", () => {
 
     const result = await list({}, { config });
     expect(result.personas.map((p) => p.name).sort()).toEqual(["tester", "tester-b"]);
-    // the manifest is valid JSON with both personas' entries (no torn write)
-    const ledger = JSON.parse(readFileSync(join(config.truecastHome, "manifest.json"), "utf8"));
-    expect(ledger.entries.length).toBeGreaterThan(0);
+    // each persona has its OWN ledger (per-persona files), both valid JSON with entries (no torn write)
+    for (const name of ["tester", "tester-b"]) {
+      const owned = JSON.parse(
+        readFileSync(join(config.truecastHome, "personas", name, "owned.json"), "utf8"),
+      );
+      expect(owned.entries.length).toBeGreaterThan(0);
+    }
   });
 });

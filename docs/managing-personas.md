@@ -46,19 +46,20 @@ supply-chain signal) is surfaced for explicit confirmation. Decline and nothing 
 - **Drift:** if you hand-edited a generated file (e.g. `~/.claude/agents/<name>.md`), update refuses to
   clobber it (`DriftError`). Re-run with `--force` to discard your edit, or restore the file.
 
-**Programmatic default (important for orchestrators like Posse):** when you pass **no** `confirm`, the
-default is *safe* — patch/minor updates apply, but **risky** ones (major / downgrade / tag-move /
-new-tool) are held back and returned with `blocked: true` (never silently adopted). Pass
-`confirm: autoApprove` (exported) to adopt everything unattended, or inspect `result.plan` /
-`isRiskyUpdate(plan)` to decide.
+**Consent model (one type across all verbs).** Every verb takes the same `confirm?: Confirm` where
+`Confirm = (req: ConsentRequest) => boolean | Promise<boolean>` and `req.kind` is `"install"`,
+`"update"`, or `"remove-global"`. Implement it once. With **no** `confirm`, the default (`defaultConsent`)
+is safe: install approves, an update applies only when **not** risky (major / downgrade / tag-move /
+new-tool — else `outcome: "blocked"`), and `remove --global` denies. Pass `autoApprove` to approve
+everything unattended; inspect `r.plan` / `isRiskyUpdate(plan)` to build your own policy.
 
 ```ts
-import { update } from "truecast";
+import { update, autoApprove } from "truecast";
 
-const results = await update({ name: "product-manager" }, { confirm: (plan) => plan.changeClass !== "major" });
-results[0].applied;       // boolean
-results[0].upToDate;      // true ⇒ nothing to do
-results[0].plan;          // the UpdatePlan: from/to, changeClass, changes[], toolsAdded, downgrade, tagMoved
+const [r] = await update({ name: "product-manager" }, { confirm: autoApprove });
+r.outcome; // "applied" | "up-to-date" | "blocked" | "dry-run" | "failed"  (exactly one — no boolean soup)
+r.plan;    // the UpdatePlan: from/to, changeClass, changes[], toolsAdded, downgrade, tagMoved (null if up-to-date)
+r.error;   // set only when outcome === "failed"
 ```
 
 > Restart Claude Code after an update to reload the regenerated subagent.

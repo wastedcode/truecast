@@ -16,7 +16,7 @@ it's documented here.**
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | bundled persona: `product-manager` | ✅ shipped |
 | security: containment + clobber/drift guards + adversarial suite | ✅ shipped |
-| robustness: write-through ledger, home lock, atomic swaps, `--force` | ✅ shipped |
+| robustness: per-persona write-through ledger + lock, atomic swaps, `--force` | ✅ shipped |
 | pinning a project to a fixed version (`--pin`) | ⏳ planned |
 | `sync` (re-materialize the surface from the cache) | ⏳ planned |
 | `publish` · `conform` | ⏳ planned |

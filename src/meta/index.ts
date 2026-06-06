@@ -28,12 +28,7 @@ export function readMeta(config: Config, name: string): PersonaMeta | null {
 /** Write the per-persona record (validated, atomic, ledger-tracked). */
 export function writeMeta(config: Config, name: string, meta: PersonaMeta, ledger: Ledger): void {
   const validated = MetaSchema.parse(meta);
-  ledger.writeFile(
-    paths.metaFile(config, name),
-    `${JSON.stringify(validated, null, 2)}\n`,
-    "meta",
-    name,
-  );
+  ledger.writeFile(paths.metaFile(config, name), `${JSON.stringify(validated, null, 2)}\n`, "meta");
 }
 
 /** Record `source` + add `{ver, commit}` (if new) — returns the updated meta to be written. */

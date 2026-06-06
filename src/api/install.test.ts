@@ -63,8 +63,10 @@ describe("install — walking skeleton (local path, into temp homes)", () => {
     expect(existsSync(join(project, ".truecast", "lock"))).toBe(true);
     expect(readFileSync(join(project, ".gitignore"), "utf8")).toContain(".truecast/agents/*/core");
 
-    // ledger written
-    expect(existsSync(join(config.truecastHome, "manifest.json"))).toBe(true);
+    // per-persona ledger written
+    expect(existsSync(join(config.truecastHome, "personas", "product-manager", "owned.json"))).toBe(
+      true,
+    );
   });
 
   it("preserves a hand-edited instance on re-install (B2)", async () => {

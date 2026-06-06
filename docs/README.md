@@ -11,9 +11,11 @@ it's documented here.**
 | area | state |
 |---|---|
 | `install` — local path + git, CLI + programmatic | ✅ shipped |
+| `update` · `list` · `remove` — CLI + programmatic | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | bundled persona: `product-manager` | ✅ shipped |
-| `update` · `list` · `remove` · `sync` | ⏳ planned |
+| pinning a project to a fixed version (`--pin`) | ⏳ planned |
+| `sync` (re-materialize the surface from the cache) | ⏳ planned |
 | `publish` · `conform` | ⏳ planned |
 | self-improving "gate" (the `learn` loop) | ⏳ v1 |
 
@@ -27,6 +29,8 @@ A persona splits into two owners:
 
 ## Pages
 - [install](install.md) — install a persona (CLI + programmatic), and exactly what it writes.
+- [managing personas](managing-personas.md) — `update` · `list` · `remove`: keep personas current,
+  see what's installed, and detach or purge them.
 - [authoring personas](authoring-personas.md) — how to build one; the `persona.toml` format.
 
 ## Develop

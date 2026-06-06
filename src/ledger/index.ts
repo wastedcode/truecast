@@ -77,6 +77,16 @@ export class Ledger {
     this.entries.set(entry.path, entry);
   }
 
+  /** Drop an entry from the ledger (after the path it tracked has been deleted; for `remove`). */
+  forget(path: string): void {
+    this.entries.delete(path);
+  }
+
+  /** Every managed path owned on behalf of `source` (a persona name) — what `remove --global` deletes. */
+  ownedBy(source: string): LedgerEntry[] {
+    return [...this.entries.values()].filter((e) => e.source === source);
+  }
+
   /** Gate a managed write: refuse to clobber an un-owned file (B5) or a hand-edited owned one (B1). */
   assertWritable(path: string, source: string): void {
     this.guard(path, source);

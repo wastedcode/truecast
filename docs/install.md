@@ -47,7 +47,7 @@ through a manifest so it never overwrites a file it doesn't own.
 ## Where things land
 ```
 ~/.truecast/personas/<name>/<ver>/core    the one real copy (global cache)
-~/.truecast/personas/<name>/current       → <ver>   (a future `update` re-points this)
+~/.truecast/personas/<name>/current       → <ver>   (`update` re-points this)
 ~/.truecast/manifest.json                 what truecast owns (hashes; the clobber guard)
 ~/.claude/agents/<name>.md                the @agent subagent          (generated)
 ~/.claude/skills/<name>-<skill>/          the /skills                   (generated)

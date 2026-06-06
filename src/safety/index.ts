@@ -1,12 +1,14 @@
 import {
+  existsSync,
   lstatSync,
   mkdirSync,
   readFileSync,
   readdirSync,
   realpathSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
-import { isAbsolute, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import isPathInside from "is-path-inside";
 import { UnsafePathError } from "../errors.js";
 
@@ -42,6 +44,30 @@ export function assertRegularFile(p: string): void {
   const st = lstatSync(p);
   if (st.isSymbolicLink()) throw new UnsafePathError(`symlink not allowed: ${p}`);
   if (!st.isFile()) throw new UnsafePathError(`not a regular file: ${p}`);
+}
+
+/**
+ * Delete a managed path, but ONLY after proving it is contained in `base` (RR8 destroy-path safety).
+ * A symlink is unlinked in place (never followed); a real file/dir is removed after a realpath
+ * containment check, so a healed/hostile symlink can't redirect the delete outside `base`.
+ */
+export function removeContained(base: string, target: string): void {
+  if (!existsSync(target) && !isSymlink(target)) return; // already gone — idempotent
+  if (isSymlink(target)) {
+    // the link itself must live inside base (don't follow it); unlink only.
+    const realParent = realpathSync(dirname(target));
+    if (realParent !== realpathSync(base) && !isPathInside(realParent, realpathSync(base))) {
+      throw new UnsafePathError(`refusing to remove symlink outside base: ${target}`);
+    }
+    rmSync(target, { force: true });
+    return;
+  }
+  const real = realpathSync(target);
+  const realBase = realpathSync(base);
+  if (real !== realBase && !isPathInside(real, realBase)) {
+    throw new UnsafePathError(`refusing to remove path outside base: ${target}`);
+  }
+  rmSync(real, { recursive: true, force: true });
 }
 
 /** Recursive copy that REJECTS symlinks and special files — no symlink-escape into managed dirs. */

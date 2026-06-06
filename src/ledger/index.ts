@@ -50,6 +50,20 @@ export class Ledger {
     return this.entries.has(path);
   }
 
+  /**
+   * Has an owned managed file/dir been hand-edited since truecast wrote it? (RR2 — real drift
+   * detection, so re-materialize can warn instead of silently clobbering; B1/AC3.) Symlinks are
+   * not content and are not drift-checked.
+   */
+  isDrifted(path: string): boolean {
+    const e = this.entries.get(path);
+    if (!e) return false;
+    if (e.kind === "symlink") return false;
+    if (!existsSync(path)) return true;
+    const current = e.kind === "agent" ? sha256(readFileSync(path)) : sha256Tree(path);
+    return current !== e.sha256;
+  }
+
   /** Refuse to clobber a path that exists but truecast does not own (B5 — never silently shadow). */
   guard(path: string, sourceLabel: string): void {
     if (existsSync(path) && !this.owns(path)) {

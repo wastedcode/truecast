@@ -152,3 +152,48 @@ export const InstallPlan = z.object({
   writes: z.array(PlannedWrite).default([]),
 });
 export type InstallPlan = z.infer<typeof InstallPlan>;
+
+/** A cached version + its commit (integrity). */
+export const PersonaVersionRef = z.object({
+  ver: SemVer,
+  commit: z.string(),
+});
+export type PersonaVersionRef = z.infer<typeof PersonaVersionRef>;
+
+/**
+ * Per-persona GLOBAL record — where it came from + which versions are cached. Written by install,
+ * read by update/list/remove. No `current` field: the symlink is the only source of truth (D1).
+ */
+export const PersonaMeta = z
+  .object({
+    source: SourceRef,
+    versions: z.array(PersonaVersionRef).default([]),
+  })
+  .strict();
+export type PersonaMeta = z.infer<typeof PersonaMeta>;
+
+/** One change between two core versions — the review pipeline's unit (the v1 gate reuses it). */
+export const Change = z.object({
+  kind: z.enum(["add", "delete", "modify"]),
+  path: z.string(),
+  layer: z.enum(["identity", "skill", "knowledge", "manifest", "other"]),
+});
+export type Change = z.infer<typeof Change>;
+
+export type ChangeClass = "major" | "minor" | "patch";
+
+/** What `update` renders for confirm / --dry-run before any write (the B7 surface, for updates). */
+export const UpdatePlan = z.object({
+  persona: PersonaName,
+  from: z.string(), // current running version, or "none"
+  to: SemVer,
+  fromCommit: z.string(),
+  toCommit: z.string(),
+  changeClass: z.enum(["major", "minor", "patch"]),
+  changes: z.array(Change).default([]),
+  toolsAdded: z.array(GrantableTool).default([]),
+  toolsRemoved: z.array(GrantableTool).default([]),
+  downgrade: z.boolean().default(false),
+  tagMoved: z.boolean().default(false),
+});
+export type UpdatePlan = z.infer<typeof UpdatePlan>;

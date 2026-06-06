@@ -1,12 +1,13 @@
-import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync } from "node:fs";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { TruecastError } from "../errors.js";
 import { Ledger } from "../ledger/index.js";
 import { locateProject } from "../locate/index.js";
+import { removeEntry } from "../lock/index.js";
 import type { Logger } from "../log/index.js";
 import { isSymlink, removeContained } from "../safety/index.js";
-import { Lock as LockSchema, PersonaName } from "../schema/index.js";
+import { PersonaName } from "../schema/index.js";
+import { denyByDefault } from "./policy.js";
 
 export interface RemoveOptions {
   name: string;
@@ -22,7 +23,7 @@ export interface RemoveOptions {
 export interface RemoveCtx {
   config?: Config | undefined;
   logger?: Logger | undefined;
-  /** Required-consent gate for the destructive global path (R2). Default: auto-approve. */
+  /** Required-consent gate for the destructive global path (R2). Default: DENY (must opt in, R8). */
   confirm?:
     | ((info: { name: string; global: true; dependentsWarning: string }) =>
         | boolean
@@ -52,7 +53,7 @@ function removeFromProject(name: string, opts: RemoveOptions, ctx: RemoveCtx): R
   const root = locateProject({ cwd: opts.cwd ?? process.cwd(), project: opts.project });
   const agentDir = paths.projectAgentDir(root, name);
   const instanceDir = paths.projectInstanceDir(root, name);
-  const base = join(root, ".truecast");
+  const base = paths.projectTruecastDir(root); // project files aren't ledger-owned; contain deletes here
 
   if (!existsSync(agentDir) && !isSymlink(agentDir)) {
     throw new TruecastError(
@@ -75,51 +76,40 @@ function removeFromProject(name: string, opts: RemoveOptions, ctx: RemoveCtx): R
     if (existsSync(instanceDir)) instancePreserved = instanceDir;
   }
 
-  // drop the lock entry (read → delete → write).
-  const lockPath = paths.projectLock(root);
-  if (existsSync(lockPath)) {
-    const lock = LockSchema.parse(JSON.parse(readFileSync(lockPath, "utf8")));
-    if (name in lock.personas) {
-      delete lock.personas[name];
-      writeFileSync(lockPath, JSON.stringify(lock, null, 2));
-    }
-  }
-
+  removeEntry(root, name); // the lock/ module owns the lock mutation
   ctx.logger?.info({ persona: name, root, purge: !!opts.purge }, "detached");
   return { name, scope: "project", applied: true, removed, instancePreserved };
 }
 
 /** R2 — purge globally: cache + surface + meta + ledger rows. Warns about (un-enumerable) dependents. */
 async function removeGlobal(name: string, config: Config, ctx: RemoveCtx): Promise<RemoveResult> {
-  const ledger = await Ledger.load(config);
-  const owned = ledger.ownedBy(name);
-  if (owned.length === 0) {
-    throw new TruecastError(
-      "NOT_INSTALLED",
-      `"${name}" is not installed globally.`,
-      "Run 'truecast list' to see installed personas.",
-    );
-  }
-
   const dependentsWarning =
     "Projects tracking this persona will break next session (they cannot be enumerated).";
-  const confirm = ctx.confirm ?? ((): boolean => true);
-  if (!(await confirm({ name, global: true, dependentsWarning }))) {
-    return { name, scope: "global", applied: false, removed: [] };
-  }
+  const confirm = ctx.confirm ?? denyByDefault; // destructive ⇒ deny unless explicitly approved (R8)
 
-  // Delete only ledger-owned paths, each containment-checked (RR8), then forget the row.
-  const removed: string[] = [];
-  for (const e of owned) {
-    const base = e.kind === "agent" || e.kind === "skill" ? config.claudeHome : config.truecastHome;
-    removeContained(base, e.path);
-    ledger.forget(e.path);
-    removed.push(e.path);
-  }
-  // sweep the now-empty persona dir (cache + meta + current all lived under it).
-  removeContained(config.truecastHome, join(config.truecastHome, "personas", name));
+  return Ledger.transaction(config, async (ledger) => {
+    const owned = ledger.ownedBy(name);
+    if (owned.length === 0) {
+      throw new TruecastError(
+        "NOT_INSTALLED",
+        `"${name}" is not installed globally.`,
+        "Run 'truecast list' to see installed personas.",
+      );
+    }
+    if (!(await confirm({ name, global: true, dependentsWarning }))) {
+      return { name, scope: "global", applied: false, removed: [] };
+    }
 
-  await ledger.save();
-  ctx.logger?.warn({ persona: name }, "removed globally");
-  return { name, scope: "global", applied: true, removed };
+    // Delete only ledger-owned paths (each containment-checked + forgotten by the ledger, RR8).
+    const removed: string[] = [];
+    for (const e of owned) {
+      ledger.removeOwned(e.path);
+      removed.push(e.path);
+    }
+    // sweep the now-empty persona dir (cache + meta + current all lived under it).
+    removeContained(config.truecastHome, paths.personaDir(config, name));
+
+    ctx.logger?.warn({ persona: name }, "removed globally");
+    return { name, scope: "global", applied: true, removed };
+  });
 }

@@ -11,12 +11,12 @@ import { PersonaName } from "../schema/index.js";
 
 /** Installed persona names = subdirs of `personas/` that hold a `meta.json` (a valid install record). */
 export function installedPersonas(config: Config): string[] {
-  const base = join(config.truecastHome, "personas");
+  const base = paths.personasRoot(config);
   if (!existsSync(base)) return [];
   const names: string[] = [];
   for (const name of readdirSync(base).sort()) {
     if (!PersonaName.safeParse(name).success) continue; // ignore stray entries
-    if (existsSync(join(base, name, "meta.json"))) names.push(name);
+    if (existsSync(paths.metaFile(config, name))) names.push(name);
   }
   return names;
 }
@@ -46,4 +46,16 @@ export function runningVersion(config: Config, name: string): string | null {
 export function latestCached(versions: readonly { ver: string }[]): string | null {
   const sorted = versions.map((v) => v.ver).sort(semver.rcompare);
   return sorted[0] ?? null;
+}
+
+/**
+ * Versions actually present on disk for a persona (a `<ver>/core/persona.toml` exists), newest first.
+ * Read from the filesystem — robust when `meta.json` is missing or corrupt (used by `doctor`).
+ */
+export function cachedVersions(config: Config, name: string): string[] {
+  const dir = paths.personaDir(config, name);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((v) => semver.valid(v) !== null && existsSync(join(dir, v, "core", "persona.toml")))
+    .sort(semver.rcompare);
 }

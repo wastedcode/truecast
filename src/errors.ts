@@ -7,8 +7,8 @@ export class TruecastError extends Error {
   /** A concrete next step shown to the user. */
   readonly hint: string | undefined;
 
-  constructor(code: string, message: string, hint?: string) {
-    super(message);
+  constructor(code: string, message: string, hint?: string, options?: { cause?: unknown }) {
+    super(message, options);
     this.name = "TruecastError";
     this.code = code;
     this.hint = hint;
@@ -60,7 +60,29 @@ export class DriftError extends TruecastError {
     super(
       "DRIFT",
       `Refusing to overwrite a hand-edited managed file: ${path}`,
-      "Your change isn't tracked and would be lost; re-run with --force to discard it.",
+      "Your change isn't tracked and would be lost. Re-run with --force to discard it, or restore the file.",
+    );
+  }
+}
+
+/** A committed `.truecast/lock` failed to parse — it was corrupted or hand-broken. */
+export class LockCorruptError extends TruecastError {
+  constructor(path: string, detail: string) {
+    super(
+      "LOCK_CORRUPT",
+      `The project lock is unreadable (${path}): ${detail}`,
+      "Restore it from version control, or delete it and re-install the personas.",
+    );
+  }
+}
+
+/** A global `meta.json` exists but failed to parse — distinct from a persona simply not being installed. */
+export class MetaCorruptError extends TruecastError {
+  constructor(path: string, detail: string) {
+    super(
+      "META_CORRUPT",
+      `A persona's record is unreadable (${path}): ${detail}`,
+      "Run 'truecast doctor' to inspect, or 'truecast remove <name> --global' to clear it.",
     );
   }
 }

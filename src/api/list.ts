@@ -1,11 +1,11 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import semver from "semver";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { parseSource, resolveVersions } from "../fetch/index.js";
 import { locateProject } from "../locate/index.js";
+import { readEntries } from "../lock/index.js";
 import type { Logger } from "../log/index.js";
 import { readMeta } from "../meta/index.js";
-import { Lock as LockSchema } from "../schema/index.js";
 import { installedPersonas, latestCached, runningVersion } from "../state/index.js";
 
 export interface ListOptions {
@@ -36,6 +36,8 @@ export interface PersonaListing {
   /** Whether `latest` was network-resolved (true) or is the last-known cached value (false). */
   checked: boolean;
   updateAvailable: boolean;
+  /** The persona's meta.json exists but is unreadable (R7) — surfaced distinctly, not as "not installed". */
+  corrupt: boolean;
 }
 
 /** One row of the project view: a persona attached here + how it tracks. */
@@ -57,9 +59,18 @@ export async function list(opts: ListOptions = {}, ctx: ListCtx = {}): Promise<L
   const personas: PersonaListing[] = [];
 
   for (const name of installedPersonas(config)) {
-    const meta = readMeta(config, name);
     const running = runningVersion(config, name);
     const broken = running === null && existsSync(paths.currentLink(config, name));
+
+    // a corrupt meta is reported distinctly — never silently as "not installed" (R7).
+    let meta: ReturnType<typeof readMeta> = null;
+    let corrupt = false;
+    try {
+      meta = readMeta(config, name);
+    } catch (err) {
+      corrupt = true;
+      ctx.logger?.warn({ persona: name, err }, "meta.json unreadable");
+    }
     const source = meta?.source ?? null;
 
     let latest = meta ? latestCached(meta.versions) : null;
@@ -78,23 +89,20 @@ export async function list(opts: ListOptions = {}, ctx: ListCtx = {}): Promise<L
         ? semver.gt(latest, running)
         : false;
 
-    personas.push({ name, running, broken, source, latest, checked, updateAvailable });
+    personas.push({ name, running, broken, source, latest, checked, updateAvailable, corrupt });
   }
 
   if (!opts.project) return { personas };
 
-  // project view — read the committed lock (untrusted; re-validated by schema, RR6).
+  // project view — the lock/ module owns reading + validating the committed lock (RR6).
   const root = locateProject({
     cwd: opts.cwd ?? process.cwd(),
     project: typeof opts.project === "string" ? opts.project : undefined,
   });
-  const lockPath = paths.projectLock(root);
-  const attached: ProjectAttachment[] = [];
-  if (existsSync(lockPath)) {
-    const lock = LockSchema.parse(JSON.parse(readFileSync(lockPath, "utf8")));
-    for (const [name, entry] of Object.entries(lock.personas)) {
-      attached.push({ name, spec: entry.spec, source: entry.source });
-    }
-  }
+  const attached: ProjectAttachment[] = readEntries(root).map(([name, entry]) => ({
+    name,
+    spec: entry.spec,
+    source: entry.source,
+  }));
   return { personas, project: { root, attached } };
 }

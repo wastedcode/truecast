@@ -2,7 +2,7 @@ import { readFileSync, rmSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import type { CachedPersona } from "../cache/index.js";
 import { type Config, paths } from "../config/index.js";
-import type { Ledger } from "../ledger/index.js";
+import type { Ledger, WriteOptions } from "../ledger/index.js";
 import type { Persona } from "../persona/index.js";
 import { copyTreeNoSymlinks } from "../safety/index.js";
 
@@ -20,6 +20,7 @@ export function materialize(
   persona: Persona,
   config: Config,
   ledger: Ledger,
+  opts: WriteOptions = {},
 ): void {
   const name = cached.name;
   const m = persona.manifest;
@@ -50,13 +51,21 @@ for accumulated lessons. To search, target \`core/\` and \`instance/\` explicitl
 the symlinked core.
 `;
 
-  ledger.writeFile(paths.claudeAgent(config, name), body, "agent", name);
+  ledger.writeFile(paths.claudeAgent(config, name), body, "agent", name, opts);
 
+  // write the desired skills
+  const desired = new Set<string>();
   for (const s of m.skills) {
     const destDir = paths.claudeSkillDir(config, name, skillLeaf(s));
-    ledger.assertWritable(destDir, name);
+    desired.add(destDir);
+    ledger.assertWritable(destDir, name, opts);
     rmSync(destDir, { recursive: true, force: true });
     copyTreeNoSymlinks(dirname(join(cached.coreDir, s)), destDir); // core/skills/<leaf>/
     ledger.recordDir(destDir, "skill", name);
+  }
+
+  // prune skills this persona owns that the NEW version dropped (R5: no orphaned /skill left behind)
+  for (const e of ledger.ownedBy(name)) {
+    if (e.kind === "skill" && !desired.has(e.path)) ledger.removeOwned(e.path);
   }
 }

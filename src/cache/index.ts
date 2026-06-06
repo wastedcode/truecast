@@ -1,11 +1,11 @@
-import { existsSync, mkdirSync, realpathSync, renameSync, rmSync, symlinkSync } from "node:fs";
+import { existsSync, mkdirSync, realpathSync, renameSync, rmSync } from "node:fs";
 import { dirname } from "node:path";
 import isPathInside from "is-path-inside";
 import { type Config, paths } from "../config/index.js";
 import { UnsafePathError } from "../errors.js";
 import { type Ledger, sha256 } from "../ledger/index.js";
 import type { Persona } from "../persona/index.js";
-import { copyTreeNoSymlinks, isSymlink } from "../safety/index.js";
+import { atomicSymlink, copyTreeNoSymlinks } from "../safety/index.js";
 
 export interface CachedPersona {
   name: string;
@@ -54,7 +54,6 @@ export function promoteCurrent(
     throw new UnsafePathError(`cache for ${name}@${version} is outside truecastHome`);
   }
   const current = paths.currentLink(config, name);
-  if (existsSync(current) || isSymlink(current)) rmSync(current, { force: true });
-  symlinkSync(version, current); // relative target → current/core resolves to <ver>/core
+  atomicSymlink(version, current); // relative target → current/core resolves to <ver>/core (atomic swap)
   ledger.record({ path: current, sha256: sha256(version), source: name, kind: "symlink" });
 }

@@ -11,6 +11,7 @@ import { loadPersona, readManifest } from "../persona/index.js";
 import { classify, computeChanges, toolsDiff } from "../review/index.js";
 import { UpdatePlan } from "../schema/index.js";
 import { installedPersonas, runningVersion } from "../state/index.js";
+import { safeUpdateConfirm } from "./policy.js";
 
 /** Programmatic inputs for `update` (CLI flags map 1:1). Omit `name` to update every installed persona. */
 export interface UpdateOptions {
@@ -20,13 +21,16 @@ export interface UpdateOptions {
   version?: string | undefined;
   /** Plan only — fetch + classify, write nothing (RR10). */
   dryRun?: boolean | undefined;
+  /** Overwrite a hand-edited (drifted) managed file instead of refusing (R1). */
+  force?: boolean | undefined;
 }
 
 export interface UpdateCtx {
   config?: Config | undefined;
   logger?: Logger | undefined;
-  /** Gate before any global write. The plan carries `changeClass`/`toolsAdded`/`downgrade`/`tagMoved`
-   *  so a caller can require explicit consent for risky updates. Default: auto-approve. */
+  /** Gate before any global write. The plan carries `changeClass`/`toolsAdded`/`downgrade`/`tagMoved`.
+   *  DEFAULT = `safeUpdateConfirm`: applies safe (patch/minor) updates, holds back risky ones
+   *  (`result.blocked`). Pass `autoApprove` for unattended adoption of everything. */
   confirm?: ((plan: UpdatePlan) => boolean | Promise<boolean>) | undefined;
 }
 
@@ -36,6 +40,12 @@ export interface UpdateResult {
   plan: UpdatePlan | null;
   applied: boolean;
   upToDate: boolean;
+  /**
+   * True when an update WAS available but `confirm` withheld approval — distinct from `upToDate` and
+   * `dryRun` so a programmatic caller never mistakes a safe-default refusal for "nothing to do" (R8).
+   * The default `confirm` rejects risky updates; pass `confirm: autoApprove` for unattended adoption.
+   */
+  blocked: boolean;
   /** Set when this persona's transaction failed (update-all keeps going; RR7). */
   error?: string | undefined;
 }
@@ -43,20 +53,20 @@ export interface UpdateResult {
 /** Update one persona (tracking path) or — with no name — every installed persona independently (U2). */
 export async function update(opts: UpdateOptions, ctx: UpdateCtx = {}): Promise<UpdateResult[]> {
   const config = ctx.config ?? resolveConfig();
-  if (opts.name)
-    return [await updateOne(opts.name, opts.version, opts.dryRun ?? false, config, ctx)];
+  if (opts.name) return [await updateOne(opts.name, opts.version, opts, config, ctx)];
 
   // update-all: each persona is an INDEPENDENT transaction — one failure never rolls back others (RR7).
   const results: UpdateResult[] = [];
   for (const name of installedPersonas(config)) {
     try {
-      results.push(await updateOne(name, undefined, opts.dryRun ?? false, config, ctx));
+      results.push(await updateOne(name, undefined, opts, config, ctx));
     } catch (err) {
       results.push({
         persona: name,
         plan: null,
         applied: false,
         upToDate: false,
+        blocked: false,
         error: err instanceof Error ? err.message : String(err),
       });
     }
@@ -67,7 +77,7 @@ export async function update(opts: UpdateOptions, ctx: UpdateCtx = {}): Promise<
 async function updateOne(
   name: string,
   version: string | undefined,
-  dryRun: boolean,
+  opts: UpdateOptions,
   config: Config,
   ctx: UpdateCtx,
 ): Promise<UpdateResult> {
@@ -108,7 +118,7 @@ async function updateOne(
     const tagMoved =
       candidateVer === running && !!recordedCommit && fetched.commit !== recordedCommit;
     if (candidateVer === running && !tagMoved && !version) {
-      return { persona: name, plan: null, applied: false, upToDate: true };
+      return { persona: name, plan: null, applied: false, upToDate: true, blocked: false };
     }
 
     const currentCore = paths.currentCore(config, name);
@@ -136,19 +146,27 @@ async function updateOne(
       tagMoved,
     });
 
-    if (dryRun) return { persona: name, plan, applied: false, upToDate: false };
-    const confirm = ctx.confirm ?? ((): boolean => true);
-    if (!(await confirm(plan))) return { persona: name, plan, applied: false, upToDate: false };
+    if (opts.dryRun)
+      return { persona: name, plan, applied: false, upToDate: false, blocked: false };
+    const confirm = ctx.confirm ?? safeUpdateConfirm; // safe default: reject risky updates (R8)
+    if (!(await confirm(plan))) {
+      return { persona: name, plan, applied: false, upToDate: false, blocked: true };
+    }
 
-    // Apply (RR1 order): cache candidate → materialize surface → re-point `current` LAST → record meta.
-    const ledger = await Ledger.load(config);
-    const cached = cacheCandidate(persona, config, ledger);
-    materialize(cached, persona, config, ledger);
-    promoteCurrent(cached.name, cached.version, config, ledger);
-    writeMeta(config, name, upsertVersion(meta, parsed.url, candidateVer, fetched.commit), ledger);
-    await ledger.save();
+    // Apply under the home lock + write-through ledger (RR1 order: promote LAST).
+    await Ledger.transaction(config, (ledger) => {
+      const cached = cacheCandidate(persona, config, ledger);
+      materialize(cached, persona, config, ledger, { force: opts.force });
+      promoteCurrent(cached.name, cached.version, config, ledger);
+      writeMeta(
+        config,
+        name,
+        upsertVersion(meta, parsed.url, candidateVer, fetched.commit),
+        ledger,
+      );
+    });
     ctx.logger?.info({ persona: name, from: running, to: candidateVer }, "updated");
-    return { persona: name, plan, applied: true, upToDate: false };
+    return { persona: name, plan, applied: true, upToDate: false, blocked: false };
   } finally {
     await fetched.dispose();
   }

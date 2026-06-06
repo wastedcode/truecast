@@ -2,7 +2,13 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { sha256 } from "../ledger/index.js";
 import { readManifest } from "../persona/index.js";
-import type { Change, ChangeClass, GrantableTool, PersonaManifest } from "../schema/index.js";
+import type {
+  Change,
+  ChangeClass,
+  GrantableTool,
+  PersonaManifest,
+  UpdatePlan,
+} from "../schema/index.js";
 
 /**
  * The source-agnostic change pipeline (SPEC §15): `update` is its first consumer; the v1 gate the
@@ -57,6 +63,16 @@ export function classify(changes: Change[], toolsAdded: readonly GrantableTool[]
   if (major) return "major";
   const minor = changes.some((c) => c.layer === "skill" || c.layer === "knowledge");
   return minor ? "minor" : "patch";
+}
+
+/**
+ * Is this update one a human must consent to explicitly? A major change, a downgrade, a moved tag, or a
+ * net-new tool grant (B7/RR4/RR5). The safe default `confirm` rejects these unless told otherwise.
+ */
+export function isRiskyUpdate(plan: UpdatePlan): boolean {
+  return (
+    plan.changeClass === "major" || plan.downgrade || plan.tagMoved || plan.toolsAdded.length > 0
+  );
 }
 
 /** Diff requested tools between two versions (a net-new grant forces explicit consent — B7). */

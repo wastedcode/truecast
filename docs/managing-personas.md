@@ -22,6 +22,7 @@ truecast update                    # every installed persona, each independently
 
 **Flags**
 - `--dry-run` — fetch + classify + show the change set; write nothing.
+- `--force` — overwrite a hand-edited (drifted) generated file instead of refusing (see *drift* below).
 - `--yes` — skip the confirmation prompt.
 
 **What you see before anything changes** — the change is *classified* so you know the blast radius:
@@ -37,10 +38,19 @@ supply-chain signal) is surfaced for explicit confirmation. Decline and nothing 
 
 **Safety properties**
 - The candidate is *fully validated* (schema + path-safety) **before** `current` is ever re-pointed —
-  an invalid update can never become live (no half-state).
+  an invalid update can never become live (no half-state). All home writes run under a process lock
+  and a **write-through ledger**, so an interrupted update retries cleanly (it never wedges).
 - Already on the latest, same content? Zero writes; reports *"already up to date."*
 - `update` (no name) treats each persona as an **independent transaction** — one failure never rolls
   back the others; the command exits non-zero if any failed.
+- **Drift:** if you hand-edited a generated file (e.g. `~/.claude/agents/<name>.md`), update refuses to
+  clobber it (`DriftError`). Re-run with `--force` to discard your edit, or restore the file.
+
+**Programmatic default (important for orchestrators like Posse):** when you pass **no** `confirm`, the
+default is *safe* — patch/minor updates apply, but **risky** ones (major / downgrade / tag-move /
+new-tool) are held back and returned with `blocked: true` (never silently adopted). Pass
+`confirm: autoApprove` (exported) to adopt everything unattended, or inspect `result.plan` /
+`isRiskyUpdate(plan)` to decide.
 
 ```ts
 import { update } from "truecast";
@@ -108,7 +118,36 @@ truecast remove <name> --global --yes   # purge cache + surface + meta everywher
 import { remove } from "truecast";
 
 await remove({ name: "product-manager" });                          // detach, keep instance/
-await remove({ name: "product-manager", global: true }, { confirm: () => true }); // purge everywhere
+// --global is destructive, so the default confirm DENIES — opt in explicitly:
+await remove({ name: "product-manager", global: true }, { confirm: () => true });
+```
+
+---
+
+## doctor
+
+Inspect — and optionally repair — the truecast home. Read-only by default; `--fix` applies the safe
+heals. Drift and orphaned caches are never auto-destroyed (they may be your data); they're reported with
+a concrete next step.
+
+```sh
+truecast doctor          # report issues; exits non-zero if any need attention
+truecast doctor --fix    # also re-point a dangling current + remove stale staging artifacts
+```
+
+| issue | meaning | `--fix` |
+|---|---|---|
+| **drift** | a generated file was hand-edited | reported (resolve via `update --force` or restore) |
+| **dangling-current** | `current` doesn't resolve but versions are cached | re-promotes the newest cached version |
+| **stale-staging** | leftover `*.staging-*`/`*.tmp-*` from an interrupted write | removed |
+| **orphan-cache** | a cached version truecast no longer tracks | reported (`remove --global` to clear) |
+| **missing-owned** | a generated file vanished | reported (re-install/update to regenerate) |
+
+```ts
+import { doctor } from "truecast";
+const report = await doctor({ fix: true });
+report.healthy;            // boolean
+report.issues;             // DoctorIssue[] — { kind, path, persona?, detail, healable, healed }
 ```
 
 ---

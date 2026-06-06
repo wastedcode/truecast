@@ -2,10 +2,13 @@
 import { createInterface } from "node:readline/promises";
 import { Command } from "@commander-js/extra-typings";
 import {
+  type DoctorReport,
   type InstallResult,
   type ListResult,
   type RemoveResult,
   type UpdateResult,
+  autoApprove,
+  doctor,
   install,
   list,
   remove,
@@ -27,11 +30,19 @@ program
   .option("--global", "install to the cache only; do not attach to a project")
   .option("--as <name>", "install under a different local name")
   .option("--dry-run", "show what would happen; write nothing")
+  .option("--force", "overwrite a hand-edited (drifted) managed file")
   .option("--yes", "skip the confirmation prompt")
   .action(async (source, opts) => {
     const result = await install(
-      { source, project: opts.project, global: opts.global, as: opts.as, dryRun: opts.dryRun },
-      { logger: createLogger(), confirm: opts.yes ? () => true : confirmInstall },
+      {
+        source,
+        project: opts.project,
+        global: opts.global,
+        as: opts.as,
+        dryRun: opts.dryRun,
+        force: opts.force,
+      },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInstall },
     );
     renderInstall(result);
   });
@@ -40,12 +51,13 @@ program
   .command("update")
   .argument("[name]", "installed persona to update (optionally @version); omit to update all")
   .option("--dry-run", "show the change set + classification; write nothing")
+  .option("--force", "overwrite a hand-edited (drifted) managed file")
   .option("--yes", "skip the confirmation prompt")
   .action(async (target, opts) => {
     const { name, version } = splitTarget(target);
     const results = await update(
-      { name, version, dryRun: opts.dryRun },
-      { logger: createLogger(), confirm: opts.yes ? () => true : confirmUpdate },
+      { name, version, dryRun: opts.dryRun, force: opts.force },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmUpdate },
     );
     renderUpdate(results);
     if (results.some((r) => r.error)) process.exitCode = 1;
@@ -73,9 +85,19 @@ program
   .action(async (name, opts) => {
     const result = await remove(
       { name, global: opts.global, purge: opts.purge, project: opts.project },
-      { logger: createLogger(), confirm: opts.yes ? () => true : confirmRemoveGlobal },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmRemoveGlobal },
     );
     renderRemove(result);
+  });
+
+program
+  .command("doctor")
+  .description("inspect (and with --fix, repair) the truecast home")
+  .option("--fix", "apply the safe repairs (re-point a dangling current, remove stale staging)")
+  .action(async (opts) => {
+    const report = await doctor({ fix: opts.fix }, { logger: createLogger() });
+    renderDoctor(report);
+    if (!report.healthy) process.exitCode = 1;
   });
 
 program.parseAsync().catch((err: unknown) => {
@@ -165,6 +187,8 @@ function renderUpdate(results: UpdateResult[]): void {
     if (r.error) w.write(`✗ ${r.persona}: ${r.error}\n`);
     else if (r.upToDate) w.write(`• ${r.persona}: already up to date\n`);
     else if (r.applied && r.plan) w.write(`✓ ${r.persona}: ${r.plan.from} → ${r.plan.to}\n`);
+    else if (r.blocked && r.plan)
+      w.write(`⚠ ${r.persona}: ${r.plan.from} → ${r.plan.to} held back (not approved)\n`);
     else if (r.plan) w.write(`(dry run) ${r.persona}: ${r.plan.from} → ${r.plan.to}\n`);
   }
 }
@@ -179,7 +203,7 @@ function renderList(result: ListResult): void {
       `\n${"PERSONA".padEnd(20)}${"RUNNING".padEnd(12)}${latestLabel.toUpperCase().padEnd(12)}SOURCE\n`,
     );
     for (const p of result.personas) {
-      const running = p.broken ? "BROKEN" : (p.running ?? "—");
+      const running = p.corrupt ? "CORRUPT" : p.broken ? "BROKEN" : (p.running ?? "—");
       const latest = p.latest ?? "—";
       const flag = p.updateAvailable ? " ⬆" : "";
       w.write(
@@ -194,6 +218,23 @@ function renderList(result: ListResult): void {
       w.write(`  ${a.name.padEnd(20)}${a.spec.padEnd(12)}${a.source}\n`);
     }
   }
+}
+
+function renderDoctor(report: DoctorReport): void {
+  const w = process.stderr;
+  if (report.issues.length === 0) {
+    w.write("✓ truecast home is healthy\n");
+    return;
+  }
+  for (const i of report.issues) {
+    const mark = i.healed ? "✓ fixed" : i.healable ? "⚠ fixable" : "✗";
+    w.write(`${mark}  [${i.kind}] ${i.path}\n         ${i.detail}\n`);
+  }
+  const unresolved = report.issues.filter((i) => !i.healed).length;
+  if (unresolved > 0)
+    w.write(
+      `\n${unresolved} issue(s) need attention; run 'truecast doctor --fix' for the safe ones.\n`,
+    );
 }
 
 function confirmRemoveGlobal(info: { name: string; dependentsWarning: string }): Promise<boolean> {

@@ -5,7 +5,9 @@ import {
   readFileSync,
   readdirSync,
   realpathSync,
+  renameSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -37,6 +39,19 @@ export function isSymlink(p: string): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Atomically (re)point a symlink: create it under a temp name in the same dir, then `rename` over the
+ * target. `rename` is atomic on POSIX, so there is no window where the link is missing (defeats R4: a
+ * crash mid-swap can never leave a dangling pointer). The single owner of symlink creation.
+ */
+export function atomicSymlink(target: string, linkPath: string): void {
+  mkdirSync(dirname(linkPath), { recursive: true });
+  const tmp = `${linkPath}.tmp-${process.pid}`;
+  rmSync(tmp, { force: true });
+  symlinkSync(target, tmp);
+  renameSync(tmp, linkPath); // atomic replace
 }
 
 /** Assert a path is a regular file, NOT a symlink (lstat does not follow links). */

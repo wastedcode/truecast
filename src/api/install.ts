@@ -11,6 +11,7 @@ import { materialize, skillLeaf } from "../materialize/index.js";
 import { readMeta, upsertVersion, writeMeta } from "../meta/index.js";
 import { type Persona, loadPersona } from "../persona/index.js";
 import { InstallPlan, type PlannedWrite } from "../schema/index.js";
+import { autoApprove } from "./policy.js";
 
 /** Programmatic inputs for `install` (CLI flags map 1:1 to these). */
 export interface InstallOptions {
@@ -24,6 +25,8 @@ export interface InstallOptions {
   as?: string | undefined;
   /** Plan only — compute and return the plan, write nothing. */
   dryRun?: boolean | undefined;
+  /** Overwrite a hand-edited (drifted) managed file instead of refusing (R1). */
+  force?: boolean | undefined;
   /** Cwd to discover the project from (defaults to process.cwd()). */
   cwd?: string | undefined;
 }
@@ -96,19 +99,22 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
     });
 
     if (opts.dryRun) return { plan, applied: false };
-    const confirm = ctx.confirm ?? ((): boolean => true);
+    const confirm = ctx.confirm ?? autoApprove;
     if (!(await confirm(plan))) return { plan, applied: false };
 
-    const ledger = await Ledger.load(config);
-    const cached = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
-    materialize(cached, persona, config, ledger); // build the surface from the cached version
-    promoteCurrent(cached.name, cached.version, config, ledger); // re-point current LAST (RR1)
-    writeMeta(
-      config,
-      cached.name,
-      upsertVersion(readMeta(config, cached.name), parsed.url, cached.version, fetched.commit),
-      ledger,
-    );
+    // All home mutations under the lock + write-through ledger (RR1 order preserved: promote LAST).
+    const cached = await Ledger.transaction(config, (ledger) => {
+      const c = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
+      materialize(c, persona, config, ledger, { force: opts.force }); // build the surface
+      promoteCurrent(c.name, c.version, config, ledger); // re-point current LAST (RR1)
+      writeMeta(
+        config,
+        c.name,
+        upsertVersion(readMeta(config, c.name), parsed.url, c.version, fetched.commit),
+        ledger,
+      );
+      return c;
+    });
     if (projectRoot) {
       attachPersona({
         root: projectRoot,
@@ -119,7 +125,6 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
         config,
       });
     }
-    await ledger.save();
     ctx.logger?.info({ persona: cached.name, version: cached.version }, "installed");
     return { plan, applied: true };
   } finally {

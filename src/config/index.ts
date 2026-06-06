@@ -1,5 +1,9 @@
 import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
+import type { LedgerEntry } from "../schema/index.js";
+
+/** The kinds of managed entry the ledger tracks. */
+export type ManagedKind = LedgerEntry["kind"];
 
 /**
  * Single owner of "where things live". No other module hardcodes a path —
@@ -32,6 +36,13 @@ export function resolveConfig(env: ConfigEnv = process.env, home: string = homed
 /** Well-known sub-paths derived from Config — the one place the on-disk layout is defined. */
 export const paths = {
   // --- global cache (the one real copy of a persona's core, versioned) ---
+  /** Root that holds every installed persona's dir. */
+  personasRoot: (c: Config): string => join(c.truecastHome, "personas"),
+  /** A single persona's dir (holds `<ver>/`, `current`, `meta.json`). */
+  personaDir: (c: Config, name: string): string => join(c.truecastHome, "personas", name),
+  /** The per-persona global record (source + cached versions). */
+  metaFile: (c: Config, name: string): string =>
+    join(c.truecastHome, "personas", name, "meta.json"),
   personaCache: (c: Config, name: string, ver: string): string =>
     join(c.truecastHome, "personas", name, ver, "core"),
   /** The `current → <ver>` pointer (update-once re-points this). */
@@ -49,6 +60,8 @@ export const paths = {
     join(c.claudeHome, "skills", `${name}-${skill}`),
 
   // --- per-project (committed in the repo) ---
+  /** The project's truecast dir — the containment base for project-scoped writes/removes. */
+  projectTruecastDir: (projectRoot: string): string => join(projectRoot, ".truecast"),
   projectAgentDir: (projectRoot: string, name: string): string =>
     join(projectRoot, ".truecast", "agents", name),
   /** The `core` symlink inside the assembled dir (→ currentCore; gitignored). */
@@ -62,3 +75,26 @@ export const paths = {
     join(projectRoot, ".truecast", "agents", name, "instance", "work.md"),
   projectLock: (projectRoot: string): string => join(projectRoot, ".truecast", "lock"),
 } as const;
+
+/**
+ * Per-kind layout facts — the SINGLE owner of "which root holds this kind" and "is it a dir".
+ * Both the ledger (drift = file-hash vs tree-hash) and `remove` (which base to delete under) read here,
+ * so the knowledge never diverges across modules.
+ */
+const KIND: Record<ManagedKind, { root: "claude" | "truecast"; dir: boolean }> = {
+  agent: { root: "claude", dir: false },
+  skill: { root: "claude", dir: true },
+  cache: { root: "truecast", dir: true },
+  symlink: { root: "truecast", dir: false },
+  meta: { root: "truecast", dir: false },
+};
+
+/** The home a managed `kind` lives under — the containment base for writing/removing it. */
+export function rootForKind(c: Config, kind: ManagedKind): string {
+  return KIND[kind].root === "claude" ? c.claudeHome : c.truecastHome;
+}
+
+/** Whether a managed `kind` is a directory tree (hashed whole) vs a single file. */
+export function isDirKind(kind: ManagedKind): boolean {
+  return KIND[kind].dir;
+}

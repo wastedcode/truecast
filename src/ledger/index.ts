@@ -1,11 +1,13 @@
 import { createHash } from "node:crypto";
-import { existsSync, lstatSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, lstatSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import writeFileAtomic from "write-file-atomic";
 import { type Config, paths } from "../config/index.js";
-import { CollisionError } from "../errors.js";
+import { CollisionError, DriftError } from "../errors.js";
 import { type LedgerEntry, Ledger as LedgerSchema } from "../schema/index.js";
+
+const NUL = String.fromCharCode(0);
 
 export function sha256(data: string | Buffer): string {
   return createHash("sha256").update(data).digest("hex");
@@ -26,7 +28,6 @@ export function sha256Tree(dir: string): string {
   walk(dir, "");
   return h.digest("hex");
 }
-const NUL = String.fromCharCode(0);
 
 /**
  * The bookkeeping ledger + clobber guard — the single chokepoint that makes managed writes safe:
@@ -60,7 +61,8 @@ export class Ledger {
     if (!e) return false;
     if (e.kind === "symlink") return false;
     if (!existsSync(path)) return true;
-    const current = e.kind === "agent" ? sha256(readFileSync(path)) : sha256Tree(path);
+    const isDir = e.kind === "cache" || e.kind === "skill";
+    const current = isDir ? sha256Tree(path) : sha256(readFileSync(path));
     return current !== e.sha256;
   }
 
@@ -73,6 +75,25 @@ export class Ledger {
 
   record(entry: LedgerEntry): void {
     this.entries.set(entry.path, entry);
+  }
+
+  /** Gate a managed write: refuse to clobber an un-owned file (B5) or a hand-edited owned one (B1). */
+  assertWritable(path: string, source: string): void {
+    this.guard(path, source);
+    if (this.owns(path) && this.isDrifted(path)) throw new DriftError(path);
+  }
+
+  /** The single managed-FILE write path: gate → atomic write → record. */
+  writeFile(path: string, data: string, kind: LedgerEntry["kind"], source: string): void {
+    this.assertWritable(path, source);
+    mkdirSync(dirname(path), { recursive: true });
+    writeFileAtomic.sync(path, data);
+    this.record({ path, sha256: sha256(data), source, kind });
+  }
+
+  /** Record a managed DIRECTORY the caller has (re)written, by its tree hash. */
+  recordDir(path: string, kind: LedgerEntry["kind"], source: string): void {
+    this.record({ path, sha256: sha256Tree(path), source, kind });
   }
 
   async save(): Promise<void> {

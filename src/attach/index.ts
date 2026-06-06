@@ -1,16 +1,9 @@
-import {
-  existsSync,
-  lstatSync,
-  mkdirSync,
-  readFileSync,
-  rmSync,
-  symlinkSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { CachedPersona } from "../cache/index.js";
 import { type Config, paths } from "../config/index.js";
 import type { Persona } from "../persona/index.js";
+import { isSymlink } from "../safety/index.js";
 import { type LockEntry, Lock as LockSchema } from "../schema/index.js";
 
 export interface AttachArgs {
@@ -20,14 +13,6 @@ export interface AttachArgs {
   source: string;
   commit: string;
   config: Config;
-}
-
-function isSymlink(p: string): boolean {
-  try {
-    return lstatSync(p).isSymbolicLink();
-  } catch {
-    return false;
-  }
 }
 
 /** Assemble the per-project dir: core symlink + scaffolded instance + lock entry + gitignore. */

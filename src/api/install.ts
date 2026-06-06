@@ -103,7 +103,7 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
     const cached = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
     materialize(cached, persona, config, ledger); // build the surface from the cached version
     promoteCurrent(cached.name, cached.version, config, ledger); // re-point current LAST (RR1)
-    await writeMeta(
+    writeMeta(
       config,
       cached.name,
       upsertVersion(readMeta(config, cached.name), parsed.url, cached.version, fetched.commit),

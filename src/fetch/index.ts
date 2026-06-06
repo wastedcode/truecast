@@ -57,6 +57,11 @@ const HARDENED_ENV = {
 /** Fetch a persona's repo into a temp dir (git) or resolve a local path. Sandboxed; SHA-pinned. */
 export async function fetchSource(parsed: ParsedSource, tmpRoot: string): Promise<FetchedCore> {
   if (parsed.kind === "path") {
+    if (parsed.ref) {
+      throw new ValidationError(
+        `@version is not supported for a local path source (${parsed.url})`,
+      );
+    }
     let commit = "local";
     try {
       commit = (await simpleGit(parsed.url).revparse(["HEAD"])).trim();

@@ -53,3 +53,14 @@ export class ValidationError extends TruecastError {
     super("INVALID_PERSONA", message, "Check the persona's persona.toml against the spec.");
   }
 }
+
+/** A truecast-managed file was hand-edited since it was generated — refuse to clobber it (B1/AC3). */
+export class DriftError extends TruecastError {
+  constructor(path: string) {
+    super(
+      "DRIFT",
+      `Refusing to overwrite a hand-edited managed file: ${path}`,
+      "Your change isn't tracked and would be lost; re-run with --force to discard it.",
+    );
+  }
+}

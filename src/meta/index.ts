@@ -1,8 +1,7 @@
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import writeFileAtomic from "write-file-atomic";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import type { Config } from "../config/index.js";
-import { type Ledger, sha256 } from "../ledger/index.js";
+import type { Ledger } from "../ledger/index.js";
 import { PersonaMeta as MetaSchema, type PersonaMeta } from "../schema/index.js";
 
 function metaPath(config: Config, name: string): string {
@@ -18,18 +17,9 @@ export function readMeta(config: Config, name: string): PersonaMeta | null {
 }
 
 /** Write the per-persona record (validated, atomic, ledger-tracked). */
-export async function writeMeta(
-  config: Config,
-  name: string,
-  meta: PersonaMeta,
-  ledger: Ledger,
-): Promise<void> {
+export function writeMeta(config: Config, name: string, meta: PersonaMeta, ledger: Ledger): void {
   const validated = MetaSchema.parse(meta);
-  const p = metaPath(config, name);
-  mkdirSync(dirname(p), { recursive: true });
-  const json = JSON.stringify(validated, null, 2);
-  await writeFileAtomic(p, json);
-  ledger.record({ path: p, sha256: sha256(json), source: name, kind: "meta" });
+  ledger.writeFile(metaPath(config, name), `${JSON.stringify(validated, null, 2)}\n`, "meta", name);
 }
 
 /** Record `source` + add `{ver, commit}` (if new) — returns the updated meta to be written. */

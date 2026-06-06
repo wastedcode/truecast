@@ -82,7 +82,8 @@ export const PersonaManifest = z
   .strict();
 export type PersonaManifest = z.infer<typeof PersonaManifest>;
 
-const Commit = z
+/** A git commit sha (or the sentinel "local" for an unversioned local path). */
+export const Commit = z
   .string()
   .regex(/^[0-9a-f]{7,40}$/, "must be a git commit sha")
   .or(z.literal("local"));
@@ -160,7 +161,7 @@ export const InstallPlan = z.object({
   persona: PersonaName,
   source: SourceRef,
   version: SemVer,
-  commit: z.string(),
+  commit: Commit,
   projectRoot: z.string().nullable(),
   tools: z.array(GrantableTool).default([]),
   writes: z.array(PlannedWrite).default([]),
@@ -170,7 +171,7 @@ export type InstallPlan = z.infer<typeof InstallPlan>;
 /** A cached version + its commit (integrity). */
 export const PersonaVersionRef = z.object({
   ver: SemVer,
-  commit: z.string(),
+  commit: Commit,
 });
 export type PersonaVersionRef = z.infer<typeof PersonaVersionRef>;
 
@@ -201,8 +202,8 @@ export const UpdatePlan = z.object({
   persona: PersonaName,
   from: z.string(), // current running version, or "none"
   to: SemVer,
-  fromCommit: z.string(),
-  toCommit: z.string(),
+  fromCommit: Commit,
+  toCommit: Commit,
   changeClass: z.enum(["major", "minor", "patch"]),
   changes: z.array(Change).default([]),
   toolsAdded: z.array(GrantableTool).default([]),

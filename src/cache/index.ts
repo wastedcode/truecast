@@ -1,33 +1,17 @@
-import {
-  existsSync,
-  lstatSync,
-  mkdirSync,
-  realpathSync,
-  renameSync,
-  rmSync,
-  symlinkSync,
-} from "node:fs";
+import { existsSync, mkdirSync, realpathSync, renameSync, rmSync, symlinkSync } from "node:fs";
 import { dirname } from "node:path";
 import isPathInside from "is-path-inside";
 import { type Config, paths } from "../config/index.js";
 import { UnsafePathError } from "../errors.js";
-import { type Ledger, sha256, sha256Tree } from "../ledger/index.js";
+import { type Ledger, sha256 } from "../ledger/index.js";
 import type { Persona } from "../persona/index.js";
-import { copyTreeNoSymlinks } from "../safety/index.js";
+import { copyTreeNoSymlinks, isSymlink } from "../safety/index.js";
 
 export interface CachedPersona {
   name: string;
   version: string;
   /** The cached core dir: `~/.truecast/personas/<name>/<ver>/core`. */
   coreDir: string;
-}
-
-function isSymlink(p: string): boolean {
-  try {
-    return lstatSync(p).isSymbolicLink();
-  } catch {
-    return false;
-  }
 }
 
 /**
@@ -37,14 +21,15 @@ function isSymlink(p: string): boolean {
 export function cacheCandidate(persona: Persona, config: Config, ledger: Ledger): CachedPersona {
   const { name, version } = persona.manifest;
   const dest = paths.personaCache(config, name, version); // .../<ver>/core
-  if (!(existsSync(dest) && ledger.owns(dest))) {
+  if (!(existsSync(dest) && ledger.owns(dest) && !ledger.isDrifted(dest))) {
+    ledger.guard(dest, name); // an un-owned cache dir already there ⇒ collision (don't clobber)
     mkdirSync(dirname(dest), { recursive: true });
     const staging = `${dest}.staging-${process.pid}`;
     rmSync(staging, { recursive: true, force: true });
     copyTreeNoSymlinks(persona.coreDir, staging); // rejects symlinks in the source
     if (existsSync(dest)) rmSync(dest, { recursive: true, force: true });
-    renameSync(staging, dest); // same-dir rename → atomic, no EXDEV
-    ledger.record({ path: dest, sha256: sha256Tree(dest), source: name, kind: "cache" });
+    renameSync(staging, dest); // same-dir rename → atomic, no EXDEV (rebuilt from source on drift)
+    ledger.recordDir(dest, "cache", name);
   }
   return { name, version, coreDir: dest };
 }

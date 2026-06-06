@@ -1,8 +1,8 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { readFileSync, rmSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import type { CachedPersona } from "../cache/index.js";
 import { type Config, paths } from "../config/index.js";
-import { type Ledger, sha256, sha256Tree } from "../ledger/index.js";
+import type { Ledger } from "../ledger/index.js";
 import type { Persona } from "../persona/index.js";
 import { copyTreeNoSymlinks } from "../safety/index.js";
 
@@ -50,17 +50,13 @@ for accumulated lessons. To search, target \`core/\` and \`instance/\` explicitl
 the symlinked core.
 `;
 
-  const agentPath = paths.claudeAgent(config, name);
-  ledger.guard(agentPath, name);
-  mkdirSync(dirname(agentPath), { recursive: true });
-  writeFileSync(agentPath, body);
-  ledger.record({ path: agentPath, sha256: sha256(body), source: name, kind: "agent" });
+  ledger.writeFile(paths.claudeAgent(config, name), body, "agent", name);
 
   for (const s of m.skills) {
     const destDir = paths.claudeSkillDir(config, name, skillLeaf(s));
-    ledger.guard(destDir, name);
+    ledger.assertWritable(destDir, name);
     rmSync(destDir, { recursive: true, force: true });
     copyTreeNoSymlinks(dirname(join(cached.coreDir, s)), destDir); // core/skills/<leaf>/
-    ledger.record({ path: destDir, sha256: sha256Tree(destDir), source: name, kind: "skill" });
+    ledger.recordDir(destDir, "skill", name);
   }
 }

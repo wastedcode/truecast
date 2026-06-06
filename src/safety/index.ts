@@ -28,6 +28,15 @@ export function resolveContained(baseDir: string, rel: string): string {
   return target;
 }
 
+/** Is `p` a symlink? (false if it doesn't exist.) Shared so cache/attach don't each hand-roll it. */
+export function isSymlink(p: string): boolean {
+  try {
+    return lstatSync(p).isSymbolicLink();
+  } catch {
+    return false;
+  }
+}
+
 /** Assert a path is a regular file, NOT a symlink (lstat does not follow links). */
 export function assertRegularFile(p: string): void {
   const st = lstatSync(p);

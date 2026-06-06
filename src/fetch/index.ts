@@ -1,7 +1,9 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
+import semver from "semver";
 import { type SimpleGit, simpleGit } from "simple-git";
 import { ValidationError } from "../errors.js";
+import { readManifest } from "../persona/index.js";
 import { SourceRef } from "../schema/index.js";
 
 export interface ParsedSource {
@@ -89,4 +91,25 @@ export async function fetchSource(parsed: ParsedSource, tmpRoot: string): Promis
     await dispose();
     throw new ValidationError(`fetch failed: ${err instanceof Error ? err.message : String(err)}`);
   }
+}
+
+/** Parse `git ls-remote --tags` output → clean semver list, newest first (RR5). */
+export function parseSemverTags(lsRemote: string): string[] {
+  const seen = new Set<string>();
+  for (const m of lsRemote.matchAll(/refs\/tags\/(\S+)/g)) {
+    const raw = m[1]?.replace(/\^\{\}$/, "").replace(/^v/, "") ?? ""; // drop peeled-tag + leading v
+    const v = semver.valid(raw);
+    if (v) seen.add(v);
+  }
+  return [...seen].sort(semver.rcompare);
+}
+
+/** List the versions a source offers, newest first. Path → the single manifest version (RR5). */
+export async function resolveVersions(parsed: ParsedSource): Promise<string[]> {
+  if (parsed.kind === "path") {
+    return [readManifest(join(parsed.url, "core")).version];
+  }
+  const git = simpleGit({ config: HARDENED_CONFIG }).env({ ...process.env, ...HARDENED_ENV });
+  const out = await git.listRemote(["--tags", parsed.url]);
+  return parseSemverTags(out);
 }

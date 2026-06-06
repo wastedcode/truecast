@@ -48,3 +48,16 @@ export function loadPersona(root: string): Persona {
   const tpl = join(root, "instance-template", "mandate.md");
   return { root, coreDir, manifest, instanceTemplate: existsSync(tpl) ? tpl : null };
 }
+
+/** Parse just the manifest from a core dir (no path validation — for already-cached versions). */
+export function readManifest(coreDir: string): PersonaManifest {
+  const tomlPath = join(coreDir, "persona.toml");
+  if (!existsSync(tomlPath)) throw new ValidationError(`no persona.toml in ${coreDir}`);
+  const parsed = ManifestSchema.safeParse(parseToml(readFileSync(tomlPath, "utf8")));
+  if (!parsed.success) {
+    throw new ValidationError(
+      `persona.toml invalid: ${parsed.error.issues.map((i) => i.message).join("; ")}`,
+    );
+  }
+  return parsed.data;
+}

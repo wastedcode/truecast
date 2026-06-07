@@ -1,5 +1,5 @@
 {
-  "name": "truecast",
+  "name": "@wastedcode/truecast",
   "version": "0.1.0",
   "description": "Install and run portable, versioned expert personas in Claude Code.",
   "license": "MIT",

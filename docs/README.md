@@ -43,7 +43,7 @@ A persona splits into two owners:
 truecast is published `0.x`. **Both interfaces — the `truecast` CLI (commands, flags, output) and the
 programmatic API (`import … from "truecast"`: verbs, types, errors) — may change in
 backward-incompatible ways between minor releases.** Pin a version if you depend on it
-(`npm install truecast@0.1.0`), and check [`CHANGELOG.md`](../CHANGELOG.md) before upgrading — breaking
+(`npm install @wastedcode/truecast@0.1.0`), and check [`CHANGELOG.md`](../CHANGELOG.md) before upgrading — breaking
 changes are called out under `### Changed` / `### Removed`. The persona format (`core/`/`instance/`,
 `persona.toml`) is part of this surface and may also evolve pre-1.0. Stability guarantees begin at `1.0.0`.
 

@@ -22,7 +22,7 @@ A bundled example: [`personas/product-manager/`](personas/product-manager/).
 
 ## Get the `truecast` CLI
 ```sh
-npm install -g truecast
+npm install -g @wastedcode/truecast    # installs the `truecast` command
 truecast --help
 ```
 Or from source:

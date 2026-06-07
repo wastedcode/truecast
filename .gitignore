@@ -16,3 +16,6 @@ node_modules/
 dist/
 coverage/
 *.tsbuildinfo
+
+# npm artifact — this repo uses pnpm (pnpm-lock.yaml); `npm link` from the install docs writes this
+package-lock.json

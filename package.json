@@ -1,18 +1,37 @@
 {
   "name": "truecast",
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.1.0",
   "description": "Install and run portable, versioned expert personas in Claude Code.",
+  "license": "MIT",
+  "author": "Inder Singh <inder@wastedcode.com>",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wastedcode/truecast.git"
+  },
+  "homepage": "https://github.com/wastedcode/truecast#readme",
+  "bugs": {
+    "url": "https://github.com/wastedcode/truecast/issues"
+  },
+  "keywords": ["claude", "claude-code", "subagent", "persona", "agent", "ai", "prompt", "cli"],
   "bin": {
     "truecast": "dist/cli.js"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
+  "files": ["dist", "README.md", "LICENSE", "CHANGELOG.md"],
   "engines": {
     "node": ">=20"
   },
-  "files": ["dist"],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli.ts",
@@ -20,7 +39,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "biome check .",
-    "lint:fix": "biome check --write ."
+    "lint:fix": "biome check --write .",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^12.1.0",

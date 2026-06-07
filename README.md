@@ -21,16 +21,18 @@ A persona is a small, greppable corpus + an identity, split into two owners:
 A bundled example: [`personas/product-manager/`](personas/product-manager/).
 
 ## Get the `truecast` CLI
-Not on npm yet — install from source:
+```sh
+npm install -g truecast
+truecast --help
+```
+Or from source:
 ```sh
 git clone https://github.com/wastedcode/truecast && cd truecast
 pnpm install && pnpm build
 npm link                                   # puts `truecast` on your PATH
-#  …or, if your npm global-bin dir isn't on PATH:
-ln -s "$PWD/dist/cli.js" ~/.local/bin/truecast
-truecast --help
 ```
-Requires Node ≥ 20.
+Requires Node ≥ 20. **Pre-1.0:** the CLI and the programmatic API may change between `0.x` minors — see
+[docs → Stability](docs/README.md#stability-pre-10).
 
 ## Install a persona
 ```sh
@@ -38,10 +40,14 @@ cd your-project
 truecast install <git-url-or-path>[@version][#subpath]
 
 # examples
+truecast install https://github.com/wastedcode/truecast#personas/product-manager   # an official persona
 truecast install ./personas/product-manager                       # local path
 truecast install https://github.com/you/persona@1.2.0             # a GitHub release tag
 truecast install https://github.com/you/monorepo#personas/pm      # a persona in a sub-directory
 ```
+The official personas (`product-manager`, `software-engineer`, `software-architect`, `security-engineer`,
+`qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`) live in this repo under
+[`personas/`](personas/) — install any of them with `…/truecast#personas/<name>`.
 Then write the persona's job for this project in `.truecast/agents/<name>/instance/mandate.md`.
 
 ## Using a persona

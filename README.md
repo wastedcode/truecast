@@ -20,7 +20,19 @@ A persona is a small, greppable corpus + an identity, split into two owners:
 
 A bundled example: [`personas/product-manager/`](personas/product-manager/).
 
-## Install
+## Get the `truecast` CLI
+Not on npm yet — install from source:
+```sh
+git clone https://github.com/wastedcode/truecast && cd truecast
+pnpm install && pnpm build
+npm link                                   # puts `truecast` on your PATH
+#  …or, if your npm global-bin dir isn't on PATH:
+ln -s "$PWD/dist/cli.js" ~/.local/bin/truecast
+truecast --help
+```
+Requires Node ≥ 20.
+
+## Install a persona
 ```sh
 cd your-project
 truecast install <git-url-or-path>[@version][#subpath]

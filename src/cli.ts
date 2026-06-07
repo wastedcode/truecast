@@ -13,6 +13,7 @@ import {
   install,
   isRiskyUpdate,
   list,
+  personaPrompt,
   remove,
   update,
 } from "./api/index.js";
@@ -90,6 +91,16 @@ program
       { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInteractive },
     );
     renderRemove(result);
+  });
+
+program
+  .command("prompt")
+  .argument("<name>", "installed persona")
+  .description(
+    "print the persona's composed system prompt (for `claude --append-system-prompt-file`)",
+  )
+  .action((name) => {
+    process.stdout.write(`${personaPrompt({ name }, { logger: createLogger() })}\n`);
   });
 
 program

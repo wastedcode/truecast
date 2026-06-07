@@ -13,7 +13,10 @@ it's documented here.**
 | `install` — local path + git, CLI + programmatic | ✅ shipped |
 | `update` · `list` · `remove` — CLI + programmatic | ✅ shipped |
 | `doctor` — inspect + repair (drift/dangling/stale/orphan) | ✅ shipped |
+| `prompt` — emit a persona's composed system prompt | ✅ shipped |
+| run a persona: subagent · standalone `claude` · claudemux fleet | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
+| skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
 | bundled persona: `product-manager` | ✅ shipped |
 | security: containment + clobber/drift guards + adversarial suite | ✅ shipped |
 | robustness: per-persona write-through ledger + lock, atomic swaps, `--force` | ✅ shipped |

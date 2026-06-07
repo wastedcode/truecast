@@ -5,5 +5,6 @@ export { type Confirm, type ConsentRequest, autoApprove, defaultConsent } from "
 export * from "./doctor.js";
 export * from "./install.js";
 export * from "./list.js";
+export * from "./prompt.js";
 export * from "./remove.js";
 export * from "./update.js";

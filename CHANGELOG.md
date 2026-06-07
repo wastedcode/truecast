@@ -10,6 +10,12 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-07
+
+### Fixed
+- `truecast --version` reported a hardcoded `0.0.0`; it now reads the real version from the package
+  manifest, so it can't drift from the published version again.
+
 ## [0.1.0] - 2026-06-07
 
 Initial public release.
@@ -34,5 +40,6 @@ Initial public release.
   `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales` — each
   built from independent research and acceptance-tested against real-world demands.
 
-[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/wastedcode/truecast/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wastedcode/truecast/releases/tag/v0.1.0

@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { createInterface } from "node:readline/promises";
+import { fileURLToPath } from "node:url";
 import { Command } from "@commander-js/extra-typings";
 import {
   type ConsentRequest,
@@ -21,10 +24,16 @@ import { TruecastError } from "./errors.js";
 import { createLogger } from "./log/index.js";
 import type { InstallPlan, UpdatePlan } from "./schema/index.js";
 
+// Read the real version from the package manifest so `--version` can never drift from what's published.
+// dist/cli.js → ../package.json (works the same in dev: src/cli.ts → ../package.json).
+const pkgVersion = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "package.json"), "utf8"),
+).version as string;
+
 const program = new Command()
   .name("truecast")
   .description("Install and run portable expert personas in Claude Code.")
-  .version("0.0.0");
+  .version(pkgVersion);
 
 program
   .command("install")

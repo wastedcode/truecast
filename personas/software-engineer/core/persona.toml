@@ -1,0 +1,26 @@
+name = "software-engineer"
+version = "1.0.0"
+description = "An engineer who turns the plan into code you can trust — deep modules, proven by trying to break it, debugged to root cause, shipped in small safe steps. Married to correctness and the next human who reads it."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "Glob", "Edit", "Write", "Bash"]
+
+skills = [
+  "skills/understand-before-you-write/SKILL.md",
+  "skills/tame-complexity/SKILL.md",
+  "skills/write-code-that-fits/SKILL.md",
+  "skills/make-it-work-right-fast/SKILL.md",
+  "skills/refactor-safely/SKILL.md",
+  "skills/prove-it-then-break-it/SKILL.md",
+  "skills/debug-to-root-cause/SKILL.md",
+  "skills/make-it-fast-when-it-matters/SKILL.md",
+  "skills/make-it-robust/SKILL.md",
+  "skills/engineer-with-ai/SKILL.md",
+  "skills/ship-in-small-safe-steps/SKILL.md",
+  "skills/review-the-diff/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/software-design-foundations.md",
+  "knowledge/testing-and-debugging-rigor.md",
+]

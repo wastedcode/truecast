@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseSemverTags, parseSource } from "./index.js";
+import { parseSemverTags, parseSource, sourceLocator } from "./index.js";
 
 describe("parseSource", () => {
   it("local path, no version", () => {
@@ -31,6 +31,43 @@ describe("parseSource", () => {
   });
   it("rejects the ext:: transport (RCE vector)", () => {
     expect(() => parseSource("ext::sh -c whoami")).toThrow();
+  });
+});
+
+describe("parseSource — #subpath (monorepos)", () => {
+  it("extracts a subpath from a git URL", () => {
+    expect(parseSource("https://github.com/o/r#personas/pm")).toMatchObject({
+      kind: "git",
+      url: "https://github.com/o/r",
+      ref: undefined,
+      subpath: "personas/pm",
+    });
+  });
+  it("supports @version AND #subpath together (version first)", () => {
+    expect(parseSource("https://github.com/o/r@1.2.0#personas/pm")).toMatchObject({
+      url: "https://github.com/o/r",
+      ref: "1.2.0",
+      subpath: "personas/pm",
+    });
+  });
+  it("supports #subpath on a local path", () => {
+    expect(parseSource("./monorepo#personas/pm")).toMatchObject({
+      kind: "path",
+      url: "./monorepo",
+      subpath: "personas/pm",
+    });
+  });
+  it("rejects a '..' escape in the subpath", () => {
+    expect(() => parseSource("https://github.com/o/r#../../etc")).toThrow();
+  });
+  it("rejects an absolute subpath", () => {
+    expect(() => parseSource("https://github.com/o/r#/etc/passwd")).toThrow();
+  });
+  it("sourceLocator round-trips url + subpath (no version)", () => {
+    expect(sourceLocator(parseSource("https://github.com/o/r@1.2.0#personas/pm"))).toBe(
+      "https://github.com/o/r#personas/pm",
+    );
+    expect(sourceLocator(parseSource("https://github.com/o/r"))).toBe("https://github.com/o/r");
   });
 });
 

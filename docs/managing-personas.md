@@ -158,3 +158,6 @@ report.issues;             // DoctorIssue[] — { kind, path, persona?, detail, 
   `current`.
 - A **local-path source** has exactly one version (its manifest's); `@version` is rejected for path
   sources. Versioned updates/rollbacks come from **git tags**.
+- **Monorepos:** point at a sub-directory with `#subpath` (e.g. `…/monorepo#personas/pm`); it's stored
+  so `update` re-fetches the same dir. Version tags are still resolved repo-wide (semver tags), so a
+  monorepo that wants independent per-persona versions should use the default branch or plain semver tags.

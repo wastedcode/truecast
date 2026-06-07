@@ -4,7 +4,8 @@ import semver from "semver";
 import { type SimpleGit, simpleGit } from "simple-git";
 import { ValidationError } from "../errors.js";
 import { readManifest } from "../persona/index.js";
-import { SourceRef } from "../schema/index.js";
+import { resolveContained } from "../safety/index.js";
+import { RelPath, SourceRef } from "../schema/index.js";
 
 export interface ParsedSource {
   kind: "git" | "path";
@@ -12,6 +13,8 @@ export interface ParsedSource {
   url: string;
   /** Optional version/tag from `@<ref>`. */
   ref: string | undefined;
+  /** Optional sub-directory (from `#<subpath>`) within the source that holds `core/persona.toml`. */
+  subpath: string | undefined;
 }
 
 export interface FetchedCore {
@@ -25,22 +28,55 @@ export interface FetchedCore {
 const GIT_URL = /^(https?|git|ssh):\/\//i;
 const SCP_LIKE = /^[\w.-]+@[\w.-]+:/; // git@github.com:user/repo
 
-/** Split `<source>[@<version>]` into a typed ref without mistaking `git@host` for a version. */
+/**
+ * Parse `<source>[@<version>][#<subpath>]` into a typed ref. `#<subpath>` names the dir inside the
+ * source that holds `core/persona.toml` (for monorepos); `@<version>` is a git tag. Order matters:
+ * the subpath is stripped first, then the version, so `git@host` is never mistaken for a version.
+ */
 export function parseSource(input: string): ParsedSource {
-  let url = input;
+  let rest = input;
+  let subpath: string | undefined;
+  const hash = rest.indexOf("#");
+  if (hash >= 0) {
+    subpath = rest.slice(hash + 1);
+    rest = rest.slice(0, hash);
+    if (!RelPath.safeParse(subpath).success) {
+      // syntactic pre-filter (realpath containment is re-checked at fetch)
+      throw new ValidationError(
+        `invalid subpath '#${subpath}': must be a relative path inside the source (no '..', no leading '/')`,
+      );
+    }
+  }
+
+  let url = rest;
   let ref: string | undefined;
-  const at = input.lastIndexOf("@");
+  const at = rest.lastIndexOf("@");
   if (at > 0) {
-    const cand = input.slice(at + 1);
+    const cand = rest.slice(at + 1);
     // a version/tag has no path/host separators — avoids splitting scp-style URLs
     if (/^[\w.][\w.-]*$/.test(cand)) {
-      url = input.slice(0, at);
+      url = rest.slice(0, at);
       ref = cand;
     }
   }
-  SourceRef.parse(url); // rejects ext::/file:// transports + control chars
+  if (!SourceRef.safeParse(url).success) {
+    throw new ValidationError(
+      `invalid source '${url}': not a usable path/URL (ext:: and file:// transports are not allowed)`,
+    );
+  }
   const kind: "git" | "path" = GIT_URL.test(url) || SCP_LIKE.test(url) ? "git" : "path";
-  return { kind, url, ref };
+  return { kind, url, ref, subpath };
+}
+
+/** The reinstallable source string (url + subpath, NO version) — persisted in meta/lock so `update`
+ *  re-fetches the same dir. The single owner of reconstructing a source from a ParsedSource. */
+export function sourceLocator(parsed: ParsedSource): string {
+  return parsed.subpath ? `${parsed.url}#${parsed.subpath}` : parsed.url;
+}
+
+/** Resolve the persona root within a fetched/local base, applying `#subpath` with realpath containment. */
+function personaRootIn(baseDir: string, subpath: string | undefined): string {
+  return subpath ? resolveContained(baseDir, subpath) : baseDir; // resolveContained defeats ../ escape
 }
 
 /**
@@ -86,7 +122,7 @@ export async function fetchSource(parsed: ParsedSource, tmpRoot: string): Promis
     } catch {
       // not a git repo — fine for a local path source
     }
-    return { dir: parsed.url, commit, dispose: async () => {} };
+    return { dir: personaRootIn(parsed.url, parsed.subpath), commit, dispose: async () => {} };
   }
 
   const dir = await mkdtemp(join(tmpRoot, "truecast-fetch-"));
@@ -99,7 +135,8 @@ export async function fetchSource(parsed: ParsedSource, tmpRoot: string): Promis
     if (parsed.ref) args.push("--branch", parsed.ref);
     await git.clone(parsed.url, dir, args);
     const commit = (await git.revparse(["HEAD"])).trim();
-    return { dir, commit, dispose };
+    // load from the subdir if given; dispose still removes the whole clone (`dir`).
+    return { dir: personaRootIn(dir, parsed.subpath), commit, dispose };
   } catch (err) {
     await dispose();
     throw new ValidationError(`fetch failed: ${err instanceof Error ? err.message : String(err)}`);
@@ -120,7 +157,7 @@ export function parseSemverTags(lsRemote: string): string[] {
 /** List the versions a source offers, newest first. Path → the single manifest version (RR5). */
 export async function resolveVersions(parsed: ParsedSource): Promise<string[]> {
   if (parsed.kind === "path") {
-    return [readManifest(join(parsed.url, "core")).version];
+    return [readManifest(join(personaRootIn(parsed.url, parsed.subpath), "core")).version];
   }
   const git = simpleGit().env(gitEnv());
   const out = await git.listRemote(["--tags", parsed.url]);

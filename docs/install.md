@@ -5,12 +5,20 @@ Install a persona into the current project (plus a one-time global cache).
 ## CLI
 ```sh
 cd your-project
-truecast install <git-url-or-path>[@version] [flags]
+truecast install <git-url-or-path>[@version][#subpath] [flags]
 
 # examples
-truecast install ./personas/product-manager
-truecast install https://github.com/you/persona@1.2.0
+truecast install ./personas/product-manager              # local path
+truecast install https://github.com/you/persona@1.2.0    # GitHub, a specific tag
+truecast install git@github.com:you/persona.git          # SSH
+truecast install https://github.com/you/monorepo#personas/pm        # persona in a sub-directory
+truecast install https://github.com/you/monorepo@1.2.0#personas/pm  # …at a tag
 ```
+
+**Source grammar** — `<git-url-or-path>` optionally followed by `@<version>` (a git tag) and/or
+`#<subpath>` (the directory inside the source that contains `core/persona.toml`, for monorepos where one
+repo holds many personas). `@version` applies to git sources only. The subpath must stay inside the
+source (a `..` escape is refused).
 
 **Flags**
 - `--project <path>` — attach to this project instead of the discovered one.

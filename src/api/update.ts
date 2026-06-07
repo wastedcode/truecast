@@ -2,7 +2,7 @@ import semver from "semver";
 import { cacheCandidate, promoteCurrent } from "../cache/index.js";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { TruecastError } from "../errors.js";
-import { fetchSource, parseSource, resolveVersions } from "../fetch/index.js";
+import { fetchSource, parseSource, resolveVersions, sourceLocator } from "../fetch/index.js";
 import { Ledger } from "../ledger/index.js";
 import type { Logger } from "../log/index.js";
 import { materialize } from "../materialize/index.js";
@@ -158,7 +158,7 @@ async function updateOne(
       writeMeta(
         config,
         name,
-        upsertVersion(meta, parsed.url, candidateVer, fetched.commit),
+        upsertVersion(meta, sourceLocator(parsed), candidateVer, fetched.commit),
         ledger,
       );
     });

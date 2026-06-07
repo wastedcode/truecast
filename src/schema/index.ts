@@ -44,7 +44,7 @@ const SemVer = z
  * A relative path that cannot escape its base — SYNTACTIC pre-filter only.
  * The authoritative containment check is runtime: see `src/safety` (realpath + isPathInside + lstat).
  */
-const RelPath = z
+export const RelPath = z
   .string()
   .min(1)
   .refine(noControlChars, "must not contain control characters / null bytes")

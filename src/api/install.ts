@@ -3,7 +3,7 @@ import { attachPersona } from "../attach/index.js";
 import { cacheCandidate, promoteCurrent } from "../cache/index.js";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { TruecastError } from "../errors.js";
-import { fetchSource, parseSource } from "../fetch/index.js";
+import { fetchSource, parseSource, sourceLocator } from "../fetch/index.js";
 import { Ledger } from "../ledger/index.js";
 import { locateProject } from "../locate/index.js";
 import type { Logger } from "../log/index.js";
@@ -81,6 +81,7 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
   }
   const config = ctx.config ?? resolveConfig();
   const parsed = parseSource(opts.source);
+  const source = sourceLocator(parsed); // url + #subpath (no version) — what we persist + display
   const fetched = await fetchSource(parsed, config.tmpRoot);
   try {
     const persona = loadPersona(fetched.dir);
@@ -90,7 +91,7 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
 
     const plan = InstallPlan.parse({
       persona: persona.manifest.name,
-      source: parsed.url,
+      source,
       version: persona.manifest.version,
       commit: fetched.commit,
       projectRoot,
@@ -110,7 +111,7 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
       writeMeta(
         config,
         c.name,
-        upsertVersion(readMeta(config, c.name), parsed.url, c.version, fetched.commit),
+        upsertVersion(readMeta(config, c.name), source, c.version, fetched.commit),
         ledger,
       );
       return c;
@@ -120,7 +121,7 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
         root: projectRoot,
         cached,
         persona,
-        source: parsed.url,
+        source,
         commit: fetched.commit,
         config,
       });

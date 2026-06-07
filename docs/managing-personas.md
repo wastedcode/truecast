@@ -12,8 +12,9 @@ explicitly ask (`remove --purge`). Your job description and notes are yours.
 ## update
 
 Adopt a newer version of a persona's `core/`. truecast re-points the global `current` pointer and
-regenerates the `@agent` + `/skills` surface; every project that *tracks* the persona picks up the new
-version on its next Claude Code session. Your `instance/` is left byte-for-byte unchanged.
+regenerates the `@agent` subagent (its body re-indexes the new skills/knowledge); every project that
+*tracks* the persona picks up the new version on its next Claude Code session. Your `instance/` is left
+byte-for-byte unchanged.
 
 ```sh
 truecast update <name>[@version]   # one persona (default: latest)

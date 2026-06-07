@@ -60,8 +60,8 @@ through the persona's ledger so it never overwrites a file it doesn't own.
 ~/.truecast/personas/<name>/<ver>/core    the one real copy (global cache)
 ~/.truecast/personas/<name>/current       → <ver>   (`update` re-points this, atomically)
 ~/.truecast/personas/<name>/owned.json    what truecast owns for <name> (hashes; clobber/drift guard)
-~/.claude/agents/<name>.md                the @agent subagent          (generated)
-~/.claude/skills/<name>-<skill>/          the /skills                   (generated)
+~/.claude/agents/<name>.md                the @agent subagent (generated): identity + a skills/knowledge
+                                          INDEX (summary + path) + where the job lives
 
 <repo>/.truecast/agents/<name>/core       → symlink to global current/core (gitignored)
 <repo>/.truecast/agents/<name>/instance/  mandate.md · work.md · research/  (YOURS, committed)

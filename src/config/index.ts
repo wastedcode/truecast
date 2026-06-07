@@ -57,9 +57,10 @@ export const paths = {
   proposals: (c: Config, name: string): string => join(c.truecastHome, "proposals", name),
 
   // --- generated ergonomic surface (managed, ledger-tracked) ---
+  // The `@subagent` file. Skills/knowledge are NOT a generated surface — they're core files the
+  // persona Reads on demand (the `agent.md` body indexes them). The "skill" ledger kind remains only
+  // so `materialize` can sweep copies a pre-0.x version left in ~/.claude/skills.
   claudeAgent: (c: Config, name: string): string => join(c.claudeHome, "agents", `${name}.md`),
-  claudeSkillDir: (c: Config, name: string, skill: string): string =>
-    join(c.claudeHome, "skills", `${name}-${skill}`),
 
   // --- per-project (committed in the repo) ---
   /** The project's truecast dir — the containment base for project-scoped writes/removes. */

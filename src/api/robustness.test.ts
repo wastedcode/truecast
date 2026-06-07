@@ -68,7 +68,6 @@ beforeEach(() => {
 afterEach(() => rmSync(home, { recursive: true, force: true }));
 
 const agentFile = (): string => join(config.claudeHome, "agents", "tester.md");
-const skillDir = (leaf: string): string => join(config.claudeHome, "skills", `tester-${leaf}`);
 const currentLink = (): string => join(config.truecastHome, "personas", "tester", "current");
 const cacheCore = (v: string): string => join(config.truecastHome, "personas", "tester", v, "core");
 const installV1 = () =>
@@ -110,19 +109,22 @@ describe("R2 — write-through ledger: a failed apply does not wedge the next ru
   });
 });
 
-describe("R5 — a removed skill is pruned, not orphaned", () => {
-  it("dropping a skill upstream deletes its generated /skill dir", async () => {
-    await install({ source: src, project, cwd: project }, { config, confirm: () => true });
-    writePersona(src, { version: "1.0.0", skills: ["greet"], tools: ["Read"] }); // re-write same
+describe("R5 — skills are indexed in the agent body, never copied as surface", () => {
+  it("the body indexes current skills; added/dropped skills track; no ~/.claude/skills is created", async () => {
+    await installV1(); // skills: [greet]
+    expect(readFileSync(agentFile(), "utf8")).toContain("greet");
+    expect(existsSync(join(config.claudeHome, "skills"))).toBe(false); // nothing copied
+
     writePersona(src, { version: "1.1.0", skills: ["greet", "extra"], tools: ["Read"] });
     await update({ name: "tester" }, { config, confirm: () => true });
-    expect(existsSync(skillDir("extra"))).toBe(true);
+    expect(readFileSync(agentFile(), "utf8")).toContain("extra"); // new skill indexed
 
-    // now drop "extra"
     writePersona(src, { version: "1.2.0", skills: ["greet"], tools: ["Read"] });
     await update({ name: "tester" }, { config, confirm: () => true });
-    expect(existsSync(skillDir("extra"))).toBe(false); // pruned (R5)
-    expect(existsSync(skillDir("greet"))).toBe(true);
+    const body = readFileSync(agentFile(), "utf8");
+    expect(body).toContain("greet");
+    expect(body).not.toContain("extra"); // dropped skill gone from the index
+    expect(existsSync(join(config.claudeHome, "skills"))).toBe(false); // still nothing copied
   });
 });
 

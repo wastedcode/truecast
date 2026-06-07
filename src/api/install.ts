@@ -7,7 +7,7 @@ import { fetchSource, parseSource, sourceLocator } from "../fetch/index.js";
 import { Ledger } from "../ledger/index.js";
 import { locateProject } from "../locate/index.js";
 import type { Logger } from "../log/index.js";
-import { materialize, skillLeaf } from "../materialize/index.js";
+import { materialize } from "../materialize/index.js";
 import { readMeta, upsertVersion, writeMeta } from "../meta/index.js";
 import { type Persona, loadPersona } from "../persona/index.js";
 import { InstallPlan, type PlannedWrite } from "../schema/index.js";
@@ -55,9 +55,7 @@ function planWrites(persona: Persona, projectRoot: string | null, config: Config
     { kind: "symlink", path: paths.currentLink(config, name) },
     { kind: "agent", path: paths.claudeAgent(config, name) },
   ];
-  for (const s of persona.manifest.skills) {
-    writes.push({ kind: "skill", path: paths.claudeSkillDir(config, name, skillLeaf(s)) });
-  }
+  // skills/knowledge are NOT copied to ~/.claude — they're core files the persona Reads on demand.
   if (projectRoot) {
     writes.push({ kind: "symlink", path: paths.projectCoreLink(projectRoot, name) });
     writes.push({ kind: "instance", path: paths.projectMandate(projectRoot, name) });

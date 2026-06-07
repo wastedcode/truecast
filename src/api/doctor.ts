@@ -8,7 +8,7 @@ import { materialize } from "../materialize/index.js";
 import { loadPersona } from "../persona/index.js";
 import { removeContained } from "../safety/index.js";
 import { cachedVersions, personaDirs, runningVersion } from "../state/index.js";
-import { type Confirm, defaultConsent } from "./consent.js";
+import { type Confirm, gate } from "./consent.js";
 
 /**
  * Inspect + repair the truecast home (R9) — the recovery story for the states that refusals or a crash
@@ -61,23 +61,27 @@ export async function doctor(opts: DoctorOptions = {}, ctx: DoctorCtx = {}): Pro
   }
 
   // Phase 2 — HEAL the safe issues, but only with consent (fixing alters state).
-  if (opts.fix) {
-    const healable = issues.filter((i) => i.healable);
-    const confirm = ctx.confirm ?? defaultConsent;
-    if (healable.length > 0 && (await confirm({ kind: "doctor-fix", issues: healable.length }))) {
-      const byPersona = new Map<string, DoctorIssue[]>();
-      for (const i of healable) {
-        if (!i.persona) continue;
-        const list = byPersona.get(i.persona);
-        if (list) list.push(i);
-        else byPersona.set(i.persona, [i]);
-      }
-      for (const [name, list] of byPersona) {
-        await Ledger.transaction(config, name, (ledger) =>
-          healPersona(name, list, config, ledger, ctx),
-        );
-      }
-    }
+  const healable = issues.filter((i) => i.healable);
+  if (opts.fix && healable.length > 0) {
+    await gate<void>(
+      ctx,
+      { kind: "doctor-fix", issues: healable.length },
+      () => undefined, // declined → leave everything as reported
+      async () => {
+        const byPersona = new Map<string, DoctorIssue[]>();
+        for (const i of healable) {
+          if (!i.persona) continue;
+          const list = byPersona.get(i.persona);
+          if (list) list.push(i);
+          else byPersona.set(i.persona, [i]);
+        }
+        for (const [name, list] of byPersona) {
+          await Ledger.transaction(config, name, (ledger) =>
+            healPersona(name, list, config, ledger, ctx),
+          );
+        }
+      },
+    );
   }
 
   const unresolved = issues.filter((i) => !i.healed).length;

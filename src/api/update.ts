@@ -11,7 +11,7 @@ import { loadPersona, readManifest } from "../persona/index.js";
 import { classify, computeChanges, toolsDiff } from "../review/index.js";
 import { UpdatePlan } from "../schema/index.js";
 import { installedPersonas, runningVersion } from "../state/index.js";
-import { type Confirm, defaultConsent } from "./consent.js";
+import { type Confirm, gate } from "./consent.js";
 
 /** Programmatic inputs for `update` (CLI flags map 1:1). Omit `name` to update every installed persona. */
 export interface UpdateOptions {
@@ -145,25 +145,29 @@ async function updateOne(
     });
 
     if (opts.dryRun) return { persona: name, outcome: "dry-run", plan };
-    const confirm = ctx.confirm ?? defaultConsent; // safe default: withholds risky updates (R8)
-    if (!(await confirm({ kind: "update", plan }))) {
-      return { persona: name, outcome: "blocked", plan };
-    }
 
-    // Apply under the persona lock + write-through ledger (RR1 order: promote LAST).
-    await Ledger.transaction(config, name, (ledger) => {
-      const cached = cacheCandidate(persona, config, ledger);
-      materialize(cached, persona, config, ledger, { force: opts.force });
-      promoteCurrent(cached.name, cached.version, config, ledger);
-      writeMeta(
-        config,
-        name,
-        upsertVersion(meta, sourceLocator(parsed), candidateVer, fetched.commit),
-        ledger,
-      );
-    });
-    ctx.logger?.info({ persona: name, from: running, to: candidateVer }, "updated");
-    return { persona: name, outcome: "applied", plan };
+    // safe default withholds risky updates (R8); gate is the single consent chokepoint
+    return gate<UpdateResult>(
+      ctx,
+      { kind: "update", plan },
+      () => ({ persona: name, outcome: "blocked", plan }),
+      async () => {
+        // Apply under the persona lock + write-through ledger (RR1 order: promote LAST).
+        await Ledger.transaction(config, name, (ledger) => {
+          const cached = cacheCandidate(persona, config, ledger);
+          materialize(cached, persona, config, ledger, { force: opts.force });
+          promoteCurrent(cached.name, cached.version, config, ledger);
+          writeMeta(
+            config,
+            name,
+            upsertVersion(meta, sourceLocator(parsed), candidateVer, fetched.commit),
+            ledger,
+          );
+        });
+        ctx.logger?.info({ persona: name, from: running, to: candidateVer }, "updated");
+        return { persona: name, outcome: "applied", plan };
+      },
+    );
   } finally {
     await fetched.dispose();
   }

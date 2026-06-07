@@ -11,7 +11,7 @@ import { materialize } from "../materialize/index.js";
 import { readMeta, upsertVersion, writeMeta } from "../meta/index.js";
 import { type Persona, loadPersona } from "../persona/index.js";
 import { InstallPlan, type PlannedWrite } from "../schema/index.js";
-import { type Confirm, defaultConsent } from "./consent.js";
+import { type Confirm, gate } from "./consent.js";
 
 /** Programmatic inputs for `install` (CLI flags map 1:1 to these). */
 export interface InstallOptions {
@@ -98,34 +98,39 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
     });
 
     if (opts.dryRun) return { plan, applied: false };
-    const confirm = ctx.confirm ?? defaultConsent;
-    if (!(await confirm({ kind: "install", plan }))) return { plan, applied: false };
 
-    // All persona mutations under its lock + write-through ledger (RR1: promote LAST).
-    const cached = await Ledger.transaction(config, persona.manifest.name, (ledger) => {
-      const c = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
-      materialize(c, persona, config, ledger, { force: opts.force }); // build the surface
-      promoteCurrent(c.name, c.version, config, ledger); // re-point current LAST (RR1)
-      writeMeta(
-        config,
-        c.name,
-        upsertVersion(readMeta(config, c.name), source, c.version, fetched.commit),
-        ledger,
-      );
-      return c;
-    });
-    if (projectRoot) {
-      attachPersona({
-        root: projectRoot,
-        cached,
-        persona,
-        source,
-        commit: fetched.commit,
-        config,
-      });
-    }
-    ctx.logger?.info({ persona: cached.name, version: cached.version }, "installed");
-    return { plan, applied: true };
+    return gate<InstallResult>(
+      ctx,
+      { kind: "install", plan },
+      () => ({ plan, applied: false }),
+      async () => {
+        // All persona mutations under its lock + write-through ledger (RR1: promote LAST).
+        const cached = await Ledger.transaction(config, persona.manifest.name, (ledger) => {
+          const c = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
+          materialize(c, persona, config, ledger, { force: opts.force }); // build the surface
+          promoteCurrent(c.name, c.version, config, ledger); // re-point current LAST (RR1)
+          writeMeta(
+            config,
+            c.name,
+            upsertVersion(readMeta(config, c.name), source, c.version, fetched.commit),
+            ledger,
+          );
+          return c;
+        });
+        if (projectRoot) {
+          attachPersona({
+            root: projectRoot,
+            cached,
+            persona,
+            source,
+            commit: fetched.commit,
+            config,
+          });
+        }
+        ctx.logger?.info({ persona: cached.name, version: cached.version }, "installed");
+        return { plan, applied: true };
+      },
+    );
   } finally {
     await fetched.dispose();
   }

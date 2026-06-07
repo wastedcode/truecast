@@ -42,3 +42,19 @@ export const defaultConsent: Confirm = (req) => {
       return true;
   }
 };
+
+/**
+ * The consent guard-rail: run `apply` ONLY if consent is granted for `request`, else return `onDeny()`.
+ * Every state-altering verb routes its mutation through here, so the consent check can't be hand-skipped
+ * inside a verb — the only path to `apply` is past the gate. (A `consent.conformance` test enforces that
+ * each altering verb actually uses it: denied consent ⇒ no mutation.)
+ */
+export async function gate<T>(
+  ctx: { confirm?: Confirm | undefined },
+  request: ConsentRequest,
+  onDeny: () => T,
+  apply: () => Promise<T> | T,
+): Promise<T> {
+  const confirm = ctx.confirm ?? defaultConsent;
+  return (await confirm(request)) ? apply() : onDeny();
+}

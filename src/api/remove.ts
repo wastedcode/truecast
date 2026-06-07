@@ -7,7 +7,7 @@ import { removeEntry } from "../lock/index.js";
 import type { Logger } from "../log/index.js";
 import { isSymlink, removeContained } from "../safety/index.js";
 import { PersonaName } from "../schema/index.js";
-import { type Confirm, defaultConsent } from "./consent.js";
+import { type Confirm, gate } from "./consent.js";
 
 export interface RemoveOptions {
   name: string;
@@ -63,36 +63,36 @@ async function removeFromProject(
     );
   }
 
-  const confirm = ctx.confirm ?? defaultConsent; // detaching alters the project — gate it (default: approve detach, deny --purge)
-  if (!(await confirm({ kind: "remove-project", persona: name, root, purge: !!opts.purge }))) {
-    return { name, scope: "project", applied: false, removed: [] };
-  }
-
-  const removed: string[] = [];
-  let instancePreserved: string | undefined;
-
-  if (opts.purge) {
-    removeContained(base, agentDir); // delete the whole assembled dir, instance included
-    removed.push(agentDir);
-  } else {
-    // detach: remove only the core symlink, leaving instance/ orphaned (the user's work survives, B2).
-    removeContained(base, paths.projectCoreLink(root, name));
-    removed.push(paths.projectCoreLink(root, name));
-    if (existsSync(instanceDir)) instancePreserved = instanceDir;
-  }
-
-  removeEntry(root, name); // the lock/ module owns the lock mutation
-  ctx.logger?.info({ persona: name, root, purge: !!opts.purge }, "detached");
-  return { name, scope: "project", applied: true, removed, instancePreserved };
+  // detaching alters the project — gate it (default: approve detach, deny --purge)
+  return gate<RemoveResult>(
+    ctx,
+    { kind: "remove-project", persona: name, root, purge: !!opts.purge },
+    () => ({ name, scope: "project", applied: false, removed: [] }),
+    () => {
+      const removed: string[] = [];
+      let instancePreserved: string | undefined;
+      if (opts.purge) {
+        removeContained(base, agentDir); // delete the whole assembled dir, instance included
+        removed.push(agentDir);
+      } else {
+        // detach: remove only the core symlink, leaving instance/ orphaned (your work survives, B2).
+        removeContained(base, paths.projectCoreLink(root, name));
+        removed.push(paths.projectCoreLink(root, name));
+        if (existsSync(instanceDir)) instancePreserved = instanceDir;
+      }
+      removeEntry(root, name); // the lock/ module owns the lock mutation
+      ctx.logger?.info({ persona: name, root, purge: !!opts.purge }, "detached");
+      return { name, scope: "project", applied: true, removed, instancePreserved };
+    },
+  );
 }
 
 /** R2 — purge globally: cache + surface + meta + ledger rows. Warns about (un-enumerable) dependents. */
 async function removeGlobal(name: string, config: Config, ctx: RemoveCtx): Promise<RemoveResult> {
   const dependentsWarning =
     "Projects tracking this persona will break next session (they cannot be enumerated).";
-  const confirm = ctx.confirm ?? defaultConsent; // destructive ⇒ deny unless explicitly approved (R8)
 
-  return Ledger.transaction(config, name, async (ledger) => {
+  return Ledger.transaction(config, name, (ledger) => {
     const owned = ledger.owned();
     if (owned.length === 0) {
       throw new TruecastError(
@@ -101,20 +101,23 @@ async function removeGlobal(name: string, config: Config, ctx: RemoveCtx): Promi
         "Run 'truecast list' to see installed personas.",
       );
     }
-    if (!(await confirm({ kind: "remove-global", persona: name, dependentsWarning }))) {
-      return { name, scope: "global", applied: false, removed: [] };
-    }
-
-    // Delete only ledger-owned paths (each containment-checked + forgotten by the ledger, RR8).
-    const removed: string[] = [];
-    for (const e of owned) {
-      ledger.removeOwned(e.path);
-      removed.push(e.path);
-    }
-    // sweep the now-empty persona dir (cache + meta + current all lived under it).
-    removeContained(config.truecastHome, paths.personaDir(config, name));
-
-    ctx.logger?.warn({ persona: name }, "removed globally");
-    return { name, scope: "global", applied: true, removed };
+    // destructive ⇒ default consent denies; only an explicit approval proceeds (R8)
+    return gate<RemoveResult>(
+      ctx,
+      { kind: "remove-global", persona: name, dependentsWarning },
+      () => ({ name, scope: "global", applied: false, removed: [] }),
+      () => {
+        // Delete only ledger-owned paths (each containment-checked + forgotten by the ledger, RR8).
+        const removed: string[] = [];
+        for (const e of owned) {
+          ledger.removeOwned(e.path);
+          removed.push(e.path);
+        }
+        // sweep the now-empty persona dir (cache + meta + current all lived under it).
+        removeContained(config.truecastHome, paths.personaDir(config, name));
+        ctx.logger?.warn({ persona: name }, "removed globally");
+        return { name, scope: "global", applied: true, removed };
+      },
+    );
   });
 }

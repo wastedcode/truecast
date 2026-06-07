@@ -43,18 +43,34 @@ export function parseSource(input: string): ParsedSource {
   return { kind, url, ref };
 }
 
-/** Hardening applied to every clone: no hooks, no dangerous transports, no submodule recursion. */
-const HARDENED_CONFIG = [
-  "core.hooksPath=/dev/null",
-  "protocol.ext.allow=never",
-  "protocol.file.allow=never",
-  "submodule.recurse=false",
-];
+/**
+ * Clone hardening. The THREAT is the persona repo's content, not the user's own machine — so we block
+ * the repo-driven RCE vectors and otherwise stay out of git's way (modern git ≥2.53 already hardens
+ * `clone` heavily by default):
+ *  - GIT_ALLOW_PROTOCOL allowlists transports → `ext::`/`file::` are refused (defense in depth; the
+ *    syntactic `SourceRef`/`parseSource` already block them).
+ *  - `--no-recurse-submodules` on the clone disables submodule fetch.
+ *  - GIT_TERMINAL_PROMPT=0 so a missing credential fails fast instead of hanging.
+ * We deliberately do NOT neutralize the user's own git config — it isn't part of the threat model, and
+ * doing so would break their credential helper / proxy / `insteadOf` for private or proxied remotes.
+ */
 const HARDENED_ENV = {
   GIT_TERMINAL_PROMPT: "0",
-  GIT_ASKPASS: "/bin/true",
-  GCM_INTERACTIVE: "never",
+  GIT_ALLOW_PROTOCOL: "https:http:git:ssh",
+  GIT_PROTOCOL_FROM_USER: "0",
 };
+
+/**
+ * The environment for every git child: inherit the user's (so proxies, SSH agent, credential helpers
+ * keep working) plus the hardening, but DROP the "run a program" vars a non-interactive clone never
+ * needs and that git's clone hardening refuses (`GIT_EDITOR`/`GIT_ASKPASS`: "not permitted without
+ * allowUnsafe…"). simple-git REPLACES the child env with this object, so absent ⇒ git won't see them.
+ */
+function gitEnv(): NodeJS.ProcessEnv {
+  const env: NodeJS.ProcessEnv = { ...process.env, ...HARDENED_ENV };
+  for (const k of ["GIT_EDITOR", "GIT_SEQUENCE_EDITOR", "GIT_ASKPASS"]) delete env[k];
+  return env;
+}
 
 /** Fetch a persona's repo into a temp dir (git) or resolve a local path. Sandboxed; SHA-pinned. */
 export async function fetchSource(parsed: ParsedSource, tmpRoot: string): Promise<FetchedCore> {
@@ -78,10 +94,7 @@ export async function fetchSource(parsed: ParsedSource, tmpRoot: string): Promis
     await rm(dir, { recursive: true, force: true });
   };
   try {
-    const git: SimpleGit = simpleGit({ baseDir: dir, config: HARDENED_CONFIG }).env({
-      ...process.env,
-      ...HARDENED_ENV,
-    });
+    const git: SimpleGit = simpleGit({ baseDir: dir }).env(gitEnv());
     const args = ["--depth", "1", "--no-tags", "--no-recurse-submodules"];
     if (parsed.ref) args.push("--branch", parsed.ref);
     await git.clone(parsed.url, dir, args);
@@ -109,7 +122,7 @@ export async function resolveVersions(parsed: ParsedSource): Promise<string[]> {
   if (parsed.kind === "path") {
     return [readManifest(join(parsed.url, "core")).version];
   }
-  const git = simpleGit({ config: HARDENED_CONFIG }).env({ ...process.env, ...HARDENED_ENV });
+  const git = simpleGit().env(gitEnv());
   const out = await git.listRemote(["--tags", parsed.url]);
   return parseSemverTags(out);
 }

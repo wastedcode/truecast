@@ -19,13 +19,18 @@ export function redactUrl(url: string): string {
     }
     return url;
   } catch {
-    return url.replace(/\/\/[^/\s]*@/, "//[redacted]@");
+    // userinfo class excludes '@' and is bounded → linear, no backtracking (scp-style/unparseable URLs).
+    return url.replace(/\/\/[^/\s@]{1,256}@/, "//[redacted]@");
   }
 }
 
-/** Redact credentials embedded anywhere in a string (log messages, error text — the main leak path). */
+/**
+ * Redact credentials embedded anywhere in a string (log messages, error text — the main leak path).
+ * Runs on UNCONTROLLED input, so the pattern is linear-time by construction: a literal `://` anchor,
+ * then a bounded userinfo class that excludes `@` (no ambiguous overlap → no polynomial backtracking).
+ */
 export function redactText(s: string): string {
-  return s.replace(/([a-z][a-z0-9+.-]*:\/\/)[^/\s]*@/gi, "$1[redacted]@");
+  return s.replace(/(:\/\/)[^\s/@]{1,256}@/g, "$1[redacted]@");
 }
 
 /** The one logger. Structured by default; redacts credentials in fields AND error messages/stacks. */

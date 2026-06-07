@@ -3,6 +3,10 @@ on:
   push:
   pull_request:
 
+# Least privilege: CI only reads the repo (checkout). No write scopes for the GITHUB_TOKEN.
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest

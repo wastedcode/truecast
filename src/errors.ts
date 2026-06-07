@@ -19,8 +19,8 @@ export class NoProjectError extends TruecastError {
   constructor() {
     super(
       "NO_PROJECT",
-      "Not inside a project (no .truecast/ or git repo found).",
-      "cd into a project, pass --project <path>, or use --global to skip attaching.",
+      "Not inside a git project (no .git found in this directory or its parents).",
+      "cd into your project (a git repo), pass --project <path>, or use --global to skip attaching.",
     );
   }
 }

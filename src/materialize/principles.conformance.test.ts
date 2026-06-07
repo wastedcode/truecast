@@ -39,7 +39,9 @@ describe("engine principles — conformance across every shipped persona", () =>
       persona,
     );
     // the block sits between the persona's craft and the per-project job pointer
-    expect(prompt.indexOf(ENGINE_PRINCIPLES)).toBeLessThan(prompt.indexOf("Your job in this project"));
+    expect(prompt.indexOf(ENGINE_PRINCIPLES)).toBeLessThan(
+      prompt.indexOf("Your job in this project"),
+    );
     // and it is behavioral-hygiene only — no project-judgment leaked into the engine layer
     expect(ENGINE_PRINCIPLES).not.toMatch(/north star|out of scope|the bar for this project/i);
   });

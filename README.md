@@ -109,7 +109,7 @@ See [docs/managing-personas.md](docs/managing-personas.md) for the full model (c
 the discriminated update outcomes).
 
 ## How it works
-`install` resolves the project (nearest `.truecast/`, else the git root), fetches the persona into a
+`install` resolves the project (the nearest enclosing git repo, or `--project <path>`), fetches the persona into a
 global cache (`~/.truecast/personas/<name>/`), symlinks the craft into the project, scaffolds your
 editable `instance/`, and materializes the subagent at `~/.claude/agents/<name>.md` — whose body indexes
 the skills/knowledge for the persona to Read on demand (skills are **not** copied as global slash-

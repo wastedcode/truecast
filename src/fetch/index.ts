@@ -3,6 +3,7 @@ import { join } from "node:path";
 import semver from "semver";
 import { type SimpleGit, simpleGit } from "simple-git";
 import { ValidationError } from "../errors.js";
+import { redactUrl } from "../log/index.js";
 import { readManifest } from "../persona/index.js";
 import { resolveContained } from "../safety/index.js";
 import { RelPath, SourceRef } from "../schema/index.js";
@@ -69,9 +70,13 @@ export function parseSource(input: string): ParsedSource {
 }
 
 /** The reinstallable source string (url + subpath, NO version) — persisted in meta/lock so `update`
- *  re-fetches the same dir. The single owner of reconstructing a source from a ParsedSource. */
+ *  re-fetches the same dir. The single owner of reconstructing a source from a ParsedSource.
+ *  Credentials embedded in the URL are stripped here: this string is persisted to the committed lock
+ *  and printed, so a token must never reach it. The FETCH still uses the full URL (`parsed.url`); a
+ *  re-fetch/update authenticates via the user's git credential helper, so the clean URL stays usable. */
 export function sourceLocator(parsed: ParsedSource): string {
-  return parsed.subpath ? `${parsed.url}#${parsed.subpath}` : parsed.url;
+  const clean = redactUrl(parsed.url);
+  return parsed.subpath ? `${clean}#${parsed.subpath}` : clean;
 }
 
 /** Resolve the persona root within a fetched/local base, applying `#subpath` with realpath containment. */

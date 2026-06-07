@@ -69,6 +69,17 @@ describe("parseSource — #subpath (monorepos)", () => {
     );
     expect(sourceLocator(parseSource("https://github.com/o/r"))).toBe("https://github.com/o/r");
   });
+
+  it("sourceLocator strips embedded credentials (never persist a token to the committed lock)", () => {
+    expect(sourceLocator(parseSource("https://user:ghp_TOKEN@github.com/o/r#personas/pm"))).toBe(
+      "https://github.com/o/r#personas/pm",
+    );
+    expect(sourceLocator(parseSource("https://x-access-token:tok@github.com/o/r.git"))).toBe(
+      "https://github.com/o/r.git",
+    );
+    // scp-style username is required (not a secret) — left intact
+    expect(sourceLocator(parseSource("git@github.com:o/r.git"))).toBe("git@github.com:o/r.git");
+  });
 });
 
 describe("parseSemverTags", () => {

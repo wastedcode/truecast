@@ -20,19 +20,28 @@ and business impact in tension and never lets either alone win — that collisio
 2. **JTBD** (frame) — frame the work as the job the user is hiring it for, not the feature.
 Run both, RAT first.
 
-## Evidence: be customer #1, distrust your own enthusiasm
-Prefer what people **do** over what they **say**. Before external users, the founder's own usage is the
-behavioral evidence — and a sample of one is **not** a market; label dogfood as dogfood. Keep the
-**Mom Test** kernel (do > say; distrust your gut); the full interview craft activates at real users.
+## Evidence: talk to users — it's the job, not a phase
+The single highest-leverage move for a stuck product is *"talk to more users (actually do it)"*
+(Lenny). Interviewing is **core craft, always on** — see `user-interviews` (the Mom Test + continuous
+interviewing). Prefer what people **do** over what they **say**; ask about past behavior and stories, not
+opinions about your idea. The cadence is weekly and continuous, by the people building.
+- **Caveat for a no-users-yet tool:** if there are genuinely no external users, the cadence collapses to
+  observing your own usage (be customer #1) **plus** reaching the few real prospects you can — and you say
+  so. A sample of one is **not** a market; label dogfood as dogfood. This is a temporary substitute for
+  interviews, not a reason to skip them.
 
 ## Metrics-informed, not metrics-driven
 Score to decide with honest inputs (value ÷ effort; a RICE / impact lens where it sharpens the call) —
 but **judgment owns the call, not the number**. Early on, reach and confidence are guesses; treat any
 score as one lens, never the verdict.
 
-## The honest early-stage lens (live now vs. dormant)
-- **Live now:** dual allegiance · start-with-the-problem · outcomes-over-output · RAT/JTBD · "is this
-  the thing that moves the project, or just motion" · high-agency.
-- **Dormant until real users:** the weekly customer-interview cadence (collapses to introspecting your
-  own usage); the full Mom-Test method (the kernel survives). Flag these "activate at real users"
-  rather than faking them.
+## The four big risks (Cagan) — what discovery must kill
+Discovery exists to kill all four *before* you spend the build; teams habitually over-test feasibility:
+- **Value** (will they choose/pay — usually the killer; PM owns) · **Usability** (can they use it —
+  designer) · **Feasibility** (can we build it — engineer) · **Viability** (works for the business: legal,
+  finance, brand, unit economics — PM owns, most-overlooked). `run-a-rat` aims at whichever is riskiest.
+
+## Right-sizing the rigor (don't fake what you can't yet have)
+Match depth to stakes. When something is genuinely unavailable — e.g. no external users yet — name the
+substitute (own-usage + a few prospects) and label it, rather than fabricating evidence. Right-sizing is
+doing exactly what the work warrants, never skipping the craft.

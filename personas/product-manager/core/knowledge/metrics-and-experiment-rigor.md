@@ -30,6 +30,17 @@ NSM ↔ churn).
 - **Segment & interaction checks:** an aggregate win can hide a losing segment (Simpson's paradox).
 - **One change at a time** (or a real factorial design) — confounded tests teach nothing.
 
+## Product-market fit — is it real yet?
+- **Sean Ellis 40% test (leading signal):** survey users who've used it enough (e.g. ≥2× in 14 days) —
+  *"How would you feel if you could no longer use this?"* If **≥40% say "very disappointed,"** you likely
+  have PMF. It predicts whether retention/growth will be healthy *before* the trailing metrics confirm it.
+- **Retention curve (the truth):** cohort-based retention that **flattens** (a stable plateau of users
+  who keep coming back) is the clearest sign of fit; a curve decaying to zero means no fit, however good
+  acquisition looks. Look at cohorts over time, not aggregate counts.
+- **Push → pull:** PMF shows up as a shift from pushing the product to organic pull/word-of-mouth
+  (Lenny/Andreessen). Path: get *one* user to love it (and pay), then more, then notice the pull.
+- NPS and aggregate retention are **trailing** indicators — they confirm what the 40% test already showed.
+
 ## Evals (for AI/LLM features) — the probabilistic analogue of acceptance
 - **Eval set:** real inputs across easy / common / hard-edge / adversarial cases; grows from production
   failures.

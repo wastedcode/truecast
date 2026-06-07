@@ -1,11 +1,12 @@
 name = "product-manager"
-version = "2.0.0"
-description = "A product manager who keeps you building the right thing — married to the problem, not the solution. Discovery + strategy + metrics + AI-eval craft; delegates delivery."
+version = "2.1.0"
+description = "A product manager who keeps you building the right thing — married to the problem, not the solution. Discovery + user interviews + strategy + metrics + AI-eval craft; delegates delivery."
 identity = "agent.md"
 modelHint = "opus"
 tools = ["Read", "Grep", "WebSearch", "WebFetch"]
 
 skills = [
+  "skills/user-interviews/SKILL.md",
   "skills/continuous-discovery/SKILL.md",
   "skills/set-strategy/SKILL.md",
   "skills/run-a-rat/SKILL.md",

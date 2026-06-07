@@ -47,7 +47,7 @@
     "commander": "^12.1.0",
     "execa": "^9.5.1",
     "is-path-inside": "^4.0.0",
-    "pino": "^9.5.0",
+    "pino": "^10.3.1",
     "pino-pretty": "^13.0.0",
     "proper-lockfile": "^4.1.2",
     "semver": "^7.8.2",

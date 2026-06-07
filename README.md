@@ -65,35 +65,26 @@ Now the whole session thinks like the persona. `--allowed-tools` restricts it to
 declares (a main agent otherwise has the full toolset); `--model` matches its `modelHint`. (`truecast
 prompt <name>` just prints the system prompt — `--append-system-prompt-file <file>` works too.)
 
-### 3. Programmatically — full agents, driven from code (claudemux)
-[claudemux](https://github.com/wastedcode/claudemux) spins up real, login-backed `claude` sessions from
-Node and tells you when a turn is actually done. It forwards extra flags to `claude` via `extraArgs`, so
-you spin up a persona as a full standalone agent — one, or a coordinating fleet:
+### 3. As persistent, programmable agents (claudemux)
+[claudemux](https://github.com/wastedcode/claudemux) runs real, login-backed `claude` sessions you drive
+by name and that tell you when a turn is *actually* done. Flags after `--` are forwarded straight to
+`claude`, so you launch a persona as a full standalone agent and talk to it over time:
 
-```ts
-import { create, ask } from "@wastedcode/claudemux";
-import { execFileSync } from "node:child_process";
+```sh
+# render the persona's prompt once
+truecast prompt product-manager > /tmp/pm.md
 
-// the persona must already be installed + attached in `projectPath` (truecast install …)
-const systemPrompt = execFileSync("truecast", ["prompt", "product-manager"], { encoding: "utf8" });
+# spawn it as a full, persistent claude session (everything after `--` goes to claude)
+claudemux spawn pm --cwd ./your-project --trust-workspace -- \
+  --append-system-prompt-file /tmp/pm.md \
+  --allowed-tools Read Grep WebSearch WebFetch --model opus
 
-const pm = await create({
-  name: "pm",
-  cwd: projectPath,
-  trustWorkspace: true,
-  extraArgs: [
-    "--append-system-prompt", systemPrompt,
-    "--allowed-tools", "Read", "Grep", "WebSearch", "WebFetch",
-    "--model", "opus",
-  ],
-});
-
-const { messages } = await ask(pm, "We're thinking of building X next. Worth it?");
-console.log(messages.at(-1));        // the persona's verdict
-// drive a whole team the same way: create() a "pm", an "architect", a "security" — each its own session
+# then drive it — one-shot, or send/wait/messages
+claudemux ask pm "We're thinking of building X next. Worth it?"
 ```
-This is the "spin up `@product-manager` and let it work" model: each persona is its own persistent,
-attachable session (you can `tmux attach` to watch it), addressed by name.
+Each persona is its own session, addressed by name — `tmux attach` to watch it work, or spin up a whole
+team (`claudemux spawn architect … / spawn security …`) and coordinate them from one place. The CLI maps
+1:1 to a Node library if you'd rather drive it from code (`create({ name, cwd, extraArgs: [...] })`).
 
 ## Managing personas
 ```sh

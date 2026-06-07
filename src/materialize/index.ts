@@ -64,6 +64,21 @@ function entryName(rel: string, fmName?: string): string {
  * lives here (always-loaded) because a subagent has no Skill tool and `persona.toml` carries no
  * descriptions — so this is how the persona learns what craft it has and to Read it before applying.
  */
+/**
+ * UNIVERSAL operating craft injected into EVERY persona's prompt — the engine owns this, not the
+ * publisher (it's not in any `core/`) and not the user (it's not in any `mandate.md`). It is deliberately
+ * tiny, stable, and behavioral-hygiene only (read-first / ground-in-reality / verify) plus the one
+ * truecast-specific navigation reflex. It is NOT project judgment ("the bar," "what's worth the effort")
+ * — that lives in the founder-owned mandate. Because the whole rendered prompt is inspectable
+ * (`truecast prompt <name>`) and re-rendered on `truecast update`, changing this is a visible, diffable
+ * event — not the silent base-prompt change that burns trust. Keep it stable; don't iterate it like a
+ * feature. The `principles.conformance.test.ts` asserts every shipped persona renders with this block.
+ */
+export const ENGINE_PRINCIPLES = `## How you work
+- **Read before you act** — open your \`core/\` skills and the actual project files and code first; never answer from memory or assumption.
+- **Ground every claim in what you can see** — point to the file, the code, the source; if you don't know, find out rather than guess.
+- **Verify before you call it done** — check it against reality, never state as fact what you haven't confirmed, and never invent a result.`;
+
 export function renderSystemPrompt(cached: CachedPersona, persona: Persona): string {
   const name = cached.name;
   const m = persona.manifest;
@@ -89,6 +104,7 @@ export function renderSystemPrompt(cached: CachedPersona, persona: Persona): str
       `## Your knowledge\nReference material — Read when relevant.\n\n${index(m.knowledge)}`,
     );
   }
+  sections.push(ENGINE_PRINCIPLES);
   sections.push(
     `## Your job in this project\nRead \`${base}/instance/mandate.md\` for what to do here, and \`${base}/instance/work.md\` for accumulated lessons. A direct \`Read\` is transparent through the symlink; to search, target \`${base}/core/\` and \`${base}/instance/\` explicitly (a bare \`rg .\` misses the symlinked core).`,
   );

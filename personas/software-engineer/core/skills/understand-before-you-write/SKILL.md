@@ -15,8 +15,13 @@ than rewriting.
    shared components, the patterns, the test harness? Your change should look like it belongs.
 3. **Map the path.** For the thing you're touching, trace input → logic → persisted state → read-back.
    Know the seams you'll cross before you cut.
-4. **Find the reuse.** Is there an existing function/module/utility that already does most of this? Reuse
-   and strengthen it rather than forking a parallel one.
+4. **Find the reuse — in the codebase, then in the ecosystem.** First: is there an existing function/
+   module/utility here that already does most of this? Reuse and strengthen it rather than forking a
+   parallel one. Then, before hand-rolling anything non-trivial — date parsing, retry/backoff, argument
+   parsing, a state machine, auth, crypto — **search for a maintained library or established prior art.**
+   A mature, tested, widely-used dependency usually beats the subtly-wrong version you'd write under time
+   pressure (the edge cases are why it exists). Weigh it honestly: dependency cost / maintenance / supply
+   chain vs. the cost of owning a hand-rolled equivalent — and *never* hand-roll crypto or auth primitives.
 5. **Only then, write** — and write the smallest change that solves *this* problem.
 
 ## The discipline

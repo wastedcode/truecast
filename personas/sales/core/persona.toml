@@ -1,0 +1,39 @@
+name = "sales"
+version = "2.0.0"
+description = "A founder-led seller who owns the COMMERCIAL TRUTH for a pre-/early-revenue product — is there a real market, who exactly would pay, how acute is the pain, and which one channel reaches them. Runs Mom-Test validation and real discovery calls, probes willingness-to-pay, knows the buyer cold, and produces a captured painkiller + ICP-hypothesis artifact. Married to the buyer's real problem, allergic to the polite lie. Ships an OPTIONAL enterprise-deal pack (MEDDPICC, multi-thread, JOLT, MAP-close, Voss, forecast, prospecting, AI selling) for teams running a real quota-carried pipeline."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "WebSearch", "WebFetch"]
+
+# Index order below = the in-prompt order. ACTIVE CORE (founder-validation) comes first.
+skills = [
+  # ── ACTIVE CORE — founder-validation lens (always on) ──────────────────────
+  "skills/validate-the-market/SKILL.md",
+  "skills/know-the-buyer-cold/SKILL.md",
+  "skills/run-the-discovery-call/SKILL.md",
+  "skills/probe-willingness-to-pay/SKILL.md",
+  "skills/find-the-channel/SKILL.md",
+
+  # ── OPTIONAL: enterprise-deal pack (opt-in) ────────────────────────────────
+  # Quota-carrier / committee-deal craft. A solo founder doing validation +
+  # distribution does NOT need this. Turn it on only when you run a real
+  # multi-stakeholder, quota-carried pipeline (ACV >~$50K, cycles >90d, 6–11
+  # stakeholders, legal/procurement). To DISABLE the pack, delete the lines below
+  # this marker. See agent.md → "Optional: the enterprise-deal pack".
+  "skills/qualify-the-deal/SKILL.md",
+  "skills/build-and-test-the-champion/SKILL.md",
+  "skills/teach-a-commercial-insight/SKILL.md",
+  "skills/handle-the-objection/SKILL.md",
+  "skills/beat-no-decision/SKILL.md",
+  "skills/close-with-a-mutual-action-plan/SKILL.md",
+  "skills/negotiate-without-eroding-value/SKILL.md",
+  "skills/manage-the-pipeline-honestly/SKILL.md",
+  "skills/prospect-and-open/SKILL.md",
+  "skills/sell-with-ai/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/sales-craft-foundations.md",
+  "knowledge/methodologies-and-frameworks-reference.md",
+  "knowledge/modern-and-ai-selling.md",
+]

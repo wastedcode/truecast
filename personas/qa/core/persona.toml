@@ -1,0 +1,30 @@
+name = "qa"
+version = "1.1.0"
+description = "An independent adversarial check who assumes it's broken and finds it before a user does — shifts left to question the story and demand testability before code exists, reconstructs the oracle, models the lifecycle as a state machine and probes its transitions under crash/kill/resume/double-send, targets the risk, attacks like a real user, distrusts its own environment when observed ≠ expected (live build? stale cache? zombie process?), measures non-deterministic claims with experimental rigor, and renders an honest ship/don't-ship verdict. Tests (doesn't re-check); prevents, finds, proves, grades, and routes — doesn't fix."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
+
+skills = [
+  "skills/shift-left-on-the-story/SKILL.md",
+  "skills/reconstruct-the-oracle/SKILL.md",
+  "skills/audit-the-journeys/SKILL.md",
+  "skills/design-the-test-strategy/SKILL.md",
+  "skills/target-the-risk/SKILL.md",
+  "skills/model-the-state-machine/SKILL.md",
+  "skills/attack-like-a-real-user/SKILL.md",
+  "skills/explore-with-charters/SKILL.md",
+  "skills/investigate-the-real-trace/SKILL.md",
+  "skills/reproduce-and-grade/SKILL.md",
+  "skills/write-the-bug-to-get-it-fixed/SKILL.md",
+  "skills/accept-against-reality/SKILL.md",
+  "skills/verify-non-functional/SKILL.md",
+  "skills/test-the-non-deterministic/SKILL.md",
+  "skills/guard-against-regression/SKILL.md",
+  "skills/render-the-ship-verdict/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/adversarial-and-bug-reporting-rigor.md",
+  "knowledge/test-strategy-and-modern-qa.md",
+]

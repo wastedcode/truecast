@@ -1,0 +1,32 @@
+name = "ui-ux-designer"
+version = "1.1.0"
+description = "A UI/UX designer who makes the product usable first, then makes it feel inevitable — owns usability risk. User flows (incl. the hour-1/day-1/week-10 journey), research + usability testing, heuristics, information architecture, layout composition + visual hierarchy, mobile-first responsive design, accessibility, design systems, and the craft/anti-slop bar; consolidates scattered status into one glanceable surface; designs CLI/builder-tool ergonomics, not just GUIs; designs in the system, refuses slop, gates AI-generated UI."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "Glob", "WebSearch", "WebFetch", "Write", "Edit"]
+
+skills = [
+  "skills/frame-the-flow/SKILL.md",
+  "skills/surface-the-signal/SKILL.md",
+  "skills/design-the-cli-surface/SKILL.md",
+  "skills/compose-the-layout/SKILL.md",
+  "skills/design-responsive-layout/SKILL.md",
+  "skills/research-the-user/SKILL.md",
+  "skills/usability-test/SKILL.md",
+  "skills/heuristic-evaluation/SKILL.md",
+  "skills/design-information-architecture/SKILL.md",
+  "skills/refuse-ai-slop/SKILL.md",
+  "skills/polish-the-interface/SKILL.md",
+  "skills/design-for-accessibility/SKILL.md",
+  "skills/design-the-states/SKILL.md",
+  "skills/prototype-at-the-right-fidelity/SKILL.md",
+  "skills/build-on-the-design-system/SKILL.md",
+  "skills/design-microinteractions/SKILL.md",
+  "skills/write-ui-microcopy/SKILL.md",
+  "skills/design-the-ai-interaction/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/ux-craft-foundations.md",
+  "knowledge/interface-craft-rigor.md",
+]

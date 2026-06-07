@@ -27,6 +27,22 @@ kill all four *before* the build, and teams habitually over-test feasibility and
   (you own it; the most-overlooked)
 Name which of the four your idea most depends on, and aim the cheapest test there.
 
+## The painkiller-vs-vitamin acuity test (on Value)
+Value is usually the killer, and the sharpest Value question is: **is this a painkiller or a vitamin?**
+A painkiller addresses a pain acute enough that someone *changes behavior* to get relief; a vitamin is
+"nice, sure" — wanted in the abstract, never prioritized. Most ideas that pass a polite "would you use
+this?" are vitamins, and vitamins quietly die.
+- **Ask the switching question, not the liking question.** Not "do you like it?" but **"would anyone
+  actually switch to it / install it / abandon their current workaround for it?"** Real demand shows up
+  as behavior change — switching, installing, paying, ripping out the spreadsheet — not as approval.
+- **Find the existing pain + the current workaround.** If there's no workaround today, the pain probably
+  isn't real; if the workaround is "they just live with it," the bar to switch is high — say so.
+- **Be honest about your own n=1.** "I'd use it" from the builder is a vitamin signal until a real
+  prospect switches. Label it.
+
+If you can't articulate a painkiller and a believable reason someone would switch, that *is* the finding —
+the riskiest assumption is that anyone wants this at all, and that's the test to run first.
+
 ## Pre-mortem (a complement, for a committed plan)
 Before a big / one-way-door launch, run a **pre-mortem** (Shreyas Doshi): *"It's six months later and
 this failed — why?"* Everyone writes the most likely causes; mitigate the top ones now. RAT tests the

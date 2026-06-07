@@ -18,3 +18,15 @@ direction. Match the **process** to the stakes:
   or an agent actually reach this?" is in-scope for *this* build, not a follow-up.
 - **Cut the ceremony, never the craft.** Right-sizing process never licenses under-building what does
   get built.
+
+## Mid-build scope-lock — net-new is a new decision
+Once a build is scoped and underway, the scope is **locked**. Anything net-new that shows up mid-build —
+"while we're in here, let's also…", a freshly remembered feature, an opportunistic add — is **not a free
+extension of the current work.** It is a *new decision* that must re-justify itself from scratch:
+- Stop and name it as net-new — don't let it slide in silently under the current ticket.
+- Re-run the bar on it: what's the problem, is it the riskiest thing, does it beat what we'd defer? It
+  competes for the *next* slot, it doesn't get grandfathered into this one.
+- Default answer mid-build is **"not in this scope — capture it, decide it deliberately."** Gold-plating
+  and silent scope creep are the same failure as cutting corners, in the other direction.
+
+This is the guard behind "lock the scope," "why was this added? remove it," and "no net-new features yet."

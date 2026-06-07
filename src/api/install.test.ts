@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Config } from "../config/index.js";
+import { loadPersona } from "../persona/index.js";
 import { install } from "./index.js";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -35,8 +36,14 @@ describe("install — walking skeleton (local path, into temp homes)", () => {
     expect(result.plan.persona).toBe("product-manager");
     expect(result.plan.tools).toContain("Read");
 
-    // global cache + current pointer resolve
-    const cacheCore = join(config.truecastHome, "personas", "product-manager", "1.0.0", "core");
+    // global cache + current pointer resolve (version derived from the persona, not hardcoded)
+    const cacheCore = join(
+      config.truecastHome,
+      "personas",
+      "product-manager",
+      loadPersona(personaSrc).manifest.version,
+      "core",
+    );
     expect(existsSync(join(cacheCore, "agent.md"))).toBe(true);
     const currentCore = join(config.truecastHome, "personas", "product-manager", "current", "core");
     expect(existsSync(join(currentCore, "persona.toml"))).toBe(true);

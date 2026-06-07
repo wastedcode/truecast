@@ -17,6 +17,12 @@ and stays correct (or fails safely) when they do.
 - **Idempotency + concurrency.** A retried or double-submitted request must not double-apply; concurrent
   actors must not corrupt shared state (locks, atomic ops, optimistic concurrency, transactions). These
   bugs hide until load finds them.
+- **Delivery-vs-readiness races.** Don't assume the receiver is ready just because you sent. An event/
+  message/callback can arrive **before the consumer has subscribed, resumed, or finished starting up** —
+  and a fire-and-forget send drops it on the floor with no error. Design for it: durable/buffered delivery
+  (the consumer reads when ready), an explicit ready/ack handshake before you send, or replay/catch-up of
+  what was missed. Same race on the write side — don't read a value you only *just* wrote to an
+  eventually-consistent or async store. These pass every happy-path test and only bite in production timing.
 - **Make it debuggable.** Log the *why* with enough context to diagnose later (ids, inputs, the decision
   taken); surface clear errors, not opaque ones. Future-you, mid-incident, depends on this.
 - **Secure by default.** Treat security as part of robust, not a later pass: **parameterize** queries

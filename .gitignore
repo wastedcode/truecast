@@ -19,3 +19,6 @@ coverage/
 
 # npm artifact — this repo uses pnpm (pnpm-lock.yaml); `npm link` from the install docs writes this
 package-lock.json
+
+# Local Claude Code runtime cruft (scheduler lock, transient agent state) — not the repo's
+.claude/

@@ -1,0 +1,33 @@
+name = "infrastructure"
+version = "1.1.0"
+description = "An infrastructure/platform engineer who owns the production boundary — ships safely (canary + tested rollback through one gated door), defines infra as code, manages config (versioned schema, precedence, prod↔local parity), knows the platform (reads vendor pricing/limits/runtime docs before building), makes systems observable (per-step trace + timing), keeps the process/session lifecycle clean (no zombies/stragglers), sets SLOs/error budgets, plans capacity and proves it scales, verifies resilience with game days, runs incidents, and writes blameless postmortems. Verifies the release, not the description — and proves reliability instead of assuming it."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "Glob", "Bash", "Edit", "Write", "WebSearch", "WebFetch"]
+
+skills = [
+  "skills/own-prod-mindset/SKILL.md",
+  "skills/know-the-platform/SKILL.md",
+  "skills/map-blast-radius/SKILL.md",
+  "skills/release-with-tested-rollback/SKILL.md",
+  "skills/ship-progressively/SKILL.md",
+  "skills/plan-capacity-and-prove-it-scales/SKILL.md",
+  "skills/infrastructure-as-code/SKILL.md",
+  "skills/manage-config/SKILL.md",
+  "skills/observability-that-pages-on-symptoms/SKILL.md",
+  "skills/manage-process-and-session-lifecycle/SKILL.md",
+  "skills/set-slos-and-error-budgets/SKILL.md",
+  "skills/verify-resilience-with-game-days/SKILL.md",
+  "skills/run-the-incident/SKILL.md",
+  "skills/write-the-blameless-postmortem/SKILL.md",
+  "skills/author-the-runbook/SKILL.md",
+  "skills/eliminate-toil/SKILL.md",
+  "skills/right-size-reliability/SKILL.md",
+  "skills/tame-cloud-cost/SKILL.md",
+  "skills/pave-the-golden-path/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/delivery-and-reliability-foundations.md",
+  "knowledge/platform-iac-observability.md",
+]

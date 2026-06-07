@@ -8,6 +8,7 @@ import { materialize } from "../materialize/index.js";
 import { loadPersona } from "../persona/index.js";
 import { removeContained } from "../safety/index.js";
 import { cachedVersions, personaDirs, runningVersion } from "../state/index.js";
+import { type Confirm, defaultConsent } from "./consent.js";
 
 /**
  * Inspect + repair the truecast home (R9) — the recovery story for the states that refusals or a crash
@@ -44,18 +45,39 @@ export interface DoctorOptions {
 export interface DoctorCtx {
   config?: Config | undefined;
   logger?: Logger | undefined;
+  /** Gate before applying `--fix` heals (an altering op). Default: approve (safe heals only). */
+  confirm?: Confirm | undefined;
 }
 
 export async function doctor(opts: DoctorOptions = {}, ctx: DoctorCtx = {}): Promise<DoctorReport> {
   const config = ctx.config ?? resolveConfig();
-  const issues: DoctorIssue[] = [];
 
-  // Each persona is inspected (and healed) independently, under its own lock — no global ledger.
+  // Phase 1 — INSPECT (read-only), each persona under its own lock. No mutation here.
+  const issues: DoctorIssue[] = [];
   for (const name of personaDirs(config)) {
-    const personaIssues = await Ledger.transaction(config, name, (ledger) =>
-      inspectPersona(name, opts, config, ledger, ctx),
+    issues.push(
+      ...(await Ledger.transaction(config, name, (ledger) => inspectPersona(name, config, ledger))),
     );
-    issues.push(...personaIssues);
+  }
+
+  // Phase 2 — HEAL the safe issues, but only with consent (fixing alters state).
+  if (opts.fix) {
+    const healable = issues.filter((i) => i.healable);
+    const confirm = ctx.confirm ?? defaultConsent;
+    if (healable.length > 0 && (await confirm({ kind: "doctor-fix", issues: healable.length }))) {
+      const byPersona = new Map<string, DoctorIssue[]>();
+      for (const i of healable) {
+        if (!i.persona) continue;
+        const list = byPersona.get(i.persona);
+        if (list) list.push(i);
+        else byPersona.set(i.persona, [i]);
+      }
+      for (const [name, list] of byPersona) {
+        await Ledger.transaction(config, name, (ledger) =>
+          healPersona(name, list, config, ledger, ctx),
+        );
+      }
+    }
   }
 
   const unresolved = issues.filter((i) => !i.healed).length;
@@ -63,13 +85,8 @@ export async function doctor(opts: DoctorOptions = {}, ctx: DoctorCtx = {}): Pro
   return { issues, healthy: unresolved === 0 };
 }
 
-function inspectPersona(
-  name: string,
-  opts: DoctorOptions,
-  config: Config,
-  ledger: Ledger,
-  ctx: DoctorCtx,
-): DoctorIssue[] {
+/** Read-only: find this persona's issues (drift / missing / dangling-current / stale / orphan-cache). */
+function inspectPersona(name: string, config: Config, ledger: Ledger): DoctorIssue[] {
   const issues: DoctorIssue[] = [];
 
   // 1. owned files: vanished or hand-edited.
@@ -99,46 +116,26 @@ function inspectPersona(
   // 2. a dangling `current` (healable by re-promoting the newest cached version).
   const versions = cachedVersions(config, name);
   if (runningVersion(config, name) === null && versions.length > 0) {
-    const latest = versions[0] as string;
-    const issue: DoctorIssue = {
+    issues.push({
       kind: "dangling-current",
       path: paths.currentLink(config, name),
       persona: name,
-      detail: `current does not resolve; newest cached is ${latest}`,
+      detail: `current does not resolve; newest cached is ${versions[0]}`,
       healable: true,
       healed: false,
-    };
-    if (opts.fix) {
-      try {
-        const persona = loadPersona(join(paths.personaDir(config, name), latest)); // re-validate
-        const cached = cacheCandidate(persona, config, ledger);
-        materialize(cached, persona, config, ledger, { force: true }); // heal overrides drift
-        promoteCurrent(name, latest, config, ledger);
-        issue.healed = true;
-      } catch (err) {
-        // a persona failing to heal must not abort the sweep
-        issue.detail = `${issue.detail} — heal failed: ${err instanceof Error ? err.message : err}`;
-        ctx.logger?.warn({ persona: name, err }, "doctor: heal failed");
-      }
-    }
-    issues.push(issue);
+    });
   }
 
   // 3. stale staging/temp artifacts from a crashed copy or pointer swap (healable: remove).
   for (const stale of scanStale(config, name)) {
-    const issue: DoctorIssue = {
+    issues.push({
       kind: "stale-staging",
       path: stale,
       persona: name,
       detail: "leftover staging/temp artifact from an interrupted write",
       healable: true,
       healed: false,
-    };
-    if (opts.fix) {
-      removeContained(config.truecastHome, stale);
-      issue.healed = true;
-    }
-    issues.push(issue);
+    });
   }
 
   // 4. cached version dirs not owned by the ledger (legacy/crash residue; report-only — may be wanted).
@@ -158,6 +155,36 @@ function inspectPersona(
   }
 
   return issues;
+}
+
+/** Apply the safe heals for one persona (re-promote a dangling `current`, remove stale artifacts). */
+function healPersona(
+  name: string,
+  issues: DoctorIssue[],
+  config: Config,
+  ledger: Ledger,
+  ctx: DoctorCtx,
+): void {
+  for (const issue of issues) {
+    try {
+      if (issue.kind === "dangling-current") {
+        const latest = cachedVersions(config, name)[0];
+        if (!latest) continue;
+        const persona = loadPersona(join(paths.personaDir(config, name), latest)); // re-validate
+        const cached = cacheCandidate(persona, config, ledger);
+        materialize(cached, persona, config, ledger, { force: true }); // heal overrides drift
+        promoteCurrent(name, latest, config, ledger);
+        issue.healed = true;
+      } else if (issue.kind === "stale-staging") {
+        removeContained(config.truecastHome, issue.path);
+        issue.healed = true;
+      }
+    } catch (err) {
+      // a persona failing to heal must not abort the sweep
+      issue.detail = `${issue.detail} — heal failed: ${err instanceof Error ? err.message : err}`;
+      ctx.logger?.warn({ persona: name, err }, "doctor: heal failed");
+    }
+  }
 }
 
 /** Find leftover `*.staging-*` / `*.tmp-*` artifacts under one persona's dir (shallow, bounded). */

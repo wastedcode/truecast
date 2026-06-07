@@ -191,6 +191,10 @@ describe("R9 — doctor inspects and repairs", () => {
     expect(before.healthy).toBe(false);
     expect(before.issues.some((i) => i.kind === "dangling-current")).toBe(true);
 
+    // --fix is gated: a declined confirm heals nothing
+    const declined = await doctor({ fix: true }, { config, confirm: () => false });
+    expect(declined.issues.find((i) => i.kind === "dangling-current")?.healed).toBe(false);
+
     const fixed = await doctor({ fix: true }, { config });
     expect(fixed.issues.find((i) => i.kind === "dangling-current")?.healed).toBe(true);
     expect(existsSync(join(currentLink(), "core", "agent.md"))).toBe(true); // resolves again

@@ -180,9 +180,30 @@ describe("remove", () => {
 
   it("AC-R1: --purge deletes instance/ too", async () => {
     await installV1();
-    const r = await remove({ name: "tester", project, cwd: project, purge: true }, { config });
+    // --purge deletes your instance/, so it needs explicit consent (default denies it)
+    const r = await remove(
+      { name: "tester", project, cwd: project, purge: true },
+      { config, confirm: () => true },
+    );
     expect(existsSync(join(project, ".truecast", "agents", "tester"))).toBe(false);
     expect(r.instancePreserved).toBeUndefined();
+  });
+
+  it("detach is gated: a declined confirm leaves the attachment intact", async () => {
+    await installV1();
+    const r = await remove(
+      { name: "tester", project, cwd: project },
+      { config, confirm: () => false },
+    );
+    expect(r.applied).toBe(false);
+    expect(existsSync(join(project, ".truecast", "agents", "tester", "core"))).toBe(true); // still attached
+  });
+
+  it("--purge is denied by the default consent (no confirm) — instance/ survives", async () => {
+    await installV1();
+    const r = await remove({ name: "tester", project, cwd: project, purge: true }, { config });
+    expect(r.applied).toBe(false);
+    expect(existsSync(mandate())).toBe(true); // your edits untouched
   });
 
   it("AC-R2: --global cleans cache + surface + meta + ledger (with consent)", async () => {

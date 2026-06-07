@@ -9,7 +9,9 @@ import type { InstallPlan, UpdatePlan } from "../schema/index.js";
 export type ConsentRequest =
   | { kind: "install"; plan: InstallPlan }
   | { kind: "update"; plan: UpdatePlan }
-  | { kind: "remove-global"; persona: string; dependentsWarning: string };
+  | { kind: "remove-project"; persona: string; root: string; purge: boolean }
+  | { kind: "remove-global"; persona: string; dependentsWarning: string }
+  | { kind: "doctor-fix"; issues: number };
 
 export type Confirm = (req: ConsentRequest) => boolean | Promise<boolean>;
 
@@ -17,10 +19,14 @@ export type Confirm = (req: ConsentRequest) => boolean | Promise<boolean>;
 export const autoApprove: Confirm = () => true;
 
 /**
- * Safe-by-default consent (R8). Used whenever a caller passes no `confirm`:
- * - install  → approve (it is the user's explicit, named act)
- * - update   → apply only when NOT risky (major / downgrade / tag-move / new tool); else withhold
- * - remove --global → deny (irreversible; must be opted into)
+ * Safe-by-default consent — used whenever a caller passes no `confirm` (the interactive CLI always
+ * passes its own prompt, so this governs programmatic callers). Approve the reversible/requested; deny
+ * only the irreversible:
+ * - install        → approve (the user's explicit, named act)
+ * - update         → apply only when NOT risky (major / downgrade / tag-move / new tool)
+ * - remove-project → approve a detach (reversible — keeps `instance/`); DENY `--purge` (deletes it)
+ * - remove-global  → deny (irreversible)
+ * - doctor-fix     → approve (explicit opt-in; only safe heals)
  */
 export const defaultConsent: Confirm = (req) => {
   switch (req.kind) {
@@ -28,7 +34,11 @@ export const defaultConsent: Confirm = (req) => {
       return true;
     case "update":
       return !isRiskyUpdate(req.plan);
+    case "remove-project":
+      return !req.purge;
     case "remove-global":
       return false;
+    case "doctor-fix":
+      return true;
   }
 };

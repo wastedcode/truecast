@@ -102,9 +102,12 @@ truecast remove <name> --purge    # detach AND delete this project's instance/ (
 truecast remove <name> --global --yes   # purge cache + surface + meta everywhere
 ```
 
+Every `remove` confirms first (it alters your project) — `--yes` skips the prompt.
+
 **Flags**
 - `--global` — remove the global cache, the `~/.claude` surface, and the meta record. Requires `--yes`.
-- `--purge` — when detaching, also delete the project `instance/`.
+- `--purge` — when detaching, also delete the project `instance/` (programmatically this needs explicit
+  consent — the default `confirm` denies it, since it destroys your edits).
 - `--project <path>` — detach from this project instead of the discovered one.
 - `--yes` — skip the confirmation prompt (required for `--global`).
 
@@ -133,9 +136,11 @@ heals. Drift and orphaned caches are never auto-destroyed (they may be your data
 a concrete next step.
 
 ```sh
-truecast doctor          # report issues; exits non-zero if any need attention
-truecast doctor --fix    # also re-point a dangling current + remove stale staging artifacts
+truecast doctor              # report issues; exits non-zero if any need attention
+truecast doctor --fix        # also apply the safe heals (prompts first)
+truecast doctor --fix --yes  # …without the prompt
 ```
+`doctor` (no `--fix`) is read-only. `--fix` alters state, so it confirms before applying — `--yes` skips.
 
 | issue | meaning | `--fix` |
 |---|---|---|

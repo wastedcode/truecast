@@ -107,8 +107,12 @@ program
   .command("doctor")
   .description("inspect (and with --fix, repair) the truecast home")
   .option("--fix", "apply the safe repairs (re-point a dangling current, remove stale staging)")
+  .option("--yes", "skip the confirmation prompt for --fix")
   .action(async (opts) => {
-    const report = await doctor({ fix: opts.fix }, { logger: createLogger() });
+    const report = await doctor(
+      { fix: opts.fix },
+      { logger: createLogger(), confirm: opts.yes ? autoApprove : confirmInteractive },
+    );
     renderDoctor(report);
     if (!report.healthy) process.exitCode = 1;
   });
@@ -169,10 +173,17 @@ function confirmInteractive(req: ConsentRequest): Promise<boolean> {
       return ask(
         isRiskyUpdate(req.plan) ? "This is a sensitive change. Proceed? [y/N] " : "Proceed? [y/N] ",
       );
+    case "remove-project": {
+      const fate = req.purge ? "and DELETE its instance/ (your edits)" : "(keeps instance/)";
+      process.stderr.write(`\ndetach ${req.persona} from ${req.root} ${fate}\n`);
+      return ask("Proceed? [y/N] ");
+    }
     case "remove-global":
       process.stderr.write(`\nremove ${req.persona} GLOBALLY (cache + surface + meta).\n`);
       process.stderr.write(`  ⚠ ${req.dependentsWarning}\n`);
       return ask("Proceed? [y/N] ");
+    case "doctor-fix":
+      return ask(`Apply ${req.issues} safe repair(s)? [y/N] `);
   }
 }
 

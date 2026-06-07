@@ -45,7 +45,11 @@ export async function remove(opts: RemoveOptions, ctx: RemoveCtx = {}): Promise<
 }
 
 /** R1 — detach from a project: drop the core symlink + lock entry; PRESERVE `instance/` unless `--purge`. */
-function removeFromProject(name: string, opts: RemoveOptions, ctx: RemoveCtx): RemoveResult {
+async function removeFromProject(
+  name: string,
+  opts: RemoveOptions,
+  ctx: RemoveCtx,
+): Promise<RemoveResult> {
   const root = locateProject({ cwd: opts.cwd ?? process.cwd(), project: opts.project });
   const agentDir = paths.projectAgentDir(root, name);
   const instanceDir = paths.projectInstanceDir(root, name);
@@ -57,6 +61,11 @@ function removeFromProject(name: string, opts: RemoveOptions, ctx: RemoveCtx): R
       `"${name}" is not attached to ${root}.`,
       "Run 'truecast list --project' to see what's attached here.",
     );
+  }
+
+  const confirm = ctx.confirm ?? defaultConsent; // detaching alters the project — gate it (default: approve detach, deny --purge)
+  if (!(await confirm({ kind: "remove-project", persona: name, root, purge: !!opts.purge }))) {
+    return { name, scope: "project", applied: false, removed: [] };
   }
 
   const removed: string[] = [];

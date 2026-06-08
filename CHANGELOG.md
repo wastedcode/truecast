@@ -10,6 +10,11 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- Dependency bumps (Dependabot): runtime — zod 3→4, pino 9→10, write-file-atomic 6→8, commander 14→15;
+  toolchain — TypeScript 6, @types/node 25, vite 8, vitest 4; CI actions checkout/setup-node/pnpm-action
+  to v6. No API or behavior change; full suite green. (`@biomejs/biome` 2 held for a separate migration.)
+
 ## [0.1.1] - 2026-06-07
 
 ### Fixed

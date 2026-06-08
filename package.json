@@ -16,7 +16,16 @@
   "bugs": {
     "url": "https://github.com/wastedcode/truecast/issues"
   },
-  "keywords": ["claude", "claude-code", "subagent", "persona", "agent", "ai", "prompt", "cli"],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "subagent",
+    "persona",
+    "agent",
+    "ai",
+    "prompt",
+    "cli"
+  ],
   "bin": {
     "truecast": "dist/cli.js"
   },
@@ -28,7 +37,12 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md", "LICENSE", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -57,7 +71,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.4.16",
     "@types/node": "^25.9.2",
     "@types/proper-lockfile": "^4.1.4",
     "@types/semver": "^7.7.1",

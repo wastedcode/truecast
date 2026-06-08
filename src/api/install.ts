@@ -9,7 +9,7 @@ import { locateProject } from "../locate/index.js";
 import type { Logger } from "../log/index.js";
 import { materialize } from "../materialize/index.js";
 import { readMeta, upsertVersion, writeMeta } from "../meta/index.js";
-import { type Persona, loadPersona } from "../persona/index.js";
+import { loadPersona, type Persona } from "../persona/index.js";
 import { InstallPlan, type PlannedWrite } from "../schema/index.js";
 import { type Confirm, gate } from "./consent.js";
 

@@ -5,19 +5,19 @@ import { createInterface } from "node:readline/promises";
 import { fileURLToPath } from "node:url";
 import { Command } from "@commander-js/extra-typings";
 import {
+  autoApprove,
   type ConsentRequest,
   type DoctorReport,
-  type InstallResult,
-  type ListResult,
-  type RemoveResult,
-  type UpdateResult,
-  autoApprove,
   doctor,
+  type InstallResult,
   install,
   isRiskyUpdate,
+  type ListResult,
   list,
   personaPrompt,
+  type RemoveResult,
   remove,
+  type UpdateResult,
   update,
 } from "./api/index.js";
 import { TruecastError } from "./errors.js";

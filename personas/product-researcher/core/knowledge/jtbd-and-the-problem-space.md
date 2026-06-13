@@ -25,7 +25,7 @@ to address this?"* If not, it's a solution wearing a need's clothes. Map opportu
 desired outcome; a solution lives *under* the opportunity it serves, never in its place.
 
 ## The throughline for this persona
-A note that says *"we should build a bonding timer"* is a solution; the **job** beneath it ("I need to judge
-whether this launch has momentum before I commit") is what you record, with the proposed solution attached as
-one option — never as the need itself. Keeping problem and solution distinct is what makes the knowledge
+A note that says *"we should add a progress bar"* is a solution; the **job** beneath it ("I need to know how
+much longer this will take, so I can decide whether to wait or come back later") is what you record, with the
+proposed solution attached as one option — never as the need itself. Keeping problem and solution distinct is what makes the knowledge
 reusable when the solution changes.

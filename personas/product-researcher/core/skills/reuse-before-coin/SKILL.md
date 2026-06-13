@@ -17,13 +17,13 @@ repetition** (ResearchOps single-source-of-truth; Sharon's findable nuggets).
   topic and by alias, before any `create`.
 - **Converge the evidence** — new signal *updates / confirms / extends* an existing belief; that's an
   attach, not a new claim.
-- **Match on meaning, not spelling** — "the bonding timer" and "show when bonding ends" are one thing — an
-  alias, not a twin.
+- **Match on meaning, not spelling** — "the export button" and "let me download my data" can be the same
+  thing — an alias, not a twin.
 - **Coin deliberately** — a new node is the claim *nothing here covers this*; make that claim consciously.
 
 ## Anti-patterns
-- The **twin**: re-coining "Domain Investment Platform" when "Doma" already exists — now the evidence is
-  split across two names and neither is strong.
+- The **twin**: re-coining a feature as "Guided Setup" when "Onboarding Wizard" already exists for the same
+  thing — now the evidence is split across two names and neither is strong.
 - Re-proposing a known person/feature as new because the surface words differed.
 - Stacking parallel beliefs about the same target instead of converging them — support and contradiction
   should meet on ONE belief (see `mark-the-dissent`).

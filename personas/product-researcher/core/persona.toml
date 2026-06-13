@@ -6,7 +6,7 @@ modelHint = "opus"
 tools = ["Read", "Grep", "WebSearch", "WebFetch"]
 
 skills = [
-  # the synthesis/evidence/curation spine — the load-bearing core (also tacit's engine)
+  # the synthesis/evidence/curation spine — the load-bearing core
   "skills/atomic-synthesis/SKILL.md",
   "skills/keep-the-receipt/SKILL.md",
   "skills/reuse-before-coin/SKILL.md",

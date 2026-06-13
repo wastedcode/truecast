@@ -70,12 +70,21 @@ export const PersonaManifest = z
   .object({
     name: PersonaName,
     version: SemVer,
-    /** One-line summary for listings / the registry. */
-    description: z.string().optional(),
+    /** One-line summary for listings / the registry. No newlines — it becomes a frontmatter line. */
+    description: z
+      .string()
+      .refine(noControlChars, "must not contain control characters")
+      .optional(),
+    /** Optional storefront copy for the plugin listing — overrides the auto-cut of `description`. */
+    pluginDescription: z
+      .string()
+      .refine(noControlChars, "must not contain control characters")
+      .optional(),
     identity: RelPath,
     skills: z.array(RelPath).default([]),
     knowledge: z.array(RelPath).default([]),
-    modelHint: z.string().optional(),
+    /** Model hint — also becomes a frontmatter line, so no control chars. */
+    modelHint: z.string().refine(noControlChars, "must not contain control characters").optional(),
     /** Requested tools — validated against the allowlist; surfaced at install (B7). */
     tools: z.array(GrantableTool).optional(),
   })

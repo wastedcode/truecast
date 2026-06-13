@@ -14,6 +14,8 @@ it's documented here.**
 | `update` · `list` · `remove` — CLI + programmatic | ✅ shipped |
 | `doctor` — inspect + repair (drift/dangling/stale/orphan) | ✅ shipped |
 | `prompt` — emit a persona's composed system prompt | ✅ shipped |
+| `publish` — generate a Claude Code plugin + marketplace from personas (`--check`/`--settings`) | ✅ shipped |
+| install a teammate as a plugin (`/plugin marketplace add` → `/plugin install`, no restart) | ✅ shipped |
 | run a persona: subagent · standalone `claude` · claudemux fleet | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
@@ -22,7 +24,7 @@ it's documented here.**
 | robustness: per-persona write-through ledger + lock, atomic swaps, `--force` | ✅ shipped |
 | pinning a project to a fixed version (`--pin`) | ⏳ planned |
 | `sync` (re-materialize the surface from the cache) | ⏳ planned |
-| `publish` · `conform` | ⏳ planned |
+| `conform` (lint/validate a persona for publishing) | ⏳ planned |
 | self-improving "gate" (the `learn` loop) | ⏳ v1 |
 
 ## The model in 30 seconds

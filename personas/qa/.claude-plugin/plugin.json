@@ -1,0 +1,9 @@
+{
+  "author": {
+    "name": "Inder Singh"
+  },
+  "description": "An independent adversarial check who assumes it's broken and finds it before a user does",
+  "displayName": "Qa",
+  "name": "qa",
+  "version": "1.1.0"
+}

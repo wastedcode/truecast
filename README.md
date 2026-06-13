@@ -6,9 +6,10 @@ Install portable, versioned **expert personas** — a product manager, an archit
 — into any project, run them in Claude Code, and keep your own customizations when the author improves
 them.
 
-**Status:** working end-to-end — `install` · `update` · `list` · `remove` · `doctor` · `prompt`, with a
-per-persona ownership ledger, atomic updates, and a sandboxed git/GitHub fetch. Verified driving real
-Claude Code sessions (as a subagent and as a standalone agent). Pre-1.0; the self-improving loop is next.
+**Status:** working end-to-end — `install` · `update` · `list` · `remove` · `doctor` · `prompt` · `publish`,
+with a per-persona ownership ledger, atomic updates, and a sandboxed git/GitHub fetch. Verified driving real
+Claude Code sessions (as a subagent and as a standalone agent); `publish` generates a Claude Code plugin
+marketplace (validated with `claude plugin validate`). Pre-1.0; the self-improving loop is next.
 
 ## What a persona is
 A persona is a small, greppable corpus + an identity, split into two owners:
@@ -19,6 +20,24 @@ A persona is a small, greppable corpus + an identity, split into two owners:
   committed in your repo, **never touched by an update.**
 
 A bundled example: [`personas/product-manager/`](personas/product-manager/).
+
+## Install a teammate as a plugin (no restart)
+
+The fastest way in — installs into a live Claude Code session, no restart:
+
+```
+/plugin marketplace add wastedcode/truecast
+/plugin install product-manager@truecast
+/reload-plugins
+```
+That persona is now a subagent in the same session. Swap `product-manager` for any of the nine official
+personas (`software-engineer`, `software-architect`, `security-engineer`, `qa`, `infrastructure`,
+`product-marketer`, `ui-ux-designer`, `sales`), or point `marketplace add` at any GitHub repo published as
+a teammate (see [Publish your own teammate](#publish-your-own-teammate)).
+
+A plugin teammate with no project job yet will, the first time you run it, ask what this project needs and
+write its own `mandate.md`. Prefer a global, versioned install with the ownership ledger and deliberate
+`update`s? Use the `truecast` CLI (below) — the full-control path.
 
 ## Get the `truecast` CLI
 ```sh
@@ -52,15 +71,16 @@ Then write the persona's job for this project in `.truecast/agents/<name>/instan
 
 ## Using a persona
 
-Installing generates a native Claude Code **subagent** at `~/.claude/agents/<name>.md` and symlinks the
-craft into your project. Its body carries an **index of the persona's skills** (each with a one-line
+Installing **via the CLI** generates a native Claude Code **subagent** at `~/.claude/agents/<name>.md` and
+symlinks the craft into your project. Its body carries an **index of the persona's skills** (each with a one-line
 summary and the path to Read), so the persona pulls the right skill on demand — verified: given an
 open-ended task it Reads the matching `SKILL.md` files itself, then applies them.
 
 You can run a persona three ways.
 
 ### 1. As a Claude Code subagent (`@agent-<name>`)
-Restart Claude Code after installing, then bring it into a normal session:
+Restart Claude Code after a CLI install (the plugin path above needs no restart), then bring it into a
+normal session:
 
 ```
 > have the product-manager pressure-test this idea: an AI that auto-prioritizes my to-dos
@@ -103,6 +123,41 @@ claudemux ask pm "We're thinking of building X next. Worth it?"
 Each persona is its own session, addressed by name — `tmux attach` to watch it work, or spin up a whole
 team (`claudemux spawn architect … / spawn security …`) and coordinate them from one place. The CLI maps
 1:1 to a Node library if you'd rather drive it from code (`create({ name, cwd, extraArgs: [...] })`).
+
+## Publish your own teammate
+
+Any GitHub repo with a persona can become installable. From the repo:
+
+```sh
+truecast publish
+```
+This generates committed files — a `.claude-plugin/marketplace.json` and, per persona, an
+`agents/<name>.md` plus `.claude-plugin/plugin.json` — that turn the repo into its own Claude Code
+marketplace. Nothing is uploaded; the files live in your repo, greppable and diffable. Commit and push
+them, and anyone can `/plugin marketplace add you/your-repo` → `/plugin install <name>@<repo>`.
+
+Keep the surface honest in CI:
+
+```sh
+truecast publish --check    # exits non-zero if the committed files drifted from the personas
+```
+
+### Ride a teammate along in a repo
+
+Drop a teammate into a project so everyone who works in it gets the same one — no install steps to share.
+`truecast publish --settings` prints a snippet for the repo's `.claude/settings.json` (commit it):
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "truecast": { "source": { "source": "github", "repo": "wastedcode/truecast" } }
+  },
+  "enabledPlugins": ["product-manager@truecast"]
+}
+```
+Now anyone who opens this repo in Claude Code and trusts the folder is offered the teammate automatically —
+the expert travels with the code, not with each person's setup. Only commit this for a marketplace you
+control, and review what a marketplace ships before you trust a folder.
 
 ## Managing personas
 ```sh

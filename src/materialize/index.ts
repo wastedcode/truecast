@@ -57,13 +57,16 @@ function entryName(rel: string, fmName?: string): string {
 }
 
 /**
- * Compose a persona's SYSTEM PROMPT — identity + a capability index (each skill/knowledge file with a
- * one-line summary and the path to Read) + where its job lives. TRANSPORT-AGNOSTIC and the single owner
- * of "what a persona's prompt says": `materialize` writes it into the `@subagent` file, and the (future)
- * standalone-session launcher feeds the SAME string to `claude --append-system-prompt-file`. The index
- * lives here (always-loaded) because a subagent has no Skill tool and `persona.toml` carries no
- * descriptions — so this is how the persona learns what craft it has and to Read it before applying.
+ * Where a rendered prompt will run — picks the craft path scheme and the job-section prose. A required,
+ * no-default param on `renderSystemPrompt` so every caller declares its transport (no silent drift):
+ * - `subagent`: craft is Read through the project `.truecast/agents/<name>/core` SYMLINK (the CLI surface).
+ * - `plugin`: craft is bundled in the plugin and Read via `${CLAUDE_PLUGIN_ROOT}/core` (no symlink); the
+ *   per-project mandate may not exist yet, so the job section tells the persona to establish it first.
+ * The job/instance path is project-relative for BOTH — the job lives in the consuming repo, never in the
+ * read-only plugin. A two-member discriminated union (not an enum): adding a transport is a typed change.
  */
+export type PromptTransport = { kind: "subagent" } | { kind: "plugin" };
+
 /**
  * UNIVERSAL operating craft injected into EVERY persona's prompt — the engine owns this, not the
  * publisher (it's not in any `core/`) and not the user (it's not in any `mandate.md`). It is deliberately
@@ -79,24 +82,44 @@ export const ENGINE_PRINCIPLES = `## How you work
 - **Ground every claim in what you can see** — point to the file, the code, the source; if you don't know, find out rather than guess.
 - **Verify before you call it done** — check it against reality, never state as fact what you haven't confirmed, and never invent a result.`;
 
-export function renderSystemPrompt(cached: CachedPersona, persona: Persona): string {
+/**
+ * Compose a persona's SYSTEM PROMPT — identity + a capability index (each skill/knowledge file with a
+ * one-line summary and the path to Read) + where its job lives. The single owner of "what a persona's
+ * prompt says", across every transport: `materialize` writes it into the `@subagent` file, `publish`
+ * bakes it into the plugin agent body, and `truecast prompt` feeds it to `claude --append-system-prompt`.
+ * The index lives here (always-loaded) because a subagent has no Skill tool and `persona.toml` carries no
+ * descriptions — so this is how the persona learns what craft it has and to Read it before applying.
+ */
+export function renderSystemPrompt(
+  cached: CachedPersona,
+  persona: Persona,
+  transport: PromptTransport,
+): string {
   const name = cached.name;
   const m = persona.manifest;
-  const base = `.truecast/agents/${name}`; // resolved against the project root at runtime
+  // The job/instance dir is project-relative for both transports (the job lives in the consuming repo).
+  const instanceBase = `.truecast/agents/${name}/instance`;
+  // The craft dir differs by transport: the project symlink vs the bundled plugin root.
+  // biome-ignore lint/suspicious/noTemplateCurlyInString: a LITERAL token Claude Code interpolates at the installer's runtime — not ours to expand.
+  const PLUGIN_CRAFT = "${CLAUDE_PLUGIN_ROOT}/core";
+  const craftBase = transport.kind === "plugin" ? PLUGIN_CRAFT : `.truecast/agents/${name}/core`;
   const identity = readFileSync(join(cached.coreDir, m.identity), "utf8").trim();
 
   const index = (rels: readonly string[]): string =>
     rels
       .map((rel) => {
         const { name: fmName, summary } = harvest(join(cached.coreDir, rel));
-        return `- **${entryName(rel, fmName)}** — ${summary}  → Read \`${base}/core/${rel}\``;
+        return `- **${entryName(rel, fmName)}** — ${summary}  → Read \`${craftBase}/${rel}\``;
       })
       .join("\n");
+
+  // The one place the symlink shows up in prose — false on the plugin transport (bundled real dir).
+  const howRead = transport.kind === "plugin" ? "on demand" : "through the `core/` symlink";
 
   const sections: string[] = [identity];
   if (m.skills.length > 0) {
     sections.push(
-      `## Your skills\nThis is your craft. When a task matches one, **Read that file first**, then apply it — these are files you Read through the \`core/\` symlink, not slash-commands.\n\n${index(m.skills)}`,
+      `## Your skills\nThis is your craft. When a task matches one, **Read that file first**, then apply it — these are files you Read ${howRead}, not slash-commands.\n\n${index(m.skills)}`,
     );
   }
   if (m.knowledge.length > 0) {
@@ -106,9 +129,44 @@ export function renderSystemPrompt(cached: CachedPersona, persona: Persona): str
   }
   sections.push(ENGINE_PRINCIPLES);
   sections.push(
-    `## Your job in this project\nRead \`${base}/instance/mandate.md\` for what to do here, and \`${base}/instance/work.md\` for accumulated lessons. A direct \`Read\` is transparent through the symlink; to search, target \`${base}/core/\` and \`${base}/instance/\` explicitly (a bare \`rg .\` misses the symlinked core).`,
+    transport.kind === "plugin"
+      ? `## Your job in this project\nYour job here lives in \`${instanceBase}/mandate.md\`, with accumulated lessons in \`${instanceBase}/work.md\`. **If \`${instanceBase}/mandate.md\` does not exist yet, that is your first task:** ask what this project needs from you, write that mandate, then start the work.`
+      : `## Your job in this project\nRead \`${instanceBase}/mandate.md\` for what to do here, and \`${instanceBase}/work.md\` for accumulated lessons. A direct \`Read\` is transparent through the symlink; to search, target \`${craftBase}/\` and \`${instanceBase}/\` explicitly (a bare \`rg .\` misses the symlinked core).`,
   );
   return sections.join("\n\n");
+}
+
+/**
+ * Collapse a value to a single safe frontmatter line — defeats a persona that smuggles a newline into a
+ * field (e.g. `description`/`modelHint`) to forge extra YAML keys like a wider `tools:` grant. The
+ * frontmatter is line-oriented, so NO value may contain a line break (schema `noControlChars` is the
+ * first line of defense; this is belt-and-suspenders at the only place values become frontmatter).
+ */
+const oneFrontmatterLine = (s: string): string => s.replace(/[\r\n]+/g, " ").trim();
+
+/**
+ * The complete agent `.md` file (frontmatter + STAMP + system prompt) for a transport. The single owner
+ * of the agent-file shape: `materialize` writes this to `~/.claude/agents/<name>.md` (subagent transport),
+ * and `publish` bakes it into the plugin's `agents/<name>.md` (plugin transport). The frontmatter carries
+ * the persona's `tools`/`model` so BOTH surfaces declare least-privilege the same way (on the plugin path,
+ * this list is what Claude Code surfaces to the user — truecast's own tool-grant confirm doesn't run there).
+ */
+export function composeAgentFile(
+  cached: CachedPersona,
+  persona: Persona,
+  transport: PromptTransport,
+): string {
+  const name = cached.name;
+  const m = persona.manifest;
+  const frontmatter = [
+    "---",
+    `name: ${name}`,
+    `description: ${oneFrontmatterLine(m.description ?? `The ${name} persona.`)}`,
+    ...(m.modelHint ? [`model: ${oneFrontmatterLine(m.modelHint)}`] : []),
+    ...(m.tools && m.tools.length > 0 ? [`tools: ${m.tools.join(", ")}`] : []),
+    "---",
+  ].join("\n");
+  return `${frontmatter}\n\n${STAMP}\n\n${renderSystemPrompt(cached, persona, transport)}\n`;
 }
 
 /**
@@ -117,6 +175,7 @@ export function renderSystemPrompt(cached: CachedPersona, persona: Persona): str
  * craft, Read on demand from the symlinked `core/` (the body indexes them). Legacy `~/.claude/skills`
  * copies a prior version made are swept here.
  */
+
 export function materialize(
   cached: CachedPersona,
   persona: Persona,
@@ -125,17 +184,7 @@ export function materialize(
   opts: WriteOptions = {},
 ): void {
   const name = cached.name;
-  const m = persona.manifest;
-  const frontmatter = [
-    "---",
-    `name: ${name}`,
-    `description: ${m.description ?? `The ${name} persona.`}`,
-    ...(m.modelHint ? [`model: ${m.modelHint}`] : []),
-    ...(m.tools && m.tools.length > 0 ? [`tools: ${m.tools.join(", ")}`] : []),
-    "---",
-  ].join("\n");
-
-  const body = `${frontmatter}\n\n${STAMP}\n\n${renderSystemPrompt(cached, persona)}\n`;
+  const body = composeAgentFile(cached, persona, { kind: "subagent" });
   ledger.writeFile(paths.claudeAgent(config, name), body, "agent", opts);
 
   // sweep any legacy ~/.claude/skills copies a prior truecast version installed (now inert for subagents)

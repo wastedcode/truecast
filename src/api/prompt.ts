@@ -37,5 +37,6 @@ export function personaPrompt(opts: PromptOptions, ctx: PromptCtx = {}): string 
   return renderSystemPrompt(
     { name: opts.name, version: running, coreDir: persona.coreDir },
     persona,
+    { kind: "subagent" },
   );
 }

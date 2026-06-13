@@ -1,0 +1,59 @@
+{
+  "description": "Install and run portable, versioned expert personas in Claude Code.",
+  "name": "truecast",
+  "owner": {
+    "name": "Inder Singh"
+  },
+  "plugins": [
+    {
+      "description": "An infrastructure/platform engineer who owns the production boundary",
+      "name": "infrastructure",
+      "source": "./personas/infrastructure"
+    },
+    {
+      "description": "A product manager who keeps you building the right thing",
+      "name": "product-manager",
+      "source": "./personas/product-manager"
+    },
+    {
+      "description": "A product marketer who makes the value obvious to the one person it's for",
+      "name": "product-marketer",
+      "source": "./personas/product-marketer"
+    },
+    {
+      "description": "A product researcher who turns raw signal into knowledge the team can trust",
+      "name": "product-researcher",
+      "source": "./personas/product-researcher"
+    },
+    {
+      "description": "An independent adversarial check who assumes it's broken and finds it before a user does",
+      "name": "qa",
+      "source": "./personas/qa"
+    },
+    {
+      "description": "A founder-led seller who owns the COMMERCIAL TRUTH for a pre-/early-revenue product",
+      "name": "sales",
+      "source": "./personas/sales"
+    },
+    {
+      "description": "A security engineer who tries to get in before an attacker does",
+      "name": "security-engineer",
+      "source": "./personas/security-engineer"
+    },
+    {
+      "description": "A software architect who makes the system the best-engineered AND simplest-that-lasts",
+      "name": "software-architect",
+      "source": "./personas/software-architect"
+    },
+    {
+      "description": "An engineer who turns the plan into code you can trust",
+      "name": "software-engineer",
+      "source": "./personas/software-engineer"
+    },
+    {
+      "description": "A UI/UX designer who makes the product usable first, then makes it feel inevitable",
+      "name": "ui-ux-designer",
+      "source": "./personas/ui-ux-designer"
+    }
+  ]
+}

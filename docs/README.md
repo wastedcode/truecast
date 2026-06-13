@@ -19,7 +19,7 @@ it's documented here.**
 | run a persona: subagent · standalone `claude` · claudemux fleet | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
-| bundled persona: `product-manager` | ✅ shipped |
+| 11 official personas (product-manager · product-researcher · vc-seed · software-engineer · software-architect · security-engineer · qa · infrastructure · product-marketer · ui-ux-designer · sales) | ✅ shipped |
 | security: containment + clobber/drift guards + adversarial suite | ✅ shipped |
 | robustness: per-persona write-through ledger + lock, atomic swaps, `--force` | ✅ shipped |
 | pinning a project to a fixed version (`--pin`) | ⏳ planned |

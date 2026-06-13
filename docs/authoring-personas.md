@@ -42,3 +42,9 @@ Bash, Edit, Write, NotebookEdit` — and is surfaced for approval before any wri
 ## Validate
 The schema + every referenced file are checked at install. The repo also tests the bundled persona
 against the schema in `src/schema/default-persona.test.ts` — mirror that pattern for your own persona.
+
+## Publishing
+To get your persona into the official catalog, open a PR adding `personas/<name>/core/` to this repo — a
+maintainer generates and publishes the plugin files; you don't commit them. For a private/internal
+persona, run `truecast publish` in your own repo to make it an installable marketplace. See the README's
+*Contribute a persona to the catalog* section.

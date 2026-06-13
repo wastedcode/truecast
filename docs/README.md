@@ -4,8 +4,8 @@ Reference docs, kept in step with what's actually shipped. **Convention: a featu
 it's documented here.**
 
 > truecast — *the expert teammates Claude Code doesn't ship with.* Install portable, versioned expert
-> **personas** into any project, summon them with `@agent-<name>`, and keep your edits when the author
-> improves them.
+> **personas** into any project — as a plugin (`/plugin install <name>@truecast`, no restart) or via the
+> `truecast` CLI — and keep your edits when the author improves them.
 
 ## Status
 | area | state |
@@ -36,7 +36,8 @@ A persona splits into two owners:
   **never touched by an update.** *You only ever edit `instance/`.*
 
 ## Pages
-- [install](install.md) — install a persona (CLI + programmatic), and exactly what it writes.
+- [install](install.md) — install a persona: as a plugin (no restart) or via the CLI, and exactly what
+  each writes.
 - [managing personas](managing-personas.md) — `update` · `list` · `remove` · `doctor`: keep personas
   current, see what's installed, detach or purge them, and inspect/repair the home.
 - [authoring personas](authoring-personas.md) — how to build one; the `persona.toml` format.

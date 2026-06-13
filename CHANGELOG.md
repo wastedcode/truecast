@@ -10,6 +10,17 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- **`truecast publish` + plugin install.** `publish` generates, from each persona, a native Claude Code
+  plugin (`agents/<name>.md` + `.claude-plugin/plugin.json`) plus a repo-root `.claude-plugin/marketplace.json`
+  — turning any repo into an installable marketplace. Users then install a teammate with no restart:
+  `/plugin marketplace add <owner/repo>` → `/plugin install <name>@<marketplace>` → `/reload-plugins`.
+  Flags: `--check` (drift gate for CI), `--settings` (ride-along snippet for a consuming repo, no
+  `autoUpdate` by design), `--dry-run`, `--repo`, `--marketplace`. Writes only inside your repo, into
+  git-tracked files you review in the diff; nothing is uploaded. The official catalog is published this way.
+- **Tenth official persona: `product-researcher`** — joins product-manager, software-engineer,
+  software-architect, security-engineer, qa, infrastructure, product-marketer, ui-ux-designer, sales.
+
 ### Changed
 - Dependency bumps (Dependabot): runtime — zod 3→4, pino 9→10, write-file-atomic 6→8, commander 14→15;
   toolchain — TypeScript 6, @types/node 25, vite 8, vitest 4, **@biomejs/biome 1→2** (config migrated to

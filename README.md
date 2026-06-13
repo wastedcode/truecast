@@ -129,36 +129,17 @@ team (`claudemux spawn architect … / spawn security …`) and coordinate them 
 
 ## Contribute a persona to the catalog
 
-truecast runs **one curated catalog** — the marketplace this repo publishes. To make your persona
-installable for everyone, **send it here as a PR**: add your `personas/<name>/core/` (source only — not the
-generated plugin files), and a maintainer publishes it into the official marketplace. Start from
-[`docs/authoring-personas.md`](docs/authoring-personas.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
+truecast runs **one curated catalog** — the marketplace this repo publishes — so a user adds it once and
+installs everything as `<name>@truecast`. To get your persona in, **open a PR here**: add your
+`personas/<name>/core/` (the source — `agent.md`, `skills/`, `knowledge/`, `persona.toml`). You don't
+generate any plugin files or run `publish` — a maintainer publishes it into the official marketplace on
+merge. Start from [`docs/authoring-personas.md`](docs/authoring-personas.md) and
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-### Publish your own marketplace (private/internal personas)
+## Ride a teammate along in a repo
 
-For a persona you *don't* want in the public catalog — internal to your company, or experimental — any
-GitHub repo can become its own marketplace. From the repo:
-
-```sh
-truecast publish
-```
-This writes committed files — a `.claude-plugin/marketplace.json` and, per persona, an `agents/<name>.md`
-plus `.claude-plugin/plugin.json` — turning the repo into a Claude Code marketplace. Nothing is uploaded;
-the files live in your repo, greppable and diffable. Commit and push, and anyone with access can
-`/plugin marketplace add you/your-repo` → `/plugin install <name>@<repo>`.
-
-Keep that surface honest in CI:
-
-```sh
-truecast publish --check    # exits non-zero if the committed files drifted from the personas
-```
-Other flags: `--dry-run` (show the files, write nothing), and `--repo <owner/repo>` / `--marketplace <name>`
-(override the install handle, else read from `package.json`).
-
-### Ride a teammate along in a repo
-
-Drop a teammate into a project so everyone who works in it gets the same one — no install steps to share.
-`truecast publish --settings` prints a snippet for the repo's `.claude/settings.json` (commit it):
+Drop a teammate into a project so everyone who works in it is offered the same one — no install steps to
+share. Add this to the repo's `.claude/settings.json` and commit it:
 
 ```json
 {

@@ -23,22 +23,21 @@ A bundled example: [`personas/product-manager/`](personas/product-manager/).
 
 ## Install a teammate as a plugin (no restart)
 
-The fastest way in — installs into a live Claude Code session, no restart:
+Install straight into a live Claude Code session:
 
 ```
 /plugin marketplace add wastedcode/truecast
 /plugin install product-manager@truecast
 /reload-plugins
 ```
-That teammate is live in the same session — talk to it by name, no restart. The `@truecast` suffix is
-required once, at install (it names which marketplace to pull from, like an npm scope); you don't type it
-again. Swap `product-manager` for any of the ten official personas: `product-researcher`,
-`software-engineer`, `software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`,
-`ui-ux-designer`, `sales`.
+Now talk to the teammate by name. You only type `@truecast` at install; it's the marketplace the plugin
+comes from, like an npm scope. Swap `product-manager` for any of the ten official personas:
+`product-researcher`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
+`infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
 
-A plugin teammate with no project job yet will, the first time you run it, ask what this project needs and
-write its own `mandate.md`. Prefer a global, versioned install with the ownership ledger and deliberate
-`update`s? Use the `truecast` CLI (below) — the full-control path.
+The first time you run a plugin teammate with no job set, it asks what the project needs and writes its own
+`mandate.md`. Want a global, versioned copy you update on your terms, with an ownership ledger that keeps
+your edits when the author ships changes? Use the `truecast` CLI below.
 
 ## Get the `truecast` CLI
 ```sh
@@ -55,8 +54,8 @@ Requires Node ≥ 20. **Pre-1.0:** the CLI and the programmatic API may change b
 [docs → Stability](docs/README.md#stability-pre-10).
 
 ## Install a persona with the CLI
-The plugin path above is fastest. The CLI is the control path: a global versioned copy, a per-persona
-ownership ledger, and updates you adopt deliberately.
+The plugin path above is the fast lane. The CLI is the control lane: a global, versioned copy you update
+deliberately, with a per-persona ownership ledger so your customizations survive an update.
 
 ```sh
 cd your-project
@@ -77,9 +76,9 @@ Then write the persona's job for this project in `.truecast/agents/<name>/instan
 
 A CLI install generates a native Claude Code **subagent** at `~/.claude/agents/<name>.md` and symlinks the
 craft into your project. Its body carries an **index of the persona's skills** (each with a one-line
-summary and the path to Read), so the persona pulls the right skill on demand — verified: given an
-open-ended task it Reads the matching `SKILL.md` files itself, then applies them. (A plugin install carries
-the same body; the difference is *how it's delivered*, not what it can do.)
+summary and the path to Read), so the persona pulls the right skill on demand. Verified: given an
+open-ended task it Reads the matching `SKILL.md` files itself, then applies them. (A plugin install ships
+the same body; only the delivery differs.)
 
 ### As a Claude Code subagent (`@agent-<name>`)
 Restart Claude Code after a CLI install (the plugin path above needs no restart), then bring it into a
@@ -129,17 +128,16 @@ team (`claudemux spawn architect … / spawn security …`) and coordinate them 
 
 ## Contribute a persona to the catalog
 
-truecast runs **one curated catalog** — the marketplace this repo publishes — so a user adds it once and
-installs everything as `<name>@truecast`. To get your persona in, **open a PR here**: add your
-`personas/<name>/core/` (the source — `agent.md`, `skills/`, `knowledge/`, `persona.toml`). You don't
-generate any plugin files or run `publish` — a maintainer publishes it into the official marketplace on
-merge. Start from [`docs/authoring-personas.md`](docs/authoring-personas.md) and
-[`CONTRIBUTING.md`](CONTRIBUTING.md).
+truecast runs **one curated catalog**, the marketplace this repo publishes, so a user adds it once and
+installs everything as `<name>@truecast`. To get your persona in, **open a PR here** with your
+`personas/<name>/core/` (the source: `agent.md`, `skills/`, `knowledge/`, `persona.toml`). You don't
+generate plugin files or run `publish`; a maintainer publishes it into the catalog when your PR lands.
+Start from [`docs/authoring-personas.md`](docs/authoring-personas.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Ride a teammate along in a repo
 
-Drop a teammate into a project so everyone who works in it is offered the same one — no install steps to
-share. Add this to the repo's `.claude/settings.json` and commit it:
+Put a teammate in a project so everyone working in it gets the same one, with nothing to install by hand.
+Add this to the repo's `.claude/settings.json` and commit it:
 
 ```json
 {
@@ -149,9 +147,9 @@ share. Add this to the repo's `.claude/settings.json` and commit it:
   "enabledPlugins": ["product-manager@truecast"]
 }
 ```
-Now anyone who opens this repo in Claude Code and trusts the folder is offered the teammate automatically —
-the expert travels with the code, not with each person's setup. Only commit this for a marketplace you
-control, and review what a marketplace ships before you trust a folder.
+When someone opens the repo in Claude Code and trusts the folder, Claude Code offers to install the
+teammate for them. The expert travels with the code, not with each person's setup. Only commit this for a
+marketplace you control, and review what a marketplace ships before you trust a folder.
 
 ## Managing personas
 ```sh
@@ -172,8 +170,8 @@ commands; they're the persona's private craft). Every file truecast writes is tr
 ledger** (`owned.json`), under a per-persona lock, so concurrent installs never collide and truecast
 never clobbers a file it doesn't own.
 
-`publish` is the parallel path: instead of materializing into `~/.claude`, it generates the committed
-plugin + marketplace files that Claude Code installs from — the same composed agent body, delivered as a plugin.
+`publish` is the parallel path. Instead of materializing into `~/.claude`, it generates the committed
+plugin and marketplace files that Claude Code installs from.
 
 ## Docs
 [`docs/`](docs/) — [install](docs/install.md), [managing personas](docs/managing-personas.md),

@@ -11,13 +11,13 @@ Install a teammate straight into a live Claude Code session:
 /plugin install product-manager@truecast
 /reload-plugins
 ```
-Talk to it by name afterward — the `@truecast` suffix is a one-time install string (which marketplace to
-pull from, like an npm scope), not something you type per use. Any of the ten official personas works:
-`product-manager`, `product-researcher`, `software-engineer`, `software-architect`, `security-engineer`,
-`qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
+Talk to it by name afterward. You only type `@truecast` at install; it names the marketplace the plugin
+comes from, like an npm scope. Any of the ten official personas works: `product-manager`,
+`product-researcher`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
+`infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
 
-The CLI below is the control path — a global versioned copy, an ownership ledger, and updates you adopt
-deliberately. Use it when you want that control; use the plugin when you want speed.
+The CLI below is the control path: a global, versioned copy you update deliberately, with an ownership
+ledger that protects your edits. Use it when you want that control; use the plugin when you want speed.
 
 ## CLI
 ```sh

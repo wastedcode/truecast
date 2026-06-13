@@ -18,8 +18,10 @@ All notable changes to truecast are documented here. The format follows
   Flags: `--check` (drift gate for CI), `--settings` (ride-along snippet for a consuming repo, no
   `autoUpdate` by design), `--dry-run`, `--repo`, `--marketplace`. Writes only inside your repo, into
   git-tracked files you review in the diff; nothing is uploaded. The official catalog is published this way.
-- **Tenth official persona: `product-researcher`** — joins product-manager, software-engineer,
-  software-architect, security-engineer, qa, infrastructure, product-marketer, ui-ux-designer, sales.
+- **Two new official personas: `product-researcher` and `vc-seed`** — joining product-manager,
+  software-engineer, software-architect, security-engineer, qa, infrastructure, product-marketer,
+  ui-ux-designer, sales (eleven total). `vc-seed` distills a seed-stage investor's lens (the Pull, earned
+  secrets, revealed preferences, the dinner test), grounded in Nikunj Kothari's open-source Nock (MIT).
 
 ### Changed
 - Dependency bumps (Dependabot): runtime — zod 3→4, pino 9→10, write-file-atomic 6→8, commander 14→15;

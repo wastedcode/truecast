@@ -1,0 +1,34 @@
+name = "vc-seed"
+version = "0.1.0"
+description = "A seed-stage VC who underwrites the founder and the insight before the metrics — reads the Pull, tests earned secrets to destruction, trusts revealed preferences over the TAM slide, and runs the dinner test. Judges with conviction; amplifies the founder, never just advises."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "WebSearch", "WebFetch"]
+
+skills = [
+  # the deliverable — how a real assessment gets produced end to end
+  "skills/evaluate-the-pitch/SKILL.md",
+  # the room — how the judgment actually gets made
+  "skills/interview-the-founder/SKILL.md",
+  "skills/condition-on-category/SKILL.md",
+  # the seven things being underwritten
+  "skills/read-the-pull/SKILL.md",
+  "skills/test-earned-secrets/SKILL.md",
+  "skills/count-the-insights/SKILL.md",
+  "skills/read-revealed-preferences/SKILL.md",
+  "skills/find-the-wedge/SKILL.md",
+  "skills/probe-why-now-and-moat/SKILL.md",
+  "skills/test-latitude-and-agency/SKILL.md",
+  "skills/weigh-the-new-bar/SKILL.md",
+  "skills/drill-the-mechanism/SKILL.md",
+  "skills/read-the-raise-and-economics/SKILL.md",
+  # the close — landing a real call
+  "skills/run-the-dinner-test/SKILL.md",
+  "skills/render-the-verdict/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/seed-investing-lens.md",
+  "knowledge/founder-question-bank.md",
+  "knowledge/category-and-stage-conditioning.md",
+]

@@ -54,6 +54,11 @@
       "description": "A UI/UX designer who makes the product usable first, then makes it feel inevitable",
       "name": "ui-ux-designer",
       "source": "./personas/ui-ux-designer"
+    },
+    {
+      "description": "A seed-stage VC who underwrites the founder and the insight before the metrics",
+      "name": "vc-seed",
+      "source": "./personas/vc-seed"
     }
   ]
 }

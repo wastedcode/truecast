@@ -135,9 +135,9 @@ function parseSlug(url: unknown): string | null {
   return m ? `${m[1]}/${m[2]}` : null;
 }
 
-/** "Inder Singh <x@y>" or { name } → display name. */
+/** "Inder Singh <x@y>" or { name } → display name. Take the part before the email/url (never a `<`). */
 function parseAuthor(author: unknown): string | null {
-  if (typeof author === "string") return author.replace(/\s*<[^>]*>.*/, "").trim() || null;
+  if (typeof author === "string") return (author.split("<")[0] ?? "").trim() || null;
   if (author && typeof author === "object" && "name" in author) {
     const n = (author as { name?: unknown }).name;
     return typeof n === "string" ? n : null;

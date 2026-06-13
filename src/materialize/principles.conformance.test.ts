@@ -28,6 +28,7 @@ describe("engine principles — conformance across every shipped persona", () =>
     const prompt = renderSystemPrompt(
       { name, version: persona.manifest.version, coreDir: persona.coreDir },
       persona,
+      { kind: "subagent" },
     );
     expect(prompt).toContain(ENGINE_PRINCIPLES);
   });
@@ -37,6 +38,7 @@ describe("engine principles — conformance across every shipped persona", () =>
     const prompt = renderSystemPrompt(
       { name: personaNames[0], version: persona.manifest.version, coreDir: persona.coreDir },
       persona,
+      { kind: "subagent" },
     );
     // the block sits between the persona's craft and the per-project job pointer
     expect(prompt.indexOf(ENGINE_PRINCIPLES)).toBeLessThan(

@@ -2,6 +2,23 @@
 
 Install a persona into the current project (plus a one-time global cache).
 
+## As a plugin (fastest — no restart)
+
+Install a teammate straight into a live Claude Code session:
+
+```
+/plugin marketplace add wastedcode/truecast
+/plugin install product-manager@truecast
+/reload-plugins
+```
+Talk to it by name afterward. You only type `@truecast` at install; it names the marketplace the plugin
+comes from, like an npm scope. Any of the eleven official personas works: `product-manager`,
+`product-researcher`, `vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
+`infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
+
+The CLI below is the control path: a global, versioned copy you update deliberately, with an ownership
+ledger that protects your edits. Use it when you want that control; use the plugin when you want speed.
+
 ## CLI
 ```sh
 cd your-project
@@ -28,7 +45,7 @@ source (a `..` escape is refused).
 - `--as <name>` — *(planned)* install under a different local name.
 
 After install, write the job in `.truecast/agents/<name>/instance/mandate.md`, then **restart Claude
-Code** to load `@agent-<name>`.
+Code** to load `@agent-<name>`. (The plugin path above needs no restart.)
 
 ## Programmatic (TypeScript)
 The CLI is a thin wrapper over a typed function — orchestrators (e.g. Posse) call it directly:

@@ -1,0 +1,9 @@
+{
+  "author": {
+    "name": "Inder Singh"
+  },
+  "description": "A security engineer who tries to get in before an attacker does",
+  "displayName": "Security Engineer",
+  "name": "security-engineer",
+  "version": "1.1.0"
+}

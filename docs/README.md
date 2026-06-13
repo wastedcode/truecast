@@ -4,8 +4,8 @@ Reference docs, kept in step with what's actually shipped. **Convention: a featu
 it's documented here.**
 
 > truecast — *the expert teammates Claude Code doesn't ship with.* Install portable, versioned expert
-> **personas** into any project, summon them with `@agent-<name>`, and keep your edits when the author
-> improves them.
+> **personas** into any project — as a plugin (`/plugin install <name>@truecast`, no restart) or via the
+> `truecast` CLI — and keep your edits when the author improves them.
 
 ## Status
 | area | state |
@@ -14,15 +14,17 @@ it's documented here.**
 | `update` · `list` · `remove` — CLI + programmatic | ✅ shipped |
 | `doctor` — inspect + repair (drift/dangling/stale/orphan) | ✅ shipped |
 | `prompt` — emit a persona's composed system prompt | ✅ shipped |
+| `publish` — generate a Claude Code plugin + marketplace from personas (`--check`/`--settings`) | ✅ shipped |
+| install a teammate as a plugin (`/plugin marketplace add` → `/plugin install`, no restart) | ✅ shipped |
 | run a persona: subagent · standalone `claude` · claudemux fleet | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
-| bundled persona: `product-manager` | ✅ shipped |
+| 11 official personas (product-manager · product-researcher · vc-seed · software-engineer · software-architect · security-engineer · qa · infrastructure · product-marketer · ui-ux-designer · sales) | ✅ shipped |
 | security: containment + clobber/drift guards + adversarial suite | ✅ shipped |
 | robustness: per-persona write-through ledger + lock, atomic swaps, `--force` | ✅ shipped |
 | pinning a project to a fixed version (`--pin`) | ⏳ planned |
 | `sync` (re-materialize the surface from the cache) | ⏳ planned |
-| `publish` · `conform` | ⏳ planned |
+| `conform` (lint/validate a persona for publishing) | ⏳ planned |
 | self-improving "gate" (the `learn` loop) | ⏳ v1 |
 
 ## The model in 30 seconds
@@ -34,7 +36,8 @@ A persona splits into two owners:
   **never touched by an update.** *You only ever edit `instance/`.*
 
 ## Pages
-- [install](install.md) — install a persona (CLI + programmatic), and exactly what it writes.
+- [install](install.md) — install a persona: as a plugin (no restart) or via the CLI, and exactly what
+  each writes.
 - [managing personas](managing-personas.md) — `update` · `list` · `remove` · `doctor`: keep personas
   current, see what's installed, detach or purge them, and inspect/repair the home.
 - [authoring personas](authoring-personas.md) — how to build one; the `persona.toml` format.

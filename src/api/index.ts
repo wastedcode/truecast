@@ -6,5 +6,6 @@ export * from "./doctor.js";
 export * from "./install.js";
 export * from "./list.js";
 export * from "./prompt.js";
+export * from "./publish.js";
 export * from "./remove.js";
 export * from "./update.js";

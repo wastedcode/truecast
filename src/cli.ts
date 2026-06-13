@@ -14,7 +14,9 @@ import {
   isRiskyUpdate,
   type ListResult,
   list,
+  type PublishResult,
   personaPrompt,
+  publish,
   type RemoveResult,
   remove,
   type UpdateResult,
@@ -110,6 +112,40 @@ program
   )
   .action((name) => {
     process.stdout.write(`${personaPrompt({ name }, { logger: createLogger() })}\n`);
+  });
+
+program
+  .command("publish")
+  .description(
+    "generate the committed plugin + marketplace files so your repo installs as a Claude Code teammate (writes locally; nothing is uploaded)",
+  )
+  .option(
+    "--repo <owner/repo>",
+    "GitHub owner/repo for the install handle (else read from package.json)",
+  )
+  .option("--marketplace <name>", "marketplace handle users install with (else the repo name)")
+  .option(
+    "--check",
+    "verify the committed plugin surface is up to date with the personas; exit non-zero if stale (for CI)",
+  )
+  .option(
+    "--settings",
+    "print the .claude/settings.json snippet that registers this marketplace in a consuming repo",
+  )
+  .option("--dry-run", "show the files that would be generated; write nothing")
+  .action(async (opts) => {
+    const result = await publish(
+      {
+        repoSlug: opts.repo,
+        marketplaceName: opts.marketplace,
+        check: opts.check,
+        settings: opts.settings,
+        dryRun: opts.dryRun,
+      },
+      { logger: createLogger() },
+    );
+    renderPublish(result);
+    if (result.drift.length > 0) process.exitCode = 1;
   });
 
 program
@@ -271,6 +307,42 @@ function renderList(result: ListResult): void {
     for (const a of result.project.attached) {
       w.write(`  ${a.name.padEnd(20)}${a.spec.padEnd(12)}${a.source}\n`);
     }
+  }
+}
+
+function renderPublish(result: PublishResult): void {
+  const w = process.stderr;
+  if (result.mode === "settings") {
+    // the snippet is the deliverable — to stdout so it can be piped/redirected
+    process.stdout.write(`${result.settings}\n`);
+    w.write("\n↑ add this to a consuming repo's .claude/settings.json (commit it)\n");
+    return;
+  }
+  if (result.mode === "check") {
+    if (result.drift.length === 0) {
+      w.write("\n✓ plugin surface is up to date\n");
+      return;
+    }
+    w.write(`\n✗ plugin surface is stale (${result.drift.length} file(s)):\n`);
+    for (const d of result.drift) w.write(`    ${d.reason.padEnd(8)} ${d.path}\n`);
+    w.write("\n  → run 'truecast publish' to regenerate\n");
+    return;
+  }
+  if (result.mode === "dry-run") {
+    w.write(`\n(dry run — ${result.plan.files.length} file(s) would be written)\n`);
+    for (const f of result.plan.files) w.write(`    ${f.path}\n`);
+    return;
+  }
+  w.write(
+    `\n✓ published ${result.plan.personas.length} persona(s) to '${result.plan.marketplaceName}'\n`,
+  );
+  for (const p of result.written) w.write(`    ${p}\n`);
+  if (result.validate === undefined) {
+    w.write("\n  note: 'claude' not on PATH — skipped plugin validation\n");
+  } else if (result.validate.ok) {
+    w.write("\n  ✓ claude plugin validate --strict passed\n");
+  } else {
+    w.write(`\n  ⚠ claude plugin validate reported issues:\n${result.validate.output}\n`);
   }
 }
 

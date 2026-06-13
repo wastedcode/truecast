@@ -1,7 +1,10 @@
 import {
+  closeSync,
   existsSync,
+  constants as fsConstants,
   lstatSync,
   mkdirSync,
+  openSync,
   readdirSync,
   readFileSync,
   realpathSync,
@@ -10,7 +13,7 @@ import {
   symlinkSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import isPathInside from "is-path-inside";
 import { UnsafePathError } from "../errors.js";
 
@@ -83,6 +86,41 @@ export function removeContained(base: string, target: string): void {
     throw new UnsafePathError(`refusing to remove path outside base: ${target}`);
   }
   rmSync(real, { recursive: true, force: true });
+}
+
+/**
+ * Write `content` to `base/rel`, refusing to FOLLOW a symlink anywhere in the path. `resolveContained`
+ * proves the target is logically inside `base`, but a plain `writeFileSync` still follows a symlink planted
+ * at an output component — a cloned hostile repo can ship `personas/<name>/agents` (or the leaf file, or a
+ * repo-root dir) as a symlink to `~/.ssh` / `.git/hooks` / a dotfile, and the write lands THERE, outside the
+ * repo and invisible in the diff. So: reject a symlink at every existing component from `base` down, then
+ * open the leaf `O_NOFOLLOW` to close the create-time race. The single owner of "write a managed file under
+ * a base"; callers that generate committed output must use this, not bare `writeFileSync`.
+ */
+export function writeContained(base: string, rel: string, content: string): void {
+  const target = resolveContained(base, rel); // string-containment + base realpath
+  const realBase = realpathSync(base);
+  // reject a symlink at any EXISTING component between base and the leaf (intermediate dirs + the leaf)
+  let cur = realBase;
+  for (const part of relative(realBase, target).split(sep).filter(Boolean)) {
+    cur = join(cur, part);
+    if (isSymlink(cur)) throw new UnsafePathError(`refusing to write through a symlink: ${cur}`);
+  }
+  mkdirSync(dirname(target), { recursive: true }); // components proven non-symlink above
+  // O_NOFOLLOW: fail (ELOOP) if the leaf is/becomes a symlink — closes the check→write race.
+  // (?? 0 keeps this safe where the platform lacks the flag; the component walk above still blocks the
+  // demonstrated clone-time planted-symlink attack.)
+  const flags =
+    fsConstants.O_WRONLY |
+    fsConstants.O_CREAT |
+    fsConstants.O_TRUNC |
+    (fsConstants.O_NOFOLLOW ?? 0);
+  const fd = openSync(target, flags, 0o644);
+  try {
+    writeFileSync(fd, content);
+  } finally {
+    closeSync(fd);
+  }
 }
 
 /** Recursive copy that REJECTS symlinks and special files — no symlink-escape into managed dirs. */

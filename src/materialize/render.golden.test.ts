@@ -83,10 +83,13 @@ describe("renderSystemPrompt — plugin transport differs only where it must", (
     expect(body).not.toContain("symlinked core");
   });
 
-  it("tells a plugin-only persona to establish its mandate first (self-onboarding seam)", () => {
+  it("treats a missing mandate as optional, not an error — asks instead of failing (read-only safe)", () => {
     const body = renderPlugin(sample);
-    expect(body).toContain("If `.truecast/agents/");
-    expect(body).toContain("that is your first task");
+    expect(body).toContain("ask the user what they need");
+    expect(body).toContain("that's not an error");
+    // must NOT instruct a (read-only) persona to write a file it can't, nor present the path as broken
+    expect(body).not.toContain("write that mandate");
+    expect(body).not.toContain("does not exist yet, that is your first task");
   });
 
   it("keeps the per-project job path project-relative (the job lives in the consuming repo)", () => {

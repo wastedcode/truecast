@@ -105,12 +105,13 @@ describe("planPublish — the pure file plan", () => {
     expect(manifest.author.name).toBe("Ada Lovelace");
   });
 
-  it("agent body uses the plugin craft root and the self-onboarding job prose, carries tools", () => {
+  it("agent body uses the plugin craft root and the missing-mandate-is-optional job prose, carries tools", () => {
     const plan = planPublish({ repoRoot: repo });
     const agent = fileAt(plan, "personas/alpha-agent/agents/alpha-agent.md");
     // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting the literal token appears in output.
     expect(agent).toContain("${CLAUDE_PLUGIN_ROOT}/core/skills/do-the-thing/SKILL.md");
-    expect(agent).toContain("that is your first task");
+    expect(agent).toContain("ask the user what they need"); // optional mandate, asks (read-only safe)
+    expect(agent).not.toContain("write that mandate"); // never tell a read-only persona to write
     expect(agent).not.toContain("symlinked core");
     expect(agent).toContain("tools: Read, Grep"); // frontmatter least-privilege (security F2)
   });

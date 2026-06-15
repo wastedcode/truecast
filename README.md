@@ -21,6 +21,18 @@ A persona is a small, greppable corpus + an identity, split into two owners:
 
 A bundled example: [`personas/product-manager/`](personas/product-manager/).
 
+## Why a teammate, not a prompt
+You could paste "act like a security expert" into your prompt. Two reasons not to:
+
+- **Its own context window.** Each persona runs as a native Claude Code **subagent** — Anthropic's own
+  mechanism — so its deep work happens off your main thread and returns one distilled result instead of
+  flooding your conversation. Anthropic's research team puts it plainly: *"Each subagent might explore
+  extensively, using tens of thousands of tokens or more, but returns only a condensed, distilled summary
+  of its work"* ([context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)).
+- **Structured craft it reads on the job, not a costume.** A persona is a versioned corpus of skills the
+  agent Reads when a task matches — not vibes baked into a one-off prompt. You adopt the author's
+  improvements deliberately, and your per-project customizations survive the update.
+
 ## Install a teammate as a plugin (no restart)
 
 Install straight into a live Claude Code session:

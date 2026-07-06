@@ -16,6 +16,11 @@ comes from, like an npm scope. Any of the eleven official personas works: `produ
 `product-researcher`, `vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
 `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
 
+To pick up new versions later: `/plugin marketplace update truecast`, or
+`claude plugin update <name>@truecast` for one persona — or enable auto-update for the marketplace
+(`/plugin` → **Marketplaces** → truecast). See [managing personas](managing-personas.md#the-plugin-lane)
+for how plugin updates differ from CLI updates.
+
 The CLI below is the control path: a global, versioned copy you update deliberately, with an ownership
 ledger that protects your edits. Use it when you want that control; use the plugin when you want speed.
 

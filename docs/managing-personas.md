@@ -9,6 +9,31 @@ explicitly ask (`remove --purge`). Your job description and notes are yours.
 
 ---
 
+## the plugin lane
+
+Installed as a plugin instead (`/plugin install <name>@truecast`)? Claude Code owns updates there, and
+they're pull-based:
+
+```
+/plugin marketplace update truecast      # refresh the catalog in-session
+claude plugin update <name>@truecast     # update one persona from the terminal
+```
+
+Or make it automatic: `/plugin` → **Marketplaces** → truecast → **Enable auto-update** — per
+marketplace, and off by default for third-party marketplaces like this one. (Org admins can set
+`"autoUpdate": true` on the marketplace's `extraKnownMarketplaces` entry in managed settings to enable
+it fleet-wide.)
+
+Two things to know about the plugin lane:
+- **Updates ship only on a version bump.** Claude Code delivers a plugin update when the persona's
+  `plugin.json` `version` changes; new commits under the same version are invisible to plugin users.
+- **No classification, no consent gate.** The plugin lane takes whatever the new version ships — the
+  patch/minor/major classification, drift protection, and confirmation below apply to CLI installs only.
+
+The verbs below are the CLI lane.
+
+---
+
 ## update
 
 Adopt a newer version of a persona's `core/`. truecast re-points the global `current` pointer and

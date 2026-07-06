@@ -51,6 +51,12 @@ The first time you run a plugin teammate with no job set, it asks what the proje
 `mandate.md`. Want a global, versioned copy you update on your terms, with an ownership ledger that keeps
 your edits when the author ships changes? Use the `truecast` CLI below.
 
+Plugin updates are pull-based: when the catalog ships a new persona version, grab it with
+`/plugin marketplace update truecast` (or `claude plugin update <name>@truecast` for one persona) — or
+make it automatic per marketplace: `/plugin` → **Marketplaces** → truecast → **Enable auto-update**
+(third-party marketplaces have it off by default). Details in
+[docs/managing-personas.md](docs/managing-personas.md#the-plugin-lane).
+
 ## Get the `truecast` CLI
 ```sh
 npm install -g @wastedcode/truecast    # installs the `truecast` command

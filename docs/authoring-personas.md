@@ -18,7 +18,7 @@ my-persona/
 ## `core/persona.toml`
 ```toml
 name = "product-manager"        # ^[a-z][a-z0-9-]*  (≤ 64 chars)
-version = "1.0.0"               # semver
+version = "1.0.0"               # semver — bump on EVERY change you ship (see below)
 description = "…"               # optional, for listings
 identity = "agent.md"           # relative path inside core/
 skills = ["skills/run-a-rat/SKILL.md", "skills/frame-the-job-jtbd/SKILL.md"]
@@ -30,6 +30,11 @@ tools = ["Read", "Grep", "WebSearch", "WebFetch"]   # from the allowlist; shown 
 Every path is **relative and contained** in `core/` (no `..`, no symlinks, no absolute paths) —
 enforced at install. `tools` must come from the grantable set: `Read, Grep, Glob, WebSearch, WebFetch,
 Bash, Edit, Write, NotebookEdit` — and is surfaced for approval before any write.
+
+**Bump `version` on every change you ship** (and keep the generated `plugin.json` in step — the
+maintainer's `publish` does this). It gates *both* delivery lanes: `truecast update` resolves "newer"
+by it, and Claude Code delivers a plugin update **only when `plugin.json`'s `version` changes** — a
+commit under the same version never reaches plugin users.
 
 ## Conventions
 - **`agent.md` is identity only** — portable craft, no project/orchestration specifics. The *job* lives

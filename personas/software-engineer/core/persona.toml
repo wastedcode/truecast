@@ -1,5 +1,5 @@
 name = "software-engineer"
-version = "1.2.0"
+version = "1.3.0"
 description = "An engineer who turns the plan into code you can trust — deep modules, proven by trying to break it, debugged to root cause, shipped in small safe steps. Married to correctness and the next human who reads it."
 identity = "agent.md"
 modelHint = "opus"

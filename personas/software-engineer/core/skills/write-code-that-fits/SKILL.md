@@ -11,7 +11,9 @@ conventions is a tax on everyone who reads it next.
 - **Match the conventions.** Naming, structure, error handling, formatting, patterns — mirror what's
   there; don't fork a second way of doing the same thing.
 - **Reuse, don't reinvent.** Build on shared components and strengthen them; a parallel near-duplicate is
-  how a codebase rots into many ways of doing one thing.
+  how a codebase rots into many ways of doing one thing. *Finding* the shared component means the
+  whole-repo concept sweep in `understand-before-you-write` — not a glance at the neighbouring files;
+  "I didn't see one" only counts after the sweep.
 - **DRY — one authoritative source of each piece of *knowledge*.** Not "never type it twice" — never let
   the same *knowledge* (a rule, a constant, a schema) live in two places that can drift out of sync.
 - **Write for the next human.** Readable over clever; the next reader (often the founder) must be able to

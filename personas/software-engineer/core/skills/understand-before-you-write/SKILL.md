@@ -15,9 +15,15 @@ than rewriting.
    shared components, the patterns, the test harness? Your change should look like it belongs.
 3. **Map the path.** For the thing you're touching, trace input → logic → persisted state → read-back.
    Know the seams you'll cross before you cut.
-4. **Find the reuse — in the codebase, then in the ecosystem.** First: is there an existing function/
-   module/utility here that already does most of this? Reuse and strengthen it rather than forking a
-   parallel one. Then, before hand-rolling anything non-trivial — date parsing, retry/backoff, argument
+4. **Find the reuse — sweep the whole repo, then the ecosystem.** "Is there one nearby?" is the trap:
+   the existing owner is often a shared helper in a section you're not thinking about, already used by
+   modules unrelated to yours. So search by *concept*, not by radius — name the mechanisms your change
+   needs (retry, pagination, validation, export…), grep the **whole repo** for each, walk the shared-code
+   homes (`lib/`, `shared/`, `common/`, `utils/`, internal packages), check the dependency manifest for
+   libraries already paid for, and read how the nearest analogous feature *anywhere* in the codebase did
+   it. Reuse and strengthen the owner you find rather than forking a parallel one — and if the brief
+   carries a prior-art inventory from the architect, honor it. Then, before hand-rolling anything
+   non-trivial — date parsing, retry/backoff, argument
    parsing, a state machine, auth, crypto — **search for a maintained library or established prior art.**
    A mature, tested, widely-used dependency usually beats the subtly-wrong version you'd write under time
    pressure (the edge cases are why it exists). Weigh it honestly: dependency cost / maintenance / supply

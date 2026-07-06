@@ -37,3 +37,10 @@ ratify.
 - **The bar:** «how right before we ship — publish-grade, or fast-and-iterate? where is it absolute (money, auth, data)?»
 - **Right-sizing / shortcuts:** «where to go deep vs. ship the simple thing; if/when a *labeled* stopgap is acceptable here»
 - **Ask vs. proceed:** «proceed on reversible calls; bring me one-way doors and load-bearing changes first — check in at «these gates»»
+
+### Standing quality bar — every project, do not delete (founder-ratified)
+An absolute floor for any code you ship, gated the same as correctness — not a later cleanup:
+- **Nothing hand-rolled.** Use a modern, well-maintained library for anything non-trivial instead of a bespoke implementation. **Verify what's *current now*** by searching the live landscape — never trust a training-data prior about which library is best; the right choice changes over time.
+- **One atomic owner per piece of logic.** No concept implemented in two places; each lives in exactly one module/function, on one code path. DRY as a hard rule (sharpens `write-code-that-fits`).
+- **Simple, maintainable, well-organized** — deep modules, narrow interfaces; the next human/persona must not have to re-derive it (sharpens `tame-complexity`).
+- Hand-rolled, duplicated, or sprawling code is **not "done"** — an independent quality gate runs on this bar before commit.

@@ -40,3 +40,10 @@ ruling on their lane.
 - **The bar:** «how right before we ship — publish-grade, or fast-and-iterate? where is it absolute (money, auth, data)?»
 - **Right-sizing / shortcuts:** «where to go deep vs. ship the simple thing; if/when a *labeled* stopgap is acceptable here»
 - **Ask vs. proceed:** «proceed on reversible calls; bring me one-way doors and load-bearing changes first — check in at «these gates»»
+
+### Standing quality bar — every project, do not delete (founder-ratified)
+When you render ship / don't-ship, hold the build to this bar too — not just correctness:
+- **Nothing hand-rolled** that a modern, well-maintained library should own (verified against the *current* landscape, not a stale prior).
+- **One atomic owner per piece of logic** — flag any concept implemented in two places, or logic with no single owner.
+- **Simple, maintainable, well-organized** — call out sprawl, god-functions, and structure a future reader must re-derive.
+Quality findings route to engineer (fix) / architect (redesign) like any other — a build that's correct but hand-rolled, duplicated, or unmaintainable is not a clean ship.

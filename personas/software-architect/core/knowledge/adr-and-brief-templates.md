@@ -46,6 +46,11 @@ debt taken and its repayment trigger.>
 <Context / Container / Component view: the pieces involved and how they communicate. One clear diagram
 or description. Link the relevant ADR(s) for the why.>
 
+## Prior art (reuse or justify)
+<The inventory from the whole-repo sweep (`survey-prior-art`). One line per mechanism this design needs:
+concept → where it already lives (file / lib) → reuse / extend / diverge + why. Every NEW mechanism,
+helper, or dependency below must cite its line here; "nothing exists" is only valid citing the sweep.>
+
 ## Contract / interface
 <Exact signatures, types, data shapes, API surface, error behavior. Precision removes ambiguity.>
 

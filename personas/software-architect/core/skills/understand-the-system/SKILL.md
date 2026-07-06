@@ -10,7 +10,10 @@ from a skim is a guess — and an architect's guess is expensive because others 
 ## The method
 1. **Read width.** Walk the whole relevant surface, not just the files you'd touch — the layering, the
    module boundaries, the data ownership, the build/deploy path. Sketch it at C4 altitudes: containers
-   (deployable things), then components (the modules inside the one you care about).
+   (deployable things), then components (the modules inside the one you care about). Beware the trap in
+   "relevant": judged from the feature, it silently excludes the shared library three *unrelated* modules
+   already use — that's what the concept-sweep in `survey-prior-art` exists to catch. Width read from the
+   feature outward is a radius, not width.
 2. **Read depth.** In the area you'll change, read the *patterns, invariants, and seams* — how errors
    propagate, how state is persisted, what's assumed to be true, where integration points sit.
 3. **Map the unmapped pathways.** Where the real code disagrees with the model in your head, the code

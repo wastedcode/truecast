@@ -14,11 +14,15 @@ veto.
    an -ility nobody ranked is over-engineering.
 2. **Check simplicity and accidental complexity.** Is this the simplest thing that lasts, or has machinery
    crept in "for the future"? Is it idiomatic for this codebase or a transplant?
-3. **Check reversibility.** Are the hard-to-change calls recorded (ADR) and as *few* as possible? Could a
+3. **Check the prior-art sweep was done.** Does the brief carry the inventory (`survey-prior-art`), and
+   does every new mechanism, helper, or dependency cite the line showing nothing existing serves? A design
+   that rebuilds what other modules already share fails this check however elegant it is — and "I didn't
+   find it" without the sweep is not a finding.
+4. **Check reversibility.** Are the hard-to-change calls recorded (ADR) and as *few* as possible? Could a
    seam make an irreversible call reversible? Does any new call silently defeat an earlier ADR?
-4. **Check the failure and flow thinking.** Was the design risk-stormed (`design-for-failure`) and traced
+5. **Check the failure and flow thinking.** Was the design risk-stormed (`design-for-failure`) and traced
    end-to-end (`trace-the-flow-end-to-end`)? Are the seam tests named?
-5. **Flag the open gate — don't declare done over it.** If a real gate is open (an untested seam, an
+6. **Flag the open gate — don't declare done over it.** If a real gate is open (an untested seam, an
    unrecorded one-way door, a distributed monolith), name it precisely and what would close it. Never wave
    through a known-open gate.
 

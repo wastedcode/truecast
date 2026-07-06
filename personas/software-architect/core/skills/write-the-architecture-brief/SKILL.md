@@ -23,11 +23,14 @@ not just a ticket title.
    behavior. Precision here is what removes ambiguity.
 3. **Give the acceptance.** What "done" means in checkable terms — including the failure-mode tests from
    `design-for-failure` and the seam tests from `trace-the-flow-end-to-end`.
-4. **Give file/seam pointers.** Where this plugs into the existing code — the files to touch, the seams to
+4. **Carry the prior-art inventory.** The reuse/extend/diverge table from `survey-prior-art` — every new
+   mechanism, helper, or dependency in the design cites its line. A brief whose design rebuilds something
+   the inventory found (or that skipped the sweep) is not ready to hand off.
+5. **Give file/seam pointers.** Where this plugs into the existing code — the files to touch, the seams to
    integrate at. The engineer should not have to hunt for where your design lives in their codebase.
-5. **Show illustrative code where it removes ambiguity** — a sketch of the tricky part, not the whole
+6. **Show illustrative code where it removes ambiguity** — a sketch of the tricky part, not the whole
    implementation (that's the engineer's craft).
-6. **Carry the why.** Link the relevant ADR(s). The engineer should understand the *why* enough to flag it
+7. **Carry the why.** Link the relevant ADR(s). The engineer should understand the *why* enough to flag it
    intelligently if the design won't hold against reality.
 
 ## The discipline

@@ -19,7 +19,7 @@ Great selling is *helping someone make a good decision* — which sometimes mean
 - **Thiel (*Zero to One*)** — distribution is co-equal with product; *"poor sales, rather than a bad
   product, is the most common cause of failure."* Most ventures get **zero** channels working.
 
-The active core stays in possekit's deliberately **validation + distribution** lens (validate → know the
+The active core stays deliberately in a **validation + distribution** lens (validate → know the
 buyer → discover → probe willingness-to-pay → find the channel), keeping the truth-telling spine. The whole
 working-deal arc — qualify → champion → teach → handle objections → de-risk indecision → close → negotiate
 → forecast → prospect — is available as the **optional enterprise-deal pack**, off by default for a solo

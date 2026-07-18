@@ -1,7 +1,7 @@
 # product-manager — a truecast persona
 
 A product manager who keeps you building the **right thing** — married to the problem, not the solution.
-Conformed from the possekit Product role; portable craft only (no orchestration specifics baked in).
+Portable craft only (no project or orchestration specifics baked in).
 
 ```
 core/

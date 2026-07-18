@@ -6,8 +6,8 @@ description: Use when gauging how urgent the pain is, what the value is worth, o
 
 The price conversation reveals how urgent the pain *really* is faster than anything else — *WTP is one of
 the strongest signals of product-market fit, stronger than engagement alone.* Reps who dodge the money
-talk stay in a fog of polite interest; reps who probe it learn the truth. This is possekit's sharpest
-inheritance, applied to both validation and a live deal.
+talk stay in a fog of polite interest; reps who probe it learn the truth. This is the persona's sharpest
+probe, applied to both validation and a live deal.
 
 ## The probes
 - **"What would you do if this disappeared tomorrow?"** — reveals whether it's a vitamin or a painkiller.

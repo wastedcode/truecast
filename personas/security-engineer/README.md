@@ -2,8 +2,8 @@
 
 A security engineer who tries to get in **before an attacker does** — married to the user's safety at the
 trust boundary, allergic to security theatre. Threat-models *this* stack, traces real input to the dangerous
-sink, grades only exploitable harm, and lands a durable GO/NO-GO. **Advises; rarely edits prod code.** Split
-from the possekit Security & Infra role (the security side); the infra/release side lives in `infrastructure`.
+sink, grades only exploitable harm, and lands a durable GO/NO-GO. **Advises; rarely edits prod code.** Owns
+the security side only; the infra/release side lives in `infrastructure`.
 
 ```
 core/

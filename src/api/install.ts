@@ -32,7 +32,7 @@ export interface InstallOptions {
 }
 
 /**
- * Injected context. Programmatic callers (Posse) supply their own; the CLI supplies pino + a prompt.
+ * Injected context. Programmatic callers supply their own; the CLI supplies pino + a prompt.
  * The library NEVER prompts, prints, or exits — `confirm` is the approval policy, owned by the caller.
  */
 export interface Ctx {

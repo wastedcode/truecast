@@ -16,7 +16,7 @@ it's documented here.**
 | `prompt` — emit a persona's composed system prompt | ✅ shipped |
 | `publish` — generate a Claude Code plugin + marketplace from personas (`--check`/`--settings`) | ✅ shipped |
 | install a teammate as a plugin (`/plugin marketplace add` → `/plugin install`, no restart) | ✅ shipped |
-| run a persona: subagent · standalone `claude` · claudemux fleet | ✅ shipped |
+| run a persona: plugin · subagent · standalone `claude` | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
 | 11 official personas (product-manager · product-researcher · vc-seed · software-engineer · software-architect · security-engineer · qa · infrastructure · product-marketer · ui-ux-designer · sales) | ✅ shipped |

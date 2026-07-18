@@ -256,7 +256,7 @@ export function planPublish(cfg: PublishConfig): PublishPlan {
 }
 
 /**
- * The `.claude/settings.json` snippet for a CONSUMING repo (posse, tacithq…). Registers ONLY this
+ * The `.claude/settings.json` snippet for a CONSUMING repo. Registers ONLY this
  * publisher's own marketplace and enables ONLY this repo's personas. Deliberately NO `autoUpdate`:
  * third-party auto-update silently re-pulls executable plugin code on every clone+trust (the
  * supply-chain shape). Collaborators who trust the folder are prompted to install — they review first.

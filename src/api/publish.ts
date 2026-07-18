@@ -105,7 +105,7 @@ export async function publish(opts: PublishOptions, ctx: PublishCtx = {}): Promi
 
 /**
  * Best-effort external conformance: `claude plugin validate --strict` on the generated marketplace, if
- * `claude` is on PATH. Warn-not-fail when absent (claudemux/PATH-peer rule) so publish works without it;
+ * `claude` is on PATH. Warn-not-fail when absent (PATH-peer rule) so publish works without it;
  * the founder gets the validate verdict at publish time, not after a failed install (observability).
  */
 async function runValidate(

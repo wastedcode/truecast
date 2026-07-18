@@ -47,6 +47,6 @@ with you before any public write-up.
   Anthropic.
 - What a persona's instructions cause your agent to do once you have chosen to install and run it — you
   own which personas (and which versions/sources) you trust.
-- Anything an orchestrator (e.g. Posse, claudemux) does on top of the truecast API.
+- Anything an external orchestrator does on top of the truecast API.
 
 Thanks for helping keep truecast and its users safe.

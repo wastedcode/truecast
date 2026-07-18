@@ -92,11 +92,11 @@ Then write the persona's job for this project in `.truecast/agents/<name>/instan
 
 ## Using a persona
 
-A CLI install generates a native Claude Code **subagent** at `~/.claude/agents/<name>.md` and symlinks the
-craft into your project. Its body carries an **index of the persona's skills** (each with a one-line
-summary and the path to Read), so the persona pulls the right skill on demand. Verified: given an
-open-ended task it Reads the matching `SKILL.md` files itself, then applies them. (A plugin install ships
-the same body; only the delivery differs.)
+However you install it — plugin (the recommended path) or CLI — a persona runs as a native Claude Code
+**subagent**. Its body carries an **index of the persona's skills** (each with a one-line summary and the
+path to Read), so the persona pulls the right skill on demand. Verified: given an open-ended task it
+Reads the matching `SKILL.md` files itself, then applies them. (The CLI additionally materializes the
+subagent at `~/.claude/agents/<name>.md` and symlinks the craft into your project.)
 
 ### As a Claude Code subagent (`@agent-<name>`)
 Restart Claude Code after a CLI install (the plugin path above needs no restart), then bring it into a
@@ -122,27 +122,6 @@ claude --append-system-prompt "$(truecast prompt product-manager)" \
 Now the whole session thinks like the persona. `--allowed-tools` restricts it to the tools the persona
 declares (a main agent otherwise has the full toolset); `--model` matches its `modelHint`. (`truecast
 prompt <name>` just prints the system prompt — `--append-system-prompt-file <file>` works too.)
-
-### As persistent, programmable agents (claudemux)
-[claudemux](https://github.com/wastedcode/claudemux) runs real, login-backed `claude` sessions you drive
-by name and that tell you when a turn is *actually* done. Flags after `--` are forwarded straight to
-`claude`, so you launch a persona as a full standalone agent and talk to it over time:
-
-```sh
-# render the persona's prompt once
-truecast prompt product-manager > /tmp/pm.md
-
-# spawn it as a full, persistent claude session (everything after `--` goes to claude)
-claudemux spawn pm --cwd ./your-project --trust-workspace -- \
-  --append-system-prompt-file /tmp/pm.md \
-  --allowed-tools Read Grep WebSearch WebFetch --model opus
-
-# then drive it — one-shot, or send/wait/messages
-claudemux ask pm "We're thinking of building X next. Worth it?"
-```
-Each persona is its own session, addressed by name — `tmux attach` to watch it work, or spin up a whole
-team (`claudemux spawn architect … / spawn security …`) and coordinate them from one place. The CLI maps
-1:1 to a Node library if you'd rather drive it from code (`create({ name, cwd, extraArgs: [...] })`).
 
 ## Contribute a persona to the catalog
 

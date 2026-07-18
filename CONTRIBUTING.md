@@ -16,7 +16,7 @@ outcome for everyone than a five-minute scoping comment.
 
 - **In scope:** install/update/list/remove/prompt/doctor as safe, atomic, confirmable operations; the
   `core/` (publisher craft) vs `instance/` (your per-project mandate) split; running a persona as a
-  Claude Code `@agent`, as a standalone `claude`, or via claudemux; keeping your edits when the author
+  Claude Code plugin, as a `@agent` subagent, or as a standalone `claude`; keeping your edits when the author
   improves the persona.
 - **Out of scope:** anything that runs a persona's instructions without you choosing to install it;
   credential/API-key automation (truecast owns no credentials — it materializes a subagent for your

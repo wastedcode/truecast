@@ -1,5 +1,5 @@
 // Public library surface (the typed contracts + foundation).
-// Programmatic API (verbs) — the surface Posse and other orchestrators call.
+// Programmatic API (verbs) — the surface orchestrators and other tooling call.
 export * from "./api/index.js";
 export * from "./config/index.js";
 export * from "./errors.js";

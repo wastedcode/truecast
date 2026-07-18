@@ -24,6 +24,9 @@ All notable changes to truecast are documented here. The format follows
   secrets, revealed preferences, the dinner test), grounded in Nikunj Kothari's open-source Nock (MIT).
 
 ### Changed
+- **Docs and personas no longer reference sibling projects** — truecast stands alone as a product. The
+  external-orchestrator run-lane was removed from the README/docs (plugin install is the primary path), and
+  the `sales` persona's craft text was reworded provenance-neutral (`2.0.1`, patch — no skill or tool changes).
 - Dependency bumps (Dependabot): runtime — zod 3→4, pino 9→10, write-file-atomic 6→8, commander 14→15;
   toolchain — TypeScript 6, @types/node 25, vite 8, vitest 4, **@biomejs/biome 1→2** (config migrated to
   the v2 schema; import-sort reflow); CI actions checkout/setup-node/pnpm-action to v6. No API or behavior
@@ -48,8 +51,9 @@ Initial public release.
   swaps, per-persona locking, and a sandboxed/hardened git fetch.
 - **Programmatic API** (`import ... from "truecast"`) for orchestrators — the same verbs the CLI uses,
   with typed contracts and errors.
-- **Three ways to run a persona:** as a Claude Code `@agent-<name>` subagent, as a standalone
-  `claude --append-system-prompt-file <(truecast prompt <name>)`, or via claudemux.
+- **Ways to run a persona:** as a Claude Code `@agent-<name>` subagent, or as a standalone
+  `claude --append-system-prompt-file <(truecast prompt <name>)`. (The plugin lane arrived later — see
+  Unreleased.)
 - **Persona format:** `core/` (portable craft — `agent.md` + `skills/` + `knowledge/` + `persona.toml`)
   vs `instance/` (your per-project `mandate.md` / `work.md`, never touched by `update`).
 - **Engine-injected operating principles:** every rendered persona prompt carries a small, universal

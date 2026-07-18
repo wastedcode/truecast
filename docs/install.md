@@ -53,14 +53,14 @@ After install, write the job in `.truecast/agents/<name>/instance/mandate.md`, t
 Code** to load `@agent-<name>`. (The plugin path above needs no restart.)
 
 ## Programmatic (TypeScript)
-The CLI is a thin wrapper over a typed function — orchestrators (e.g. Posse) call it directly:
+The CLI is a thin wrapper over a typed function — orchestrators and other tooling call it directly:
 
 ```ts
 import { install, autoApprove } from "truecast";
 
 const result = await install(
   { source: "./personas/product-manager", project: "/path/to/repo" },
-  { confirm: autoApprove }, // approval policy is the caller's; CLI prompts, Posse passes autoApprove
+  { confirm: autoApprove }, // approval policy is the caller's; the CLI prompts, unattended callers pass autoApprove
 );
 
 result.applied; // boolean (false for dryRun or a declined confirm)

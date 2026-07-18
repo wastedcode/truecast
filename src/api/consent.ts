@@ -3,7 +3,7 @@ import type { InstallPlan, UpdatePlan } from "../schema/index.js";
 
 /**
  * The SINGLE consent contract across every verb (R8 / boundary fix). A caller (the CLI's prompt, or
- * Posse's approval policy) implements ONE `Confirm` function and passes it everywhere; the tagged
+ * an orchestrator's approval policy) implements ONE `Confirm` function and passes it everywhere; the tagged
  * `kind` tells it which decision it's making. No more three divergent confirm signatures.
  */
 export type ConsentRequest =

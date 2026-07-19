@@ -59,7 +59,7 @@
   "dependencies": {
     "@commander-js/extra-typings": "^15.0.0",
     "commander": "^15.0.0",
-    "execa": "^9.5.1",
+    "execa": "^10.0.0",
     "is-path-inside": "^4.0.0",
     "pino": "^10.3.1",
     "pino-pretty": "^13.0.0",

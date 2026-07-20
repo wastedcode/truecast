@@ -17,6 +17,9 @@ export const PluginManifest = z
     displayName: z.string().min(1),
     description: z.string().min(1),
     author: z.object({ name: z.string().min(1) }),
+    homepage: z.string().url().optional(),
+    repository: z.string().url().optional(),
+    license: z.string().min(1).optional(),
   })
   .strict();
 export type PluginManifest = z.infer<typeof PluginManifest>;
@@ -150,20 +153,28 @@ function resolveRepoMeta(cfg: PublishConfig): {
   owner: string;
   repoSlug: string;
   description: string;
+  homepage: string | undefined;
+  license: string | undefined;
 } {
   let slug: string | null = null;
   let author: string | null = null;
   let pkgDescription: string | null = null;
+  let homepage: string | undefined;
+  let license: string | undefined;
   try {
     const pkg = JSON.parse(readFileSync(join(cfg.repoRoot, "package.json"), "utf8")) as {
       repository?: { url?: string } | string;
       author?: unknown;
       description?: unknown;
+      homepage?: unknown;
+      license?: unknown;
     };
     const repoUrl = typeof pkg.repository === "string" ? pkg.repository : pkg.repository?.url;
     slug = parseSlug(repoUrl);
     author = parseAuthor(pkg.author);
     pkgDescription = typeof pkg.description === "string" ? pkg.description : null;
+    homepage = typeof pkg.homepage === "string" && pkg.homepage ? pkg.homepage : undefined;
+    license = typeof pkg.license === "string" && pkg.license ? pkg.license : undefined;
   } catch {
     // no/unreadable package.json — fall back to explicit overrides below
   }
@@ -180,7 +191,7 @@ function resolveRepoMeta(cfg: PublishConfig): {
   const owner = cfg.owner ?? author ?? slugOwner ?? repoSlug;
   const description =
     cfg.description ?? pkgDescription ?? `Expert teammates you install into Claude Code.`;
-  return { marketplaceName, owner, repoSlug, description };
+  return { marketplaceName, owner, repoSlug, description, homepage, license };
 }
 
 /**
@@ -191,7 +202,7 @@ function resolveRepoMeta(cfg: PublishConfig): {
  * JSON keys sorted, LF endings, forward-slash paths.
  */
 export function planPublish(cfg: PublishConfig): PublishPlan {
-  const { marketplaceName, owner, repoSlug, description } = resolveRepoMeta(cfg);
+  const { marketplaceName, owner, repoSlug, description, homepage, license } = resolveRepoMeta(cfg);
   const personasDir = cfg.personasDir ?? join(cfg.repoRoot, "personas");
 
   if (!existsSync(personasDir)) {
@@ -225,6 +236,9 @@ export function planPublish(cfg: PublishConfig): PublishPlan {
       displayName: titleCase(name),
       description: listingDescription(name, m.description, m.pluginDescription),
       author: { name: owner },
+      homepage,
+      repository: `https://github.com/${repoSlug}`,
+      license,
     });
     const entry = MarketplaceEntry.parse({
       name,

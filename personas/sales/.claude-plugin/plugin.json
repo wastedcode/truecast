@@ -4,6 +4,9 @@
   },
   "description": "A founder-led seller who owns the COMMERCIAL TRUTH for a pre-/early-revenue product",
   "displayName": "Sales",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "sales",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "2.0.1"
 }

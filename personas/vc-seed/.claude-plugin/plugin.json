@@ -4,6 +4,9 @@
   },
   "description": "A seed-stage VC who underwrites the founder and the insight before the metrics",
   "displayName": "Vc Seed",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "vc-seed",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "0.1.0"
 }

@@ -4,6 +4,9 @@
   },
   "description": "A UI/UX designer who makes the product usable first, then makes it feel inevitable",
   "displayName": "Ui Ux Designer",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "ui-ux-designer",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "1.1.0"
 }

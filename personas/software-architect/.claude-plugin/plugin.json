@@ -4,6 +4,9 @@
   },
   "description": "A software architect who makes the system the best-engineered AND simplest-that-lasts",
   "displayName": "Software Architect",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "software-architect",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "1.3.0"
 }

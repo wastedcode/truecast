@@ -23,6 +23,11 @@ All notable changes to truecast are documented here. The format follows
   ui-ux-designer, sales (eleven total). `vc-seed` distills a seed-stage investor's lens (the Pull, earned
   secrets, revealed preferences, the dinner test), grounded in Nikunj Kothari's open-source Nock (MIT).
 
+### Added
+- **`publish` emits listing metadata in each plugin manifest** — `homepage`, `repository`, and `license`
+  (derived from `package.json`), so marketplace listings and the community-marketplace review get full
+  attribution.
+
 ### Changed
 - **Docs and personas no longer reference sibling projects** — truecast stands alone as a product. The
   external-orchestrator run-lane was removed from the README/docs (plugin install is the primary path), and

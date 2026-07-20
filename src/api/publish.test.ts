@@ -57,6 +57,8 @@ beforeAll(() => {
       name: "@acme/agents",
       author: "Ada Lovelace <ada@example.com>",
       repository: { url: "git+https://github.com/acme/agents.git" },
+      homepage: "https://agents.example.com",
+      license: "MIT",
     }),
   );
   writePersona(repo, "alpha-agent");
@@ -103,6 +105,9 @@ describe("planPublish — the pure file plan", () => {
     expect(manifest.displayName).toBe("Alpha Agent");
     expect(manifest.description).toBe("A alpha-agent who does the job"); // cut at the em-dash
     expect(manifest.author.name).toBe("Ada Lovelace");
+    expect(manifest.homepage).toBe("https://agents.example.com"); // from package.json
+    expect(manifest.repository).toBe("https://github.com/acme/agents"); // from the slug
+    expect(manifest.license).toBe("MIT"); // from package.json
   });
 
   it("agent body uses the plugin craft root and the missing-mandate-is-optional job prose, carries tools", () => {

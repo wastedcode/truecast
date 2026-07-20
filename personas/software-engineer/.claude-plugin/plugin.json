@@ -4,6 +4,9 @@
   },
   "description": "An engineer who turns the plan into code you can trust",
   "displayName": "Software Engineer",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "software-engineer",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "1.3.0"
 }

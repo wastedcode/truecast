@@ -4,6 +4,9 @@
   },
   "description": "A product marketer who makes the value obvious to the one person it's for",
   "displayName": "Product Marketer",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "product-marketer",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "1.2.0"
 }

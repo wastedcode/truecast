@@ -4,6 +4,9 @@
   },
   "description": "A product manager who keeps you building the right thing",
   "displayName": "Product Manager",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "product-manager",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "2.2.0"
 }

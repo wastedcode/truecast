@@ -4,6 +4,9 @@
   },
   "description": "An independent adversarial check who assumes it's broken and finds it before a user does",
   "displayName": "Qa",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "qa",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "1.2.0"
 }

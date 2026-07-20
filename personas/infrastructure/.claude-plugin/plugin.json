@@ -4,6 +4,9 @@
   },
   "description": "An infrastructure/platform engineer who owns the production boundary",
   "displayName": "Infrastructure",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
   "name": "infrastructure",
+  "repository": "https://github.com/wastedcode/truecast",
   "version": "1.1.0"
 }

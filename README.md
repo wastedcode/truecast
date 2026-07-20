@@ -180,4 +180,4 @@ with the code: a feature isn't done until it's documented.)
 pnpm install
 pnpm typecheck && pnpm test && pnpm lint && pnpm build
 ```
-Requires Node ≥ 20 and pnpm. License: MIT (intended). Design notes live in `internal/` (git-ignored).
+Requires Node ≥ 20 and pnpm. License: MIT. Design notes live in `internal/` (git-ignored).

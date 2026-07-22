@@ -29,6 +29,8 @@ All notable changes to truecast are documented here. The format follows
   attribution.
 
 ### Changed
+- **BREAKING: Node ≥ 22 is now required** (was ≥ 20). Forced by the execa 9→10 major, and Node 20
+  reached end-of-life in April 2026. `engines` and all docs updated.
 - **Docs and personas no longer reference sibling projects** — truecast stands alone as a product. The
   external-orchestrator run-lane was removed from the README/docs (plugin install is the primary path), and
   the `sales` persona's craft text was reworded provenance-neutral (`2.0.1`, patch — no skill or tool changes).

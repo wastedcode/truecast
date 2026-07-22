@@ -52,6 +52,6 @@ changes are called out under `### Changed` / `### Removed`. The persona format (
 `persona.toml`) is part of this surface and may also evolve pre-1.0. Stability guarantees begin at `1.0.0`.
 
 ## Develop
-`pnpm install && pnpm typecheck && pnpm test && pnpm lint && pnpm build`. Node ≥ 20, pnpm.
+`pnpm install && pnpm typecheck && pnpm test && pnpm lint && pnpm build`. Node ≥ 22, pnpm.
 See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for the contribution bar and the local gate.
 Design notes (pre-shipping) live in `internal/` (git-ignored).

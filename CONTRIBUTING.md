@@ -25,7 +25,7 @@ outcome for everyone than a five-minute scoping comment.
 
 ## Development setup
 
-Requires **Node ≥ 20** and **pnpm**. A working `claude` CLI is only needed to *drive* a persona, not to
+Requires **Node ≥ 22** and **pnpm**. A working `claude` CLI is only needed to *drive* a persona, not to
 develop the engine.
 
 ```sh

@@ -68,7 +68,7 @@ git clone https://github.com/wastedcode/truecast && cd truecast
 pnpm install && pnpm build
 npm link                                   # puts `truecast` on your PATH
 ```
-Requires Node ≥ 20. **Pre-1.0:** the CLI and the programmatic API may change between `0.x` minors — see
+Requires Node ≥ 22. **Pre-1.0:** the CLI and the programmatic API may change between `0.x` minors — see
 [docs → Stability](docs/README.md#stability-pre-10).
 
 ## Install a persona with the CLI
@@ -180,4 +180,4 @@ with the code: a feature isn't done until it's documented.)
 pnpm install
 pnpm typecheck && pnpm test && pnpm lint && pnpm build
 ```
-Requires Node ≥ 20 and pnpm. License: MIT. Design notes live in `internal/` (git-ignored).
+Requires Node ≥ 22 and pnpm. License: MIT. Design notes live in `internal/` (git-ignored).

@@ -43,8 +43,8 @@ Install straight into a live Claude Code session:
 /reload-plugins
 ```
 Now talk to the teammate by name. You only type `@truecast` at install; it's the marketplace the plugin
-comes from, like an npm scope. Swap `product-manager` for any of the eleven official personas:
-`product-researcher`, `vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
+comes from, like an npm scope. Swap `product-manager` for any of the ten official personas:
+`vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
 `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
 
 The first time you run a plugin teammate with no job set, it asks what the project needs and writes its own
@@ -85,7 +85,7 @@ truecast install ./personas/product-manager                       # local path
 truecast install https://github.com/you/persona@1.2.0             # a GitHub release tag
 truecast install https://github.com/you/monorepo#personas/pm      # a persona in a sub-directory
 ```
-The eleven official personas (`product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
+The ten official personas (`product-manager`, `vc-seed`, `software-engineer`,
 `software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`,
 `sales`) live in this repo under [`personas/`](personas/) — install any with `…/truecast#personas/<name>`.
 Then write the persona's job for this project in `.truecast/agents/<name>/instance/mandate.md`.

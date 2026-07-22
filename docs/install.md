@@ -12,8 +12,8 @@ Install a teammate straight into a live Claude Code session:
 /reload-plugins
 ```
 Talk to it by name afterward. You only type `@truecast` at install; it names the marketplace the plugin
-comes from, like an npm scope. Any of the eleven official personas works: `product-manager`,
-`product-researcher`, `vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
+comes from, like an npm scope. Any of the ten official personas works: `product-manager`,
+`vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
 `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
 
 To pick up new versions later: `/plugin marketplace update truecast`, or

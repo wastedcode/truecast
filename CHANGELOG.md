@@ -18,10 +18,15 @@ All notable changes to truecast are documented here. The format follows
   Flags: `--check` (drift gate for CI), `--settings` (ride-along snippet for a consuming repo, no
   `autoUpdate` by design), `--dry-run`, `--repo`, `--marketplace`. Writes only inside your repo, into
   git-tracked files you review in the diff; nothing is uploaded. The official catalog is published this way.
-- **Two new official personas: `product-researcher` and `vc-seed`** — joining product-manager,
-  software-engineer, software-architect, security-engineer, qa, infrastructure, product-marketer,
-  ui-ux-designer, sales (eleven total). `vc-seed` distills a seed-stage investor's lens (the Pull, earned
-  secrets, revealed preferences, the dinner test), grounded in Nikunj Kothari's open-source Nock (MIT).
+- **New official persona: `vc-seed`** — joining product-manager, software-engineer, software-architect,
+  security-engineer, qa, infrastructure, product-marketer, ui-ux-designer, sales (ten total). `vc-seed`
+  distills a seed-stage investor's lens (the Pull, earned secrets, revealed preferences, the dinner
+  test), grounded in Nikunj Kothari's open-source Nock (MIT).
+- **`product-marketer` `1.3.0`** — the `scale-with-ai-not-slop` skill gains a second-generation-tell
+  section: over-writing (density-of-craft, sustained metaphors, proud lines, antithesis stacking,
+  essayistic connective tissue) that passes the classic anti-slop checklist, plus the rule that the
+  writer can't grade its own density — the scrub must run as a cold read by a fresh pass, never
+  author self-certification.
 
 ### Added
 - **`publish` emits listing metadata in each plugin manifest** — `homepage`, `repository`, and `license`
@@ -36,6 +41,11 @@ All notable changes to truecast are documented here. The format follows
   toolchain — TypeScript 6, @types/node 25, vite 8, vitest 4, **@biomejs/biome 1→2** (config migrated to
   the v2 schema; import-sort reflow); CI actions checkout/setup-node/pnpm-action to v6. No API or behavior
   change; full suite green.
+
+### Removed
+- **The `product-researcher` persona was retired** before ever shipping in a tagged release — removed
+  from the catalog, the plugin marketplace, the docs, and the site. Its first-party-demand-evidence
+  routing in `vc-seed` now points at `product-manager` (which owns discovery and user interviews).
 
 ## [0.1.1] - 2026-06-07
 

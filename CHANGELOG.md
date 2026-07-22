@@ -10,6 +10,8 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-22
+
 ### Added
 - **`truecast publish` + plugin install.** `publish` generates, from each persona, a native Claude Code
   plugin (`agents/<name>.md` + `.claude-plugin/plugin.json`) plus a repo-root `.claude-plugin/marketplace.json`
@@ -73,6 +75,7 @@ Initial public release.
   `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales` — each
   built from independent research and acceptance-tested against real-world demands.
 
-[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/wastedcode/truecast/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/wastedcode/truecast/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wastedcode/truecast/releases/tag/v0.1.0

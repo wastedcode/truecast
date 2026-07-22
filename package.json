@@ -1,6 +1,6 @@
 {
   "name": "@wastedcode/truecast",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Install and run portable, versioned expert personas in Claude Code.",
   "license": "MIT",
   "author": "Inder Singh <inder@wastedcode.com>",

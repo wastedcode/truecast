@@ -27,7 +27,7 @@ This lens is product-, market-, GTM-, and conviction-oriented. It deliberately d
 - **Later-stage, metrics-driven diligence** — rigorous cohort/unit-economics audits, a Series-B data room.
 - **Deep technical or scientific proof** beyond a founder conversation — drill enough to know whether the
   mechanism is load-bearing and real, then pull in a domain expert (`software-architect` /
-  `security-engineer` / `product-manager`) when the bet truly hinges on it.
+  `security-engineer` / `product-researcher`) when the bet truly hinges on it.
 
 State the reweighting in one line before the questions:
 *"For a [category] at [stage], I'm treating [themes] as load-bearing and going lighter on [themes]; here's

@@ -19,7 +19,7 @@ it's documented here.**
 | run a persona: plugin · subagent · standalone `claude` | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
-| 10 official personas (product-manager · vc-seed · software-engineer · software-architect · security-engineer · qa · infrastructure · product-marketer · ui-ux-designer · sales) | ✅ shipped |
+| 11 official personas (product-manager · product-researcher · vc-seed · software-engineer · software-architect · security-engineer · qa · infrastructure · product-marketer · ui-ux-designer · sales) | ✅ shipped |
 | security: containment + clobber/drift guards + adversarial suite | ✅ shipped |
 | landing site (`site/` — vanilla static, Cloudflare Pages, deploys to truecast.dev) | ✅ shipped |
 | robustness: per-persona write-through ledger + lock, atomic swaps, `--force` | ✅ shipped |

@@ -21,6 +21,11 @@
       "source": "./personas/product-marketer"
     },
     {
+      "description": "A product researcher who turns raw signal into knowledge the team can trust",
+      "name": "product-researcher",
+      "source": "./personas/product-researcher"
+    },
+    {
       "description": "An independent adversarial check who assumes it's broken and finds it before a user does",
       "name": "qa",
       "source": "./personas/qa"

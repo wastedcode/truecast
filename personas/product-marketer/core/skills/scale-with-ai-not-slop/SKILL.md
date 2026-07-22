@@ -57,6 +57,42 @@ Read the result **aloud**: if it sounds like a press release or a chatbot, it fa
 a savvy human marketer have written this line?"* — if no, rewrite it in the founder's voice
 (`honor-the-voice`).
 
+## The second-generation tell — over-writing (the one that passes the checklist above)
+The list above catches *2024 chatbot texture* (buzzwords, "it's not just X", triads). A capable model told
+to "avoid slop" dodges every one of them and produces a **different** slop: it writes like it's auditioning
+for a literary magazine. This is the harder tell because it *reads as good writing* — and the register that
+produces it rates it as good writing, so **the author cannot catch it on self-review.** Scrub for it
+explicitly, as a separate pass:
+
+- **One crafted line per paragraph (density of craft).** A turned phrase, a landed image, or a clever
+  reversal in *every* paragraph. A person who actually did the work writes plainer and lets most facts
+  stand naked; the relentless polish is itself the signal. Target **one or two** turned lines in a whole
+  piece, not one per section. Everything else: say it flat.
+- **The sustained/controlling metaphor.** Introducing a motif ("the door", "the room", "the war") and then
+  feeding it every section so the piece has to keep paying it off. One use is fine; a metaphor you're
+  *obligated* to service is the essay reflex. Drop it after first mention.
+- **The proud line — writing that enjoys itself.** A sentence whose main job is to be admired/quotable
+  rather than to inform ("the layer that overruled the file initialed the overruling"; "the welcome is in
+  writing, and the writing is where it ends"). If you'd screenshot it for how it *sounds*, cut it. The
+  strongest facts (a header, a number) are strongest **naked** — don't burnish a sentence around them.
+- **Antithesis stacking.** Balanced opposition — "the stores slam the door; the fortresses hold it open."
+  Satisfying once. Three per section is a cadence no tired human sustains; it reads as generated rhythm.
+- **Essayistic connective tissue.** Softer than the old scaffolding, same throat-clearing: "worth sitting
+  with", "the part that never makes a headline", "deserves more", "that's the inversion", "sits a harder
+  question". Cut it; move to the point.
+- **Structural cadence dressed as prose.** The "twice / once… and once…", "in two shapes", "there are two
+  reasons" openers — an outline wearing a suit. State the two things; skip announcing that there are two.
+
+Fix by **subtraction, not by rewriting into different cleverness** — deleting a proud line is the fix;
+replacing it with a *better* proud line is the bug repeating. The plainer draft is almost always the more
+credible one, especially for a technical/HN audience who reads polish as marketing and plainness as proof.
+
+**The load-bearing rule: the writer can't grade its own density.** Slop of this kind is a *reader*
+judgment, not a *writer* one — the same instinct that overwrites rates overwriting as craft. So this scrub
+must be run as a **cold read by a fresh pass** (a different agent, or an explicit adversarial re-read whose
+only job is to hunt and cut density), never as the author self-certifying. This is the same principle as
+not letting code review itself: separate the maker from the judge.
+
 ## The discipline
 - **Slop is the failure mode.** Generic, on-trend, plausible-but-empty copy at scale erodes the brand
   faster than no copy. Volume is not the goal; the **aha** is.

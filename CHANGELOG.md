@@ -22,8 +22,11 @@ All notable changes to truecast are documented here. The format follows
   software-engineer, software-architect, security-engineer, qa, infrastructure, product-marketer,
   ui-ux-designer, sales (eleven total). `vc-seed` distills a seed-stage investor's lens (the Pull, earned
   secrets, revealed preferences, the dinner test), grounded in Nikunj Kothari's open-source Nock (MIT).
-
-### Added
+- **`product-marketer` `1.3.0`** — the `scale-with-ai-not-slop` skill gains a second-generation-tell
+  section: over-writing (density-of-craft, sustained metaphors, proud lines, antithesis stacking,
+  essayistic connective tissue) that passes the classic anti-slop checklist, plus the rule that the
+  writer can't grade its own density — the scrub must run as a cold read by a fresh pass, never
+  author self-certification.
 - **`publish` emits listing metadata in each plugin manifest** — `homepage`, `repository`, and `license`
   (derived from `package.json`), so marketplace listings and the community-marketplace review get full
   attribution.

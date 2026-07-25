@@ -27,6 +27,7 @@ name carries the correction far better than a vague "this looks off" — and pro
 | **Generic CTAs** | "Get Started", "Learn More" | the verb the user actually wants (`write-ui-microcopy`) |
 | **Emoji as iconography** | 🎉🚀✨ carrying meaning | real glyphs from one icon set |
 | **Marketing patterns on product UI** | Webflow hero on a dashboard | "brand work is not product UI" — different vocabulary |
+| **Chatbot register in product copy** | "Oops! 🎉 Don't worry — let's get you set up!" | the product's voice spec: state + way out, user's vocabulary (`write-ui-microcopy`) |
 
 ## The four meta-principles (the real antidote)
 1. **Every element serves a purpose.** Remove it and lose nothing → remove it.

@@ -35,6 +35,36 @@ This is the offensive counterpart to `find-the-channel` (which channel reaches b
 - **Vary the channel and the angle** across the sequence; a "break-up" / permission-to-close touch at the
   end ("should I close your file on this?") often pulls the most honest reply.
 
+## Write it as the one human who did the research (the AI-outreach scrub)
+Buyers now read cold email with an AI-detector in their head, and one whiff of generated outreach costs
+the reply *and* marks the domain. The bar: **every line could only have been written by someone who
+actually studied this buyer.** Two gates before any send:
+
+- **The 200-others test.** If the message could have gone to 200 other prospects unchanged, it fails —
+  however polished. Polish isn't the bar; *evidence of work* is.
+- **Line one proves the research.** Not "I noticed you raised a Series B" (public fact + pivot to pitch =
+  the AI-personalization tell, and it reads as mail-merge cosplay even when a human wrote it) — but the
+  specific problem their world implies, in *their* words.
+
+**Speak the buyer's language, literally.** Derive the vocabulary from `know-the-buyer-cold`: their titles,
+their metrics, their names for the problem, the objection they'd raise. If your email says "streamline
+workflows" and their world says "on-call burnout," you wrote it from your desk, not theirs.
+
+The tells that mark outreach as generated (scrub for clusters, not single hits — era: 2026):
+- **Flattery-then-ask** ("Impressive work on X! I'm reaching out because…") and the "I hope this finds you
+  well" opener — the model's warm-up ritual; a busy human starts at the point.
+- **Parallel value-prop bullets** in a first cold email — nobody's first human note has three symmetric
+  benefits; that's a landing page wearing an email.
+- **Uniform shape across the sequence** — every touch the same three-paragraph arc. A real rep's touch #4
+  is two terse lines; vary length and form, and keep it *the same person* — touch #6 in a different
+  register than touch #1 is its own tell.
+- **Over-even polish.** A real note is slightly uneven — a short sentence, a plain word repeated because
+  it's the right word. Relentless smoothness and synonym-cycling read as generated (the measured tells:
+  no short sentences, unnaturally even vocabulary).
+- **The cold read before send.** The drafter can't grade its own draft — read it back as *this buyer*,
+  knowing models exist: "would I reply, or archive?" If AI drafted it (`sell-with-ai`), this pass is
+  mandatory and human.
+
 ## Open the cold conversation (call or first reply)
 - **Earn the time, then get out of the way.** Name why you're calling them specifically (the trigger),
   state a problem you suspect they have, and ask permission to ask two questions — then run discovery

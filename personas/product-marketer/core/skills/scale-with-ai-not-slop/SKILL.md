@@ -31,11 +31,22 @@ meaning.
 
 ## The anti-AI-tell checklist — scrub every draft before it ships
 Slop has a *texture*, and a savvy reader clocks it in a sentence. AI-assisted copy is fine; **copy that
-reads as AI is not.** Before anything ships, scrub for these tells — each one is an automatic rewrite, not
-a maybe:
+reads as AI is not.** Two rules govern the whole scrub:
 
-- **"It's not just X — it's Y."** The signature LLM construction. Also its cousins: "More than a tool, it's
-  a…", "X isn't just about Y." Kill on sight; state the thing plainly.
+- **Read clusters, not tripwires.** One tell is a coincidence — humans use all of these sometimes. A draft
+  that trips *several*, repeatedly, is generated; that's the read (Wikipedia's AI-cleanup editors, who
+  scrub at scale, work exactly this way).
+- **Word lists expire; structure doesn't.** The famous marker words decay within about a year of becoming
+  public ("delve" collapsed within months of being mocked). Treat any specific word below as era-stamped
+  (this list: 2026) — and put your weight on the structural tells in the third section, which survive
+  model updates *and* "don't sound like AI" prompting.
+
+Before anything ships, scrub for these tells — each one is an automatic rewrite, not a maybe:
+
+- **"It's not just X — it's Y."** The signature LLM construction, and one of the few *measured to persist*
+  in current models (~3× the human rate, still rising in the wild). Also its cousins: "More than a tool,
+  it's a…", "X isn't just about Y." It preemptively rebuts an objection nobody raised. Kill on sight;
+  state the thing plainly.
 - **Triadic lists everywhere.** The relentless rule-of-three ("faster, smarter, simpler"; "plan, build,
   ship"). One or two real specifics beat three rhythmic abstractions. Break the cadence.
 - **Hollow superlatives & buzzwords.** "Seamless, powerful, robust, cutting-edge, game-changing,
@@ -86,6 +97,35 @@ explicitly, as a separate pass:
 Fix by **subtraction, not by rewriting into different cleverness** — deleting a proud line is the fix;
 replacing it with a *better* proud line is the bug repeating. The plainer draft is almost always the more
 credible one, especially for a technical/HN audience who reads polish as marketing and plainness as proof.
+
+## The tells that survive the prompt — structure, not words (era: 2026)
+Telling a model "don't sound like AI" fails for a mechanistic reason: the tells are a product of the
+alignment training itself (newer frontier models measure as *less* human-like, not more), and evasion
+only moves the surface — what survives every scrub is the statistical shape of the prose. These are the
+durable tells; they can't be fixed by better prompting, only by human editing:
+
+- **No short sentences.** Current models write 15–30% longer than human prose and nearly eliminate the
+  short sentence — the single most visible rhythm tell. A human writes uneven: a long build, then a
+  three-word landing. Fix by cutting sentences in half and letting fragments stand. Like this.
+- **Elegant variation (the strongest measured tell).** Humans naturally *repeat* a word they just used;
+  models cycle synonyms to avoid repetition — "the platform… the solution… the tool… the product" for one
+  thing. The unnaturally even vocabulary is the single best machine discriminator found. Fix: call the
+  thing by its name, every time. Repetition of the right word is voice; variation for its own sake is
+  the tell.
+- **Participial-clause openers.** "Leaning on its speed, the pipeline…" / "Designed for teams, it…" —
+  models use these at ~5× the human rate, with stacked nominalizations close behind. Recast as plain
+  subject-verb.
+- **One skeleton, every artifact.** Models reuse the same underlying document shape across pieces even
+  when the content differs — if your last three posts open, turn, and land identically, the *shape* is
+  the tell. Vary the skeleton per artifact, not just the words.
+- **The missing fingerprint (the one that matters).** The signal that survives every evasion attempt is
+  the *absence of an idiosyncratic individual voice*. Machine prose is fluent and belongs to no one. The
+  durable antidote isn't a scrub at all: it's writing from a maintained **voice spec** (`honor-the-voice`)
+  and grounding in **lived, checkable specifics** — the date it shipped, the number that embarrassed you,
+  the customer's actual sentence — details a model can't invent and a reader can't mistake for template.
+
+(The famous em-dash tell, for the record, is *unadjudicated* — the punctuation habit varies by model and
+era. Treat rhythm and dispersion as the science; punctuation as taste.)
 
 **The load-bearing rule: the writer can't grade its own density.** Slop of this kind is a *reader*
 judgment, not a *writer* one — the same instinct that overwrites rates overwriting as craft. So this scrub

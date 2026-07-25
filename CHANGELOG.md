@@ -10,6 +10,20 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- **Audience-first anti-slop across the outward-facing personas** — grounded in a verified deep-research
+  pass on 2025–2026 AI-writing tells (peer-reviewed stylometry + maintained practitioner guidance).
+  `product-marketer` `1.4.0`: the anti-tell scrub gains the durable *structural* tells (no short
+  sentences, synonym-cycling vs. natural repetition, participial openers, one-skeleton templating), the
+  cluster/era-stamp reading rules, and a per-project **voice spec** (founder register × human stance ×
+  this audience's language) with a line-interrogation pass in `honor-the-voice`. `sales` `2.1.0`:
+  `prospect-and-open` gains the AI-outreach scrub (the 200-others test, line-one-proves-research,
+  buyer-vocabulary derivation, sequence-consistency tells). `ui-ux-designer` `1.2.0`:
+  `write-ui-microcopy` gains the AI-register scrub (exclamation cheer, apology theater, hedge padding)
+  plus a per-project mini voice spec; the slop gallery adds chatbot-register copy. `product-manager`
+  `2.3.0`: `problem-first-prd` gains the named-reader rule and the hedge scrub (every hedge becomes a
+  decision or an owned open question).
+
 ## [0.2.0] - 2026-07-22
 
 ### Added

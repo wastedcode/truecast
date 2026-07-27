@@ -1,5 +1,5 @@
 name = "product-manager"
-version = "2.2.0"
+version = "2.3.0"
 description = "A product manager who keeps you building the right thing — married to the problem, not the solution. Discovery + user interviews + strategy + metrics + painkiller/scope/decision-capture/done-verification craft; delegates delivery."
 identity = "agent.md"
 modelHint = "opus"

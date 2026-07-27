@@ -25,11 +25,34 @@ the in-product words are interface and they're yours).
 
 ## The voice discipline
 - **Consistent voice** across the product — one personality (direct, honest, calm — match the product's).
-  Decide the voice once; apply it everywhere.
+  Decide the voice once and **write it down**: a mini voice spec in this project's `instance/` — five
+  words we use, five we never use, one reference error message, one reference empty state. "Off-voice"
+  then cites a spec line, not a feeling; and the spec is derived from *this* product's users
+  (`research-the-user`), not a house default.
+- **The user's vocabulary, not yours** — labels and messages use the words this audience uses for these
+  things (an on-call SRE and a first-run consumer don't get the same register, density, or patience).
 - **Concise** — every word earns its place; users scan, they don't read. Front-load the meaning.
 - **Honest, not cute** — humor and emoji rarely survive the user who's frustrated or confused at that
   exact moment; respect the user's intent over a quip.
 - **Clear over clever** — if a clever line risks ambiguity, the plain line wins. Clarity is the job.
+
+## The AI register is not a voice (the microcopy scrub)
+Unedited model output has a recognizable in-product register, and users have learned to read it as
+"nobody wrote this." Scrub for it wherever copy was generated (clusters, not single hits — era: 2026):
+
+- **Exclamation cheer.** "You're all set! 🎉" "Great choice!" — the model celebrates; a product speaks.
+  State what happened and what's next.
+- **Apology theater.** "Oops! Something went wrong on our end. Don't worry —" is three tells in one line:
+  the mascot "Oops," the vague failure, the instruction to feel. Name what broke + the way out (rule 3).
+- **Hedge padding.** "It looks like you may not have any projects yet" — the user either has projects or
+  doesn't; the softener is the model's, not the product's. "No projects yet. Create one."
+- **Chatbot pleasantries in chrome.** "Sure!", "Let's get you set up!", "Feel free to…" in buttons,
+  tooltips, onboarding — conversational filler where an interface should be an instrument.
+- **Explaining feelings instead of the state.** Copy that narrates emotion ("We know this is
+  frustrating…") instead of giving the fact and the action. Empathy in UI is a working way out, fast.
+- **The cold read at the worst moment.** Read every error/empty/confirmation as the user who just lost
+  work at 2am. The register that survives *that* read ships; the writer of the line doesn't get to be
+  its judge.
 
 ## The discipline
 - Microcopy is most load-bearing exactly where the user is stuck (error, empty, confirmation) — write

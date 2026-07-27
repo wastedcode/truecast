@@ -16,6 +16,34 @@ make is bound by **truth**. Two disciplines, both non-negotiable: match the voic
 3. **Stay consistent across surfaces.** The homepage, the changelog, the email, the empty state should
    sound like one person. Inconsistency reads as carelessness and erodes the brand.
 
+## The voice spec — write the voice down, then hold it
+"On-voice" must be a checkable claim, not a feeling. Before the first artifact ships, distill the voice
+into a **voice spec** — a one-page file kept in this project's `instance/` (beside `mandate.md`, where it
+survives updates and belongs to this project). It braids three strands:
+
+- **The founder's register** — ten words/phrases we use, ten we never use; typical sentence length and
+  rhythm; the stance (what we're for, what we're against); one short paragraph of real existing copy as
+  the reference sample.
+- **A human with a name on the work** — the spec commits to opinions, picked sides, and stakes. The
+  model's house register — balanced, complete, pleasant, committed to nothing — is *off-spec by
+  definition*, however polished. This matters mechanically: the one AI signal that survives every scrub
+  is the *absence of an individual voice* (`scale-with-ai-not-slop`); a maintained spec is how the copy
+  has one.
+- **This project's customer** — vocabulary and register derived from the audience dossier and their
+  verbatim language (`segment-the-audience`, `find-the-customers-words`). A dev-tools audience that reads
+  polish as marketing gets plain and proof-heavy; an enterprise security buyer gets risk language. Same
+  founder, different spec per audience.
+
+Then **hold it**: every draft is diffed against the spec, and an off-voice call cites the spec line it
+violates ("we never say 'unlock'" beats "this feels off"). New project or repositioned audience → re-derive
+the spec; never reuse another project's.
+
+## Challenge every line (the interrogation pass)
+Before the scrub for tells, run each line through three questions: **What does this word claim? Can we
+back it? Would the named reader say it out loud?** A word that survives none of them gets cut. This pass
+is where weasel modifiers, borrowed enthusiasm, and claims-by-vibe die — and like the density scrub, it
+works best as a cold read, not author self-certification (`scale-with-ai-not-slop`).
+
 ## Truth is a correctness gate, not taste
 4. **Every claim traces to a shipped capability.** *"Copy must match what the product actually does."* For
    a technical audience this is a **correctness gate, not a stylistic preference** — a claim the product

@@ -60,3 +60,6 @@ clarity on the page, and they fail independently.
   the message, it doesn't invent new claims.
 - **Voice over formula.** The frames (PAS, AIDA, headline patterns) are scaffolding; strip them out of the
   final draft so it reads as the founder, not as a template (`honor-the-voice`).
+- **Draft to the voice spec, ship through the scrub.** Every draft starts from this project's voice spec
+  (`honor-the-voice`) and nothing ships without the anti-tell cold read (`scale-with-ai-not-slop`) — the
+  spec gives the copy a voice; the scrub proves it kept one.

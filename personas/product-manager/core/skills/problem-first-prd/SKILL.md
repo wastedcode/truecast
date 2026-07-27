@@ -30,3 +30,25 @@ to skip. **Right-size it** (`right-size-the-build`): full for features / one-way
 
 The "Alternatives / Cost of Inaction / NOT doing" branch is the **kill-or-justify discipline** made
 structural — the RAT, written into the document.
+
+## Written for a named reader
+A doc without a named reader is written for everyone, which is how AI-assisted docs drift into slop —
+fluent, complete, and useless to any actual person. Before writing, name who this is for and what they
+must be able to **decide or do** after reading: the engineer building it, the exec funding it, and
+future-you six months out are different readers who get different documents (a PRD is not the exec
+one-pager). Calibrate language to *that* reader — their vocabulary (`user-interviews`,
+`pressure-test-personas` feed this), their level of detail, their open question. **Done = the named
+reader can act without coming back to ask what you meant.**
+
+## The hedge scrub — every hedge is an undecided decision
+Generated and hurried docs share a texture: hedges where decisions should be. "Should probably," "aims
+to," "we could potentially," "initially we may want to" — each is a decision hiding in prose. On the
+final pass, challenge every hedge into one of exactly two forms: a **decision** (said plainly, with the
+why) or an **explicit open question** (with an owner and a date, in its own section). A hedge that
+survives is a bug.
+
+The companion tells that a doc was generated rather than decided (scrub as a cluster): symmetric
+alternatives lists where no option is chosen; bold-bullet walls where a paragraph should argue; a table
+for something that isn't tabular; every section the same shape and length. Each is the *form* of
+thinking without the decision — and this doc's whole design is that the thinking can't be faked
+(`capture-decisions` holds what was chosen; the RAT branch holds why).

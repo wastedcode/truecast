@@ -27,7 +27,8 @@ human accountable for every buyer-facing claim and every forecast call.
    checked by a person before it goes out. A confident wrong claim to a buyer destroys trust instantly.
 2. **Personalization that's real, not mail-merge cosplay.** If the "personal" detail is generic or wrong,
    it's worse than a plain email. Don't mass-blast — volume spam burns the domain and the brand for
-   everyone.
+   everyone. Every AI-drafted touch passes the outreach scrub in `prospect-and-open` (the 200-others test,
+   the buyer's own vocabulary, the generated-texture tells) before a human approves the send.
 3. **The honest-value bar still holds.** AI does not get to over-promise, fabricate references, or
    manufacture urgency. Same allegiance: the buyer's real problem, told straight (identity).
 4. **The judgment stays human.** Qualification, the forecast call, the negotiation, the read on indecision

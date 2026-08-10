@@ -63,6 +63,11 @@ Before anything ships, scrub for these tells — each one is an automatic rewrit
   open on the payoff.
 - **Generic positivity with no edge.** Copy that could describe any product in the category. If you could
   paste a competitor's name in and it still reads true, it says nothing — it has no point of view.
+- **Chat-artifact formatting in the wrong channel.** Markdown headers or bold-phrase emphasis in a social
+  post or email, emoji as bullet points (every line opening with a ✅), "🧵/Thread:" openers, hashtag
+  stacks, raw asterisks rendering literally in plain-text contexts (email, DM). These are artifacts of
+  drafting in a chatbot and pasting out — the reader clocks the medium mismatch instantly. Format for the
+  channel it ships in, not the tool it was drafted in.
 
 Read the result **aloud**: if it sounds like a press release or a chatbot, it failed. The test is *"would
 a savvy human marketer have written this line?"* — if no, rewrite it in the founder's voice
@@ -106,7 +111,10 @@ durable tells; they can't be fixed by better prompting, only by human editing:
 
 - **No short sentences.** Current models write 15–30% longer than human prose and nearly eliminate the
   short sentence — the single most visible rhythm tell. A human writes uneven: a long build, then a
-  three-word landing. Fix by cutting sentences in half and letting fragments stand. Like this.
+  three-word landing. Fix by cutting sentences in half and letting fragments stand. Like this. The same
+  tell also runs inverted: relentlessly staccato prose (the punchy-LinkedIn register — short line, short
+  line, short line) is uniform rhythm in the other direction. The signal is *evenness*, not length;
+  human rhythm is uneven either way.
 - **Elegant variation (the strongest measured tell).** Humans naturally *repeat* a word they just used;
   models cycle synonyms to avoid repetition — "the platform… the solution… the tool… the product" for one
   thing. The unnaturally even vocabulary is the single best machine discriminator found. Fix: call the

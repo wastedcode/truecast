@@ -11,6 +11,12 @@ All notable changes to truecast are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- **Channel formatting tells in the anti-tell scrub.** `product-marketer` `1.4.1`:
+  `scale-with-ai-not-slop` gains the drafted-in-chatbot channel tell (markdown headers/bold in social and
+  email, emoji bullets, "🧵/Thread:" openers, hashtag stacks, raw asterisks in plain-text contexts) and
+  notes that uniformly staccato rhythm is the same evenness tell as uniformly long sentences. Prompted by
+  a review of `jalaalrd/anti-ai-slop-writing` (whose era appendix independently corroborates the
+  word-lists-expire ruling; its banned-word approach was deliberately not adopted).
 - **Audience-first anti-slop across the outward-facing personas** — grounded in a verified deep-research
   pass on 2025–2026 AI-writing tells (peer-reviewed stylometry + maintained practitioner guidance).
   `product-marketer` `1.4.0`: the anti-tell scrub gains the durable *structural* tells (no short

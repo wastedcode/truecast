@@ -39,11 +39,12 @@ The last line of stdout starts with `TRUECAST_RESULT`. Act on it, and on nothing
 
 | Outcome | What you do |
 |---|---|
-| exit 0, `status=up-to-date` | Tell the user it is already installed at that version. **STOP.** |
+| exit 0, `status=up-to-date` | Tell the user it is already installed at that version. **STOP** — unless they are reporting that the teammate is broken (it says its craft files are missing, or `@<name>` behaves like it has no skills). That is the repair case: see "Repair" below. |
 | exit 0, `status=plan`, `drift=false` | Show the user the plan (version, the tools it will be granted, the exact files). Ask: "Install it?" Then Step 3. |
 | exit 0, `status=plan`, `drift=true` | Show the plan **and the diff the script printed**. Say plainly that an existing truecast-generated file will be replaced. Ask for explicit confirmation. Then Step 3 with `--force`. |
 | exit 3 | The persona or the marketplace copy was not found. Show the script's message verbatim; if it says the copy predates the installer, tell the user to run `/plugin marketplace update truecast` and try again. **STOP.** |
-| exit 4 | Another truecast operation is running. Tell the user to wait and retry. **STOP.** |
+| exit 4 | Another truecast operation may be running. Tell the user to wait about a minute and retry — a lock left by a killed process clears itself after ~60s. **STOP.** |
+| exit 127 (or "No such file or directory" for the script) | Neither candidate path holds the script. Tell the user to run `/plugin marketplace update truecast`, or to reinstall the plugin. **Run nothing else** — do not try to find or write the script yourself. **STOP.** |
 | exit 5 | `~/.claude/agents/<name>.md` exists and truecast did not write it. Show the path. Tell the user to rename or delete it, or install with `--project`. **Do not offer `--force`; it will not work.** **STOP.** |
 | exit 2, 7, or 8 | Show the script's message verbatim. **STOP.** |
 
@@ -63,3 +64,16 @@ On `status=installed`, tell the user:
 - To give it a standing brief in this repo, write `.truecast/agents/<name>/instance/mandate.md`.
 
 If the user declines at any point, confirm that nothing was written.
+
+## Repair — when an installed teammate says its craft is missing
+
+`status=up-to-date` only means the agent file and the version pointer look right; it does not inspect
+the craft tree. If the persona reports that its skill files cannot be Read, re-copy the craft:
+
+```bash
+bash "$S" install <name> --force        # plan; says `reinstall`, shows what it will replace
+bash "$S" install <name> --force --yes  # apply
+```
+
+Show the plan and ask first, as always. This replaces the craft tree only — it never touches the user's
+`.truecast/agents/<name>/instance/` work.

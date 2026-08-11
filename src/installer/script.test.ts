@@ -407,15 +407,44 @@ describe.skipIf(!bash)("§6 failure design", () => {
     expect(run("install", "alpha", "--yes").status).toBe(0); // and it proceeds once released
   });
 
-  it("T-F1: a lock older than 10 minutes is taken over, loudly (a kill must not wedge a user)", () => {
+  it("T-F1: a lock older than a minute is taken over, loudly (a kill must not wedge a user)", () => {
     const lock = join(fake.truecastHome, "personas", "alpha.lock");
     mkdirSync(lock, { recursive: true });
-    const old = Date.now() / 1000 - 40 * 60;
+    const old = Date.now() / 1000 - 90;
     utimesSync(lock, old, old);
     const r = run("install", "alpha", "--yes");
     expect(r.status).toBe(0);
-    expect(r.stderr).toContain("older than 10 minutes");
+    expect(r.stderr).toContain("older than a minute");
     expect(existsSync(agent("alpha"))).toBe(true);
+  });
+
+  it("T-F1: the BUSY message tells the truth about how to recover", () => {
+    mkdirSync(join(fake.truecastHome, "personas", "alpha.lock"), { recursive: true });
+    const r = run("install", "alpha", "--yes");
+    expect(r.status).toBe(4);
+    expect(r.stderr).toContain("about 60 seconds");
+  });
+
+  it("recovery: --force repairs a gutted craft that plain install calls up-to-date", () => {
+    run("install", "alpha", "--yes");
+    const skills = join(personaDir("alpha"), "1.0.0", "core", "skills");
+    const before = readdirSync(skills);
+    expect(before.length).toBeGreaterThan(0);
+    rmSync(skills, { recursive: true, force: true }); // a half-copy, or a user's stray rm
+
+    // the agent file and the pointer still look right, so a plain install short-circuits …
+    const plain = run("install", "alpha");
+    expect(plain.result?.status).toBe("up-to-date");
+    expect(plain.stderr).toContain("repair it: re-run with --force");
+    expect(existsSync(skills)).toBe(false);
+
+    // … and --force is the documented way out
+    const planned = run("install", "alpha", "--force");
+    expect(planned.stderr).toContain("plan: reinstall alpha@1.0.0");
+    const repaired = run("install", "alpha", "--force", "--yes");
+    expect(repaired.status).toBe(0);
+    expect(repaired.result?.status).toBe("installed");
+    expect(readdirSync(skills)).toEqual(before); // the tree is byte-complete again
   });
 
   it("T-F1: the lock is released — a second run is not blocked by the first", () => {

@@ -39,4 +39,7 @@ The columns mean:
 - **MANAGED BY** — `plugin` (installed by these commands) or `cli` (the `truecast` npm CLI has an
   ownership record for it). Either lane can update or remove the other's install.
 
-If the script exits non-zero, show its message verbatim and stop.
+If the script exits non-zero, show its message verbatim and stop. If it exits 127 (or bash reports
+"No such file or directory" for the script itself), neither candidate path holds it: tell the user to
+run `/plugin marketplace update truecast`, or to reinstall the plugin. **Run nothing else** — do not
+try to find or write the script yourself.

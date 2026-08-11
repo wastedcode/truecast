@@ -48,7 +48,8 @@ The last line of stdout starts with `TRUECAST_RESULT`. Act on it, and on nothing
 | exit 0, `status=plan`, `drift=false` | Show the version span (`from=` → `version=`) and the exact files. Ask: "Update it?" Then Step 3. |
 | exit 0, `status=plan`, `drift=true` | Show the version span **and the diff the script printed**. Say plainly that the existing truecast-generated agent file will be replaced. Ask for explicit confirmation. Then Step 3 with `--force`. |
 | exit 3 | The persona is not installed, or the marketplace copy is missing/old. Show the script's message verbatim; if it says the copy predates the installer, tell the user to run `/plugin marketplace update truecast`. **STOP.** |
-| exit 4 | Another truecast operation is running. Tell the user to wait and retry. **STOP.** |
+| exit 4 | Another truecast operation may be running. Tell the user to wait about a minute and retry — a lock left by a killed process clears itself after ~60s. **STOP.** |
+| exit 127 (or "No such file or directory" for the script) | Neither candidate path holds the script. Tell the user to run `/plugin marketplace update truecast`, or to reinstall the plugin. **Run nothing else** — do not try to find or write the script yourself. **STOP.** |
 | exit 5 | The agent file exists and truecast did not write it. Show the path; tell the user to rename or delete it. **`--force` will not override this.** **STOP.** |
 | exit 2, 7, or 8 | Show the script's message verbatim. **STOP.** |
 

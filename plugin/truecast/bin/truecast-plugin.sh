@@ -341,12 +341,16 @@ lock_persona() {
   real=$(cd "$TC_HOME/personas/$name" && pwd -P) || die 8 "cannot resolve $TC_HOME/personas/$name"
   LOCK="$real.lock"
   if ! mkdir "$LOCK" 2>/dev/null; then
-    if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +10 2>/dev/null)" ]; then
-      warn "a truecast lock older than 10 minutes was left at $LOCK (a killed process?) — taking it over"
+    # 60s, not 10 minutes: operations on this lane take SECONDS, so a lock older than a minute is
+    # almost certainly a killed process, and making the user wait ten minutes to recover from a
+    # `kill -9` is its own outage. Still comfortably above a live holder's heartbeat — the CLI's
+    # proper-lockfile refreshes its mtime every ~15s while it genuinely holds the lock.
+    if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +1 2>/dev/null)" ]; then
+      warn "a truecast lock older than a minute was left at $LOCK (a killed process?) — taking it over"
       rm -rf "$LOCK"
       mkdir "$LOCK" 2>/dev/null || die 4 "another truecast operation is running ($LOCK)"
     else
-      die 4 "another truecast operation is running ($LOCK) — wait for it to finish and retry"
+      die 4 "another truecast operation may be running ($LOCK) — a stale lock clears itself after about 60 seconds, so wait a moment and retry"
     fi
   fi
   LOCK_HELD=1
@@ -407,6 +411,9 @@ promote_current() {
 
 # 4. the user-visible surface, LAST (G1). Atomic: same-dir temp + rename, so a full disk can never leave
 #    a truncated teammate.
+# Set by do_install_or_update when --force is repairing an install that already looks current.
+REPAIR=false
+
 RESTART=false
 write_agent_file() {
   local target=$1 root=$2 dir
@@ -552,10 +559,18 @@ do_install_or_update() {
     die 5 "refusing to overwrite a file truecast did not generate: $target"
   fi
 
+  # --force turns an up-to-date install into a REPAIR: re-copy the craft even though the agent file and
+  # the pointer both look right. Without this a gutted or half-copied `<ver>/core` is unfixable from
+  # this lane — every install short-circuits on "already installed" and never looks at the tree.
+  REPAIR=false
   if [ "$CLASS" = identical ] && [ "$pointer_ok" = 1 ]; then
-    say "$name@$ver is already installed and up to date."
-    result up-to-date "$name" "$ver" "$from" "$target" false false false
-    return 0
+    if [ "$FORCE" != 1 ]; then
+      say "$name@$ver is already installed and up to date."
+      say "  if it is behaving as though its craft is missing, repair it: re-run with --force."
+      result up-to-date "$name" "$ver" "$from" "$target" false false false
+      return 0
+    fi
+    REPAIR=true
   fi
 
   [ "$CLASS" = stamped-diff ] && drift=true
@@ -604,7 +619,10 @@ plan_report() {
   local verb=$1 name=$2 ver=$3 from=$4 target=$5 drift=$6 meta
   meta="$TC_HOME/personas/$name/meta.json"
   say ""
-  if [ "$verb" = update ] && [ "$from" != none ]; then
+  if [ "$REPAIR" = true ]; then
+    say "plan: reinstall $name@$ver   (repair: re-copy the craft from your local marketplace copy)"
+    say "  the agent file and the version pointer already look correct; this replaces the craft tree."
+  elif [ "$verb" = update ] && [ "$from" != none ]; then
     say "plan: update $name  $from → $ver   (from your local marketplace copy)"
   else
     say "plan: install $name@$ver   (from your local marketplace copy)"

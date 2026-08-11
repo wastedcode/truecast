@@ -41,7 +41,8 @@ The last line of stdout starts with `TRUECAST_RESULT`. Act on it, and on nothing
 | exit 0, `status=noop` | Nothing is installed under that name. Say so. **STOP.** |
 | exit 0, `status=plan` | Show the user exactly what the script listed — nothing more, nothing less. Without `--project` that is the agent file **and** the whole `~/.truecast/personas/<name>` tree including every cached version of the craft; repeat the script's warning verbatim: projects with a `.truecast/agents/<name>/core` symlink will break next session (they cannot be enumerated). With `--project` it is only this repo's agent file — the shared craft is kept, because a user-scope teammate still reads it. Ask for explicit confirmation. Then Step 3. |
 | exit 5 (`foreign=true`) | `~/.claude/agents/<name>.md` exists and truecast did not write it. **Nothing was deleted, and nothing will be.** Show the path and tell the user to delete or rename that file themselves, then run this again. Explain why: removing the craft while that file stays would leave `@<name>` still loaded by Claude Code but with every craft path dangling. **STOP.** |
-| exit 4 | Another truecast operation is running. Tell the user to wait and retry. **STOP.** |
+| exit 4 | Another truecast operation may be running. Tell the user to wait about a minute and retry — a lock left by a killed process clears itself after ~60s. **STOP.** |
+| exit 127 (or "No such file or directory" for the script) | Neither candidate path holds the script. Tell the user to run `/plugin marketplace update truecast`, or to reinstall the plugin. **Run nothing else** — do not try to find or write the script yourself. **STOP.** |
 | exit 2, 3, 7, or 8 | Show the script's message verbatim. **STOP.** |
 
 Never delete anything yourself, and never re-run with `--yes` without an explicit "yes" from the user.

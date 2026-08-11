@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative, sep } from "node:path";
 import { z } from "zod";
 import { TruecastError } from "../errors.js";
 import { composeAgentFile, TRUECAST_HOME_PLACEHOLDER } from "../materialize/index.js";
@@ -59,6 +59,8 @@ export interface PublishPlan {
   repoSlug: string;
   /** Personas published, sorted. */
   personas: string[];
+  /** The hand-authored installer plugin's listing, if this repo ships one (D10). */
+  installer: MarketplaceEntry | null;
   files: GeneratedFile[];
 }
 
@@ -75,6 +77,8 @@ export interface PublishConfig {
   repoSlug?: string | undefined;
   /** Override the marketplace description (default: package.json `description`). */
   description?: string | undefined;
+  /** Override the installer plugin dir (default `<repoRoot>/plugin/truecast`); absent ⇒ skipped. */
+  installerDir?: string | undefined;
 }
 
 /**
@@ -195,6 +199,50 @@ function resolveRepoMeta(cfg: PublishConfig): {
 }
 
 /**
+ * The hand-authored installer plugin, as a marketplace listing (D10). It is a READ input, never a
+ * generated tree: `publish` validates its manifest and advertises it, and writes none of its files.
+ * Absent ⇒ null (a third-party persona repo running `truecast publish` ships no installer).
+ *
+ * Fail-fast on shape, in the same spirit as a non-loadable persona aborting the whole publish: a plugin
+ * with no commands is dead weight in the storefront, and one that ships executable `hooks/` or an
+ * `.mcp.json` is a different trust conversation than the one this marketplace's docs make.
+ */
+function planInstaller(dir: string, repoRoot: string): MarketplaceEntry | null {
+  const manifestPath = join(dir, ".claude-plugin", "plugin.json");
+  if (!existsSync(manifestPath)) return null;
+
+  const manifest = PluginManifest.parse(JSON.parse(readFileSync(manifestPath, "utf8")));
+  if (manifest.name !== "truecast") {
+    throw new TruecastError(
+      "BAD_INSTALLER",
+      `${manifestPath} declares name "${manifest.name}"; the installer plugin must be named "truecast"`,
+      "rename it, or remove the directory to publish personas only",
+    );
+  }
+  const commands = join(dir, "commands");
+  const hasCommand = existsSync(commands) && readdirSync(commands).some((f) => f.endsWith(".md"));
+  if (!hasCommand) {
+    throw new TruecastError(
+      "BAD_INSTALLER",
+      `${commands} must exist and contain at least one .md command`,
+      "the installer plugin exists to ship slash commands; add one or remove the directory",
+    );
+  }
+  for (const forbidden of ["hooks", ".mcp.json"]) {
+    if (existsSync(join(dir, forbidden))) {
+      throw new TruecastError(
+        "BAD_INSTALLER",
+        `${join(dir, forbidden)} exists; this marketplace does not ship hooks or MCP servers`,
+        "shipping executable hooks is a different trust conversation — remove it before publishing",
+      );
+    }
+  }
+  // repo-relative, forward slashes, so the entry is identical on every machine
+  const source = `./${relative(repoRoot, dir).split(sep).join("/")}`;
+  return MarketplaceEntry.parse({ name: manifest.name, source, description: manifest.description });
+}
+
+/**
  * Compute the full set of files to generate — PURE (no writes, no network). Reuses `loadPersona` for
  * path-safety + manifest validation, and `composeAgentFile({kind:"plugin"})` for the agent body, so the
  * plugin prompt comes from the SAME renderer as the subagent. FAIL-FAST: if any persona fails to load,
@@ -220,6 +268,13 @@ export function planPublish(cfg: PublishConfig): PublishPlan {
 
   const files: GeneratedFile[] = [];
   const entries: MarketplaceEntry[] = [];
+
+  // The installer goes FIRST in plugins[] — it is the entry point, and array order is stable.
+  const installer = planInstaller(
+    cfg.installerDir ?? join(cfg.repoRoot, "plugin", "truecast"),
+    cfg.repoRoot,
+  );
+  if (installer) entries.push(installer);
 
   for (const name of personas) {
     const persona = loadPersona(join(personasDir, name)); // throws → fail-fast (PersonaName-validated)
@@ -271,7 +326,7 @@ export function planPublish(cfg: PublishConfig): PublishPlan {
   // One deterministic order regardless of how the files were appended (path-sorted).
   files.sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
 
-  return { marketplaceName, repoSlug, personas, files };
+  return { marketplaceName, repoSlug, personas, installer, files };
 }
 
 /**

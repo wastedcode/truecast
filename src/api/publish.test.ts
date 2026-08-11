@@ -10,7 +10,7 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { Marketplace, type PublishPlan, planPublish } from "../publish/index.js";
+import { Marketplace, type PublishPlan, planPublish, settingsSnippet } from "../publish/index.js";
 import { publish } from "./publish.js";
 
 /** The generated file at `path`, or fail loudly — avoids non-null assertions on `.find()`. */
@@ -228,6 +228,82 @@ describe("planPublish — the pure file plan", () => {
       expect(() => planPublish({ repoRoot: evil })).toThrow();
     } finally {
       rmSync(evil, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("planPublish — the installer plugin rides through as a read input (D10)", () => {
+  /** A repo with a hand-authored installer plugin dir; `extra` adds a file that must abort the publish. */
+  function repoWithInstaller(name = "truecast", extra?: { path: string; content: string }): string {
+    const root = mkdtempSync(join(tmpdir(), "tc-publish-installer-"));
+    writeFileSync(
+      join(root, "package.json"),
+      JSON.stringify({ repository: { url: "https://github.com/acme/agents.git" } }),
+    );
+    writePersona(root, "alpha-agent");
+    const dir = join(root, "plugin", "truecast");
+    mkdirSync(join(dir, ".claude-plugin"), { recursive: true });
+    writeFileSync(
+      join(dir, ".claude-plugin", "plugin.json"),
+      JSON.stringify({
+        name,
+        version: "0.1.0",
+        displayName: "truecast",
+        description: "Install truecast expert teammates.",
+        author: { name: "Acme" },
+      }),
+    );
+    mkdirSync(join(dir, "commands"), { recursive: true });
+    writeFileSync(join(dir, "commands", "install.md"), "---\ndescription: x\n---\n\nInstall it.\n");
+    if (extra) {
+      mkdirSync(join(dir, dirnameOf(extra.path)), { recursive: true });
+      writeFileSync(join(dir, extra.path), extra.content);
+    }
+    return root;
+  }
+  const dirnameOf = (p: string): string => (p.includes("/") ? p.slice(0, p.lastIndexOf("/")) : ".");
+
+  it("T-P2: the installer is FIRST in plugins[], sourced at ./plugin/truecast", () => {
+    const root = repoWithInstaller();
+    try {
+      const plan = planPublish({ repoRoot: root });
+      expect(plan.installer?.name).toBe("truecast");
+      expect(plan.installer?.source).toBe("./plugin/truecast");
+      const parsed = Marketplace.parse(JSON.parse(fileAt(plan, ".claude-plugin/marketplace.json")));
+      expect(parsed.plugins.map((p) => p.name)).toEqual(["truecast", "alpha-agent"]);
+      // it is a READ input: publish generates none of its files
+      expect(plan.files.some((f) => f.path.startsWith("plugin/"))).toBe(false);
+      // and it is never auto-enabled in a consuming repo
+      expect(JSON.parse(settingsSnippet(plan)).enabledPlugins).toEqual(["alpha-agent@agents"]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("T-P2: a repo with no plugin/ dir publishes fine (installer null)", () => {
+    const plan = planPublish({ repoRoot: repo });
+    expect(plan.installer).toBeNull();
+    const parsed = Marketplace.parse(JSON.parse(fileAt(plan, ".claude-plugin/marketplace.json")));
+    expect(parsed.plugins.map((p) => p.name)).toEqual(["alpha-agent", "beta-agent"]);
+  });
+
+  it("T-P3: a hooks/ dir, an .mcp.json, an empty commands/, or a wrong name aborts the publish", () => {
+    const cases: { label: string; root: string }[] = [
+      {
+        label: "hooks",
+        root: repoWithInstaller("truecast", { path: "hooks/on-start.sh", content: "#!\n" }),
+      },
+      { label: "mcp", root: repoWithInstaller("truecast", { path: ".mcp.json", content: "{}\n" }) },
+      { label: "name", root: repoWithInstaller("installer") },
+    ];
+    try {
+      for (const c of cases) expect(() => planPublish({ repoRoot: c.root }), c.label).toThrow();
+      const empty = repoWithInstaller();
+      rmSync(join(empty, "plugin", "truecast", "commands"), { recursive: true, force: true });
+      expect(() => planPublish({ repoRoot: empty })).toThrow(/command/);
+      rmSync(empty, { recursive: true, force: true });
+    } finally {
+      for (const c of cases) rmSync(c.root, { recursive: true, force: true });
     }
   });
 });

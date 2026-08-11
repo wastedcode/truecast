@@ -33,7 +33,14 @@
 set -u
 # NOT `set -o pipefail`: a `sed | grep -q` that stops early kills the writer with SIGPIPE, and pipefail
 # would report that as the pipeline's failure. Every command whose failure matters is checked explicitly.
-export LC_ALL=C # stable globs, sorts and character classes regardless of the user's locale
+export LC_ALL=C
+
+# bash 5.2 turned `patsub_replacement` ON by default, which makes a bare `&` in the REPLACEMENT half of
+# `${var//pat/repl}` expand to the matched text. A $TRUECAST_HOME containing `&` would therefore expand
+# to the placeholder itself, and `{{TRUECAST_HOME}}` would survive into the written agent file —
+# silently, exit 0, a teammate whose every Read path is broken. Turn it off. The `|| true` is for
+# bash 3.2 (macOS), which has no such option and would otherwise abort here under `set -u`.
+shopt -u patsub_replacement 2>/dev/null || true # stable globs, sorts and character classes regardless of the user's locale
 
 PLUGIN_VERSION="0.1.0"
 

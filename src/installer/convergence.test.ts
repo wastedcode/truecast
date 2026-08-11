@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { doctor } from "../api/doctor.js";
@@ -26,6 +26,11 @@ import {
  */
 
 const bash = hasBash();
+/** Every shipped persona — the metacharacter sweep must cover the whole catalog, not a sample. */
+const personaNames = readdirSync(join(repoRoot, "personas"), { withFileTypes: true })
+  .filter((e) => e.isDirectory())
+  .map((e) => e.name)
+  .sort();
 let fake: FakeHome;
 let config: Config;
 
@@ -58,6 +63,34 @@ describe.skipIf(!bash)("T-C1 — the convergence golden", () => {
         { kind: "subagent", truecastHome: fake.truecastHome },
       );
       expect(readFileSync(join(fake.claudeHome, "agents", `${name}.md`), "utf8")).toBe(expected);
+    },
+  );
+
+  it.each(personaNames)(
+    "%s: convergence holds for a home containing shell metacharacters",
+    (name) => {
+      // bash 5.2 turned `patsub_replacement` on by default: a bare `&` in the REPLACEMENT half of
+      // ${var//pat/repl} became "the matched text", so a home with an `&` in it left the literal
+      // {{TRUECAST_HOME}} in the written file — silently, exit 0, every craft path broken. The `|`
+      // and `\` are here because they are what would break a `sed`-based substitution instead.
+      fake = makeHome("tc-converge-meta-", "a&b|c\\d");
+      try {
+        const r = runScript(repoRoot, ["install", name, "--yes"], fake.env);
+        expect(r.status, r.stderr).toBe(0);
+        const written = readFileSync(join(fake.claudeHome, "agents", `${name}.md`), "utf8");
+        expect(written, `${name}: the placeholder survived`).not.toContain("{{TRUECAST_HOME}}");
+
+        const persona = loadPersona(join(repoRoot, "personas", name));
+        expect(written).toBe(
+          composeAgentFile(
+            { name, version: persona.manifest.version, coreDir: persona.coreDir },
+            persona,
+            { kind: "subagent", truecastHome: fake.truecastHome },
+          ),
+        );
+      } finally {
+        rmSync(fake.home, { recursive: true, force: true });
+      }
     },
   );
 

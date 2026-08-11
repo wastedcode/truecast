@@ -30,8 +30,14 @@ export interface FakeHome {
   env: NodeJS.ProcessEnv;
 }
 
-export function makeHome(prefix = "tc-plugin-"): FakeHome {
-  const home = mkdtempSync(join(tmpdir(), prefix));
+/**
+ * A fake `$HOME`. `nest` puts the home in a subdirectory of the temp dir — pass a name with shell
+ * metacharacters to prove the script survives a home path that is not a tidy identifier.
+ */
+export function makeHome(prefix = "tc-plugin-", nest?: string): FakeHome {
+  const base = mkdtempSync(join(tmpdir(), prefix));
+  const home = nest ? join(base, nest) : base;
+  if (nest) mkdirSync(home, { recursive: true });
   const truecastHome = join(home, ".truecast");
   const claudeHome = join(home, ".claude");
   mkdirSync(join(home, "tmp"), { recursive: true }); // the script's scratch, inside the fake home

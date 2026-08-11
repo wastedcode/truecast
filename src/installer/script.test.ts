@@ -11,6 +11,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
+import lockfile from "proper-lockfile";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import {
   type FakeHome,
@@ -258,6 +259,23 @@ describe.skipIf(!bash)("§6 failure design", () => {
     expect(existsSync(agent("alpha"))).toBe(false);
   });
 
+  it("T-F1: the CLI's own lock blocks the script — one mechanism, not two (D9)", async () => {
+    // taken through proper-lockfile itself, so this proves the two lanes agree on the lock PATH
+    // (including its realpath canonicalisation), not merely on the convention
+    mkdirSync(join(fake.truecastHome, "personas", "alpha"), { recursive: true });
+    const release = await lockfile.lock(join(fake.truecastHome, "personas", "alpha"), {
+      stale: 30_000,
+    });
+    try {
+      const r = run("install", "alpha", "--yes");
+      expect(r.status).toBe(4);
+      expect(existsSync(agent("alpha"))).toBe(false);
+    } finally {
+      await release();
+    }
+    expect(run("install", "alpha", "--yes").status).toBe(0); // and it proceeds once released
+  });
+
   it("T-F1: a lock older than 10 minutes is taken over, loudly (a kill must not wedge a user)", () => {
     const lock = join(fake.truecastHome, "personas", "alpha.lock");
     mkdirSync(lock, { recursive: true });
@@ -445,11 +463,21 @@ describe.skipIf(!bash)("T-E2: --project scope (D8)", () => {
     expect(existsSync(join(project, ".truecast", "lock"))).toBe(false);
   });
 
-  it("removes the project file without touching the user one", () => {
+  it("remove --project DETACHES: the shared craft and the user-scope teammate survive", () => {
     runScript(clone, ["install", "alpha", "--yes"], fake.env);
     runScript(clone, ["install", "alpha", "--project", project, "--yes"], fake.env);
     const r = runScript(clone, ["remove", "alpha", "--project", project, "--yes"], fake.env);
     expect(r.status).toBe(0);
     expect(existsSync(projectAgent())).toBe(false);
+    // deleting the shared body store here would leave the user-scope teammate pointing at nothing
+    expect(existsSync(join(personaDir("alpha"), "1.0.0", "core"))).toBe(true);
+    expect(existsSync(agent("alpha"))).toBe(true);
+  });
+
+  it("remove --project on a repo that has no project file is a noop", () => {
+    runScript(clone, ["install", "alpha", "--yes"], fake.env);
+    const r = runScript(clone, ["remove", "alpha", "--project", project], fake.env);
+    expect(r.result?.status).toBe("noop");
+    expect(existsSync(agent("alpha"))).toBe(true);
   });
 });

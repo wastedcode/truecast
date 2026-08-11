@@ -199,6 +199,8 @@ render_body() {
 
 running_version() { readlink "$TC_HOME/personas/$1/current" 2>/dev/null; }
 
+# Personas with a real install here. A bare dir doesn't count: acquiring the lock creates one, so a
+# BUSY run must not leave a phantom entry in `list` or a wasted pass in `update --all`.
 installed_personas() {
   local d name
   [ -d "$TC_HOME/personas" ] || return 0
@@ -206,6 +208,7 @@ installed_personas() {
     [ -d "$d" ] || continue
     name=$(basename "$d")
     valid_name "$name" || continue
+    [ -L "$d/current" ] || [ -f "$d/meta.json" ] || continue
     printf '%s\n' "$name"
   done
 }
@@ -246,7 +249,13 @@ lock_persona() {
   mkdir -p "$TC_HOME/personas" || die 8 "cannot create $TC_HOME/personas"
   # The SAME path proper-lockfile uses for `withPersonaLock` (it mkdirs "<file>.lock"), so this is
   # genuinely mutually exclusive with a running CLI operation — no second mechanism to keep in sync.
-  LOCK="$TC_HOME/personas/$name.lock"
+  # proper-lockfile CANONICALISES the target first (`realpath: true` is its default), so we must too:
+  # with a symlinked home (macOS `/tmp` → `/private/tmp`) the two would otherwise lock different paths
+  # and both "hold" it at once. Creating the persona dir to resolve it is exactly what the CLI does.
+  mkdir -p "$TC_HOME/personas/$name" || die 8 "cannot create $TC_HOME/personas/$name"
+  local real
+  real=$(cd "$TC_HOME/personas/$name" && pwd -P) || die 8 "cannot resolve $TC_HOME/personas/$name"
+  LOCK="$real.lock"
   if ! mkdir "$LOCK" 2>/dev/null; then
     if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +10 2>/dev/null)" ]; then
       warn "a truecast lock older than 10 minutes was left at $LOCK (a killed process?) — taking it over"
@@ -543,8 +552,19 @@ cmd_remove() {
   from=$(running_version "$name")
   [ -n "$from" ] || from=none
 
-  if [ ! -e "$target" ] && [ ! -L "$target" ] && [ ! -d "$pdir" ]; then
-    say "$name is not installed by truecast — nothing to remove."
+  # --project DETACHES: it removes this repo's agent file and leaves the shared body store alone. The
+  # craft is global (a user-scope install of the same persona reads it), so deleting it here would leave
+  # a live teammate pointing at nothing — the exact state G1 exists to prevent. Mirrors the CLI, where
+  # `remove` without `--global` detaches and preserves the cache.
+  local purge_store=1
+  [ "$PROJECT" = 1 ] && purge_store=0
+
+  if [ ! -e "$target" ] && [ ! -L "$target" ] && { [ "$purge_store" = 0 ] || [ ! -d "$pdir" ]; }; then
+    if [ "$PROJECT" = 1 ]; then
+      say "$name is not installed in $PROJECT_ROOT — nothing to remove."
+    else
+      say "$name is not installed by truecast — nothing to remove."
+    fi
     result noop "$name" none "$from" "$target" false false false
     return 0
   fi
@@ -565,8 +585,13 @@ cmd_remove() {
     elif [ -e "$target" ]; then
       say "    DELETE   $target"
     fi
-    [ -d "$pdir" ] && say "    DELETE   $pdir/   (every cached version of the craft)"
-    say "  ⚠ projects with a .truecast/agents/$name/core symlink will break next session (they cannot be enumerated)."
+    if [ "$purge_store" = 1 ]; then
+      [ -d "$pdir" ] && say "    DELETE   $pdir/   (every cached version of the craft)"
+      say "  ⚠ projects with a .truecast/agents/$name/core symlink will break next session (they cannot be enumerated)."
+    else
+      say "    KEEP     $pdir/   (the shared craft; other projects and a user-scope install still need it)"
+      say "  to remove the craft too, run '/truecast:remove $name' without --project."
+    fi
     say "  nothing has been written yet."
     result plan "$name" "$from" "$from" "$target" false false "$foreign"
     return 0
@@ -578,10 +603,11 @@ cmd_remove() {
   if [ "$foreign" = false ] && { [ -e "$target" ] || [ -L "$target" ]; }; then
     rm -f "$target" || die 8 "cannot remove $target"
   fi
-  [ -d "$pdir" ] && safe_rm "$TC_HOME" "$pdir"
+  if [ "$purge_store" = 1 ] && [ -d "$pdir" ]; then safe_rm "$TC_HOME" "$pdir"; fi
 
   say ""
   say "✓ removed $name"
+  [ "$purge_store" = 0 ] && say "  the shared craft under $pdir/ was kept."
   if [ "$foreign" = true ]; then
     say "  $target was left in place: truecast did not generate it."
     result removed "$name" "$from" "$from" "$target" false false true
@@ -604,12 +630,14 @@ cmd_list() {
     agent="-"
     [ -f "$PWD/.claude/agents/$name.md" ] && agent="project"
     [ -f "$CC_HOME/agents/$name.md" ] && agent="user"
-    if [ ! -d "$TC_HOME/personas/$name" ]; then
-      managed="-"
-    elif [ -f "$TC_HOME/personas/$name/owned.json" ]; then
+    # The only derivable signal is the CLI's ledger: present ⇒ the CLI manages it (it adopts a
+    # plugin-lane install on first use), absent but installed ⇒ this lane wrote it.
+    if [ -f "$TC_HOME/personas/$name/owned.json" ]; then
       managed="cli"
-    else
+    elif [ "$installed" != "-" ]; then
       managed="plugin"
+    else
+      managed="-"
     fi
     printf '%-22s %-11s %-11s %-12s %s\n' "$name" "$installed" "$available" "$agent" "$managed"
   done

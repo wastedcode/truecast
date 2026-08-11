@@ -180,12 +180,32 @@ require_name() {
 # happily admits `1.0.0/../../../../Documents` and the write escapes the home. Reject every character
 # that isn't in the semver alphabet, plus any `..`, before `$ver` touches a path.
 valid_version() {
-  case "$1" in
-  *[!0-9A-Za-z.-]* | *..* | .* | *. | -*) return 1 ;;
-  [0-9]*.[0-9]*.[0-9]*) ;;
-  *) return 1 ;;
+  local v=$1 core pre major minor patch rest
+  # the alphabet, and the shapes a `case` glob would otherwise wave through
+  case "$v" in
+  "" | *[!0-9A-Za-z.-]* | *..* | .* | *. | -* | *-) return 1 ;;
   esac
-  [ "${#1}" -le 64 ]
+  [ "${#v}" -le 64 ] || return 1
+  # split the optional prerelease off at the FIRST dash, then require EXACTLY major.minor.patch.
+  # A glob cannot express "exactly three numeric components": `[0-9]*.[0-9]*.[0-9]*` happily matches
+  # `1.0.0.5`, which zod then rejects — leaving a version dir on disk the CLI can never adopt.
+  case "$v" in
+  *-*)
+    core=${v%%-*}
+    pre=${v#*-}
+    case "$pre" in "" | *[!0-9A-Za-z.-]*) return 1 ;; esac
+    ;;
+  *) core=$v ;;
+  esac
+  major=${core%%.*}
+  rest=${core#*.}
+  [ "$rest" != "$core" ] || return 1 # no first dot
+  minor=${rest%%.*}
+  patch=${rest#*.}
+  [ "$patch" != "$rest" ] || return 1 # no second dot
+  case "$patch" in *.*) return 1 ;; esac # a fourth component
+  case "$major$minor$patch" in "" | *[!0-9]*) return 1 ;; esac
+  return 0
 }
 
 # Containment (the shell mirror of removeContained/RR8): nothing is deleted unless it is UNDER a home.
@@ -198,6 +218,11 @@ inside() {
 
 safe_rm() {
   inside "$1" "$2" || die 7 "refusing to delete a path outside $1: $2"
+  # A delete needs the SAME proof a write needs, and needs it more: `rm -rf` through a symlinked
+  # component (a planted `~/.truecast/personas`) destroys whatever it points at. Lexical containment
+  # alone never sees that. safe_write is the walk; it refuses a symlink at any component AND at the
+  # leaf, which is what we want here — a managed path we own is never itself a link.
+  safe_write "$1" "$2"
   rm -rf "$2"
 }
 
@@ -209,6 +234,13 @@ safe_rm() {
 # parent's realpath is still under the root. Nothing here follows a link; it only refuses.
 safe_write() {
   local root=$1 target=$2 realroot rel part cur parent realparent
+  # `..` is refused up front, before anything else: the realpath confirmation below only runs when the
+  # parent already EXISTS, so a traversal into a not-yet-created directory would otherwise slip past
+  # the one check that would have caught it. This primitive is general — it cannot assume its callers
+  # validated their inputs first.
+  case "/$target/" in
+  */../*) die 7 "refusing a path containing '..': $target" ;;
+  esac
   realroot=$(cd "$root" 2>/dev/null && pwd -P) || die 7 "cannot resolve the write root $root"
   inside "$root" "$target" || die 7 "refusing to write outside $root: $target"
   rel=${target#"$root"/}

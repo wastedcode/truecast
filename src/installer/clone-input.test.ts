@@ -1,3 +1,4 @@
+import { spawnSync } from "node:child_process";
 import {
   chmodSync,
   existsSync,
@@ -5,11 +6,12 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { PersonaMeta } from "../schema/index.js";
+import { PersonaManifest, PersonaMeta } from "../schema/index.js";
 import { type FakeHome, hasBash, makeClone, makeHome, repoRoot, runScript } from "./fixture.js";
 
 /**
@@ -26,10 +28,8 @@ import { type FakeHome, hasBash, makeClone, makeHome, repoRoot, runScript } from
  */
 
 const bash = hasBash();
-const scriptSource = readFileSync(
-  join(repoRoot, "plugin", "truecast", "bin", "truecast-plugin.sh"),
-  "utf8",
-);
+const script = join(repoRoot, "plugin", "truecast", "bin", "truecast-plugin.sh");
+const scriptSource = readFileSync(script, "utf8");
 
 /** The hostile set §6a names: traversal, absolute, shell metacharacters, empty, and absurdly long. */
 const HOSTILE = [
@@ -43,6 +43,10 @@ const HOSTILE = [
   "1.0.0|tee /tmp/pwned",
   "",
   "x".repeat(10_240),
+  // shapes a `case` glob waves through but zod rejects — they would leave a version dir on disk that
+  // the CLI can never adopt, which is a silent end to lane convergence
+  "1.0.0.5",
+  "1.0.0-",
 ];
 
 interface CloneField {
@@ -131,6 +135,83 @@ describe.skipIf(!bash)("T-S4 — hostile clone content is refused or neutralised
     expect(existsSync(join(fake.claudeHome, "agents", "alpha.md"))).toBe(false);
     // nothing may have been created outside the two homes, or under a traversed path
     expect(readdirSync(fake.home).sort()).toEqual(["canary.txt", "tmp"]);
+  });
+
+  /**
+   * The shell has no zod, so `valid_version` is a hand-copy of the CLI's SemVer schema — and a hand-copy
+   * is a thing that drifts. This asserts the two agree, verdict for verdict, on the shapes where a
+   * `case` glob and a regex disagree. A version the shell accepts but zod rejects is the worst of the
+   * two failures: the dir lands on disk and no CLI operation can ever adopt it.
+   */
+  it.each([
+    ["1.0.0", true],
+    ["10.20.30", true],
+    ["2.0.0-rc.1", true],
+    ["1.0.0-alpha-1", true],
+    ["1.0.0.5", false],
+    ["1.0.0-", false],
+    ["1.0", false],
+    ["1.0.0.", false],
+    [".1.0.0", false],
+    ["v1.0.0", false],
+    ["1.0.x", false],
+  ] as const)("version %s: the shell and the CLI schema agree (valid=%s)", (version, valid) => {
+    setVersion(version);
+    const shellAccepts = runScript(clone, ["install", "alpha", "--yes"], fake.env).status === 0;
+    const zodAccepts = PersonaManifest.safeParse({
+      name: "alpha",
+      version,
+      identity: "agent.md",
+    }).success;
+    expect(zodAccepts, `the CLI schema disagrees with this table for ${version}`).toBe(valid);
+    expect(shellAccepts, `the shell disagrees with the CLI schema for ${version}`).toBe(zodAccepts);
+  });
+
+  it("safe_rm walks the parent chain too — no delete THROUGH a symlinked component", () => {
+    // security follow-up 1: lexical containment never sees a planted `personas` symlink, and `rm -rf`
+    // through it destroys whatever it points at
+    const outside = join(fake.home, "elsewhere");
+    mkdirSync(join(outside, "alpha", "1.0.0", "core"), { recursive: true });
+    writeFileSync(join(outside, "alpha", "1.0.0", "core", "persona.toml"), 'name = "alpha"\n');
+    mkdirSync(fake.truecastHome, { recursive: true });
+    symlinkSync(outside, join(fake.truecastHome, "personas"));
+
+    const r = runScript(clone, ["remove", "alpha", "--yes"], fake.env);
+    expect(r.status).toBe(7);
+    expect(existsSync(join(outside, "alpha", "1.0.0", "core", "persona.toml"))).toBe(true);
+  });
+
+  it("safe_write refuses a `..` component even when the parent does not exist yet", () => {
+    // security follow-up 2: the realpath confirmation only runs for an EXISTING parent, so a traversal
+    // into a not-yet-created directory would slip past the one check that would have caught it.
+    // Called directly — no caller can produce this today, which is exactly why the primitive is tested
+    // rather than only its callers.
+    const root = join(fake.home, "root");
+    mkdirSync(root, { recursive: true });
+    const call = (target: string): { status: number | null; out: string } => {
+      const r = spawnSync(
+        "bash",
+        [
+          "-c",
+          // Capture BOTH args before sourcing (the dispatch shifts, so $3 is gone afterwards), under
+          // names the script cannot own — it declares its own TARGET/TARGET_ROOT globals, and sourcing
+          // would reset them out from under us.
+          't4root=$2; t4target=$3; . "$0" >/dev/null 2>&1; safe_write "$t4root" "$t4target"; echo REACHED',
+          script,
+          "--version",
+          root,
+          target,
+        ],
+        { env: fake.env, encoding: "utf8" },
+      );
+      return { status: r.status, out: `${r.stdout}${r.stderr}` };
+    };
+    const escaped = call(`${root}/nope/../../escaped.md`); // never join(): it collapses the `..`
+    expect(escaped.status).toBe(7);
+    expect(escaped.out).toContain("'..'");
+    expect(escaped.out).not.toContain("REACHED");
+    // and the guard is not over-broad: an ordinary nested target still passes
+    expect(call(join(root, "sub/ok.md")).out).toContain("REACHED");
   });
 
   /** A `git` that answers `config --get remote.origin.url` with whatever we hand it. */

@@ -12,9 +12,6 @@ import { planPublish } from "../publish/index.js";
 
 export const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
-/** The script under test, inside the REAL repo (which is itself a valid marketplace clone). */
-export const realScript = join(repoRoot, "plugin", "truecast", "bin", "truecast-plugin.sh");
-
 /** Is `bash` usable here? The lane is POSIX-only by design — skip, don't fail, where it isn't. */
 export function hasBash(): boolean {
   const r = spawnSync("bash", ["-c", "exit 0"], { encoding: "utf8" });
@@ -132,6 +129,46 @@ export function writePlan(clone: string): void {
   }
 }
 
+/**
+ * Refuse to launch the script against anything but a fake home. Throws rather than skips: a test that
+ * cannot prove it is hermetic must FAIL, loudly, not quietly do the dangerous thing.
+ *
+ * The one exception is a test deliberately probing the `$HOME` preconditions (T-F6/T-H2), which passes
+ * an unset/relative/newline HOME or a relative override. Those cannot address any real home by
+ * construction, and the script exits 7 on them before it writes. An ABSOLUTE path outside the fake home
+ * is refused in every case — that is the only shape that can reach a real one.
+ */
+export function assertFakeEnv(env: NodeJS.ProcessEnv): void {
+  const { HOME, TRUECAST_HOME, CLAUDE_HOME } = env;
+  const overrides = [
+    ["TRUECAST_HOME", TRUECAST_HOME],
+    ["CLAUDE_HOME", CLAUDE_HOME],
+  ] as const;
+
+  if (!HOME?.startsWith("/")) {
+    // T-F6/T-H2 probe the preconditions with an unset/relative/newline HOME. Fine — but only if no
+    // ABSOLUTE override could pick up the slack and point somewhere real.
+    for (const [key, value] of overrides) {
+      if (value?.startsWith("/")) {
+        throw new Error(`runScript: HOME is unset/relative and ${key} (${value}) is absolute`);
+      }
+    }
+    return;
+  }
+  if (!HOME.startsWith(`${tmpdir()}/`)) {
+    throw new Error(`runScript: HOME must be a temp-dir path, got ${HOME} — never the real home`);
+  }
+  // An override may be ABSENT (the script then derives it under the proven-temp HOME) or RELATIVE
+  // (a deliberate bad-value probe the script rejects at exit 7, before it writes). What it may never
+  // be is an absolute path outside the fake home — that is the shape that reaches a real one.
+  for (const [key, value] of overrides) {
+    if (value === undefined || !value.startsWith("/")) continue;
+    if (!value.startsWith(`${HOME}/`)) {
+      throw new Error(`runScript: ${key} (${value}) must live under the fake HOME (${HOME})`);
+    }
+  }
+}
+
 export interface ScriptRun {
   status: number;
   stdout: string;
@@ -140,13 +177,22 @@ export interface ScriptRun {
   result: Record<string, string> | null;
 }
 
-/** Run the installer script from `clone`, against `env`. Never inherits the caller's environment. */
+/**
+ * Run the installer script from `clone`, against `env`. Never inherits the caller's environment.
+ *
+ * The env is CHECKED, not trusted: a call that passed the real `HOME` and omitted the overrides would
+ * install personas into the founder's actual home, and T-H1 — which scans source text — would not see
+ * it, because the offending value arrives at runtime. So the blind spot is closed here, at the one
+ * place every shell test goes through. The `HOME` check is deliberately conservative: a mkdtemp path,
+ * and the two overrides must live under it.
+ */
 export function runScript(
   clone: string,
   args: string[],
   env: NodeJS.ProcessEnv,
   opts: { cwd?: string } = {},
 ): ScriptRun {
+  assertFakeEnv(env);
   const script = join(clone, "plugin", "truecast", "bin", "truecast-plugin.sh");
   const r = spawnSync("bash", [script, ...args], {
     env: env as NodeJS.ProcessEnv,

@@ -389,6 +389,10 @@ write_meta_if_absent() {
   # (`https://ghp_TOKEN@github.com/...`) would otherwise write the token into meta.json and the plan.
   # Same rule the CLI applies in `redactUrl` before a source reaches the lock or the terminal.
   remote=$(printf '%s' "$remote" | sed 's|://[^/@]*@|://|')
+  # …and strip control characters, mirroring SourceRef's `noControlChars`. `$(…)` only eats TRAILING
+  # newlines, so an embedded one would land inside a JSON string and make meta.json unparseable — which
+  # the CLI reports as META_CORRUPT and which stops the two lanes converging. (Found by T-S4.)
+  remote=$(printf '%s' "$remote" | tr -d '\000-\037\177')
   commit=$(git -C "$CLONE" rev-parse HEAD 2>/dev/null)
   case "$commit" in
   "" | *[!0-9a-f]*) commit="local" ;;

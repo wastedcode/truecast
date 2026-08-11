@@ -38,6 +38,13 @@ const BANNED: { pattern: RegExp; why: string }[] = [
     pattern: /\bresolveConfig\s*\(\s*\)/,
     why: "zero-arg resolveConfig() defaults to homedir(); pass an explicit env + home",
   },
+  {
+    pattern: /process\.env\.HOME|process\.env\[["']HOME["']\]/,
+    why: "process.env.HOME is the REAL home; build a mkdtemp one instead",
+  },
+  { pattern: /\buserInfo\s*\(/, why: "os.userInfo().homedir is the REAL home" },
+  { pattern: /\buntildify\b/, why: "untildify expands ~ to the REAL home" },
+  { pattern: /["'`]~\//, why: "a literal '~/' path expands to the REAL home in a shell" },
 ];
 
 describe("T-H1 — no test can reach the real ~/.claude or ~/.truecast", () => {

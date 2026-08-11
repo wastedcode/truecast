@@ -435,6 +435,26 @@ append_gitignore() {
   printf '%s\n' "$line" >>"$gi" || die 8 "cannot append to $gi"
 }
 
+# --project only: drop the ignore line we added, on detach. EXACT whole-line match only (`grep -xF`) —
+# anything else in the user's .gitignore, including a broader pattern that happens to cover our file, is
+# theirs and stays.
+remove_gitignore_line() {
+  local root=$1 line=$2 gi tmp
+  gi="$root/.gitignore"
+  [ -L "$gi" ] && return 0 # never rewrite through a symlink; leave it entirely alone
+  [ -f "$gi" ] || return 0
+  grep -qxF "$line" "$gi" 2>/dev/null || return 0
+  tmp="$gi.tmp-$$"
+  grep -vxF "$line" "$gi" >"$tmp"
+  case $? in
+  0 | 1) mv "$tmp" "$gi" || die 8 "cannot rewrite $gi" ;; # 1 = the file is now empty, which is fine
+  *)
+    rm -f "$tmp"
+    die 8 "cannot rewrite $gi"
+    ;;
+  esac
+}
+
 # --project only: scaffold the standing brief the D1 overlay reads, ONLY if absent (never clobber edits).
 scaffold_mandate() {
   local root=$1 name=$2 mandate
@@ -713,14 +733,23 @@ cmd_remove() {
     fi
   fi
 
+  # A FOREIGN agent file STOPS the removal outright — we delete NOTHING (G1). Deleting the craft and
+  # leaving the file would produce the one state G1 forbids: a teammate Claude Code still loads, whose
+  # every craft path now dangles, and which a re-install then refuses to repair (exit 5 FOREIGN). The
+  # user's file is the user's to resolve; until they do, their install stays whole.
+  if [ "$foreign" = true ]; then
+    say ""
+    say "$target exists and truecast did not generate it."
+    say "  nothing was removed. Delete or rename that file yourself, then run this again —"
+    say "  removing the craft while that file stays would leave @$name loaded but broken."
+    result plan "$name" "$from" "$from" "$target" false false true
+    exit 5
+  fi
+
   if [ "$YES" != 1 ]; then
     say ""
     say "plan: remove $name"
-    if [ "$foreign" = true ]; then
-      say "    KEEP     $target   (truecast did not generate this — it will NOT be deleted)"
-    elif [ -e "$target" ]; then
-      say "    DELETE   $target"
-    fi
+    [ -e "$target" ] && say "    DELETE   $target"
     if [ "$purge_store" = 1 ]; then
       [ -d "$pdir" ] && say "    DELETE   $pdir/   (every cached version of the craft)"
       say "  ⚠ projects with a .truecast/agents/$name/core symlink will break next session (they cannot be enumerated)."
@@ -736,19 +765,16 @@ cmd_remove() {
   lock_persona "$name"
   # G1 in reverse: the user-visible surface goes FIRST, so there is no window with a live teammate whose
   # craft has been deleted.
-  if [ "$foreign" = false ] && { [ -e "$target" ] || [ -L "$target" ]; }; then
+  if [ -e "$target" ] || [ -L "$target" ]; then
     rm -f "$target" || die 8 "cannot remove $target"
+    # --project only: drop the exact line we added, and nothing else the user put there
+    [ "$PROJECT" = 1 ] && remove_gitignore_line "$PROJECT_ROOT" ".claude/agents/$name.md"
   fi
   if [ "$purge_store" = 1 ] && [ -d "$pdir" ]; then safe_rm "$TC_HOME" "$pdir"; fi
 
   say ""
   say "✓ removed $name"
   [ "$purge_store" = 0 ] && say "  the shared craft under $pdir/ was kept."
-  if [ "$foreign" = true ]; then
-    say "  $target was left in place: truecast did not generate it."
-    result removed "$name" "$from" "$from" "$target" false false true
-    exit 5
-  fi
   result removed "$name" "$from" "$from" "$target" false false false
 }
 

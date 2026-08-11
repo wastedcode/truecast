@@ -7,7 +7,8 @@ Install portable, versioned **expert personas** — a product manager, an archit
 them.
 
 **Status:** working end-to-end — `install` · `update` · `list` · `remove` · `doctor` · `prompt` · `publish`,
-with a per-persona ownership ledger, atomic updates, and a sandboxed git/GitHub fetch. Verified driving real
+with a per-persona ownership ledger, atomic updates, and a sandboxed git/GitHub fetch. The same four verbs
+run from inside a Claude Code session as `/truecast:install` and friends, no terminal. Verified driving real
 Claude Code sessions (as a subagent and as a standalone agent); `publish` generates a Claude Code plugin
 marketplace (validated with `claude plugin validate`). Pre-1.0; the self-improving loop is next.
 
@@ -33,29 +34,35 @@ You could paste "act like a security expert" into your prompt. Two reasons not t
   agent Reads when a task matches — not vibes baked into a one-off prompt. You adopt the author's
   improvements deliberately, and your per-project customizations survive the update.
 
-## Install a teammate as a plugin (no restart)
+## Add a teammate from inside Claude Code
 
-Install straight into a live Claude Code session:
+Two lines to set truecast up, one line per teammate — no terminal:
 
 ```
 /plugin marketplace add wastedcode/truecast
-/plugin install product-manager@truecast
-/reload-plugins
+/plugin install truecast@truecast
+/truecast:install product-manager
 ```
-Now talk to the teammate by name. You only type `@truecast` at install; it's the marketplace the plugin
-comes from, like an npm scope. Swap `product-manager` for any of the eleven official personas:
-`product-researcher`, `vc-seed`, `software-engineer`, `software-architect`, `security-engineer`, `qa`,
-`infrastructure`, `product-marketer`, `ui-ux-designer`, `sales`.
 
-The first time you run a plugin teammate with no job set, it asks what the project needs and writes its own
-`mandate.md`. Want a global, versioned copy you update on your terms, with an ownership ledger that keeps
-your edits when the author ships changes? Use the `truecast` CLI below.
+Now `@product-manager` answers to that bare name, in this project and every other one. The
+`truecast@truecast` line installs the *installer* — the plugin that provides `/truecast:install`,
+`/truecast:update`, `/truecast:list`, and `/truecast:remove`. You type it once, ever. Swap
+`product-manager` for any of the eleven official personas: `product-researcher`, `vc-seed`,
+`software-engineer`, `software-architect`, `security-engineer`, `qa`, `infrastructure`,
+`product-marketer`, `ui-ux-designer`, `sales`.
 
-Plugin updates are pull-based: when the catalog ships a new persona version, grab it with
-`/plugin marketplace update truecast` (or `claude plugin update <name>@truecast` for one persona) — or
-make it automatic per marketplace: `/plugin` → **Marketplaces** → truecast → **Enable auto-update**
-(third-party marketplaces have it off by default). Details in
-[docs/managing-personas.md](docs/managing-personas.md#the-plugin-lane).
+Before it writes anything, `/truecast:install` shows you the plan — the version, the tools that teammate
+gets, every path it will touch — and waits for a yes. It never overwrites a file truecast didn't write,
+and it copies from the marketplace clone already on your disk. First run only: if `/truecast:install`
+isn't recognized yet, `/reload-plugins`; if `@<name>` isn't, restart Claude Code once.
+
+New versions ride the marketplace: `/plugin marketplace update truecast`, then
+`/truecast:update <name>` (or `--all`). Details in
+[docs/managing-personas.md](docs/managing-personas.md#which-lane-youre-on).
+
+The first time you run a teammate with no job set, it asks what the project needs and writes its own
+`mandate.md`. Want installs from any git URL, `doctor`, `prompt`, and an ownership ledger? Use the
+`truecast` CLI below — same on-disk copy, so the two lanes can update each other's installs.
 
 ## Get the `truecast` CLI
 ```sh
@@ -72,8 +79,8 @@ Requires Node ≥ 22. **Pre-1.0:** the CLI and the programmatic API may change b
 [docs → Stability](docs/README.md#stability-pre-10).
 
 ## Install a persona with the CLI
-The plugin path above is the fast lane. The CLI is the control lane: a global, versioned copy you update
-deliberately, with a per-persona ownership ledger so your customizations survive an update.
+`/truecast:install` above is the fast lane. The CLI is the control lane: installs from any git URL, a
+per-persona ownership ledger, and `doctor` / `prompt`. It costs you Node, a terminal, and a restart.
 
 ```sh
 cd your-project
@@ -92,15 +99,14 @@ Then write the persona's job for this project in `.truecast/agents/<name>/instan
 
 ## Using a persona
 
-However you install it — plugin (the recommended path) or CLI — a persona runs as a native Claude Code
-**subagent**. Its body carries an **index of the persona's skills** (each with a one-line summary and the
-path to Read), so the persona pulls the right skill on demand. Verified: given an open-ended task it
-Reads the matching `SKILL.md` files itself, then applies them. (The CLI additionally materializes the
-subagent at `~/.claude/agents/<name>.md` and symlinks the craft into your project.)
+However you install it, a persona runs as a native Claude Code **subagent**. Its body carries an
+**index of the persona's skills** (each with a one-line summary and the path to Read), so the persona
+pulls the right skill on demand. Verified: given an open-ended task it Reads the matching `SKILL.md`
+files itself, then applies them. (`/truecast:install` and the CLI both materialize the subagent at
+`~/.claude/agents/<name>.md`; the CLI additionally symlinks the craft into your project.)
 
-### As a Claude Code subagent (`@agent-<name>`)
-Restart Claude Code after a CLI install (the plugin path above needs no restart), then bring it into a
-normal session:
+### As a Claude Code subagent (`@<name>`)
+After a CLI install, restart Claude Code, then bring the teammate into a normal session:
 
 ```
 > have the product-manager pressure-test this idea: an AI that auto-prioritizes my to-dos
@@ -145,8 +151,11 @@ Add this to the repo's `.claude/settings.json` and commit it:
 }
 ```
 When someone opens the repo in Claude Code and trusts the folder, Claude Code offers to install the
-teammate for them. The expert travels with the code, not with each person's setup. Only commit this for a
-marketplace you control, and review what a marketplace ships before you trust a folder.
+teammate for them. The expert travels with the code, not with each person's setup. Note the name: a
+persona installed this way is namespaced by its plugin, so it answers to `product-manager:product-manager`
+rather than a bare `@product-manager` — that's the price of portability, and it's why
+`/truecast:install` exists for the per-machine case. Only commit this for a marketplace you control, and
+review what a marketplace ships before you trust a folder.
 
 ## Managing personas
 ```sh

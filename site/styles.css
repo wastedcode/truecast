@@ -697,6 +697,7 @@ h1, h2, h3, p { text-wrap: pretty; }
 .code-block__pre code { font-size: inherit; }
 .cmd { display: block; white-space: pre; }
 .cmd__sigil { color: var(--accent); -webkit-user-select: none; user-select: none; margin-right: 0.6rem; }
+.cmd--note { color: var(--ink-3); }
 .code-block--cta { max-width: 38rem; margin-inline: auto; text-align: left; }
 
 /* =============================================================================

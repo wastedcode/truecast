@@ -9,10 +9,44 @@ explicitly ask (`remove --purge`). Your job description and notes are yours.
 
 ---
 
-## the plugin lane
+## which lane you're on
 
-Installed as a plugin instead (`/plugin install <name>@truecast`)? Claude Code owns updates there, and
-they're pull-based:
+| you installed it with | you update it with | you call it |
+|---|---|---|
+| `/truecast:install <name>` | `/plugin marketplace update truecast`, then `/truecast:update <name>` | `@<name>` |
+| `/plugin install <name>@truecast` | Claude Code, on a version bump (or auto-update) | `<name>:<name>` |
+| `truecast install <source>` | `truecast update <name>` | `@<name>` |
+
+The first and third share one on-disk copy under `~/.truecast`, so either can update the other's install.
+The second is Claude Code's own copy and touches neither home.
+
+### the `/truecast:*` commands
+
+Four commands, 1:1 with the CLI verbs, all from inside a session:
+
+```
+/truecast:install <name> [--project]
+/truecast:update  <name> | --all
+/truecast:list
+/truecast:remove  <name> [--project]
+```
+
+- **`/truecast:update` installs from your local marketplace copy.** Fetch newer personas first with
+  `/plugin marketplace update truecast`; otherwise you'll be told you're already up to date.
+- **Every command plans before it writes.** You see the version span, the tools granted, and every path —
+  plus a `diff -u` when a generated file changes — and nothing is written until you say yes. `--all`
+  reports one line per persona; a failure on one doesn't stop the rest.
+- **It never overwrites a file truecast didn't write.** A foreign `~/.claude/agents/<name>.md` stops the
+  install; there is no `--force` past it. Rename it, or install with `--project`.
+- **`/truecast:remove` deletes the agent file and the whole `~/.truecast/personas/<name>` tree**, cached
+  versions included. Projects holding a `.truecast/agents/<name>/core` symlink break next session — they
+  can't be enumerated, so you get warned, not protected. (`--project` removes only that repo's agent
+  file; the shared craft stays, because a user-scope teammate still reads it.)
+- **macOS and Linux.** This lane needs `bash`; on Windows, use the CLI.
+
+### personas installed as their own plugin
+
+Claude Code owns updates there, and they're pull-based:
 
 ```
 /plugin marketplace update truecast      # refresh the catalog in-session
@@ -24,11 +58,12 @@ marketplace, and off by default for third-party marketplaces like this one. (Org
 `"autoUpdate": true` on the marketplace's `extraKnownMarketplaces` entry in managed settings to enable
 it fleet-wide.)
 
-Two things to know about the plugin lane:
+Two things to know:
 - **Updates ship only on a version bump.** Claude Code delivers a plugin update when the persona's
   `plugin.json` `version` changes; new commits under the same version are invisible to plugin users.
-- **No classification, no consent gate.** The plugin lane takes whatever the new version ships — the
-  patch/minor/major classification, drift protection, and confirmation below apply to CLI installs only.
+- **No classification, no consent gate.** This lane takes whatever the new version ships. Drift
+  protection and confirmation exist on the CLI and `/truecast:*` lanes only; the patch/minor/major
+  classification below is CLI-only (`/truecast:*` shows you the byte diff instead).
 
 The verbs below are the CLI lane.
 
@@ -88,7 +123,8 @@ r.plan;    // the UpdatePlan: from/to, changeClass, changes[], toolsAdded, downg
 r.error;   // set only when outcome === "failed"
 ```
 
-> Restart Claude Code after an update to reload the regenerated subagent.
+> Restart Claude Code after an update to reload the regenerated subagent. (Its file paths stay valid
+> across an update either way — only the skill index goes briefly stale.)
 
 ---
 
@@ -174,6 +210,8 @@ truecast doctor --fix --yes  # …without the prompt
 | **stale-staging** | leftover `*.staging-*`/`*.tmp-*` from an interrupted write | removed |
 | **orphan-cache** | a cached version truecast no longer tracks | reported (`remove --global` to clear) |
 | **missing-owned** | a generated file vanished | reported (re-install/update to regenerate) |
+| **unledgered** | on-disk state truecast can prove it wrote, with no ledger entry (a `/truecast:install`) | adopted into the ledger |
+| **stale-surface** | an agent file whose bytes don't match a fresh render of the running version | re-materialized |
 
 ```ts
 import { doctor } from "truecast";

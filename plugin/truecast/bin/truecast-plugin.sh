@@ -68,7 +68,9 @@ cleanup() {
   fi
   # a half-copied core must never be left looking installed; the suffix also matches `truecast doctor`'s
   # stale-staging sweep, so even a SIGKILL leaves residue the CLI already knows how to clean.
-  [ -n "$STAGING" ] && rm -rf "$STAGING" 2>/dev/null
+  # Containment-checked even on the teardown path: STAGING is derived from clone content (the version).
+  # (`${TC_HOME:-}` — the trap can fire before the preconditions have resolved the homes)
+  if [ -n "$STAGING" ] && inside "${TC_HOME:-}" "$STAGING"; then rm -rf "$STAGING" 2>/dev/null; fi
   [ -n "$WORK" ] && rm -rf "$WORK" 2>/dev/null
   return 0
 }
@@ -131,6 +133,21 @@ require_name() {
     die 2 "'$1' is not a valid persona name (lowercase letters, digits and dashes; must start with a letter)"
 }
 
+# The CLI's SemVer schema, in shell (src/schema/index.ts: /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/).
+# THIS IS A SECURITY GATE, not a nicety: the version comes from persona.toml — CLONE CONTENT — and is
+# concatenated straight into `$TC_HOME/personas/<name>/<ver>`, which is then mkdir'd, rm -rf'd and
+# renamed over. A shell `case` glob's `*` matches `/`, so a lax pattern like `[0-9]*.[0-9]*.[0-9]*`
+# happily admits `1.0.0/../../../../Documents` and the write escapes the home. Reject every character
+# that isn't in the semver alphabet, plus any `..`, before `$ver` touches a path.
+valid_version() {
+  case "$1" in
+  *[!0-9A-Za-z.-]* | *..* | .* | *. | -*) return 1 ;;
+  [0-9]*.[0-9]*.[0-9]*) ;;
+  *) return 1 ;;
+  esac
+  [ "${#1}" -le 64 ]
+}
+
 # Containment (the shell mirror of removeContained/RR8): nothing is deleted unless it is UNDER a home.
 inside() {
   case "$2" in
@@ -179,10 +196,8 @@ load_clone_persona() {
     die 3 "this marketplace copy predates the installer — run '/plugin marketplace update truecast', then try again"
   fi
   SRC_VERSION=$(toml_version "$CLONE_DIR/core/persona.toml")
-  case "$SRC_VERSION" in
-  [0-9]*.[0-9]*.[0-9]*) ;;
-  *) die 3 "cannot read a version from $CLONE_DIR/core/persona.toml" ;;
-  esac
+  valid_version "$SRC_VERSION" ||
+    die 3 "cannot read a usable version from $CLONE_DIR/core/persona.toml (got: '$SRC_VERSION')"
 }
 
 # Render the agent body for THIS machine: the published template with the home token substituted.
@@ -277,10 +292,12 @@ write_body_store() {
   [ -L "$vdir/core" ] && die 7 "refusing to write through a symlink at $vdir/core"
   mkdir -p "$vdir" || die 8 "cannot create $vdir"
   STAGING="$vdir/core.staging-$$"
-  rm -rf "$STAGING"
+  # `$ver` is clone content, so every destructive step here goes through the containment check even
+  # though valid_version already gated it — one bypass must not become a delete outside the home.
+  safe_rm "$TC_HOME" "$STAGING"
   cp -R "$CLONE_DIR/core" "$STAGING" || die 8 "cannot copy the persona core into $vdir"
   [ -f "$STAGING/persona.toml" ] || die 8 "the copied core is incomplete (no persona.toml)"
-  rm -rf "$vdir/core"
+  safe_rm "$TC_HOME" "$vdir/core"
   mv "$STAGING" "$vdir/core" || die 8 "cannot move the staged core into place"
   STAGING=""
 }
@@ -294,6 +311,10 @@ write_meta_if_absent() {
   [ -e "$meta" ] && return 0
   remote=$(git -C "$CLONE" config --get remote.origin.url 2>/dev/null)
   [ -n "$remote" ] || remote="$CLONE" # no git / no remote: the clone path is a valid `path` source
+  # Strip URL userinfo before this is PERSISTED and PRINTED: a clone made with an embedded credential
+  # (`https://ghp_TOKEN@github.com/...`) would otherwise write the token into meta.json and the plan.
+  # Same rule the CLI applies in `redactUrl` before a source reaches the lock or the terminal.
+  remote=$(printf '%s' "$remote" | sed 's|://[^/@]*@|://|')
   commit=$(git -C "$CLONE" rev-parse HEAD 2>/dev/null)
   case "$commit" in
   "" | *[!0-9a-f]*) commit="local" ;;
@@ -332,6 +353,9 @@ write_agent_file() {
 append_gitignore() {
   local root=$1 line=$2 gi
   gi="$root/.gitignore"
+  # A `>>` follows a symlink: a repo shipping `.gitignore -> ~/.bashrc` would have us append a line to
+  # the user's shell profile. Refuse, exactly as we refuse a symlinked agent/meta target.
+  [ -L "$gi" ] && die 7 "refusing to append through a symlink at $gi"
   if [ -f "$gi" ] && grep -qxF "$line" "$gi"; then return 0; fi
   if [ -s "$gi" ] && [ -n "$(tail -c 1 "$gi")" ]; then printf '\n' >>"$gi"; fi
   printf '%s\n' "$line" >>"$gi" || die 8 "cannot append to $gi"
@@ -340,8 +364,12 @@ append_gitignore() {
 # --project only: scaffold the standing brief the D1 overlay reads, ONLY if absent (never clobber edits).
 scaffold_mandate() {
   local root=$1 name=$2 mandate
+  # `mkdir -p` and `cp` both follow a symlinked component: a repo shipping `.truecast -> ~/.ssh` would
+  # have us create dirs and write a file THERE. Refuse at the one component a repo can plant.
+  [ -L "$root/.truecast" ] && die 7 "refusing to write through a symlink at $root/.truecast"
   mandate="$root/.truecast/agents/$name/instance/mandate.md"
   [ -e "$mandate" ] && return 0
+  [ -L "$mandate" ] && die 7 "refusing to write through a symlink at $mandate"
   mkdir -p "$(dirname "$mandate")" || die 8 "cannot create $(dirname "$mandate")"
   if [ -f "$CLONE_DIR/instance-template/mandate.md" ]; then
     cp "$CLONE_DIR/instance-template/mandate.md" "$mandate" || die 8 "cannot write $mandate"

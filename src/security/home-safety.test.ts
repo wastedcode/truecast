@@ -17,13 +17,16 @@ import { describe, expect, it } from "vitest";
 const srcRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const selfPath = fileURLToPath(import.meta.url);
 
-/** Every `*.test.ts` under `src/`, absolute, sorted. */
+/**
+ * Every test file under `src/`: the `*.test.ts` suites plus their support modules (`fixture.ts`) —
+ * a helper that resolved the real home would poison every suite that imports it.
+ */
 function testFiles(dir: string): string[] {
   const out: string[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, entry.name);
     if (entry.isDirectory()) out.push(...testFiles(p));
-    else if (entry.name.endsWith(".test.ts")) out.push(p);
+    else if (entry.name.endsWith(".test.ts") || entry.name === "fixture.ts") out.push(p);
   }
   return out.sort();
 }

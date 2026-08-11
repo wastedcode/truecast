@@ -505,24 +505,62 @@ describe.skipIf(!bash)("§6 failure design", () => {
     }
   });
 
-  it("P3: no spurious source-mismatch when the recorded source has no persona fragment", () => {
-    run("install", "alpha", "--yes");
-    // what a CLI install from a plain local path records: no `#personas/<name>` fragment at all
-    writeFileSync(
-      join(personaDir("alpha"), "meta.json"),
-      `${JSON.stringify({ source: "/somewhere/alpha-repo", versions: [] }, null, 2)}\n`,
-    );
-    rmSync(agent("alpha"));
-    expect(run("install", "alpha").stderr).not.toContain("source-mismatch");
+  // D5's warning, all three cases. It has to interrupt for a real surprise and stay quiet otherwise —
+  // a warning that fires on the ordinary case is a warning people learn to click past.
+  describe("source-mismatch", () => {
+    const setSource = (source: string): void => {
+      writeFileSync(
+        join(personaDir("alpha"), "meta.json"),
+        `${JSON.stringify({ source, versions: [] }, null, 2)}\n`,
+      );
+      rmSync(agent("alpha"), { force: true }); // so the plan runs rather than short-circuiting
+    };
 
-    // but a fragment naming a DIFFERENT persona is a real mismatch and must be surfaced
-    writeFileSync(
-      join(personaDir("alpha"), "meta.json"),
-      `${JSON.stringify({ source: "https://x/y.git#personas/beta", versions: [] }, null, 2)}\n`,
-    );
-    const r = run("install", "alpha");
-    expect(r.stderr).toContain("source-mismatch");
-    expect(r.stderr).toContain("(beta)");
+    it("stays SILENT when the record has no persona fragment (a CLI path install)", () => {
+      run("install", "alpha", "--yes");
+      setSource("/somewhere/alpha-repo");
+      expect(run("install", "alpha").stderr).not.toContain("source-mismatch");
+    });
+
+    it("WARNS when the fragment names a different persona", () => {
+      run("install", "alpha", "--yes");
+      setSource("https://x/y.git#personas/beta");
+      const r = run("install", "alpha");
+      expect(r.stderr).toContain("source-mismatch");
+      expect(r.stderr).toContain("(beta)");
+    });
+
+    it("WARNS when it is the same persona from a different repo — a fork", () => {
+      run("install", "alpha", "--yes");
+      setSource("https://github.com/someone-else/truecast.git#personas/alpha");
+      const r = run("install", "alpha");
+      expect(r.stderr).toContain("source-mismatch");
+      expect(r.stderr).toContain("may be a fork");
+      expect(r.stderr).toContain("someone-else");
+    });
+
+    it("stays SILENT for the same persona from THIS copy (the ordinary re-install)", () => {
+      run("install", "alpha", "--yes");
+      rmSync(agent("alpha"));
+      expect(run("install", "alpha").stderr).not.toContain("source-mismatch");
+    });
+  });
+
+  it("a half-completed install says how to finish it (G1: the craft is in, the surface is not)", () => {
+    // the agent write is the LAST step, so a failure there leaves the craft installed and nothing
+    // user-visible half-made. The message has to say that, or the user is left guessing.
+    const agents = join(fake.claudeHome, "agents");
+    mkdirSync(agents, { recursive: true });
+    chmodSync(agents, 0o555); // the target is absent (so no FOREIGN stop) but unwritable
+    try {
+      const r = run("install", "alpha", "--yes");
+      expect(r.status).not.toBe(0);
+      expect(existsSync(join(personaDir("alpha"), "1.0.0", "core", "persona.toml"))).toBe(true);
+      expect(existsSync(agent("alpha"))).toBe(false); // nothing half-written where the user can see
+      expect(r.stderr).toContain("re-run this same command to finish");
+    } finally {
+      chmodSync(agents, 0o755);
+    }
   });
 
   it("T-F4: an unknown persona exits 3", () => {
@@ -680,7 +718,7 @@ describe.skipIf(!bash)("§6 failure design", () => {
   });
 
   // NEW-2 — the asymmetry between the two lanes is deliberate, so the two halves are pinned together.
-  // USER lane: `~/.claude/agents` may itself be a symlink (the dotfiles pattern). It is the DECLARED
+  // USER lane: the home agents dir may itself be a symlink (the dotfiles pattern). It is the DECLARED
   // root, so it is resolved, not refused — the npm CLI already permits it and splitting the lanes here
   // would break exactly the convergence this feature exists for.
   it("NEW-2: a symlinked USER agents dir is SUPPORTED — install, update and remove all work", () => {
@@ -795,7 +833,7 @@ describe.skipIf(!bash)("T-E2: --project scope (D8)", () => {
   });
 
   it("refuses to append through a symlinked .gitignore (exit 7); the link target is untouched", () => {
-    // a cloned repo can ship `.gitignore -> ~/.bashrc`; `>>` follows it and lands in the shell profile
+    // a cloned repo can ship .gitignore as a link to the user's shell profile; `>>` follows it
     const victim = join(fake.home, ".bashrc");
     writeFileSync(victim, "# my shell\n");
     symlinkSync(victim, join(project, ".gitignore"));

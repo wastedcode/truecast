@@ -94,7 +94,7 @@ describe.skipIf(!bash)("T-C1 — the convergence golden", () => {
     },
   );
 
-  it("NEW-2: the lanes converge even when ~/.claude/agents is a symlink (dotfiles)", async () => {
+  it("NEW-2: the lanes converge even when the user agents dir is a symlink (dotfiles)", async () => {
     fresh();
     // the CLI permits a symlinked agents dir (write-file-atomic resolves the parent), so the script
     // must too, or the same user gets two different behaviours from the two lanes

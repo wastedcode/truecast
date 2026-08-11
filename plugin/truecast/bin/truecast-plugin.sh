@@ -54,10 +54,14 @@ TAB=$'\t'
 
 say() { printf '%s\n' "$*" >&2; }
 warn() { printf 'warning: %s\n' "$*" >&2; }
+# A next step attached to whatever fails NEXT. Set it around a step whose failure leaves recoverable
+# partial state, so the message says what to do instead of leaving the user to guess.
+HINT=""
 die() {
   local code=$1
   shift
   printf 'error: %s\n' "$*" >&2
+  [ -n "$HINT" ] && printf '  → %s\n' "$HINT" >&2
   exit "$code"
 }
 
@@ -408,13 +412,10 @@ write_body_store() {
   STAGING=""
 }
 
-# 2. meta.json — written ONLY when absent. Merging JSON in shell (no jq guarantee) is a duplication we
-#    refuse; any CLI install/update repairs a stale record (D5).
-write_meta_if_absent() {
-  local name=$1 ver=$2 meta remote commit
-  meta="$TC_HOME/personas/$name/meta.json"
-  safe_write "$TC_HOME" "$meta"
-  [ -e "$meta" ] && return 0
+# Where this marketplace copy came from — the `source` half of a meta record, and the thing a plan
+# compares against to spot a fork. One owner, so the record and the warning can never disagree.
+clone_origin() {
+  local remote
   remote=$(git -C "$CLONE" config --get remote.origin.url 2>/dev/null)
   [ -n "$remote" ] || remote="$CLONE" # no git / no remote: the clone path is a valid `path` source
   # Strip URL userinfo before this is PERSISTED and PRINTED: a clone made with an embedded credential
@@ -424,7 +425,17 @@ write_meta_if_absent() {
   # …and strip control characters, mirroring SourceRef's `noControlChars`. `$(…)` only eats TRAILING
   # newlines, so an embedded one would land inside a JSON string and make meta.json unparseable — which
   # the CLI reports as META_CORRUPT and which stops the two lanes converging. (Found by T-S4.)
-  remote=$(printf '%s' "$remote" | tr -d '\000-\037\177')
+  printf '%s' "$remote" | tr -d '\000-\037\177'
+}
+
+# 2. meta.json — written ONLY when absent. Merging JSON in shell (no jq guarantee) is a duplication we
+#    refuse; any CLI install/update repairs a stale record (D5).
+write_meta_if_absent() {
+  local name=$1 ver=$2 meta remote commit
+  meta="$TC_HOME/personas/$name/meta.json"
+  safe_write "$TC_HOME" "$meta"
+  [ -e "$meta" ] && return 0
+  remote=$(clone_origin)
   commit=$(git -C "$CLONE" rev-parse HEAD 2>/dev/null)
   case "$commit" in
   "" | *[!0-9a-f]*) commit="local" ;;
@@ -642,7 +653,12 @@ do_install_or_update() {
     append_gitignore "$PROJECT_ROOT" ".claude/agents/$name.md"
     scaffold_mandate "$PROJECT_ROOT" "$name"
   fi
+  # Everything above this line is already on disk. If the agent file can't be written (a symlinked
+  # parent, a full disk), the install is half-done but not broken — G1 means the half we skipped is the
+  # only user-visible one — so say plainly that fixing the target and re-running finishes it.
+  HINT="the craft is already installed; fix the problem above and re-run this same command to finish"
   write_agent_file "$target" "$TARGET_ROOT"
+  HINT=""
 
   say ""
   say "✓ $name@$ver is ready — mention it as @$name."
@@ -689,16 +705,27 @@ plan_report() {
   if [ "$(agents_dir_missing "$target")" = true ]; then
     say "  note: the agents directory does not exist yet — you will need to restart Claude Code once."
   fi
-  # source-mismatch: only when the record names a DIFFERENT persona. A source with no `#personas/`
-  # fragment (a CLI install from a plain path or a single-persona repo) tells us nothing about which
-  # persona it is, so it is not evidence of a mismatch — warning there just trains people to click past.
+  # source-mismatch (D5). Two things are worth interrupting for, and one is not:
+  #   different persona  → this record was written for someone else entirely. Warn.
+  #   different ORIGIN   → same persona, another repo: a FORK. Installing replaces their craft with
+  #                        ours, which is exactly the surprise D5 wanted surfaced. Warn.
+  #   no `#personas/` fragment → a CLI install from a plain path tells us nothing about which persona
+  #                        or repo it came from. Absence of evidence is not a mismatch, and warning on
+  #                        it just trains people to click past warnings. Stay silent.
   if [ -e "$meta" ]; then
-    local recorded frag
+    local recorded frag origin here
     recorded=$(sed -n 's/.*"source"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$meta" | sed -n 1p)
     frag=${recorded##*#personas/}
-    if [ "$frag" != "$recorded" ] && [ -n "$frag" ] && [ "$frag" != "$name" ]; then
-      say "  source-mismatch: this install came from $recorded — a DIFFERENT persona ($frag)."
-      say "    installing from this marketplace copy will replace its craft. Ask before proceeding."
+    if [ "$frag" != "$recorded" ] && [ -n "$frag" ]; then
+      origin=${recorded%%#personas/*}
+      here=$(clone_origin)
+      if [ "$frag" != "$name" ]; then
+        say "  source-mismatch: this install came from $recorded — a DIFFERENT persona ($frag)."
+        say "    installing from this marketplace copy will replace its craft. Ask before proceeding."
+      elif [ "$origin" != "$here" ]; then
+        say "  source-mismatch: this $name came from $origin, not from this marketplace copy ($here)."
+        say "    it may be a fork. Installing will replace its craft with this copy's. Ask before proceeding."
+      fi
     fi
   fi
   if [ "$drift" = true ]; then

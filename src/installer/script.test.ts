@@ -209,6 +209,15 @@ describe.skipIf(!bash)("update", () => {
     expect(r.result?.from).toBe("1.0.0");
   });
 
+  it("the diff header names the files, not our scratch path", () => {
+    runBumped("install", "alpha", "--yes");
+    bumpTo("1.1.0", ["do-the-thing", "ship"]);
+    const r = runBumped("update", "alpha");
+    expect(r.stderr).toContain("--- installed: ");
+    expect(r.stderr).toContain("+++ new: alpha@1.1.0");
+    expect(r.stderr).not.toMatch(/truecast-plugin\.\w+\/body/); // no temp-dir leak
+  });
+
   it("plans a version span, then applies it with --force --yes", () => {
     runBumped("install", "alpha", "--yes");
     bumpTo("1.1.0", ["do-the-thing", "ship"]);
@@ -313,6 +322,16 @@ describe.skipIf(!bash)("list", () => {
     expect(row).toMatch(/alpha\s+1\.0\.0\s+1\.0\.0\s+user\s+plugin/);
     const beta = r.stdout.split("\n").find((l) => l.startsWith("beta")) ?? "";
     expect(beta).toMatch(/beta\s+-\s+2\.1\.0\s+-\s+-/);
+  });
+
+  it("reports the file actually in effect: project shadows user", () => {
+    run("install", "alpha", "--yes"); // user scope
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    runScript(clone, ["install", "alpha", "--project", project, "--yes"], fake.env);
+    // run with cwd = the project, which is where a `/truecast:list` would run
+    const r = runScript(clone, ["list"], fake.env, { cwd: project });
+    expect(r.stdout.split("\n").find((l) => l.startsWith("alpha"))).toMatch(/\bproject\b/);
   });
 
   it("reports `cli` once an ownership ledger sits alongside", () => {
@@ -484,6 +503,26 @@ describe.skipIf(!bash)("§6 failure design", () => {
     } finally {
       rmSync(old, { recursive: true, force: true });
     }
+  });
+
+  it("P3: no spurious source-mismatch when the recorded source has no persona fragment", () => {
+    run("install", "alpha", "--yes");
+    // what a CLI install from a plain local path records: no `#personas/<name>` fragment at all
+    writeFileSync(
+      join(personaDir("alpha"), "meta.json"),
+      `${JSON.stringify({ source: "/somewhere/alpha-repo", versions: [] }, null, 2)}\n`,
+    );
+    rmSync(agent("alpha"));
+    expect(run("install", "alpha").stderr).not.toContain("source-mismatch");
+
+    // but a fragment naming a DIFFERENT persona is a real mismatch and must be surfaced
+    writeFileSync(
+      join(personaDir("alpha"), "meta.json"),
+      `${JSON.stringify({ source: "https://x/y.git#personas/beta", versions: [] }, null, 2)}\n`,
+    );
+    const r = run("install", "alpha");
+    expect(r.stderr).toContain("source-mismatch");
+    expect(r.stderr).toContain("(beta)");
   });
 
   it("T-F4: an unknown persona exits 3", () => {

@@ -35,9 +35,12 @@ The columns mean:
 - **INSTALLED** — the version `~/.truecast` currently runs, or `-`.
 - **AVAILABLE** — the version in your local marketplace copy, or `-`. To refresh it, run
   `/plugin marketplace update truecast`.
-- **AGENT FILE** — `user` (available in every project), `project` (this repo only), or `-`.
-- **MANAGED BY** — `plugin` (installed by these commands) or `cli` (the `truecast` npm CLI has an
-  ownership record for it). Either lane can update or remove the other's install.
+- **AGENT FILE** — where the teammate's file is: `user` (available in every project), `project` (this
+  repo only), or `-` (none). When both exist it reads `project`, because Claude Code gives the project
+  file precedence — the user-scope one is shadowed here.
+- **MANAGED BY** — `plugin` (installed by these commands), `cli` (the `truecast` npm CLI has an
+  ownership record for it), or `-` (not installed — only available). Either lane can update or remove
+  the other's install.
 
 If the script exits non-zero, show its message verbatim and stop. If it exits 127 (or bash reports
 "No such file or directory" for the script itself), neither candidate path holds it: tell the user to

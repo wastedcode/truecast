@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { doctor } from "../api/doctor.js";
@@ -93,6 +93,27 @@ describe.skipIf(!bash)("T-C1 — the convergence golden", () => {
       }
     },
   );
+
+  it("NEW-2: the lanes converge even when ~/.claude/agents is a symlink (dotfiles)", async () => {
+    fresh();
+    // the CLI permits a symlinked agents dir (write-file-atomic resolves the parent), so the script
+    // must too, or the same user gets two different behaviours from the two lanes
+    const dotfiles = join(fake.home, "dotfiles", "agents");
+    mkdirSync(dotfiles, { recursive: true });
+    mkdirSync(fake.claudeHome, { recursive: true });
+    symlinkSync(dotfiles, join(fake.claudeHome, "agents"));
+
+    await install(
+      { source: join(repoRoot, "personas", "qa"), global: true },
+      { config, confirm: () => true },
+    );
+    const cliBytes = readFileSync(join(dotfiles, "qa.md"), "utf8");
+
+    const r = runScript(repoRoot, ["install", "qa"], fake.env);
+    expect(r.status, r.stderr).toBe(0);
+    expect(r.result?.status).toBe("up-to-date"); // byte-identical through the symlink
+    expect(readFileSync(join(dotfiles, "qa.md"), "utf8")).toBe(cliBytes);
+  });
 
   it("T-C4: after the CLI installs, the script sees byte-identity and reports up-to-date", async () => {
     fresh();

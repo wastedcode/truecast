@@ -421,14 +421,17 @@ REPAIR=false
 RESTART=false
 write_agent_file() {
   local target=$1 root=$2 dir
+  dir=$(dirname "$target")
+  # Claude Code reads the agents dir at session start; if it isn't there yet, say so. Decided BEFORE
+  # any mkdir, because on the user lane the root IS this dir and creating it would hide the answer.
+  [ -d "$dir" ] || RESTART=true
+  # The root must exist to be resolved. On the user lane it is the agents dir and creating it is ours to
+  # do; on --project it is the repo root, which always exists, so this is a no-op there. Crucially the
+  # `mkdir` of the target's own parents happens AFTER safe_write, so an untrusted repo's symlinked
+  # `.claude` can never have directories created inside whatever it points at.
   mkdir -p "$root" || die 8 "cannot create $root"
   safe_write "$root" "$target"
-  dir=$(dirname "$target")
-  if [ ! -d "$dir" ]; then
-    # Claude Code reads the agents dir at session start; if we just created it, say so.
-    RESTART=true
-    mkdir -p "$dir" || die 8 "cannot create $dir"
-  fi
+  mkdir -p "$dir" || die 8 "cannot create $dir"
   cp "$WORK/body" "$target.tmp-$$" || die 8 "cannot write $target"
   mv "$target.tmp-$$" "$target" || die 8 "cannot write $target"
 }
@@ -530,6 +533,13 @@ resolve_project_root() {
 # Sets TARGET (the agent file) and TARGET_ROOT (the root that write must not escape). Deliberately NOT
 # a `$(...)` function: a command substitution runs in a subshell, so a global set inside it is lost —
 # and TARGET_ROOT silently empty is exactly how a containment check turns into a no-op.
+#
+# The two lanes declare DIFFERENT roots, on purpose:
+#   user     → `$CC_HOME/agents`. The root itself is resolved (`pwd -P`), so `~/.claude/agents` MAY be a
+#              symlink — the dotfiles pattern, which the npm CLI already permits, so refusing it here
+#              would split the lanes. The walk still applies below it and the leaf FOREIGN check stays.
+#   --project → the repo root. A cloned repo is untrusted: every component under it, `.claude` and
+#              `.claude/agents` included, must be a real directory. Strict, and deliberately asymmetric.
 TARGET=""
 TARGET_ROOT=""
 set_agent_target() {
@@ -537,7 +547,7 @@ set_agent_target() {
     TARGET_ROOT=$PROJECT_ROOT
     TARGET="$PROJECT_ROOT/.claude/agents/$1.md"
   else
-    TARGET_ROOT=$CC_HOME
+    TARGET_ROOT="$CC_HOME/agents"
     TARGET="$CC_HOME/agents/$1.md"
   fi
 }
@@ -763,6 +773,14 @@ cmd_remove() {
     if [ -L "$target" ] || [ ! -f "$target" ] || ! has_stamp "$target"; then
       foreign=true
     fi
+  fi
+
+  # NEW-1 — the delete path gets the SAME containment walk as the write path. `rm -f` follows a
+  # symlinked parent exactly as a write does: a repo shipping `.claude/agents -> ~/.claude/agents` had
+  # `remove --project` delete the user's real teammate while the plan showed the in-repo path. Checked
+  # here, before the plan is printed, so the plan can never name a path that isn't the one acted on.
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    safe_write "$TARGET_ROOT" "$target"
   fi
 
   # A FOREIGN agent file STOPS the removal outright — we delete NOTHING (G1). Deleting the craft and

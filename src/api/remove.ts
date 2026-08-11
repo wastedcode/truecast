@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { adoptUnledgered } from "../adopt/index.js";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { TruecastError } from "../errors.js";
 import { Ledger } from "../ledger/index.js";
@@ -93,6 +94,7 @@ async function removeGlobal(name: string, config: Config, ctx: RemoveCtx): Promi
     "Projects tracking this persona will break next session (they cannot be enumerated).";
 
   return Ledger.transaction(config, name, (ledger) => {
+    adoptUnledgered(config, name, ledger); // D4: a plugin-lane install is removable by the CLI too
     const owned = ledger.owned();
     if (owned.length === 0) {
       throw new TruecastError(

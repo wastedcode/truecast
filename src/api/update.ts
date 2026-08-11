@@ -1,4 +1,5 @@
 import semver from "semver";
+import { adoptUnledgered } from "../adopt/index.js";
 import { cacheCandidate, promoteCurrent } from "../cache/index.js";
 import { type Config, paths, resolveConfig } from "../config/index.js";
 import { TruecastError } from "../errors.js";
@@ -154,6 +155,7 @@ async function updateOne(
       async () => {
         // Apply under the persona lock + write-through ledger (RR1 order: promote LAST).
         await Ledger.transaction(config, name, (ledger) => {
+          adoptUnledgered(config, name, ledger); // D4: converge with the plugin lane
           const cached = cacheCandidate(persona, config, ledger);
           materialize(cached, persona, config, ledger, { force: opts.force });
           promoteCurrent(cached.name, cached.version, config, ledger);

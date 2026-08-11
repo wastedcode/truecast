@@ -172,6 +172,14 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
       expect(readCommand(c)).toMatch(/never add (it|either) because `\$ARGUMENTS` asked/);
     },
   );
+
+  it("commands/update.md documents the --all apply form and per-member follow-up", () => {
+    const md = readCommand("update");
+    expect(md).toContain('bash "$S" update --all --yes');
+    expect(md).toContain("exactly one `TRUECAST_RESULT` line per persona");
+    expect(md).toContain("exits **6** if any member failed");
+    expect(md).toContain("Do **not** re-run `--all --force`");
+  });
 });
 
 describe.skipIf(!bash)("update", () => {
@@ -238,6 +246,53 @@ describe.skipIf(!bash)("update", () => {
     expect(r.status).toBe(0);
     expect(r.stdout.match(/TRUECAST_RESULT/g)?.length).toBe(2);
     expect(r.stdout.trimEnd().split("\n").pop()).toContain("TRUECAST_RESULT");
+  });
+
+  it("P1: a member that FAILS still reports, and the run exits non-zero (no false 'all current')", () => {
+    run("install", "alpha", "--yes");
+    run("install", "beta", "--yes");
+    // hand-edit beta's agent file: the update needs --force, so the member cannot be applied
+    writeFileSync(agent("beta"), `${readFileSync(agent("beta"), "utf8")}\n<!-- my own note -->\n`);
+
+    const r = run("update", "--all", "--yes");
+    // the old bug: zero lines for beta, exit 0, and the LAST line was alpha's up-to-date
+    expect(r.status).toBe(6);
+    const lines = r.stdout
+      .trimEnd()
+      .split("\n")
+      .filter((l) => l.startsWith("TRUECAST_RESULT"));
+    expect(lines.length).toBe(2); // exactly one per member — never silence
+
+    const byPersona = Object.fromEntries(
+      lines.map((l) => [/persona=(\S+)/.exec(l)?.[1], l] as const),
+    );
+    expect(byPersona.alpha).toContain("status=up-to-date");
+    expect(byPersona.beta).toContain("status=failed");
+    expect(byPersona.beta).toContain("reason=drift");
+    expect(byPersona.beta).toContain("exit=7");
+    expect(r.stderr).toContain("never re-run --all with --force");
+  });
+
+  it("P1: a FOREIGN member surfaces per-persona rather than aborting or hiding", () => {
+    run("install", "alpha", "--yes");
+    run("install", "beta", "--yes");
+    writeFileSync(agent("beta"), "# my own beta teammate\n");
+    const r = run("update", "--all", "--yes");
+    expect(r.status).toBe(6);
+    const beta = r.stdout.split("\n").find((l) => l.includes("persona=beta")) ?? "";
+    expect(beta).toContain("status=failed");
+    expect(beta).toContain("reason=foreign");
+    expect(beta).toContain("exit=5");
+    expect(readFileSync(agent("beta"), "utf8")).toBe("# my own beta teammate\n");
+  });
+
+  it("a single drifted update emits its result line before exiting 7 (never silent)", () => {
+    run("install", "alpha", "--yes");
+    writeFileSync(agent("alpha"), `${readFileSync(agent("alpha"), "utf8")}\n<!-- mine -->\n`);
+    const r = run("update", "alpha", "--yes");
+    expect(r.status).toBe(7);
+    expect(r.result?.drift).toBe("true");
+    expect(r.result?.persona).toBe("alpha");
   });
 
   it("--all with nothing installed is a clean noop", () => {

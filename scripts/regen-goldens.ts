@@ -5,7 +5,7 @@
 import { mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { renderSystemPrompt } from "../src/materialize/index.js";
+import { renderSystemPrompt, TRUECAST_HOME_PLACEHOLDER } from "../src/materialize/index.js";
 import { loadPersona } from "../src/persona/index.js";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -23,7 +23,7 @@ for (const name of names) {
   const prompt = renderSystemPrompt(
     { name, version: persona.manifest.version, coreDir: persona.coreDir },
     persona,
-    { kind: "subagent" },
+    { kind: "subagent", truecastHome: TRUECAST_HOME_PLACEHOLDER },
   );
   writeFileSync(join(goldenDir, `${name}.subagent.md`), prompt);
   process.stdout.write(`regenerated ${name}.subagent.md\n`);

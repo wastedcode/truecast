@@ -203,6 +203,7 @@ function renderRunning(config: Config, name: string): string | null {
     const persona = loadPersona(join(paths.personaDir(config, name), running));
     return composeAgentFile({ name, version: running, coreDir: persona.coreDir }, persona, {
       kind: "subagent",
+      truecastHome: config.truecastHome,
     });
   } catch {
     return null; // the running version won't load — other issues cover that

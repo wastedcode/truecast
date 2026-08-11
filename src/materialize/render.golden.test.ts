@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { loadPersona } from "../persona/index.js";
-import { renderSystemPrompt } from "./index.js";
+import { renderSystemPrompt, TRUECAST_HOME_PLACEHOLDER } from "./index.js";
 
 /**
  * The renderer is the single owner of "what a persona's prompt says". The `PromptTransport` refactor
@@ -29,7 +29,7 @@ const renderSubagent = (name: string): string => {
   return renderSystemPrompt(
     { name, version: persona.manifest.version, coreDir: persona.coreDir },
     persona,
-    { kind: "subagent" },
+    { kind: "subagent", truecastHome: TRUECAST_HOME_PLACEHOLDER },
   );
 };
 

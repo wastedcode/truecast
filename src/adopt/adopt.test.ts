@@ -72,6 +72,7 @@ function fakePluginInstall(version = "1.0.0"): void {
     agentFile(),
     composeAgentFile({ name: "tester", version, coreDir: cacheCore(version) }, persona, {
       kind: "subagent",
+      truecastHome: config.truecastHome,
     }),
   );
 }

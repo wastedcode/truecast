@@ -81,8 +81,10 @@ describe("planPublish — the pure file plan", () => {
       ".claude-plugin/marketplace.json",
       "personas/alpha-agent/.claude-plugin/plugin.json",
       "personas/alpha-agent/agents/alpha-agent.md",
+      "personas/alpha-agent/subagent.md",
       "personas/beta-agent/.claude-plugin/plugin.json",
       "personas/beta-agent/agents/beta-agent.md",
+      "personas/beta-agent/subagent.md",
     ]);
   });
 
@@ -254,7 +256,7 @@ describe("publish verb — settings / check / dry-run / write", () => {
   it("write then --check is clean; a hand-edit makes --check report drift", async () => {
     const written = await publish({ repoRoot: repo });
     expect(written.mode).toBe("write");
-    expect(written.written.length).toBe(5);
+    expect(written.written.length).toBe(7);
     expect(existsSync(join(repo, ".claude-plugin", "marketplace.json"))).toBe(true);
 
     const clean = await publish({ repoRoot: repo, check: true });
@@ -360,7 +362,7 @@ describe("publish verb — settings / check / dry-run / write", () => {
       const r = await publish({ repoRoot: solo });
       expect(r.mode).toBe("write");
       expect(r.validate).toBeUndefined();
-      expect(r.written.length).toBe(3);
+      expect(r.written.length).toBe(4);
     } finally {
       process.env.PATH = savedPath;
       rmSync(solo, { recursive: true, force: true });

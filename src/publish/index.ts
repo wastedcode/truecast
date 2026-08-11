@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
 import { TruecastError } from "../errors.js";
-import { composeAgentFile } from "../materialize/index.js";
+import { composeAgentFile, TRUECAST_HOME_PLACEHOLDER } from "../materialize/index.js";
 import { loadPersona } from "../persona/index.js";
 import { PersonaName } from "../schema/index.js";
 
@@ -225,11 +225,15 @@ export function planPublish(cfg: PublishConfig): PublishPlan {
     const persona = loadPersona(join(personasDir, name)); // throws → fail-fast (PersonaName-validated)
     const m = persona.manifest;
 
-    const agentBody = composeAgentFile(
-      { name, version: m.version, coreDir: persona.coreDir },
-      persona,
-      { kind: "plugin" },
-    );
+    const cached = { name, version: m.version, coreDir: persona.coreDir };
+    const agentBody = composeAgentFile(cached, persona, { kind: "plugin" });
+    // The SUBAGENT template the installer script materializes: the same renderer, with the home left
+    // as a token the script substitutes (D2). One renderer, three outputs — no prompt text is authored
+    // twice and no renderer is reimplemented in shell.
+    const subagentTemplate = composeAgentFile(cached, persona, {
+      kind: "subagent",
+      truecastHome: TRUECAST_HOME_PLACEHOLDER,
+    });
     const manifest = PluginManifest.parse({
       name,
       version: m.version,
@@ -249,6 +253,7 @@ export function planPublish(cfg: PublishConfig): PublishPlan {
 
     // Forward-slash, repo-relative paths only (never an absolute/home path — leak-safe + cross-OS).
     files.push({ path: `personas/${name}/agents/${name}.md`, content: agentBody });
+    files.push({ path: `personas/${name}/subagent.md`, content: subagentTemplate });
     files.push({
       path: `personas/${name}/.claude-plugin/plugin.json`,
       content: stableStringify(manifest),

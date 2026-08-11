@@ -587,6 +587,16 @@ describe.skipIf(!bash)("§6 failure design", () => {
     expect(readFileSync(victim, "utf8")).toBe("ORIGINAL");
   });
 
+  it("T-S2: a symlinked USER agents dir is refused too (the parent, not just the leaf)", () => {
+    const outside = join(fake.home, "exfil-user");
+    mkdirSync(outside, { recursive: true });
+    mkdirSync(fake.claudeHome, { recursive: true });
+    symlinkSync(outside, join(fake.claudeHome, "agents"));
+    const r = run("install", "alpha", "--yes");
+    expect(r.status).toBe(7);
+    expect(readdirSync(outside)).toEqual([]);
+  });
+
   it("T-S2: a symlink planted at the version dir's core is refused", () => {
     const victim = join(fake.home, "outside");
     mkdirSync(victim, { recursive: true });
@@ -650,6 +660,28 @@ describe.skipIf(!bash)("T-E2: --project scope (D8)", () => {
     expect(r.stderr).toContain("symlink");
     expect(readFileSync(victim, "utf8")).toBe("# my shell\n");
     expect(existsSync(projectAgent())).toBe(false); // the agent file is written after — never reached
+  });
+
+  it("refuses a symlinked .claude/agents PARENT (exit 7); the plan's path is the path written", () => {
+    // the leaf check at classify_target sees no symlink here — the redirect is one level up, and the
+    // plan and result line would still name the in-repo path while the write landed elsewhere
+    const outside = join(fake.home, "exfil");
+    mkdirSync(outside, { recursive: true });
+    mkdirSync(join(project, ".claude"), { recursive: true });
+    symlinkSync(outside, join(project, ".claude", "agents"));
+    const r = runScript(clone, ["install", "alpha", "--project", project, "--yes"], fake.env);
+    expect(r.status).toBe(7);
+    expect(r.stderr).toContain("symlink");
+    expect(readdirSync(outside)).toEqual([]);
+  });
+
+  it("refuses a symlinked .claude PARENT two levels up (the walk is not just one component)", () => {
+    const outside = join(fake.home, "exfil2");
+    mkdirSync(join(outside, "agents"), { recursive: true });
+    symlinkSync(outside, join(project, ".claude"));
+    const r = runScript(clone, ["install", "alpha", "--project", project, "--yes"], fake.env);
+    expect(r.status).toBe(7);
+    expect(readdirSync(join(outside, "agents"))).toEqual([]);
   });
 
   it("refuses to write through a symlinked .truecast dir (exit 7); nothing lands outside", () => {

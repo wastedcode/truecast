@@ -33,6 +33,8 @@
 set -u
 # NOT `set -o pipefail`: a `sed | grep -q` that stops early kills the writer with SIGPIPE, and pipefail
 # would report that as the pipeline's failure. Every command whose failure matters is checked explicitly.
+
+# stable globs, sorts and character classes regardless of the user's locale
 export LC_ALL=C
 
 # bash 5.2 turned `patsub_replacement` ON by default, which makes a bare `&` in the REPLACEMENT half of
@@ -40,7 +42,7 @@ export LC_ALL=C
 # to the placeholder itself, and `{{TRUECAST_HOME}}` would survive into the written agent file —
 # silently, exit 0, a teammate whose every Read path is broken. Turn it off. The `|| true` is for
 # bash 3.2 (macOS), which has no such option and would otherwise abort here under `set -u`.
-shopt -u patsub_replacement 2>/dev/null || true # stable globs, sorts and character classes regardless of the user's locale
+shopt -u patsub_replacement 2>/dev/null || true
 
 PLUGIN_VERSION="0.1.0"
 
@@ -199,6 +201,35 @@ safe_rm() {
   rm -rf "$2"
 }
 
+# The shell mirror of `writeContained` (src/safety/index.ts) — call this before ANY write, with the root
+# that write is declared to stay inside. A leaf `-L` check is not enough: a symlink at a PARENT
+# (`.claude/agents -> /elsewhere`, `.truecast -> ~/.ssh`) silently redirects the write while the plan and
+# the result line still name the in-repo path. So: prove the target is lexically inside the root, then
+# walk every existing component from the root down and refuse a symlink at any of them, then confirm the
+# parent's realpath is still under the root. Nothing here follows a link; it only refuses.
+safe_write() {
+  local root=$1 target=$2 realroot rel part cur parent realparent
+  realroot=$(cd "$root" 2>/dev/null && pwd -P) || die 7 "cannot resolve the write root $root"
+  inside "$root" "$target" || die 7 "refusing to write outside $root: $target"
+  rel=${target#"$root"/}
+  cur=$realroot
+  while [ -n "$rel" ]; do
+    part=${rel%%/*}
+    if [ "$part" = "$rel" ]; then rel=""; else rel=${rel#*/}; fi
+    [ -n "$part" ] || continue
+    cur="$cur/$part"
+    [ -L "$cur" ] && die 7 "refusing to write through a symlink at $cur"
+  done
+  parent=$(dirname "$target")
+  if [ -d "$parent" ]; then
+    realparent=$(cd "$parent" 2>/dev/null && pwd -P) || die 7 "cannot resolve $parent"
+    case "$realparent" in
+    "$realroot" | "$realroot"/*) ;;
+    *) die 7 "refusing to write outside $root: $target resolves to $realparent" ;;
+    esac
+  fi
+}
+
 json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 
 # Does this file carry the generated stamp in its header window? The stamp sits under the frontmatter,
@@ -327,9 +358,10 @@ lock_persona() {
 write_body_store() {
   local name=$1 ver=$2 vdir
   vdir="$TC_HOME/personas/$name/$ver"
-  [ -L "$vdir/core" ] && die 7 "refusing to write through a symlink at $vdir/core"
+  safe_write "$TC_HOME" "$vdir/core"
   mkdir -p "$vdir" || die 8 "cannot create $vdir"
   STAGING="$vdir/core.staging-$$"
+  safe_write "$TC_HOME" "$STAGING"
   # `$ver` is clone content, so every destructive step here goes through the containment check even
   # though valid_version already gated it — one bypass must not become a delete outside the home.
   safe_rm "$TC_HOME" "$STAGING"
@@ -345,7 +377,7 @@ write_body_store() {
 write_meta_if_absent() {
   local name=$1 ver=$2 meta remote commit
   meta="$TC_HOME/personas/$name/meta.json"
-  [ -L "$meta" ] && die 7 "refusing to write through a symlink at $meta"
+  safe_write "$TC_HOME" "$meta"
   [ -e "$meta" ] && return 0
   remote=$(git -C "$CLONE" config --get remote.origin.url 2>/dev/null)
   [ -n "$remote" ] || remote="$CLONE" # no git / no remote: the clone path is a valid `path` source
@@ -367,6 +399,8 @@ write_meta_if_absent() {
 promote_current() {
   local name=$1 ver=$2 pdir
   pdir="$TC_HOME/personas/$name"
+  # `current` is the one target that IS a symlink (ours), so check its PARENT chain, not the leaf
+  safe_write "$TC_HOME" "$pdir"
   [ -f "$pdir/$ver/core/persona.toml" ] || die 8 "refusing to point current at an incomplete $ver"
   ln -sfn "$ver" "$pdir/current" || die 8 "cannot re-point $pdir/current"
 }
@@ -375,7 +409,9 @@ promote_current() {
 #    a truncated teammate.
 RESTART=false
 write_agent_file() {
-  local target=$1 dir
+  local target=$1 root=$2 dir
+  mkdir -p "$root" || die 8 "cannot create $root"
+  safe_write "$root" "$target"
   dir=$(dirname "$target")
   if [ ! -d "$dir" ]; then
     # Claude Code reads the agents dir at session start; if we just created it, say so.
@@ -391,9 +427,9 @@ write_agent_file() {
 append_gitignore() {
   local root=$1 line=$2 gi
   gi="$root/.gitignore"
-  # A `>>` follows a symlink: a repo shipping `.gitignore -> ~/.bashrc` would have us append a line to
-  # the user's shell profile. Refuse, exactly as we refuse a symlinked agent/meta target.
-  [ -L "$gi" ] && die 7 "refusing to append through a symlink at $gi"
+  # `>>` follows a symlink: a repo shipping `.gitignore -> ~/.bashrc` would have us append to the user's
+  # shell profile.
+  safe_write "$root" "$gi"
   if [ -f "$gi" ] && grep -qxF "$line" "$gi"; then return 0; fi
   if [ -s "$gi" ] && [ -n "$(tail -c 1 "$gi")" ]; then printf '\n' >>"$gi"; fi
   printf '%s\n' "$line" >>"$gi" || die 8 "cannot append to $gi"
@@ -403,11 +439,10 @@ append_gitignore() {
 scaffold_mandate() {
   local root=$1 name=$2 mandate
   # `mkdir -p` and `cp` both follow a symlinked component: a repo shipping `.truecast -> ~/.ssh` would
-  # have us create dirs and write a file THERE. Refuse at the one component a repo can plant.
-  [ -L "$root/.truecast" ] && die 7 "refusing to write through a symlink at $root/.truecast"
+  # have us create dirs and write a file THERE.
   mandate="$root/.truecast/agents/$name/instance/mandate.md"
+  safe_write "$root" "$mandate"
   [ -e "$mandate" ] && return 0
-  [ -L "$mandate" ] && die 7 "refusing to write through a symlink at $mandate"
   mkdir -p "$(dirname "$mandate")" || die 8 "cannot create $(dirname "$mandate")"
   if [ -f "$CLONE_DIR/instance-template/mandate.md" ]; then
     cp "$CLONE_DIR/instance-template/mandate.md" "$mandate" || die 8 "cannot write $mandate"
@@ -461,11 +496,18 @@ resolve_project_root() {
 }
 
 # Where the agent file goes. Project scope shadows user scope, and is machine-local (D8).
-agent_target() {
+# Sets TARGET (the agent file) and TARGET_ROOT (the root that write must not escape). Deliberately NOT
+# a `$(...)` function: a command substitution runs in a subshell, so a global set inside it is lost —
+# and TARGET_ROOT silently empty is exactly how a containment check turns into a no-op.
+TARGET=""
+TARGET_ROOT=""
+set_agent_target() {
   if [ "$PROJECT" = 1 ]; then
-    printf '%s' "$PROJECT_ROOT/.claude/agents/$1.md"
+    TARGET_ROOT=$PROJECT_ROOT
+    TARGET="$PROJECT_ROOT/.claude/agents/$1.md"
   else
-    printf '%s' "$CC_HOME/agents/$1.md"
+    TARGET_ROOT=$CC_HOME
+    TARGET="$CC_HOME/agents/$1.md"
   fi
 }
 
@@ -476,7 +518,8 @@ do_install_or_update() {
   load_clone_persona "$name"
   ver=$SRC_VERSION
   render_body
-  target=$(agent_target "$name")
+  set_agent_target "$name"
+  target=$TARGET
   classify_target "$target"
 
   local body_store="$TC_HOME/personas/$name/$ver/core/persona.toml"
@@ -518,7 +561,7 @@ do_install_or_update() {
     append_gitignore "$PROJECT_ROOT" ".claude/agents/$name.md"
     scaffold_mandate "$PROJECT_ROOT" "$name"
   fi
-  write_agent_file "$target"
+  write_agent_file "$target" "$TARGET_ROOT"
 
   say ""
   say "✓ $name@$ver is ready — mention it as @$name."
@@ -639,7 +682,8 @@ cmd_remove() {
   require_name "$NAME"
   [ "$PROJECT" = 1 ] && resolve_project_root
   local name=$NAME target pdir from
-  target=$(agent_target "$name")
+  set_agent_target "$name"
+  target=$TARGET
   pdir="$TC_HOME/personas/$name"
   from=$(running_version "$name")
   [ -n "$from" ] || from=none

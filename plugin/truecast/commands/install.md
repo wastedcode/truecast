@@ -61,7 +61,7 @@ On `status=installed`, tell the user:
 - `@<name>` is ready — mention it by name in any project.
 - If `restart=true`, or if `@<name>` isn't recognised, restart Claude Code once (the agents directory has
   to exist when the session starts).
-- To give it a standing brief in this repo, write `.truecast/agents/<name>/instance/mandate.md`.
+- To give it a mandate in this repo, write `.truecast/agents/<name>/instance/mandate.md`.
 
 If the user declines at any point, confirm that nothing was written.
 

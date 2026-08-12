@@ -21,7 +21,7 @@ official personas works: `product-manager`, `product-researcher`, `vc-seed`, `so
 `sales`.
 
 **What you see before anything is written.** `/truecast:install` runs a plan first and writes nothing:
-the version, the tools that teammate will be granted, and every path it will touch. You approve, then it
+the version, the tools that teammate gets, and every path it will touch. You approve, then it
 writes. If a file truecast generated earlier would change, you get a `diff -u` and a second ask. If
 `~/.claude/agents/<name>.md` exists and truecast didn't write it, the install stops rather than overwrite
 it. Everything it copies comes from the marketplace clone already on your disk — nothing is downloaded at
@@ -70,9 +70,9 @@ Use this lane when the teammate should travel with a **repo** rather than a mach
 
 ## CLI
 
-The control lane: a global, versioned copy you update deliberately, with an ownership ledger that
-protects your edits, plus `doctor`, `prompt`, and installs from any git URL — not just this catalog.
-Costs you Node, a terminal, and a restart.
+A global, versioned copy you update deliberately, with an ownership ledger that protects your edits,
+plus `doctor`, `prompt`, and installs from any git URL — not just this catalog. Needs Node and a
+restart.
 ```sh
 cd your-project
 truecast install <git-url-or-path>[@version][#subpath] [flags]

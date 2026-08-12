@@ -52,11 +52,11 @@ Now `@product-manager` answers to that bare name, in this project and every othe
 `product-marketer`, `ui-ux-designer`, `sales`.
 
 Before it writes anything, `/truecast:install` shows you the plan — the version, the tools that teammate
-gets, every path it will touch — and waits for a yes. It never overwrites a file truecast didn't write,
-and it copies from the marketplace clone already on your disk. First run only: if `/truecast:install`
-isn't recognized yet, `/reload-plugins`; if `@<name>` isn't, restart Claude Code once.
+gets, and every path it will touch — and waits for a yes. It never overwrites a file truecast didn't
+write, and it copies from the marketplace clone already on your disk. First run only: if
+`/truecast:install` isn't recognized yet, `/reload-plugins`; if `@<name>` isn't, restart Claude Code once.
 
-New versions ride the marketplace: `/plugin marketplace update truecast`, then
+Updates come through the marketplace: `/plugin marketplace update truecast`, then
 `/truecast:update <name>` (or `--all`). Details in
 [docs/managing-personas.md](docs/managing-personas.md#which-lane-youre-on).
 
@@ -79,8 +79,8 @@ Requires Node ≥ 22. **Pre-1.0:** the CLI and the programmatic API may change b
 [docs → Stability](docs/README.md#stability-pre-10).
 
 ## Install a persona with the CLI
-`/truecast:install` above is the fast lane. The CLI is the control lane: installs from any git URL, a
-per-persona ownership ledger, and `doctor` / `prompt`. It costs you Node, a terminal, and a restart.
+`/truecast:install` above covers the common case. The CLI adds installs from any git URL, an ownership
+ledger, plus `doctor` and `prompt`. It needs Node and a restart.
 
 ```sh
 cd your-project

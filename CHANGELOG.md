@@ -10,6 +10,8 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-12
+
 ### Added
 - **`/truecast:install` — install a teammate from inside Claude Code, and `@`-mention it by its bare
   name.** A new plugin in the existing marketplace (`truecast@truecast`, `0.1.0`) ships four slash
@@ -18,7 +20,7 @@ All notable changes to truecast are documented here. The format follows
   `product-manager:product-manager`, in every project. No npm install, no terminal.
   - Every write is done by one reviewable script (`plugin/truecast/bin/truecast-plugin.sh`), never
     improvised by the model. Without `--yes` it is **plan only, zero writes**: you see the version, the
-    exact tools the teammate will be granted, every path, and a `diff -u` when an existing
+    tools that teammate gets, and every path it will touch — plus a `diff -u` when an existing
     truecast-generated file would be replaced. It never overwrites a file truecast didn't write —
     `--force` does not override that.
   - `--project` scopes the teammate to one repo (and gitignores the machine-local agent file, which
@@ -139,7 +141,8 @@ Initial public release.
   `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales` — each
   built from independent research and acceptance-tested against real-world demands.
 
-[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/wastedcode/truecast/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/wastedcode/truecast/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/wastedcode/truecast/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wastedcode/truecast/releases/tag/v0.1.0

@@ -252,7 +252,7 @@ a persona body is a system prompt &mdash; a trust decision, gated at install.
           <h2 id="own-title" class="h2">You could write the prompt. You won&rsquo;t maintain it.</h2>
           <p class="own-sec__body">A &ldquo;senior architect&rdquo; prompt takes four minutes. Keeping it sharp for a year takes attention you&rsquo;d rather spend shipping. A truecast persona is the part you wouldn&rsquo;t write yourself: deep skills and reference knowledge the agent pulls on demand, not a paragraph of vibes.</p>
           <p class="own-sec__body">And it gets better without costing you anything. When the author improves the craft, you adopt it on your terms. Your <code>instance/</code> &mdash; the job you set, the notes it kept &mdash; is never touched by an update. You keep your edits; you take the upstream gains.</p>
-          <p class="own-sec__kicker">An update never replaces a generated file without showing you the diff first, and never touches a file truecast didn&rsquo;t write.</p>
+          <p class="own-sec__kicker">truecast tracks every file it wrote. Those it shows you as a diff before replacing; everything else it leaves alone.</p>
         </div>
 
         <!-- update-keeps-your-edits diagram: upstream (author's craft) flows in;
@@ -414,10 +414,10 @@ a persona body is a system prompt &mdash; a trust decision, gated at install.
         <div class="install-sec__intro reveal">
           <h2 id="install-title" class="h2">Two lines once. One line per teammate.</h2>
           <p class="install-sec__payoff">
-            You type <code>truecast@truecast</code> once &mdash; that&rsquo;s the installer, from the truecast marketplace. After that, <code>/truecast:install &lt;name&gt;</code> adds a teammate and you call it by its bare name: <code>@security-engineer</code>, in this project and every other one. No terminal, no npm.
+            You type <code>truecast@truecast</code> once &mdash; that&rsquo;s the installer, from the truecast marketplace. After that, <code>/truecast:install &lt;name&gt;</code> adds a teammate and you call it by its bare name: <code>@security-engineer</code>, in this project and every other one.
           </p>
-          <p class="install-sec__undo">Before it writes anything it shows you the plan &mdash; the version, the tools that teammate gets, every file it will touch &mdash; and waits. If a file it generated earlier would change, you get the diff. If a file it didn&rsquo;t write is in the way, it stops. Everything it copies is already on your disk.</p>
-          <p class="install-sec__undo">New versions ride the marketplace: <code>/plugin marketplace update truecast</code>, then <code>/truecast:update &lt;name&gt;</code>. Changed your mind: <code>/truecast:remove &lt;name&gt;</code>. Your <code>instance/</code> notes stay either way.</p>
+          <p class="install-sec__undo">Before it writes anything it shows you the plan &mdash; the version, the tools that teammate gets, and every path it will touch &mdash; and waits. If <code>/truecast:install</code> would change a file it generated earlier, you see the diff first. It never touches a file it didn&rsquo;t write. Everything it copies is already on your disk.</p>
+          <p class="install-sec__undo">Updates come through the marketplace: <code>/plugin marketplace update truecast</code>, then <code>/truecast:update &lt;name&gt;</code>. Changed your mind: <code>/truecast:remove &lt;name&gt;</code>. Your <code>instance/</code> notes stay either way.</p>
           <p class="install-sec__undo">First run only: if <code>/truecast:install</code> isn&rsquo;t recognized yet, <code>/reload-plugins</code>. If <code>@security-engineer</code> isn&rsquo;t, restart Claude Code once.</p>
         </div>
 

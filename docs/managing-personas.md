@@ -33,7 +33,7 @@ Four commands, 1:1 with the CLI verbs, all from inside a session:
 
 - **`/truecast:update` installs from your local marketplace copy.** Fetch newer personas first with
   `/plugin marketplace update truecast`; otherwise you'll be told you're already up to date.
-- **Every command plans before it writes.** You see the version span, the tools granted, and every path —
+- **Every command plans before it writes.** You see the version span, the tools that teammate gets, and every path —
   plus a `diff -u` when a generated file changes — and nothing is written until you say yes. `--all`
   reports one line per persona; a failure on one doesn't stop the rest.
 - **It never overwrites a file truecast didn't write.** A foreign `~/.claude/agents/<name>.md` stops the

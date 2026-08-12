@@ -15,7 +15,7 @@ import { PersonaManifest, PersonaMeta } from "../schema/index.js";
 import { type FakeHome, hasBash, makeClone, makeHome, repoRoot, runScript } from "./fixture.js";
 
 /**
- * T-S4 — the standing rule from §6a, made mechanical.
+ * T-S4 — the standing rule from G0 (docs/design/installer.md), made mechanical.
  *
  * The clone is trusted for PROSE and not for STRUCTURE: every field the script reads out of clone
  * content and turns into a path, a filename or a persisted record is untrusted input. One P1 already
@@ -31,7 +31,7 @@ const bash = hasBash();
 const script = join(repoRoot, "plugin", "truecast", "bin", "truecast-plugin.sh");
 const scriptSource = readFileSync(script, "utf8");
 
-/** The hostile set §6a names: traversal, absolute, shell metacharacters, empty, and absurdly long. */
+/** The G0 hostile set: traversal, absolute, shell metacharacters, empty, and absurdly long. */
 const HOSTILE = [
   "../../../../etc",
   "1.0.0/../../../../etc",
@@ -70,7 +70,7 @@ describe("T-S4 — the clone-input rule is mechanical, not remembered", () => {
     for (const reader of readers) {
       expect(
         CLONE_READS.map((r) => r.reader),
-        `${reader} reads clone content with no T-S4 row — add one (see §6a)`,
+        `${reader} reads clone content with no T-S4 row — add one (see docs/design/installer.md, G0)`,
       ).toContain(reader);
     }
   });
@@ -85,7 +85,7 @@ describe("T-S4 — the clone-input rule is mechanical, not remembered", () => {
     for (const read of gitReads) {
       expect(
         CLONE_READS.map((r) => r.reader),
-        `${read} reads clone metadata with no T-S4 row — add one (see §6a)`,
+        `${read} reads clone metadata with no T-S4 row — add one (see docs/design/installer.md, G0)`,
       ).toContain(read);
     }
   });

@@ -20,6 +20,15 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # The installer plugin is shell, so biome can't see it. shellcheck is preinstalled on
+      # ubuntu-latest; the guard keeps this honest (and skipped, not silently passing) if that changes.
+      - name: shellcheck the installer script
+        run: |
+          if command -v shellcheck >/dev/null 2>&1; then
+            shellcheck --severity=style plugin/truecast/bin/*.sh
+          else
+            echo "::warning::shellcheck not available on this runner — the installer script was NOT linted"
+          fi
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test

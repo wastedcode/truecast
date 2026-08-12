@@ -27,6 +27,8 @@ only on the `TRUECAST_RESULT` line and the exit code.
 ## Step 1 — plan (deletes nothing)
 
 ```bash
+# The marketplace clone is the primary path: it exists in every session, whereas
+# ${CLAUDE_PLUGIN_ROOT} interpolating inside a command body is undocumented — so it is the fallback.
 S="$HOME/.claude/plugins/marketplaces/truecast/plugin/truecast/bin/truecast-plugin.sh"
 [ -f "$S" ] || S="${CLAUDE_PLUGIN_ROOT:-}/bin/truecast-plugin.sh"
 bash "$S" remove <name> [--project]
@@ -57,5 +59,6 @@ bash "$S" remove <name> [--project] --yes
 |---|---|
 | exit 0, `status=removed` | Confirm what was deleted. If the persona is still `@`-mentionable this session, say it will be gone after a restart. |
 | exit 5 | As in Step 2: nothing was deleted. The agent file is not truecast's to remove. **STOP.** |
+<!-- Exit codes: keep in sync with `bin/truecast-plugin.sh` (its header lists the full set). -->
 
 If the user declines, confirm that nothing was deleted.

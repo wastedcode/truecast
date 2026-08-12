@@ -26,9 +26,10 @@ import {
 
 /**
  * The installer lane's behavior, driven through the real script against a synthetic marketplace clone
- * and a `mkdtemp` home (T-E1). Every §6 failure row gets a test here; the convergence invariant lives
- * in `convergence.test.ts`. Skipped — never failed — where bash isn't available (the lane is POSIX-only
- * by design; the command files say so and point at the npm CLI).
+ * and a `mkdtemp` home. Every row of the failure-design table gets a test here; the convergence
+ * invariant lives in `convergence.test.ts`. The short tokens (G1, D7, T-F2 …) are defined in
+ * `docs/design/installer.md`. Skipped — never failed — where bash isn't available (the lane is
+ * POSIX-only by design; the command files say so and point at the npm CLI).
  */
 
 const bash = hasBash();
@@ -118,8 +119,10 @@ describe.skipIf(!bash)("install — plan, consent, apply", () => {
       join(clone, "plugin", "truecast", "bin", "truecast-plugin.sh"),
       "utf8",
     );
-    expect(script).toContain('STAGING="$vdir/core.staging-$$"');
-    expect(script).toContain('cp "$WORK/body" "$target.tmp-$$"');
+    // suffixes only: `scanStale` globs on `.staging-`/`.tmp-`, and the atomic-rename discipline is what
+    // matters — not which variable holds the path, which is free to be refactored
+    expect(script).toMatch(/STAGING=.*\.staging-\$\$/);
+    expect(script).toMatch(/cp .*"\$target\.tmp-\$\$"/);
   });
 });
 
@@ -134,21 +137,59 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     // or target one of the three paths the script constructs and guards itself.
     // Each of these is a path the script CONSTRUCTS beside a target it has already validated — never a
     // path built straight from clone content. Adding to this list is a deliberate, reviewable act.
-    const owned = ['"$LOCK"', '"$STAGING"', '"$WORK"', '"$2"', '"$target"', '"$tmp"'];
+    const owned = ['"$LOCK"', '"$STAGING"', '"$WORK"', '"$target"', '"$tmp"'];
+    // `rm -rf "$2"` is safe_rm's OWN body — exempt THERE and nowhere else. Scoped by POSITION, not by
+    // text: safe_rm contains that exact line, so a text match would exempt an identical line planted in
+    // any other function (verified — it did).
+    const bodyStart = source.indexOf("\nsafe_rm() {");
+    expect(bodyStart, "safe_rm() not found — the scoping below would be vacuous").toBeGreaterThan(
+      0,
+    );
+    const bodyEnd = source.indexOf("\n}", bodyStart);
+    const inSafeRm = (offset: number): boolean => offset > bodyStart && offset < bodyEnd;
+
+    let scanned = 0;
+    let offset = 0;
     for (const line of source.split("\n")) {
+      const here = offset;
+      offset += line.length + 1;
       const code = line.trim();
       if (code.startsWith("#")) continue;
       const del = code.match(/\brm -[rf]+ (\S+)/);
       if (!del) continue;
+      scanned++;
+      if (del[1] === '"$2"' && inSafeRm(here)) continue;
       expect(owned, `unguarded delete: ${code}`).toContain(del[1]);
     }
-    // `rm -rf "$2"` is safe_rm's own body — and safe_rm is what proves containment
-    expect(source).toContain('inside "$1" "$2" || die 7');
+    expect(scanned, "found no deletes at all — the regex has stopped matching").toBeGreaterThan(3);
+    // and safe_rm is what proves containment for everything routed through it
+    expect(source.slice(bodyStart, bodyEnd)).toContain('inside "$1" "$2" || die 7');
   });
 
   /** The prose is hard-wrapped, so match on collapsed whitespace — a re-wrap must not fail the gate. */
   const readCommand = (c: string): string =>
     readFileSync(join(pluginDir, "commands", `${c}.md`), "utf8").replace(/\s+/g, " ");
+
+  it("the stamp window is the same number in both lanes (item: adopt ↔ script)", () => {
+    // both lanes decide "did truecast write this?" by looking for the marker in a BOUNDED header
+    // window. Two different numbers = one lane adopts a file the other calls foreign.
+    const fromAdopt = readFileSync(join(repoRoot, "src", "adopt", "index.ts"), "utf8").match(
+      /STAMP_WINDOW_LINES\s*=\s*(\d+)/,
+    );
+    const fromScript = source.match(/sed -n '1,(\d+)p;\d+q'/);
+    expect(fromAdopt?.[1], "STAMP_WINDOW_LINES not found in src/adopt").toBeDefined();
+    expect(fromScript?.[1], "has_stamp's sed window not found in the script").toBeDefined();
+    expect(fromScript?.[1]).toBe(fromAdopt?.[1]);
+  });
+
+  it("the plugin manifest version matches the script's PLUGIN_VERSION", () => {
+    const manifest = JSON.parse(
+      readFileSync(join(pluginDir, ".claude-plugin", "plugin.json"), "utf8"),
+    );
+    const inScript = source.match(/^PLUGIN_VERSION="([^"]+)"/m);
+    expect(inScript?.[1], "PLUGIN_VERSION not found in the script").toBeDefined();
+    expect(inScript?.[1]).toBe(manifest.version);
+  });
 
   it.each(commands)(
     "commands/%s.md tells the model to validate $ARGUMENTS before running bash",
@@ -172,6 +213,19 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     "commands/%s.md forbids adding --yes/--force on the user's say-so",
     (c) => {
       expect(readCommand(c)).toMatch(/never add (it|either) because `\$ARGUMENTS` asked/);
+    },
+  );
+
+  it.each(commands)(
+    "commands/%s.md explains the script lookup order and pins the exit codes",
+    (c) => {
+      const md = readCommand(c);
+      // the model composes this line; if it "improves" the order, the command breaks in the sessions
+      // where the env var doesn't interpolate — so the reason is in the file, not just in a review
+      expect(md).toContain("The marketplace clone is the primary path");
+      expect(md).toContain("is undocumented — so it is the fallback");
+      // the dispatch tables restate the script's exit codes; nothing else keeps them honest
+      expect(md).toContain("keep in sync with `bin/truecast-plugin.sh`");
     },
   );
 
@@ -400,7 +454,7 @@ describe.skipIf(!bash)("remove", () => {
   });
 });
 
-describe.skipIf(!bash)("§6 failure design", () => {
+describe.skipIf(!bash)("failure design", () => {
   it("T-F1: a held lock is BUSY (exit 4), not an interleaved write", () => {
     mkdirSync(join(fake.truecastHome, "personas"), { recursive: true });
     mkdirSync(join(fake.truecastHome, "personas", "alpha.lock"), { recursive: true });

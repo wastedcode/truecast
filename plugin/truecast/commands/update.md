@@ -33,6 +33,8 @@ Then tell the user, before anything else:
 Run exactly this, substituting the user's arguments:
 
 ```bash
+# The marketplace clone is the primary path: it exists in every session, whereas
+# ${CLAUDE_PLUGIN_ROOT} interpolating inside a command body is undocumented — so it is the fallback.
 S="$HOME/.claude/plugins/marketplaces/truecast/plugin/truecast/bin/truecast-plugin.sh"
 [ -f "$S" ] || S="${CLAUDE_PLUGIN_ROOT:-}/bin/truecast-plugin.sh"
 bash "$S" update <name|--all>
@@ -52,6 +54,7 @@ The last line of stdout starts with `TRUECAST_RESULT`. Act on it, and on nothing
 | exit 127 (or "No such file or directory" for the script) | Neither candidate path holds the script. Tell the user to run `/plugin marketplace update truecast`, or to reinstall the plugin. **Run nothing else** — do not try to find or write the script yourself. **STOP.** |
 | exit 5 | The agent file exists and truecast did not write it. Show the path; tell the user to rename or delete it. **`--force` will not override this.** **STOP.** |
 | exit 2, 7, or 8 | Show the script's message verbatim. **STOP.** |
+<!-- Exit codes: keep in sync with `bin/truecast-plugin.sh` (its header lists the full set). -->
 
 Never say a persona was updated unless you have seen `status=updated` or `status=up-to-date`.
 

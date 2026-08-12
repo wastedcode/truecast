@@ -25,6 +25,9 @@
 # Exit codes: 0 ok (incl. status=plan) · 2 usage · 3 not-found · 4 busy · 5 foreign ·
 #             6 one or more --all members failed · 7 precondition · 8 io
 #
+# The short tokens in the comments below (D1, G1, B5, T-C1 …) are defined in docs/design/installer.md —
+# each names a decision or a guarantee that more than one file has to honour.
+#
 # It writes the SAME on-disk contract as the npm CLI — `~/.truecast/personas/<name>/{<ver>/core,current,
 # meta.json}` plus `~/.claude/agents/<name>.md` — and deliberately NOT `owned.json`: hashing in shell
 # would be a second implementation of a contract that must match forever. The CLI adopts what this writes
@@ -760,6 +763,8 @@ cmd_update() {
       # leave the previous member's `up-to-date` as the last line of stdout, and a literalist reader
       # reported "all current" while a persona sat un-updated. Capture the child and speak for it.
       out="$WORK/all-$name.out"
+      # shellcheck disable=SC2086 # $flags is OUR OWN literal flag list ("--yes --force"), built above
+      # from two booleans — the word split is the point. Quoting it would pass one empty/joined argument.
       bash "$SCRIPT" update "$name" $flags >"$out"
       code=$?
       line=$(grep '^TRUECAST_RESULT ' "$out" 2>/dev/null | tail -n 1)

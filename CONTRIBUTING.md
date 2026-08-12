@@ -62,6 +62,27 @@ CI runs the same lanes. A PR that fails any of them won't merge.
 - **CHANGELOG:** user-facing changes go under `## [Unreleased]` in
   [`CHANGELOG.md`](./CHANGELOG.md) (Keep a Changelog format).
 
+## Working on the installer plugin
+
+`/truecast:install` and its siblings are a separate lane from the npm CLI, with different rules.
+
+- **`plugin/` is hand-authored.** The script (`plugin/truecast/bin/truecast-plugin.sh`), the four command
+  files and `plugin.json` are written by hand and reviewed as code. `truecast publish` *reads* that
+  directory to advertise it in the marketplace; it never generates anything inside it.
+- **`personas/*/{agents,subagent.md,.claude-plugin}` are generated.** Never hand-edit them — run
+  `truecast publish`, and commit the result. `truecast publish --check` is the CI gate that catches a
+  stale committed surface.
+- **The installer tests shell out**, each under its own `mkdtemp` HOME: `npx vitest run src/installer/`.
+  No test may touch your real `~/.claude` or `~/.truecast` — a fitness test scans for the ways in, and
+  the test helper refuses at runtime to launch the script against anything but a fake home. If you add a
+  shell test, go through `runScript`.
+- **shellcheck gates the script** in CI (`--severity=style`). Run it locally before pushing:
+  `shellcheck plugin/truecast/bin/*.sh`, or `npx --yes shellcheck plugin/truecast/bin/*.sh`. A `disable=`
+  directive needs a comment saying why.
+- **The short tokens in the comments** (`D1`, `G1`, `B5`, `T-C1` …) are defined in
+  [`docs/design/installer.md`](./docs/design/installer.md). They mark invariants more than one file has
+  to honour — if you're about to change something a token names, read that entry first.
+
 ## Pull requests
 
 1. Branch from `main`.

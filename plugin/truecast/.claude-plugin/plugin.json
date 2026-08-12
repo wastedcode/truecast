@@ -1,0 +1,12 @@
+{
+  "author": {
+    "name": "Inder Singh"
+  },
+  "description": "Install truecast expert teammates so you can @-mention them by name in any project.",
+  "displayName": "truecast",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
+  "name": "truecast",
+  "repository": "https://github.com/wastedcode/truecast",
+  "version": "0.1.0"
+}

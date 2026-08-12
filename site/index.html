@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>truecast — the expert teammates Claude Code doesn't ship with</title>
-  <meta name="description" content="Each is a real Claude Code subagent with its own context window and structured craft, not a costume. Eleven open-source expert teammates you install in 30 seconds.">
+  <meta name="description" content="Each is a real Claude Code subagent with its own context window and structured craft, not a costume. Eleven open-source expert teammates you install from inside Claude Code and call by name.">
   <meta name="color-scheme" content="dark">
 
   <meta property="og:type" content="website">
@@ -56,7 +56,7 @@
             <a href="#catalog" class="btn btn--ghost">Browse the cast <span class="btn__arrow" aria-hidden="true">&darr;</span></a>
           </div>
           <p class="hero__cta-note" id="hero-copies-desc">
-            Pastes straight into Claude Code. ~30 seconds, no restart.
+            Pastes straight into Claude Code. No terminal, no npm.
           </p>
           <p class="hero__trust">Open source. Read-only by default, nothing phones home, and you read the exact prompt before you run it.</p>
 
@@ -65,8 +65,8 @@
                extraction as the visible code blocks. Selectable as a fallback. -->
           <div id="full-install-seq" class="visually-hidden">
             <span class="cmd"><span class="cmd__text">/plugin marketplace add wastedcode/truecast</span></span>
-            <span class="cmd"><span class="cmd__text">/plugin install security-engineer@truecast</span></span>
-            <span class="cmd"><span class="cmd__text">/reload-plugins</span></span>
+            <span class="cmd"><span class="cmd__text">/plugin install truecast@truecast</span></span>
+            <span class="cmd"><span class="cmd__text">/truecast:install security-engineer</span></span>
           </div>
         </div>
 
@@ -252,7 +252,7 @@ a persona body is a system prompt &mdash; a trust decision, gated at install.
           <h2 id="own-title" class="h2">You could write the prompt. You won&rsquo;t maintain it.</h2>
           <p class="own-sec__body">A &ldquo;senior architect&rdquo; prompt takes four minutes. Keeping it sharp for a year takes attention you&rsquo;d rather spend shipping. A truecast persona is the part you wouldn&rsquo;t write yourself: deep skills and reference knowledge the agent pulls on demand, not a paragraph of vibes.</p>
           <p class="own-sec__body">And it gets better without costing you anything. When the author improves the craft, you adopt it on your terms. Your <code>instance/</code> &mdash; the job you set, the notes it kept &mdash; is never touched by an update. You keep your edits; you take the upstream gains.</p>
-          <p class="own-sec__kicker">A per-persona ledger tracks which files are the author&rsquo;s and which are yours, so an update never clobbers your work.</p>
+          <p class="own-sec__kicker">truecast tracks every file it wrote. Those it shows you as a diff before replacing; everything else it leaves alone.</p>
         </div>
 
         <!-- update-keeps-your-edits diagram: upstream (author's craft) flows in;
@@ -412,11 +412,13 @@ a persona body is a system prompt &mdash; a trust decision, gated at install.
     <section class="install-sec wrap" aria-labelledby="install-title">
       <div class="install-sec__grid">
         <div class="install-sec__intro reveal">
-          <h2 id="install-title" class="h2">Install one into a live session. No restart.</h2>
+          <h2 id="install-title" class="h2">Two lines once. One line per teammate.</h2>
           <p class="install-sec__payoff">
-            The <code>@truecast</code> in <code>security-engineer@truecast</code> is the marketplace it ships from, like an npm scope &mdash; you type it only in the install line. After that, call the teammate by name: <code>@security-engineer</code>.
+            You type <code>truecast@truecast</code> once &mdash; that&rsquo;s the installer, from the truecast marketplace. After that, <code>/truecast:install &lt;name&gt;</code> adds a teammate and you call it by its bare name: <code>@security-engineer</code>, in this project and every other one.
           </p>
-          <p class="install-sec__undo">Changed your mind? <code>truecast remove &lt;name&gt;</code> detaches it and keeps your notes.</p>
+          <p class="install-sec__undo">Before it writes anything it shows you the plan &mdash; the version, the tools that teammate gets, and every path it will touch &mdash; and waits. If <code>/truecast:install</code> would change a file it generated earlier, you see the diff first. It never touches a file it didn&rsquo;t write. Everything it copies is already on your disk.</p>
+          <p class="install-sec__undo">Updates come through the marketplace: <code>/plugin marketplace update truecast</code>, then <code>/truecast:update &lt;name&gt;</code>. Changed your mind: <code>/truecast:remove &lt;name&gt;</code>. Your <code>instance/</code> notes stay either way.</p>
+          <p class="install-sec__undo">First run only: if <code>/truecast:install</code> isn&rsquo;t recognized yet, <code>/reload-plugins</code>. If <code>@security-engineer</code> isn&rsquo;t, restart Claude Code once.</p>
         </div>
 
         <div class="code-block reveal" aria-labelledby="install-code-label">
@@ -429,9 +431,12 @@ a persona body is a system prompt &mdash; a trust decision, gated at install.
               <span class="copy__label" data-copy-default="Copy" aria-live="polite">Copy</span>
             </button>
           </div>
-          <pre class="code-block__pre"><code id="install-cmds"><span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin marketplace add wastedcode/truecast</span></span>
-<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin install security-engineer@truecast</span></span>
-<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/reload-plugins</span></span></code></pre>
+          <pre class="code-block__pre"><code id="install-cmds"><span class="cmd cmd--note"># once, ever</span>
+<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin marketplace add wastedcode/truecast</span></span>
+<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin install truecast@truecast</span></span>
+<span class="cmd cmd--note"># once per teammate</span>
+<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/truecast:install security-engineer</span></span>
+<span class="cmd cmd--note"># from then on, in any project: @security-engineer</span></code></pre>
         </div>
       </div>
     </section>
@@ -514,9 +519,12 @@ a persona body is a system prompt &mdash; a trust decision, gated at install.
               <span class="copy__label" data-copy-default="Copy the install — security-engineer in 3 lines" aria-live="polite">Copy the install &mdash; security-engineer in 3 lines</span>
             </button>
           </div>
-          <pre class="code-block__pre"><code id="cta-cmd"><span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin marketplace add wastedcode/truecast</span></span>
-<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin install security-engineer@truecast</span></span>
-<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/reload-plugins</span></span></code></pre>
+          <pre class="code-block__pre"><code id="cta-cmd"><span class="cmd cmd--note"># once, ever</span>
+<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin marketplace add wastedcode/truecast</span></span>
+<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/plugin install truecast@truecast</span></span>
+<span class="cmd cmd--note"># once per teammate</span>
+<span class="cmd"><span class="cmd__sigil" aria-hidden="true">$</span><span class="cmd__text">/truecast:install security-engineer</span></span>
+<span class="cmd cmd--note"># from then on, in any project: @security-engineer</span></code></pre>
         </div>
 
         <p class="cta__alt">

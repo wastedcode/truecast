@@ -4,8 +4,8 @@ Reference docs, kept in step with what's actually shipped. **Convention: a featu
 it's documented here.**
 
 > truecast — *the expert teammates Claude Code doesn't ship with.* Install portable, versioned expert
-> **personas** into any project — as a plugin (`/plugin install <name>@truecast`, no restart) or via the
-> `truecast` CLI — and keep your edits when the author improves them.
+> **personas** from inside a live session (`/truecast:install <name>` → `@<name>`, no terminal) or via
+> the `truecast` CLI — and keep your edits when the author improves them.
 
 ## Status
 | area | state |
@@ -15,7 +15,8 @@ it's documented here.**
 | `doctor` — inspect + repair (drift/dangling/stale/orphan) | ✅ shipped |
 | `prompt` — emit a persona's composed system prompt | ✅ shipped |
 | `publish` — generate a Claude Code plugin + marketplace from personas (`--check`/`--settings`) | ✅ shipped |
-| install a teammate as a plugin (`/plugin marketplace add` → `/plugin install`, no restart) | ✅ shipped |
+| install a teammate from a live session (`/truecast:{install,update,list,remove}` → bare `@<name>`) | ✅ shipped |
+| install a persona as its own plugin (`/plugin install <name>@truecast`; namespaced `<name>:<name>`) | ✅ shipped |
 | run a persona: plugin · subagent · standalone `claude` | ✅ shipped |
 | persona format (`core/` + `instance/`, `persona.toml`) | ✅ shipped |
 | skills as the persona's craft (in-body index, Read on demand) | ✅ shipped |
@@ -37,8 +38,8 @@ A persona splits into two owners:
   **never touched by an update.** *You only ever edit `instance/`.*
 
 ## Pages
-- [install](install.md) — install a persona: as a plugin (no restart) or via the CLI, and exactly what
-  each writes.
+- [install](install.md) — the three lanes (`/truecast:install`, a persona-as-plugin, the CLI), what each
+  writes, and the trade-off each one makes.
 - [managing personas](managing-personas.md) — `update` · `list` · `remove` · `doctor`: keep personas
   current, see what's installed, detach or purge them, and inspect/repair the home.
 - [authoring personas](authoring-personas.md) — how to build one; the `persona.toml` format.

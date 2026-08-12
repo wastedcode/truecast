@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { adoptUnledgered } from "../adopt/index.js";
 import { attachPersona } from "../attach/index.js";
 import { cacheCandidate, promoteCurrent } from "../cache/index.js";
 import { type Config, paths, resolveConfig } from "../config/index.js";
@@ -106,6 +107,7 @@ export async function install(opts: InstallOptions, ctx: Ctx = {}): Promise<Inst
       async () => {
         // All persona mutations under its lock + write-through ledger (RR1: promote LAST).
         const cached = await Ledger.transaction(config, persona.manifest.name, (ledger) => {
+          adoptUnledgered(config, persona.manifest.name, ledger); // D4: converge with the plugin lane
           const c = cacheCandidate(persona, config, ledger); // validate + cache (no promote yet)
           materialize(c, persona, config, ledger, { force: opts.force }); // build the surface
           promoteCurrent(c.name, c.version, config, ledger); // re-point current LAST (RR1)

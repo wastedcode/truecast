@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { loadPersona } from "../persona/index.js";
-import { ENGINE_PRINCIPLES, renderSystemPrompt } from "./index.js";
+import { ENGINE_PRINCIPLES, renderSystemPrompt, TRUECAST_HOME_PLACEHOLDER } from "./index.js";
 
 /**
  * The engine owns the universal operating principles: EVERY persona's rendered prompt must carry them,
@@ -28,7 +28,7 @@ describe("engine principles — conformance across every shipped persona", () =>
     const prompt = renderSystemPrompt(
       { name, version: persona.manifest.version, coreDir: persona.coreDir },
       persona,
-      { kind: "subagent" },
+      { kind: "subagent", truecastHome: TRUECAST_HOME_PLACEHOLDER },
     );
     expect(prompt).toContain(ENGINE_PRINCIPLES);
   });
@@ -38,7 +38,7 @@ describe("engine principles — conformance across every shipped persona", () =>
     const prompt = renderSystemPrompt(
       { name: personaNames[0], version: persona.manifest.version, coreDir: persona.coreDir },
       persona,
-      { kind: "subagent" },
+      { kind: "subagent", truecastHome: TRUECAST_HOME_PLACEHOLDER },
     );
     // the block sits between the persona's craft and the per-project job pointer
     expect(prompt.indexOf(ENGINE_PRINCIPLES)).toBeLessThan(

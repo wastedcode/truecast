@@ -6,6 +6,11 @@
   },
   "plugins": [
     {
+      "description": "Install truecast expert teammates so you can @-mention them by name in any project.",
+      "name": "truecast",
+      "source": "./plugin/truecast"
+    },
+    {
       "description": "An infrastructure/platform engineer who owns the production boundary",
       "name": "infrastructure",
       "source": "./personas/infrastructure"

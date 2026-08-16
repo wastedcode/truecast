@@ -40,7 +40,7 @@ importers:
         version: 3.36.0
       smol-toml:
         specifier: ^1.3.1
-        version: 1.7.1
+        version: 1.8.0
       write-file-atomic:
         specifier: ^8.0.0
         version: 8.0.0
@@ -901,8 +901,8 @@ packages:
   simple-git@3.36.0:
     resolution: {integrity: sha512-cGQjLjK8bxJw4QuYT7gxHw3/IouVESbhahSsHrX97MzCL1gu2u7oy38W6L2ZIGECEfIBG4BabsWDPjBxJENv9Q==}
 
-  smol-toml@1.7.1:
-    resolution: {integrity: sha512-PPlsspAZ4jbMBu5DMFhfUGDQLu/vrL4SyBROVS37x8ynnVmFIs1VPBz1Co8Xks3TvpIaZXmU85y4DrQ+UyVFoQ==}
+  smol-toml@1.8.0:
+    resolution: {integrity: sha512-kCZr2V3ch9i00x8zXRhjUNVcjG9ijES5dDudkXvUVCT5QlJNQWElSJdZqyPemffHoLNUYwOcou0Fy+ojN0uHSQ==}
     engines: {node: '>= 18'}
 
   sonic-boom@4.2.1:
@@ -1688,7 +1688,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  smol-toml@1.7.1: {}
+  smol-toml@1.8.0: {}
 
   sonic-boom@4.2.1:
     dependencies:

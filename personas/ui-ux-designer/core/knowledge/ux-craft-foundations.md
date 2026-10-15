@@ -80,7 +80,7 @@ The craft the skills lean on. Read when a design decision is load-bearing.
   alignment, concentric border radius (outer = inner + padding), shadow-for-elevation /
   border-for-structure, `scale(0.96)` press, visible-but-quiet focus, type hierarchy via weight+size.
   These values are exact on purpose — the consistency *is* the feel.
-- **The honest gate:** *would Linear / Vercel / Raycast / Apple ship this?* Steal the *pattern* (Linear's
+- **The honest gate:** *would the frontier exemplar you named (`beat-the-frontier`) ship this — and where does yours go further?* Steal the *pattern* (Linear's
   density, Vercel's tabular-nums + monochrome+accent, Raycast's command surface, Apple's optical alignment
   + restraint), never the look.
 - **Design in the system** (Frost, atomic design): tokens (subatomic single source of truth) → components

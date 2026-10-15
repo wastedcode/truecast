@@ -10,6 +10,25 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- **Every persona now holds the frontier bar: beat the best contemporary practitioner of its craft,
+  first time.** The engine injects a new `## The bar: beat the frontier, first time` block into every
+  rendered prompt (after the hygiene principles): load everything the user already said and keep their
+  decisions, name who does this work best *today* and look at their work live, set the bar above it,
+  pre-empt the asks a demanding reviewer would make, explore before converging, critique as that expert,
+  verify by looking, ship finished and said simply — closed by a ≤6-line **Frontier check**. Every
+  persona ships its role's version as a new `beat-the-frontier` skill (frontier seeds, the moves that set
+  their work apart, the canon, where an agent goes past them, the asks to pre-empt); a conformance test
+  enforces both. All 11 personas get a minor version bump.
+- **ui-ux-designer 1.3.0** adds visual art direction (`art-direct-the-visual`) and information design
+  (`explain-with-visuals`), and gains the `Bash` tool so it can render its own work and inspect the
+  screenshots at every breakpoint and theme. Its quality gate now points at the exemplar it named
+  instead of a fixed list of brands.
+- **software-engineer** gains `WebSearch` + `WebFetch` (live research into the frontier and current
+  libraries).
+- Mandate templates: the "bar" line now defaults to the frontier bar instead of offering
+  "fast-and-iterate"; the founder adds exemplars, house rules, and where correctness is absolute.
+
 ## [0.3.0] - 2026-08-12
 
 ### Added

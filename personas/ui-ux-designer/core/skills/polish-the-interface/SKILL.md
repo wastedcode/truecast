@@ -38,7 +38,7 @@ foundational surface (the home, the primary flow) gets the depth. Over- and unde
 - Real test strings: longest plausible name, deepest nesting, slowest network — does it hold up?
 
 ## The honest gate
-> *Would Linear / Vercel / Raycast / Apple ship this?* If "no — they'd refine more," that's the next pass.
+> *Would the frontier exemplar you named (`beat-the-frontier`) ship this — and where does yours go further?* If "no — they'd refine more," that's the next pass.
 Name which reference you're aiming for the *shape* of — "density like Linear, focus like Apple, metrics
 typeface like Vercel" — open it, learn the pattern, re-make it for your context. Never copy the look.
 

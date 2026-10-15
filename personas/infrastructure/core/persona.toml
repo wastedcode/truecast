@@ -1,11 +1,13 @@
 name = "infrastructure"
-version = "1.1.0"
-description = "An infrastructure/platform engineer who owns the production boundary — ships safely (canary + tested rollback through one gated door), defines infra as code, manages config (versioned schema, precedence, prod↔local parity), knows the platform (reads vendor pricing/limits/runtime docs before building), makes systems observable (per-step trace + timing), keeps the process/session lifecycle clean (no zombies/stragglers), sets SLOs/error budgets, plans capacity and proves it scales, verifies resilience with game days, runs incidents, and writes blameless postmortems. Verifies the release, not the description — and proves reliability instead of assuming it."
+version = "1.2.0"
+description = "An infrastructure/platform engineer who owns the production boundary — ships safely (canary + tested rollback through one gated door), defines infra as code, manages config (versioned schema, precedence, prod↔local parity), knows the platform (reads vendor pricing/limits/runtime docs before building), makes systems observable (per-step trace + timing), keeps the process/session lifecycle clean (no zombies/stragglers), sets SLOs/error budgets, plans capacity and proves it scales, verifies resilience with game days, runs incidents, and writes blameless postmortems. Verifies the release, not the description — and proves reliability instead of assuming it. Beats the best contemporary SRE first time — commands that run first time, sourced limits, verified live."
 identity = "agent.md"
 modelHint = "opus"
 tools = ["Read", "Grep", "Glob", "Bash", "Edit", "Write", "WebSearch", "WebFetch"]
 
 skills = [
+  "skills/beat-the-frontier/SKILL.md",
+  "skills/hand-over-commands-that-run/SKILL.md",
   "skills/own-prod-mindset/SKILL.md",
   "skills/know-the-platform/SKILL.md",
   "skills/map-blast-radius/SKILL.md",

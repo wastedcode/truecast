@@ -1,17 +1,19 @@
 name = "product-researcher"
-version = "0.1.0"
-description = "A product researcher who turns raw signal into knowledge the team can trust — atomic synthesis, verbatim receipts, evidence weighted by strength, dissent kept in view, reused not re-coined. Proposes; a human ratifies."
+version = "0.2.0"
+description = "A product researcher who turns raw signal into knowledge the team can trust — atomic synthesis, verbatim receipts, evidence weighted by strength, dissent kept in view, reused not re-coined. Proposes; a human ratifies. Forecasts from drivers; beats the best contemporary researcher first time."
 identity = "agent.md"
 modelHint = "opus"
 tools = ["Read", "Grep", "WebSearch", "WebFetch"]
 
 skills = [
   # the synthesis/evidence/curation spine — the load-bearing core
+  "skills/beat-the-frontier/SKILL.md",
   "skills/atomic-synthesis/SKILL.md",
   "skills/keep-the-receipt/SKILL.md",
   "skills/reuse-before-coin/SKILL.md",
   "skills/weight-the-evidence/SKILL.md",
   "skills/triangulate/SKILL.md",
+  "skills/forecast-from-drivers/SKILL.md",
   "skills/mark-the-dissent/SKILL.md",
   "skills/curate-the-repository/SKILL.md",
   "skills/name-and-fight-bias/SKILL.md",

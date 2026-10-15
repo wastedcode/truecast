@@ -1,0 +1,68 @@
+---
+name: beat-the-frontier
+description: Use before any substantive marketing deliverable (positioning, a landing page, launch post, insight article, thread, naming, README) and as the last pass before handing it over — your version of the engine's "beat the frontier" loop. Name who does this kind of marketing best today, set the bar above them, pre-empt every ask a demanding founder would make (why should the reader care, does it sound like AI, is anything internal leaking, why would anyone share or cite it), and critique it as that marketer would until nothing material is left.
+---
+# Beat the frontier — product marketing
+
+Clean copy is the floor. The bar is **the best product marketer doing this kind of work today, and past
+them** — the founder should never have to come back with "why should the reader care?", "this reads like
+AI", "why is that internal detail in public copy?", "too many words", or "who would share this?". Every
+one of those is an ask you could have answered first. You can mine every review and transcript, write 30
+headlines and diff every competitor's page before you pick one; no human marketer can. Do that.
+
+## 1. Name the frontier (seeds as of 2026-10 — search for who's leading now before you rely on them)
+| Kind of work | Who sets the bar | Look at |
+|---|---|---|
+| Positioning | April Dunford | *Obviously Awesome*, *Sales Pitch* |
+| Homepage messaging | Anthony Pierri & Robert Kaminski (Fletch PMM) | their public homepage teardowns |
+| B2B marketing system | Emily Kramer (MKT1) | positioning + messaging teardowns |
+| Strategic narrative | Andy Raskin | "the greatest sales deck" — name the shift in the world |
+| Conversion copy from VOC | Joanna Wiebe (Copyhackers); Harry Dry (Marketing Examples) | before/after copy |
+| Launch craft | Stripe, Linear, Vercel launch pages | the latest launch each has shipped |
+Pick the 2–3 closest to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
+specific moves you're taking.
+
+## 2. What their work does that competent work doesn't
+- The headline names the category and the customer's alternative, not an adjective.
+- Every claim carries a proof point a competitor couldn't truthfully copy.
+- Copy is mined from the customer's verbatims — their words, not the team's.
+- The message matches the reader's awareness stage (Schwartz).
+- The real product or a demo is above the fold; claims link to proof.
+- Launches are tiered by audience impact, with an asset list per tier.
+- No era-stamped AI phrasing, no structured slop, no hyperbole.
+
+## 3. Table stakes — the canon you already exceed
+Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakthrough Advertising* · Ogilvy
+· Raskin's strategic-narrative essay · Wiebe's VOC method. The entry ticket, not the bar.
+
+## 4. Where you go past them
+- Fact-check **every** claim against the shipped product before it goes out.
+- Write **many** variants (headline, hook, name) and pick on the brief — say why the winner won.
+- Mine **every** available review, transcript and support thread for the customer's words.
+- Diff the copy against **every** direct competitor's page; keep README, docs and site in sync.
+
+## 5. The asks to pre-empt (do these before anyone asks)
+- **The reader's stake first:** why should *this* reader care, in their terms, before any mechanism —
+  the technical story hangs off it (`craft-the-narrative`).
+- **Sounds like a person:** the AI-tell scrub run (no "honest" disclosures, no triads, no staccato, no
+  hedging stacks, no hyperbole); in the founder's voice (`honor-the-voice`, `scale-with-ai-not-slop`).
+- **Short:** plain words, cut to the point; visuals instead of walls of text where a picture explains.
+- **Nothing internal leaks:** no stack, vendors, internal fields, tiers, codes or pipeline narration.
+- **Shareable and citable:** what's in it for the person who shares it (curiosity, status, FOMO, a number
+  nobody else has)? Why would a journalist cite *this* over a thousand other articles?
+- **Names that work:** said aloud, misread, searched — no name that looks like a typo of a common word.
+- **Consistent:** one term per concept across site, docs and product.
+- **Tied to the announcement:** every piece connects back to what we're actually launching.
+
+## 6. The critique pass — be the marketer you named
+Review it in their voice: Would Dunford say the alternative and category are missing? Would Pierri flag
+the hero as vague? Would Wiebe find the copy invented rather than mined? Would Raskin see no shift named?
+Then run `test-the-message` and `write-the-copy`'s scrub. Fix, re-read cold as the reader, repeat until a
+pass finds nothing material.
+
+## 7. The Frontier check (end of the deliverable, ≤6 lines)
+- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
+- **Where this beats them:** concretely.
+- **Covered:** the founder's constraints + the pre-empted asks above (N/A ones and why).
+- **Critique caught:** what the last passes found and you fixed.
+- **Verified:** every claim traced to a shipped capability; AI-tell scrub passed; read cold as the reader.

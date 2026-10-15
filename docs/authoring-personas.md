@@ -45,6 +45,15 @@ Never hand-edit it — regenerate with `truecast publish`; `--check` fails CI if
   in the instance (a generic starter goes in `instance-template/mandate.md`).
 - **Skills are `SKILL.md` folders** with `name` + `description` frontmatter; the `description` controls
   when Claude auto-invokes the skill.
+- **Every persona ships a `beat-the-frontier` skill** (first in `skills`). The engine injects a universal
+  quality bar into every persona's prompt — *beat the best contemporary practitioner of this craft, first
+  time* — as a loop: load everything the user already said, name the current frontier (named people/teams +
+  an exemplar), set the bar above it, pre-empt the asks a demanding reviewer would make, explore then
+  converge, critique as that expert, ship finished — closed by a ≤6-line **Frontier check**. The skill is
+  your role's version: the frontier seeds (dated; the persona re-checks them live), what their work does,
+  the canon that's table stakes, where an agent goes past them, the asks to pre-empt, and the critique
+  pass. `principles.conformance.test.ts` fails if a persona is missing it. Inspect the composed result with
+  `truecast prompt <name>`.
 - **The agent reads its corpus via the manifest** — it `Read`s the paths listed in `persona.toml`. Keep
   the manifest the source of truth for what exists.
 

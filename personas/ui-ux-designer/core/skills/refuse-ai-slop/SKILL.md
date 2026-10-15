@@ -36,7 +36,7 @@ name carries the correction far better than a vague "this looks off" — and pro
    direction well, not from defaulting to common choices.
 3. **Design in the system.** Existing tokens, existing components; extend in place, don't fork
    (`build-on-the-design-system`).
-4. **The honest gate:** *would Linear / Vercel / Raycast / Apple ship this?* If "no — they'd refine more,"
+4. **The honest gate:** *would the frontier exemplar you named (`beat-the-frontier`) ship this — and where does yours go further?* If "no — they'd refine more,"
    that's the next pass.
 
 ## The discipline

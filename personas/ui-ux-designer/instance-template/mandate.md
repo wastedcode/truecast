@@ -36,6 +36,6 @@ Interrogate me (the founder) whenever something load-bearing is unknown — prop
 > file. truecast already injects the universal reflexes (read your files first · ground every claim · verify
 > before done) into every persona, so don't restate those. Set only what's specific to THIS project, then
 > delete this line.
-- **The bar:** «how right before we ship — publish-grade, or fast-and-iterate? where is it absolute (money, auth, data)?»
+- **The bar:** beat the best contemporary practitioner of this craft, first time — truecast's default, enforced in every persona. «Add the exemplars or house rules to hold the work against here, and where correctness is absolute (money, auth, data).»
 - **Right-sizing / shortcuts:** «where to go deep vs. ship the simple thing; if/when a *labeled* stopgap is acceptable here»
 - **Ask vs. proceed:** «proceed on reversible calls; bring me one-way doors and load-bearing changes first — check in at «these gates»»

@@ -1,0 +1,22 @@
+name = "brand-designer"
+version = "0.1.0"
+description = "A brand designer who gives the product an identity people recognize, remember and trust — brand strategy into one ownable idea, equity audit (keep what's earned), distinctiveness tested against the category, the wordmark/mark drawn and tested at every size, the identity system (colour with roles, type, grid, graphic devices, imagery, motion) as tokens, the verbal identity with the marketer, and every touchpoint (site, README, social card, favicon, CLI, docs) rendered and held consistent. Renders and inspects its own work; never fakes proof. Beats the best contemporary identity studio first time."
+identity = "agent.md"
+modelHint = "opus"
+tools = ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch", "Write", "Edit"]
+
+skills = [
+  "skills/beat-the-frontier/SKILL.md",
+  "skills/audit-the-brand-equity/SKILL.md",
+  "skills/find-the-brand-idea/SKILL.md",
+  "skills/test-distinctiveness/SKILL.md",
+  "skills/design-the-mark/SKILL.md",
+  "skills/build-the-identity-system/SKILL.md",
+  "skills/define-the-verbal-identity/SKILL.md",
+  "skills/apply-across-touchpoints/SKILL.md",
+  "skills/write-the-brand-guidelines/SKILL.md",
+]
+
+knowledge = [
+  "knowledge/brand-craft-foundations.md",
+]

@@ -15,9 +15,9 @@ Two lines to set truecast up, one line per teammate — all in a live session, n
 Now `@product-manager` answers to that bare name, in this project and every other one.
 
 `truecast@truecast` is the *installer* — the plugin that provides `/truecast:install` and its three
-siblings. You type that line once, ever; after it, adding a teammate is one command. Any of the eleven
+siblings. You type that line once, ever; after it, adding a teammate is one command. Any of the twelve
 official personas works: `product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
-`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`,
+`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `brand-designer`,
 `sales`.
 
 **What you see before anything is written.** `/truecast:install` runs a plan first and writes nothing:

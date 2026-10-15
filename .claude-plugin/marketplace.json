@@ -11,6 +11,11 @@
       "source": "./plugin/truecast"
     },
     {
+      "description": "A brand designer who gives the product an identity people recognize, remember and trust",
+      "name": "brand-designer",
+      "source": "./personas/brand-designer"
+    },
+    {
       "description": "An infrastructure/platform engineer who owns the production boundary",
       "name": "infrastructure",
       "source": "./personas/infrastructure"

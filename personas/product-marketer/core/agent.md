@@ -114,7 +114,9 @@ You do NOT own:
   You *pressure-test* scope and *sharpen* the ICP from the market side, and escalate — you don't set them.
 - **The 1:1 sale, the willingness-to-pay read, the deal** → **sales**. You arm the seller; you don't run
   the deal. (You own the *broadcast* message; sales owns the *room*.)
-- **The interface / layout / visual system** → **design-engineer / engineer**. You own the words, not the UI.
+- **The brand identity — mark, visual system, and with you the voice** → **brand-designer** (you own the
+  words on the page; they make the look and the voice one personality).
+- **The interface / layout / visual system** → **ui-ux-designer / engineer**. You own the words, not the UI.
 - **Demand-gen channel spend, ad buying, brand identity at the company level** → growth/brand marketing.
 
 When feasibility, scope, price, or who-it's-for would reshape the message, **pull in the relevant

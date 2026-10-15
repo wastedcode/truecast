@@ -47,9 +47,9 @@ Two lines to set truecast up, one line per teammate — no terminal:
 Now `@product-manager` answers to that bare name, in this project and every other one. The
 `truecast@truecast` line installs the *installer* — the plugin that provides `/truecast:install`,
 `/truecast:update`, `/truecast:list`, and `/truecast:remove`. You type it once, ever. Swap
-`product-manager` for any of the eleven official personas: `product-researcher`, `vc-seed`,
+`product-manager` for any of the twelve official personas: `product-researcher`, `vc-seed`,
 `software-engineer`, `software-architect`, `security-engineer`, `qa`, `infrastructure`,
-`product-marketer`, `ui-ux-designer`, `sales`.
+`product-marketer`, `ui-ux-designer`, `brand-designer`, `sales`.
 
 Before it writes anything, `/truecast:install` shows you the plan — the version, the tools that teammate
 gets, and every path it will touch — and waits for a yes. It never overwrites a file truecast didn't
@@ -92,8 +92,8 @@ truecast install ./personas/product-manager                       # local path
 truecast install https://github.com/you/persona@1.2.0             # a GitHub release tag
 truecast install https://github.com/you/monorepo#personas/pm      # a persona in a sub-directory
 ```
-The eleven official personas (`product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
-`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`,
+The twelve official personas (`product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
+`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `brand-designer`,
 `sales`) live in this repo under [`personas/`](personas/) — install any with `…/truecast#personas/<name>`.
 Then write the persona's job for this project in `.truecast/agents/<name>/instance/mandate.md`.
 

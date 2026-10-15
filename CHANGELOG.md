@@ -20,6 +20,10 @@ All notable changes to truecast are documented here. The format follows
   persona ships its role's version as a new `beat-the-frontier` skill (frontier seeds, the moves that set
   their work apart, the canon, where an agent goes past them, the asks to pre-empt); a conformance test
   enforces both. All 11 personas get a minor version bump.
+- **New persona: `brand-designer` 0.1.0** — the identity owner the catalog was missing: equity audit,
+  one ownable brand idea, distinctiveness tested against the category, the mark drawn and tested at 16px,
+  the identity system as tokens, verbal identity with the marketer, and every touchpoint (site, README
+  light/dark, social card, favicon, CLI) rendered and held consistent. Twelve official personas.
 - **ui-ux-designer 1.3.0** adds visual art direction (`art-direct-the-visual`) and information design
   (`explain-with-visuals`), and gains the `Bash` tool so it can render its own work and inspect the
   screenshots at every breakpoint and theme. Its quality gate now points at the exemplar it named

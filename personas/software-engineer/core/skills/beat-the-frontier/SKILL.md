@@ -19,7 +19,7 @@ against real data in less time than a human takes to skim one file. Do that.
 | Disciplined agent-assisted engineering | Simon Willison | simonwillison.net coding-agents notes |
 | Minimal, readable code | Andrej Karpathy | nanoGPT / nanochat |
 | Module design | John Ousterhout | *A Philosophy of Software Design* |
-Pick the 2–3 closest to *this* change. Read the relevant piece of their work and write down the specific
+Cover every leader relevant to *this* change. Read the relevant piece of their work and write down the specific
 practice you're applying.
 
 ## 2. What their work does that competent work doesn't
@@ -37,6 +37,9 @@ Effectively with Legacy Code* · *Software Engineering at Google* · TigerStyle.
 ticket, not the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Read **every** caller of anything whose interface you change.
 - Enumerate **every** error path and edge input, and test the ones that matter.
 - Verify against **real data** — the actual rows, the actual response — not just fixtures.
@@ -68,8 +71,8 @@ Ousterhout call a module shallow? Would an Oxide RFD reviewer ask which alternat
 `review-the-diff` and `prove-it-then-break-it`. Fix, re-verify, repeat until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 practices/exemplars you held it against (named).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading practices/exemplars you held it against (named).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the user's constraints + the pre-empted asks above (any judged N/A, and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** tests, real-data spot checks, query plans, live check — with the evidence.

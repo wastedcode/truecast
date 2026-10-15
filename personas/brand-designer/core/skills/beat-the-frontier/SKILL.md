@@ -18,7 +18,7 @@ studio can present one round. Do that.
 | Brand as behaviour | Collins (Brian Collins); Koto; DesignStudio | how the identity moves and speaks, not just the mark |
 | In-house evolution under scrutiny | OpenAI 2025 refresh (custom type, kept the Blossom); Linear; Stripe | what they kept vs. changed, and why |
 | Type-led identity | Commercial Type, Klim, Grilli Type, Dinamo foundries | custom/near-custom type as the core asset |
-Pick 2–3 closest to *this* brief. Open their latest work and write down the specific moves you're taking —
+Cover every leader relevant to *this* brief. Open their latest work and write down the specific moves you're taking —
 never the look wholesale.
 
 ## 2. What their work does that competent work doesn't
@@ -36,7 +36,10 @@ Brand Assets* · Sharp, *How Brands Grow* · Rand, *Thoughts on Design* · Vigne
 Bierut, *How to*. Meeting these is the entry ticket.
 
 ## 4. Where you go past them
-- Explore **4–6 genuinely different territories** before converging (studios present 2–3), each rendered on
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
+- Explore **at least 5 genuinely different territories** before converging (studios present 2–3), each rendered on
   a real touchpoint — and say why the winner won.
 - Render **every** touchpoint (site hero, OG card 1200×630, favicon 16/32/180, README header in GitHub light
   and dark, CLI output, docs page, slide) and look at each.
@@ -62,8 +65,8 @@ pair or an overshoot off? Then run `test-distinctiveness` and `apply-across-touc
 repeat until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 studios/systems you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading studios/systems you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints + the pre-empted asks above (any judged N/A, and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** touchpoints × sizes × themes rendered and inspected; contrast checked; assets exported.

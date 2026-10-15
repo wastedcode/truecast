@@ -17,7 +17,7 @@ to. Do that.
 | Deterministic simulation testing | Antithesis; FoundationDB team; TigerBeetle VOPR | DST write-ups |
 | Exploratory testing + oracles | James Bach & Michael Bolton (RST); Elisabeth Hendrickson | *Explore It!*, RST notes |
 | Property-based testing | David MacIver (Hypothesis) | Hypothesis docs/articles |
-Pick the 2–3 closest to *this* system. Read the relevant piece and write down the specific technique
+Cover every leader relevant to *this* system. Read the relevant piece and write down the specific technique
 you're applying.
 
 ## 2. What their work does that competent work doesn't
@@ -33,6 +33,9 @@ Gregory, *Agile Testing* · Jepsen analyses · the practical test pyramid. Meeti
 not the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Enumerate **every** state transition and the input classes for each, not a sample.
 - Check **every** number the user will see against its source.
 - Click **every** control on **every** surface the change touches, at mobile and desktop widths.
@@ -61,8 +64,8 @@ Then run `model-the-state-machine`, `attack-like-a-real-user` and `render-the-sh
 repeat until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 techniques/exemplars you held it against (named).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading techniques/exemplars you held it against (named).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the user's constraints + the pre-empted asks above (any judged N/A, and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** live checks, data reconciliations, states/controls walked — with the evidence.

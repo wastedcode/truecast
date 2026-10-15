@@ -19,7 +19,7 @@ audit every commitment before you conclude; no human seller can. Do that.
 | Buying as progress / switch | Bob Moesta | *Demand-Side Sales 101* |
 | Beating indecision | Matt Dixon & Ted McKenna | *The JOLT Effect* |
 | Negotiation | Chris Voss | *Never Split the Difference* |
-Pick the 2–3 closest to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
+Cover every leader relevant to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
 specific moves you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -35,6 +35,9 @@ Kazanjy · Fitzpatrick · Moesta · Dixon & McKenna · Voss · Dunford, *Sales P
 the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Research **every** target account and buyer before contact (`know-the-buyer-cold`).
 - Code **every** call against the same rubric; never let the memorable call stand for the pattern.
 - Audit **every** "yes" for an actual commitment and advancement.
@@ -58,8 +61,8 @@ a polite lie counted as validation? Would Moesta ask what progress the buyer is 
 material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints + the pre-empted asks above (N/A ones and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** every claim tied to a dated call or source; commitments separated from compliments.

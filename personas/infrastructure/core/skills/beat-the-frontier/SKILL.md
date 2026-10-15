@@ -19,7 +19,7 @@ every change live in less time than one human on-call takes to page in. So do it
 | Cell architecture, static stability | AWS Builders' Library | shuffle sharding, static stability articles |
 | Resilience engineering | Lorin Hochstein / Learning from Incidents | incident analysis essays |
 | Platform simplicity | Fly.io / PlanetScale engineering blogs; Kelsey Hightower | recent ops write-ups |
-Pick the 2–3 closest to *this* deliverable, read their latest relevant write-up, and write down the
+Cover every leader relevant to *this* deliverable, read their latest relevant write-up, and write down the
 specific moves you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -36,6 +36,9 @@ Google *SRE* + *SRE Workbook* · *Accelerate* / DORA · Majors et al., *Observab
 *Release It!* · Allspaw on blameless postmortems. Meeting these gets you in the door. It isn't the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Read **every** published limit, quota and pricing page for the platforms you touch before you set a
   pace or budget.
 - Dry-run **every** command and config change; enumerate **every** path a config or data file
@@ -71,8 +74,8 @@ Charity ask how you'd debug it at 3am without a redeploy? Then run `map-blast-ra
 nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 practices or exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading practices or exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints, plus the pre-empted asks above (call out any N/A and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** commands dry-run, limits sourced, change seen live, rollback path, runbook updated.

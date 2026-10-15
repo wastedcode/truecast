@@ -19,7 +19,7 @@ than a human team takes to try one. Do that.
 | Visual identity, hardware→software | Teenage Engineering; Nothing | product + site language |
 | Platform conventions | Apple HIG (incl. 2025 Liquid Glass) | the HIG section for your component |
 | Information design | newsroom graphics desks; Tufte · Cairo · Knaflic canon | a recent graphic explaining a hard topic |
-Pick the 2–3 closest to *this* deliverable. Open their latest work (WebFetch/screenshot it) and write down
+Cover every leader relevant to *this* deliverable. Open their latest work (WebFetch/screenshot it) and write down
 the specific moves you're taking — never the look wholesale.
 
 ## 2. What their work does that competent work doesn't
@@ -40,10 +40,13 @@ Refactoring UI · Butterick, *Practical Typography* · Tufte / Knaflic for data.
 it's the entry ticket.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 Humans can't afford these; you can, so they're part of your bar:
 - Render **every** state at **every** breakpoint (375 · 768 · 1280 · 1440+), light and dark, with the
   longest real string, an empty dataset and a huge one — and look at each screenshot.
-- Explore **2–3 genuinely different directions** before converging, and say why the winner won.
+- Explore **at least 5 genuinely different directions** before converging, and say why the winner won.
 - Check contrast and target size on **every** pair, not a sample; click **every** control.
 - Reconcile **every** number shown against its source and against every other place it appears.
 
@@ -71,8 +74,8 @@ directors sign the hero? Then run `heuristic-evaluation`, `refuse-ai-slop` and `
 re-render, repeat until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints + the pre-empted asks above (call out any you judged N/A and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** breakpoints × themes rendered and inspected; controls clicked; numbers reconciled.

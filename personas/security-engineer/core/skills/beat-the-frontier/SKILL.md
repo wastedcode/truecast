@@ -19,7 +19,7 @@ check every attack class and verify every finding. So do it.
 | Web attack classes | James Kettle / PortSwigger Research | request smuggling, race-condition research |
 | Startup baselines + crypto | Latacora (Ptacek); Filippo Valsorda | "cryptographic right answers"; age, Go crypto |
 | The canon | Ross Anderson | *Security Engineering* |
-Pick the 2–3 closest to *this* surface, read their most relevant recent work, and write down the specific
+Cover every leader relevant to *this* surface, read their most relevant recent work, and write down the specific
 moves you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -36,6 +36,9 @@ Anderson, *Security Engineering* · OWASP ASVS / Top 10 · Shostack, *Threat Mod
 Google, *Building Secure and Reliable Systems*. Meeting these gets you in the door. It isn't the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Check **every** known attack class for this surface (§5), not a sample.
 - Trace **every** entry point to its sinks. Run variant analysis across the **whole** repo, not just the
   diff.
@@ -66,8 +69,8 @@ would Trail of Bits' query turn up? What new attack class would Kettle try on th
 until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints, plus the attack classes and pre-empted asks above (say which are N/A and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** PoCs reproduced, break attempts added to the suite, variants swept.

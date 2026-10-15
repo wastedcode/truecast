@@ -19,7 +19,7 @@ transcript, spec, issue thread and changelog before you conclude; no human resea
 | Switch / JTBD research | Bob Moesta (Re-Wired Group) | switch interviews, *Demand-Side Sales* |
 | Atomic, reusable insight | Tomer Sharon | atomic research nuggets (Polaris) |
 | Method rigor | Nielsen Norman Group | the method article for your study type |
-Pick the 2–3 closest to *this* question. Read their relevant piece now (WebFetch) and write down the
+Cover every leader relevant to *this* question. Read their relevant piece now (WebFetch) and write down the
 specific moves you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -35,6 +35,9 @@ Portigal · Hall · Fitzpatrick · Young · NN/g methods · Goodman, Kuniavsky &
 Experience*. The entry ticket, not the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Read **every** transcript and code every one — not the memorable quotes.
 - **Exhaust primary sources** before reporting anything as unknown or blocked: the spec, the reference
   implementation's source, its commit history and issue tracker, its docs, and how existing users actually
@@ -63,8 +66,8 @@ serves? Would Fitzpatrick hear compliments counted as evidence? Then run `weight
 `triangulate` and `name-and-fight-bias`. Fix, re-read, repeat until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** sources exhausted (listed) + founder facts recorded + the pre-empted asks above.
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** every claim receipted; numbers sanity-bounded against named comparables.

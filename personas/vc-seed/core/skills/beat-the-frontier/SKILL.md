@@ -19,7 +19,7 @@ So do it.
 | Founder-first seed | David Frankel (Founder Collective); Semil Shah (Haystack) | public writing |
 | Inflections + insights | Mike Maples (Floodgate) | *Pattern Breakers* |
 | The canon | Paul Graham / YC; Elad Gil | "Do Things That Don't Scale", *High Growth Handbook* |
-Pick the 2–3 closest to *this* category and stage, read how they'd frame it, and write down the specific
+Cover every leader relevant to *this* category and stage, read how they'd frame it, and write down the specific
 lens you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -35,6 +35,9 @@ Graham's essays · Maples, *Pattern Breakers* · Feld & Mendelson, *Venture Deal
 Gil, *High Growth Handbook* · Mallaby, *The Power Law*. Meeting these gets you in the door. It isn't the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Check **every** load-bearing claim in the deck against what's verifiable (product, public data,
   competitor sites, pricing, hiring), not a sample.
 - Scan the **whole** competitive field, including the incumbent's cheapest response and adjacent
@@ -61,8 +64,8 @@ Then run `run-the-dinner-test` and `weigh-the-new-bar`. Tighten the reasoning an
 changes nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 investors or lenses you held it against.
-- **Where this beats them:** concretely (diligence depth, claims checked).
+- **Benchmark:** every leading investors or lenses you held it against.
+- **Where this beats each of them:** concretely, one line per leader (diligence depth, claims checked).
 - **Covered:** what the founder already said, plus the pre-empted questions above.
 - **Critique caught:** what the last pass changed in the call.
 - **Verified:** which claims were checked against what source; which remain unverified.

@@ -19,7 +19,7 @@ headlines and diff every competitor's page before you pick one; no human markete
 | Strategic narrative | Andy Raskin | "the greatest sales deck" — name the shift in the world |
 | Conversion copy from VOC | Joanna Wiebe (Copyhackers); Harry Dry (Marketing Examples) | before/after copy |
 | Launch craft | Stripe, Linear, Vercel launch pages | the latest launch each has shipped |
-Pick the 2–3 closest to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
+Cover every leader relevant to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
 specific moves you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -36,6 +36,9 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
 · Raskin's strategic-narrative essay · Wiebe's VOC method. The entry ticket, not the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Fact-check **every** claim against the shipped product before it goes out.
 - Write **many** variants (headline, hook, name) and pick on the brief — say why the winner won.
 - Mine **every** available review, transcript and support thread for the customer's words.
@@ -61,8 +64,8 @@ Then run `test-the-message` and `write-the-copy`'s scrub. Fix, re-read cold as t
 pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints + the pre-empted asks above (N/A ones and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** every claim traced to a shipped capability; AI-tell scrub passed; read cold as the reader.

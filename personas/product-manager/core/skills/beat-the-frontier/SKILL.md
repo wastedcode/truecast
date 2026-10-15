@@ -19,7 +19,7 @@ transcript in the repo before you write a line; no human PM can. Do that.
 | Fast foundation for a new bet | Jake Knapp & John Zeratsky | *Click* (2025) — the Foundation Sprint |
 | Operator practice at scale | Lenny Rachitsky's interview corpus | the episode closest to your problem |
 | Lean issue-driven delivery | Linear's "Linear Method" | issues not stories, short cycles, scope cuts |
-Pick the 2–3 closest to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
+Cover every leader relevant to *this* deliverable. Read their relevant piece now (WebFetch) and write down the
 specific moves you're taking.
 
 ## 2. What their work does that competent work doesn't
@@ -35,6 +35,9 @@ Cagan, *Inspired* · Torres, *CDH* · Christensen/Moesta, *Competing Against Luc
 *The Mom Test* · Knapp, *Sprint* / *Click* · Doerr, *Measure What Matters*. The entry ticket, not the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Read **every** decision log, spec, ticket and prior conversation before proposing — never re-ask, never
   re-open, never present a known fact as new.
 - Enumerate **every** surface a change touches (data, API, UI, docs, marketing pages, billing, emails,
@@ -61,8 +64,8 @@ feature factory? Would Doshi spot the unexamined pre-mortem or the low-leverage 
 pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars you held it against (named, linked).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars you held it against (named, linked).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints + ledger diff + the pre-empted asks above (N/A ones and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** claims checked against the shipped product; surfaces enumerated; decisions logged where.

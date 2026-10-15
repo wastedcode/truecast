@@ -19,7 +19,7 @@ every record, failure mode and interleaving that a human architect has to skip. 
 | Architecture as a business conversation | Gregor Hohpe | *The Software Architect Elevator* |
 | Formal analysis of protocols/data | Hillel Wayne; Jack Vanlightly | TLA+ / model write-ups |
 | Data-system fundamentals | Martin Kleppmann | *Designing Data-Intensive Applications* |
-Pick the 2–3 closest to *this* problem. Read the relevant piece and write down the specific move you're
+Cover every leader relevant to *this* problem. Read the relevant piece and write down the specific move you're
 applying.
 
 ## 2. What their work does that competent work doesn't
@@ -36,6 +36,9 @@ Kleppmann, *DDIA* · AWS Builders' Library · Hohpe · Ford et al., *Building Ev
 Nygard's ADRs · McKinley, "Choose Boring Technology". Meeting these is the entry ticket, not the bar.
 
 ## 4. Where you go past them
+- **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
+  once — something none of them could produce alone — and then the coverage below, which none of them can
+  afford. Beating any one of them is a miss.
 - Walk **concrete records** through **every** lifecycle state, not one happy path.
 - Enumerate **every** failure mode, dependency limit and state transition.
 - Check the design against **every** existing store, job and module it touches.
@@ -68,8 +71,8 @@ understand the cost-value-risk case? Then run `review-the-design` and `design-fo
 until a pass finds nothing material.
 
 ## 7. The Frontier check (end of the deliverable, ≤6 lines)
-- **Benchmark:** the 2–3 exemplars/practices you held it against (named).
-- **Where this beats them:** concretely.
+- **Benchmark:** every leading exemplars/practices you held it against (named).
+- **Where this beats each of them:** concretely, one line per leader.
 - **Covered:** the founder's constraints + the pre-empted asks above (any judged N/A, and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** records walked, prior-art inventory, parameters tested, limits sourced.

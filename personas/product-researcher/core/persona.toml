@@ -1,5 +1,5 @@
 name = "product-researcher"
-version = "0.2.0"
+version = "0.2.1"
 description = "A product researcher who turns raw signal into knowledge the team can trust — atomic synthesis, verbatim receipts, evidence weighted by strength, dissent kept in view, reused not re-coined. Proposes; a human ratifies. Forecasts from drivers; beats the best contemporary researcher first time."
 identity = "agent.md"
 modelHint = "opus"

@@ -43,6 +43,22 @@ ROSTER = [
     ("Market", "sales", "Who would actually pay for this?"),
     ("Raise", "vc-seed", "Would an investor write the check?"),
 ]
+# What each agent file tells the teammate to hand back (copy deck, round-5 fix pass; source line in
+# personas/<name>/core/agent.md or persona.toml). Instructions, not tested output: the row says "asks for".
+ASKS = {
+    "software-architect": "a design doc with a real diagram, and an ADR for each hard-to-change call",
+    "software-engineer": "code proven by trying to break it, shipped in small safe steps",
+    "qa": "a ship or don’t-ship verdict, with the blocker list",
+    "security-engineer": "findings at file:line, each graded, and a GO or NO-GO",
+    "infrastructure": "commands that run first time, with how to undo them",
+    "product-manager": "a validated spec, its success bar, and an acceptance verdict",
+    "product-researcher": "findings ranked by confidence, each with its receipts",
+    "ui-ux-designer": "user flows and a design it has rendered and checked at every size",
+    "brand-designer": "one brand idea, a mark tested at 16px, and the identity as tokens",
+    "product-marketer": "the positioning, the copy, and a will-it-land verdict",
+    "sales": "a painkiller-or-vitamin verdict and a buyer profile, with the evidence",
+    "vc-seed": "an invest-or-pass call and the one risk it would underwrite",
+}
 # Fig. 1: the files the truecast run actually read (session-truecast.jsonl): its agent file, then two skills.
 FIG1_READ = {"agent.md", "skills/grade-and-remediate-risk/SKILL.md", "skills/write-the-security-verdict/SKILL.md"}
 
@@ -147,7 +163,7 @@ def roster() -> str:
         <h3 class="roster__name">{name}</h3>
         <div class="roster__cmd"><code id="i-{name}"><span class="seg">/truecast:install</span> <span class="seg">{name}</span></code><button class="copy copy--icon" type="button" data-copy="i-{name}" aria-label="Copy /truecast:install {name}" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“{q}”</p>
+      <div class="roster__q"><p>“{q}”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> {html.escape(ASKS[name])}</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> {touch(toml["tools"])}</p>
       <p class="roster__pb"><span class="pbt pbt--roster">{hbar(p["core"])}</span><span class="roster__pbn"><span class="nowrap"><span class="num">{skills}</span> skills</span> <span class="nowrap">· <span class="num">{p["files"]}</span> files</span> <span class="nowrap">· <span class="num">{p["words"]:,}</span> words</span></span></p>
       <a class="roster__in arrow-link" href="{GH}/tree/main/personas/{name}/core">See inside<span class="sr"> {name}</span>&nbsp;→</a>

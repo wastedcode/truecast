@@ -117,6 +117,13 @@
     setFolds();
     if (wide.addEventListener) wide.addEventListener("change", setFolds);
   }
+  // A link into "Later" (from §2's update line) unfolds it first, so the commands it points at are there.
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#later-h"]'), function (a) {
+    a.addEventListener("click", function () {
+      var f = document.querySelector(".later__fold");
+      if (f) f.open = true;
+    });
+  });
 
   // Fig. 1: join each band the run opened to the line in the log where it opened it.
   var card = document.querySelector(".run__card");

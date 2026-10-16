@@ -4,7 +4,7 @@ This folder is what the homepage quotes. Nothing here is edited except where it 
 
 - **[`rerun/`](rerun/README.md): the fair test (Fig. 2).** One prompt, byte for byte, given straight to
   each of three agents, six runs each. On this review truecast's `security-engineer` caught as much as a
-  76-word hand-written agent (9 of 18 holes each) and more than a 1,007-word free-collection agent (6 of 18).
+  76-word hand-written agent (9 of a possible 18 each: three holes, six runs) and more than a 1,007-word free-collection agent (6 of 18). Its one consistent difference: every run ended on an explicit GO or NO-GO.
   It cost more per run.
 - **This page: the first review (Fig. 1)** and the comparison we ran first, which wasn't a fair test. Here's
   why, and everything it produced.
@@ -12,7 +12,7 @@ This folder is what the homepage quotes. Nothing here is edited except where it 
 ## The first review
 
 On 2026-10-16 we asked three Claude Code sessions to use a `security-engineer` subagent on the installer,
-the way you'd normally use one. Each session's main agent wrote a brief and handed it to the subagent. We
+the way you'd normally use one. Each session's main agent wrote a prompt and handed it to the subagent. We
 kept everything.
 
 - [`security-engineer.md`](security-engineer.md): the report from truecast's `security-engineer` 1.2.2.
@@ -42,11 +42,11 @@ Use the security-engineer subagent for this. Task for it: review plugin/truecast
 
 ### What each subagent actually received
 
-Claude Code's main session rewrote our request into a brief for the subagent, and the three briefs differed.
+Claude Code's main session rewrote our request into a prompt for the subagent, and the three prompts differed.
 The differences matter for reading the results: the hand-written agent was offered "SAFE / NOT SAFE /
-CONDITIONAL" and answered CONDITIONAL; truecast's brief alone asked it to check writes to `~/.claude`
+CONDITIONAL" and answered CONDITIONAL; truecast's prompt alone asked it to check writes to `~/.claude`
 (settings, hooks, permissions) and to end on GO/NO-GO, which is close to its F2. So this comparison can't
-separate the agent from its brief. [The fair test](rerun/README.md) removes the main session. Each brief
+separate the agent from its prompt. [The fair test](rerun/README.md) removes the main session. Each prompt
 below is the first message in that subagent's log, verbatim.
 
 <details><summary>Hand-written agent</summary>
@@ -133,7 +133,7 @@ match, and nothing else:
   `Verdict: NO-GO for --project until F1 is fixed.`
 - **Only truecast's raised the hooks gap here (its F2):** a user-scope agent file can carry `hooks:` and
   other keys, and the install plan only showed `tools:`. Before grading, it read two files from its own
-  playbook and two pages of Claude Code's docs. But its brief, alone of the three, asked it to check writes
+  playbook and two pages of Claude Code's docs. But its prompt, alone of the three, asked it to check writes
   to `~/.claude` including hooks, so this run can't credit the playbook. Both other agents flagged something
   nearby: that the plan's tools line could misstate the grant (the hand-written agent's #4, the
   free-collection agent's #5).
@@ -142,7 +142,7 @@ match, and nothing else:
   See [`rerun/`](rerun/README.md).
 - **The other two listed more findings**: 7 each, against 4. The free-collection agent's run was the
   cheapest and the fastest.
-- **One run each, with different briefs.** Read it as one review, not a comparison.
+- **One run each, with different prompts.** Read it as one review, not a comparison.
 - During the truecast run a safety classifier stopped one step of the hands-on reproduction. Its report says
   so in its first line.
 

@@ -13,12 +13,13 @@ updates improve the playbook and never touch your brief. (In the code and the au
 is a *persona*.)
 
 Our own `security-engineer` found a way for a hostile repo to write into your `~/.bashrc` through our
-installer; we fixed it in [`834b03d`](https://github.com/wastedcode/truecast/commit/834b03d). Then we tested
-it fairly against two other agents, 18 runs, and a 76-word agent tied it. Every run is published:
+installer; we fixed it in [`834b03d`](https://github.com/wastedcode/truecast/commit/834b03d). Then we gave
+the same prompt to it and two other agents, six runs each. A 76-word agent caught as many holes; ours was
+the only one that ended every run on an explicit GO or NO-GO. Every run is published:
 [the test](site/proof/rerun/README.md) · [truecast.dev](https://truecast.dev)
 
 ## What a teammate is
-A teammate is a playbook it opens on the job, plus the brief you keep for your repo. Two owners:
+A teammate is a playbook it can open on the job, plus the brief you keep for your repo. Two owners:
 
 - **The playbook, `core/`** — its author's: `agent.md` (identity) + `skills/` + `knowledge/`, plain
   Markdown indexed by `persona.toml`. Read-only; one global copy; you adopt updates deliberately.
@@ -33,9 +34,9 @@ You could paste "act like a security expert" into your prompt. Two reasons not t
 - **Its own context window.** Each teammate runs as a native Claude Code **subagent**, so its digging
   happens off your main thread. In [the review on truecast.dev](site/proof/), `security-engineer` worked
   through 66,578 tokens in its own context and handed the session back a 2,780-token report.
-- **A playbook it opens on the job.** Each teammate carries a versioned playbook of skills and reads the
-  one a task needs. You adopt its author's improvements deliberately, and your brief survives every
-  update.
+- **Twelve roles, already written and kept current.** Each teammate carries a versioned playbook of
+  skills it can open mid-task. You adopt its author's improvements deliberately, and your brief survives
+  every update. (On catching bugs alone, a short prompt held its own in [our test](site/proof/rerun/README.md).)
 
 ## Add a teammate
 
@@ -54,8 +55,8 @@ does the setup in place: it opens the plugin panel, where you choose **Install f
 versions: `/plugin marketplace add wastedcode/truecast`, then `/plugin install truecast@truecast`.
 
 Now `product-manager` is a teammate in this project and every other one, under its own name. Ask for it
-in plain words, or type `@` and pick it from the list (it inserts `@agent-product-manager`) to be sure it
-takes the job.
+in plain words, or type `@` and pick it from the list to be sure it takes the job. Typed by hand, it's
+`@agent-product-manager`.
 
 The `truecast` plugin is the *installer* — the plugin that provides `/truecast:install`,
 `/truecast:update`, `/truecast:list`, and `/truecast:remove`. You type it once, ever. Swap
@@ -67,7 +68,8 @@ Before it writes anything, `/truecast:install` shows you the plan — the versio
 gets, and every path it will touch — and waits for a yes. It never overwrites a file truecast didn't
 write, and it copies from the marketplace clone already on your disk. First run only: if
 `/truecast:install` isn't recognized yet (say, Claude Code was already open), `/reload-plugins`; if
-`@<name>` isn't, restart Claude Code once.
+the teammate isn't in the `@` list, restart Claude Code once. To take it all back out:
+[three commands](docs/install.md#in-claude-code-recommended).
 
 Updates come through the marketplace. In your terminal, `claude plugin marketplace update truecast`
 fetches new versions of every teammate and `claude plugin update truecast@truecast` updates the installer

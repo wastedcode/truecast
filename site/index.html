@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>truecast: expert teammates for Claude Code</title>
-  <meta name="description" content="Twelve open-source specialist subagents for Claude Code. Each works from a playbook and keeps the brief you write for your repo across updates. Install in two commands; every test we ran is published.">
+  <meta name="description" content="Twelve open-source specialist subagents for Claude Code, already written. Each works from a playbook and reads a brief you keep in your repo; updates never touch it. Two commands to set up, and every test we ran is published.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0B0D1A" media="(prefers-color-scheme: dark)">
@@ -14,14 +14,14 @@
   <meta property="og:site_name" content="truecast">
   <meta property="og:url" content="https://truecast.dev/">
   <meta property="og:title" content="The expert teammates Claude Code doesn’t ship with.">
-  <meta property="og:description" content="Twelve specialist subagents for Claude Code, each with a playbook and a brief you keep in your repo. We publish every test, including the fair one where a 76-word agent tied ours.">
+  <meta property="og:description" content="Twelve specialist subagents for Claude Code, already written, each with a playbook and a brief you keep in your repo. We publish every test, including the one a 76-word agent tied, and what ours did that it didn’t.">
   <meta property="og:image" content="https://truecast.dev/brand/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="truecast: the expert teammates Claude Code doesn’t ship with. Twelve playbooks drawn side by side, one band per file.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The expert teammates Claude Code doesn’t ship with.">
-  <meta name="twitter:description" content="Twelve specialist subagents for Claude Code, each with a playbook and a brief you keep in your repo. We publish every test, including the fair one where a 76-word agent tied ours.">
+  <meta name="twitter:description" content="Twelve specialist subagents for Claude Code, already written, each with a playbook and a brief you keep in your repo. We publish every test, including the one a 76-word agent tied, and what ours did that it didn’t.">
   <meta name="twitter:image" content="https://truecast.dev/brand/og.png">
 
   <link rel="icon" href="/brand/favicon.ico" sizes="32x32">
@@ -57,9 +57,9 @@
     <h1 id="h1" class="hero__title">The expert teammates Claude&nbsp;Code doesn’t ship&nbsp;with.</h1>
 
     <div class="hero__copy">
-      <p class="lead">Set it up once, then add a specialist by name: <code>@security-engineer</code>, <code>@qa</code>, <code>@product-manager</code>. Each works from a playbook it opens on the job and a brief you keep in your repo.</p>
+      <p class="lead">Twelve specialists, already written: security, QA, architecture, product, design, sales and more. Set it up once, then type <code>@</code> and pick one. Each works from a playbook it can open on the job and a brief you keep in your repo, and updates never touch your brief.</p>
 
-      <p class="hero__note">Our own installer, reviewed by our own teammate: it found a way for a hostile repo to write into your <code>~/.bashrc</code>, and two more holes. We fixed all three in <a href="https://github.com/wastedcode/truecast/commit/834b03d"><code>834b03d</code></a>. <a class="arrow-link" href="#proof">↓&nbsp;That review, and a fair test against two other&nbsp;agents</a></p>
+      <p class="hero__note">We tested our <code class="nowrap">security-engineer</code> against a 76-word agent you could write yourself: the same prompt, six runs each. It caught as many holes, no more, and it was the only one that ended every run on an explicit GO or NO-GO. <a class="arrow-link" href="#proof">↓&nbsp;All 18 runs, published</a></p>
 
       <div class="cmd cmd--hero">
         <pre class="cmd__code" id="cmd-step1"><code><span class="seg seg--a">claude plugin install truecast</span> <span class="cont" aria-hidden="true">\</span><span class="seg seg--split">--marketplace wastedcode/truecast</span></code></pre>
@@ -70,6 +70,7 @@
     </div>
 
     <figure class="run" aria-labelledby="run-cap">
+      <figcaption id="run-cap" class="fig-label run__cap"><span class="fig-label__n">Fig. 1</span> A real review, <span class="nowrap">2026-10-16</span>, run the usual way. All 10 tool calls from its log (both skills opened in one), paths trimmed; verdict and findings verbatim.</figcaption>
       <div class="run__card">
         <div class="run__pb" aria-hidden="true">
           <!--gen:fig1-core--><svg class="core" viewBox="0 0 40 363.43" width="40" height="363.43" aria-hidden="true" focusable="false"><rect class="surface" width="40" height="3"/><rect class="lit" style="--i:0" x="0.5" y="6.50" width="39" height="35.58" data-path="agent.md" data-words="1463"/><rect class="unread" style="--i:1" x="0.5" y="45.08" width="39" height="23.23" data-path="skills/beat-the-frontier/SKILL.md" data-words="969"/><rect class="unread" style="--i:2" x="0.5" y="71.30" width="39" height="8.12" data-path="skills/cryptography-sanity-check/SKILL.md" data-words="365"/><rect class="lit" style="--i:3" x="0.5" y="82.43" width="39" height="9.38" data-path="skills/grade-and-remediate-risk/SKILL.md" data-words="415"/><rect class="unread" style="--i:4" x="0.5" y="94.80" width="39" height="13.68" data-path="skills/handle-vuln-disclosure/SKILL.md" data-words="587"/><rect class="unread" style="--i:5" x="0.5" y="111.48" width="39" height="19.45" data-path="skills/harden-by-default/SKILL.md" data-words="818"/><rect class="unread" style="--i:6" x="0.5" y="133.93" width="39" height="10.22" data-path="skills/hunt-vuln-classes/SKILL.md" data-words="449"/><rect class="unread" style="--i:7" x="0.5" y="147.15" width="39" height="9.05" data-path="skills/map-the-trust-boundary/SKILL.md" data-words="402"/><rect class="unread" style="--i:8" x="0.5" y="159.20" width="39" height="10.25" data-path="skills/respond-to-incident/SKILL.md" data-words="450"/><rect class="unread" style="--i:9" x="0.5" y="172.45" width="39" height="9.97" data-path="skills/review-authn-authz/SKILL.md" data-words="439"/><rect class="unread" style="--i:10" x="0.5" y="185.43" width="39" height="15.18" data-path="skills/review-detection-and-logging/SKILL.md" data-words="647"/><rect class="unread" style="--i:11" x="0.5" y="203.60" width="39" height="13.30" data-path="skills/review-external-surfaces-for-disclosure/SKILL.md" data-words="572"/><rect class="unread" style="--i:12" x="0.5" y="219.90" width="39" height="9.07" data-path="skills/secrets-and-config-discipline/SKILL.md" data-words="403"/><rect class="unread" style="--i:13" x="0.5" y="231.98" width="39" height="11.35" data-path="skills/secure-ai-systems/SKILL.md" data-words="494"/><rect class="unread" style="--i:14" x="0.5" y="246.33" width="39" height="9.55" data-path="skills/secure-design-review/SKILL.md" data-words="422"/><rect class="unread" style="--i:15" x="0.5" y="258.88" width="39" height="9.40" data-path="skills/secure-supply-chain/SKILL.md" data-words="416"/><rect class="unread" style="--i:16" x="0.5" y="271.27" width="39" height="9.60" data-path="skills/threat-model-the-change/SKILL.md" data-words="424"/><rect class="lit" style="--i:17" x="0.5" y="283.88" width="39" height="9.28" data-path="skills/write-the-security-verdict/SKILL.md" data-words="411"/><rect class="unread" style="--i:18" x="0.5" y="296.15" width="39" height="17.35" data-path="knowledge/modern-attack-surface.md" data-words="734"/><rect class="unread" style="--i:19" x="0.5" y="316.50" width="39" height="27.62" data-path="knowledge/threat-modeling-and-principles.md" data-words="1145"/><rect class="unread" style="--i:20" x="0.5" y="347.12" width="39" height="15.80" data-path="knowledge/vuln-classes-reference.md" data-words="672"/></svg><!--/gen-->
@@ -97,11 +98,11 @@
             <p class="run__finding">F1 — P0 for the <span class="nowrap">--project</span> lane. … Confirmed.</p>
             <p class="run__finding">F2 — P1. … the user only sees part of what they’re agreeing to.</p>
           </div>
-          <p class="run__other"><span class="run__otherk">Fair test, 6 runs each:</span> <span class="run__otherv">all three agents found F1 in most runs.</span> <a href="#proof">Fig.&nbsp;2</a></p>
+          <p class="run__other"><span class="run__otherk">Fair test, 6 runs each:</span> <span class="run__otherv">the other two found F1 at least as often. Ours graded it P1 in 4 of 5, and ended every run on GO or NO-GO.</span> <a href="#proof">Fig.&nbsp;2</a></p>
         </div>
         <p class="run__legend" aria-hidden="true"><span class="legend__k">its playbook, 21 files:</span> <span class="legend__i"><span class="key key--on"></span>its agent file and the 2 skills it opened</span> <span class="legend__i"><span class="key key--off"></span>not opened on this run</span></p>
       </div>
-      <figcaption id="run-cap" class="fig-label run__cap"><span class="fig-label__n">Fig. 1</span> A real review, <span class="nowrap">2026-10-16</span>, run the usual way: we asked our Claude Code session to use the teammate, and the session wrote its brief. All 10 tool calls from its log (both skills opened in one), paths trimmed; verdict and findings quoted verbatim. A safety classifier cut a later turn, after the three sandbox runs had finished; <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/security-engineer.md">its report</a> opens by saying so.</figcaption>
+      <p class="run__note">We asked our Claude Code session to use the teammate, and the session wrote the prompt it got. Only that prompt asked about writes to <code class="nowrap">~/.claude</code>, where F2 sits, so F2 can’t be credited to the playbook. A safety classifier cut a later turn; <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/security-engineer.md">its report</a> says so.</p>
     </figure>
 
   </div>
@@ -111,13 +112,13 @@
 <section class="sec proof" id="proof" aria-labelledby="proof-h">
   <div class="wrap">
     <div class="sec__head">
-      <h2 id="proof-h">It found a real hole in our own installer. Then we tested it&nbsp;fairly.</h2>
-      <p class="sec__intro">Fig.&nbsp;1’s review showed that a hostile repo could get its text written into your <code class="nowrap">~/.bashrc</code>. We fixed it. Then we asked whether a 76-word agent would have caught it too: the same prompt, byte for byte, given straight to three <code class="nowrap">security-engineer</code> agents, six runs each. It did, in all six runs.</p>
+      <h2 id="proof-h">It found a real hole in our installer. So did a 76-word&nbsp;agent.</h2>
+      <p class="sec__intro">Fig.&nbsp;1’s review showed that a hostile repo could get its text written into your <code class="nowrap">~/.bashrc</code>. We fixed it, then gave the same prompt, byte for byte, to three <code class="nowrap">security-engineer</code> agents, six runs each. The 76-word one found that hole in all six. Ours found no more holes overall. What only ours did was end every run on an explicit GO or NO-GO, with its findings ranked by when to fix them.</p>
     </div>
 
     <figure class="cmp" aria-labelledby="cmp-cap">
       <table class="ledger" aria-labelledby="cmp-cap">
-        <caption id="cmp-cap" class="fig-label"><span class="fig-label__n">Fig. 2</span> One prompt to all three, 6 runs each, <span class="nowrap">2026-10-16</span>. Each square is one run, in order; filled means its report raised it. Scored on the three holes fixed in <code>834b03d</code>. Each playbook is drawn to one scale, one band per file.</caption>
+        <caption id="cmp-cap" class="fig-label"><span class="fig-label__m"><span class="fig-label__n">Fig. 2</span> One prompt to all three, 6 runs each, <span class="nowrap">2026-10-16</span>. Each square is one run, in order; filled means its report raised it. Scored on the three holes fixed in <code>834b03d</code>. Each playbook is drawn to one scale, one band per file.</span></caption>
         <thead>
           <tr>
             <td></td>
@@ -140,7 +141,7 @@
             <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="2 of 6 runs"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">2 of 6</span></span></td>
           </tr>
           <tr class="ledger__hit">
-            <th scope="row">The commands pre&#8209;approve any shell command<span class="ledger__sub">shell · F3</span></th>
+            <th scope="row">Claude could run the commands unasked, with all of Bash allowed<span class="ledger__sub">shell · F3</span></th>
             <td data-col="Hand-written"><span class="ledger__v"><span class="hits" role="img" aria-label="2 of 6 runs"><i></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="hits__n num">2 of 6</span></span></td>
             <td data-col="Free collection"><span class="ledger__v"><span class="hits" role="img" aria-label="0 of 6 runs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">0 of 6</span></span></td>
             <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="2 of 6 runs"><i class="on"></i><i></i><i></i><i></i><i class="on"></i><i></i></span><span class="hits__n num">2 of 6</span></span></td>
@@ -152,7 +153,7 @@
             <td data-col="@security-engineer" class="meas"><span class="ledger__v">9 of 18</span></td>
           </tr>
           <tr class="ledger__hit">
-            <th scope="row">Closed on a GO or NO-GO</th>
+            <th scope="row">Closed on an explicit GO or NO-GO</th>
             <td data-col="Hand-written"><span class="ledger__v"><span class="hits" role="img" aria-label="0 of 6 runs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">0 of 6</span></span></td>
             <td data-col="Free collection"><span class="ledger__v"><span class="hits" role="img" aria-label="0 of 6 runs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">0 of 6</span></span></td>
             <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="6 of 6 runs"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="hits__n num">6 of 6</span></span></td>
@@ -165,31 +166,22 @@
           </tr>
         </tbody>
       </table>
-      <p class="ledger__note">The free-collection agent is <code>security-engineer.md</code> from VoltAgent’s awesome-claude-code-subagents; we changed only its tools and model lines to match. A safety classifier interrupted 4, 3 and 3 of the runs; every one still returned a report.</p>
+      <p class="ledger__note">The free-collection agent is <code>security-engineer.md</code> from VoltAgent’s awesome-claude-code-subagents; we changed only its tools and model lines to match. A safety classifier interrupted 4, 3 and 3 of the runs; every one still returned a report, and free-3’s says it couldn’t finish.</p>
     </figure>
 
     <div class="proof__foot">
       <div class="proof__why">
-        <p>So at catching these, a short prompt held its own. No run of any agent found all three holes, and ours found as many as the 76-word one, at $1.04 a run against $0.85. What changed was the hand-off: every truecast run closed on a GO or NO-GO and ranked its findings P1–P3, by when to fix them, as its agent file asks. None of the other twelve runs did.</p>
-        <p><strong class="proof__only">That’s one review, of one kind.</strong> The case for truecast is the rest of this page: twelve roles already written, a brief each keeps for your repo, and updates that never touch it. Every run is published, so you can check this one.</p>
+        <p>So at catching these, a short prompt held its own. No run of any agent found all three holes, and ours found as many as the 76-word one, at $1.04 a run against $0.85. The GO or NO-GO comes from its agent file, not from catching more. None of the other twelve runs made that call, though one hand-written run ended “Don’t ship this until #1 and #2 are fixed.” You could ask your own agent for the same.</p>
+        <p><strong class="proof__only">That’s one review, of one kind, and it says nothing yet about the other eleven.</strong> What you get is twelve roles already written, a brief you keep for each one in your repo, and updates that never touch it. Every run is published, so you can check this one.</p>
       </div>
       <div class="proof__links">
         <a class="arrow-link" href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md">All 18 reports, and how we scored them&nbsp;→</a>
-        <a class="arrow-link" href="https://github.com/wastedcode/truecast/blob/main/site/proof/README.md#the-first-review">Fig.&nbsp;1’s review, and the brief each agent got&nbsp;→</a>
-        <p class="small">Claude Code 2.1.301 · claude-opus-5-5 for all 18 · each run with <code class="nowrap">claude -p --agent</code>, so every agent got the prompt itself</p>
+        <a class="arrow-link" href="https://github.com/wastedcode/truecast/blob/main/site/proof/README.md#the-first-review">Fig.&nbsp;1’s review, and the prompt each agent got&nbsp;→</a>
+        <p class="small">Claude Code 2.1.301 · claude-opus-5-5, though in 8 of the 18 runs Claude Code switched to claude-opus-4-8 partway (hand-written 4, free collection 2, ours 2; <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md#method">which runs</a>) · each run with <code class="nowrap">claude -p --agent</code>, so every agent got the prompt itself</p>
       <div class="proof__fixed" id="get-the-fix">
-        <p>We fixed all three holes Fig.&nbsp;1 found in <a href="https://github.com/wastedcode/truecast/commit/834b03d"><code>834b03d</code></a>. Installer 0.1.1 has the fixes; <code>claude plugin list</code> shows your version.</p>
-        <p class="proof__upd">Already have truecast? In your terminal, run these two, then restart Claude Code:</p>
-        <div class="proof__cmds">
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-fix1"><code><span class="seg">claude plugin marketplace update</span> <span class="seg">truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-fix1" aria-label="Copy the marketplace update command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-fix2"><code><span class="seg">claude plugin update</span> <span class="seg">truecast@truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-fix2" aria-label="Copy the plugin update command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-        </div>
+        <p>We fixed all three holes Fig.&nbsp;1 found in <a href="https://github.com/wastedcode/truecast/commit/834b03d"><code>834b03d</code></a>. The fair test turned up a fourth, which we didn’t score because we’d fixed the scoring first: an update could write somewhere other than the place its plan showed. One free-collection run and one of ours raised it. Installer 0.1.2 fixes all four; <code>claude plugin list</code> shows your version.</p>
+        <p class="proof__upd">Already have truecast? <a class="arrow-link" href="#later-h">Update it: the two commands are under Later&nbsp;↓</a></p>
+</div>
       </div>
       </div>
     </div>
@@ -266,7 +258,7 @@
 <section class="sec install" id="install" aria-labelledby="install-h">
   <div class="wrap">
     <div class="sec__head">
-      <h2 id="install-h">Two commands. Then call it by name.</h2>
+      <h2 id="install-h">Two commands to set up. Then call it by name.</h2>
     </div>
 
     <div class="install__grid">
@@ -299,7 +291,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
           <p class="step__note">Want a different one? Swap the name, or copy it from <a href="#teammates">the twelve below&nbsp;↓</a></p>
         </div>
         <figure class="out">
-          <figcaption class="out__label">The plan the installer prints <span>· verbatim, home shown as ~</span><span class="scroll-hint"> · scrolls sideways</span></figcaption>
+          <figcaption class="out__label">The plan the installer prints <span>· verbatim, home shown as ~, its machine-readable last line left off</span><span class="scroll-hint"> · scrolls sideways</span></figcaption>
           <pre tabindex="0" role="region" aria-label="The plan, verbatim"><code>plan: install security-engineer@1.2.2   (from your local marketplace copy)
   tools granted to @security-engineer: Read, Grep, Glob, Bash, WebSearch, WebFetch
   writes:
@@ -320,7 +312,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
             <pre class="cmd__code" id="cmd-step3"><code>@agent-security-engineer review the changes on this branch before I merge</code></pre>
             <button class="copy" type="button" data-copy="cmd-step3" aria-label="Copy the example prompt" hidden><span class="copy__label">Copy</span></button>
           </div>
-          <p class="step__note">An example prompt: any teammate, any request. Or type <code>@</code> and pick it from the list. Either way, that teammate takes the job.</p>
+          <p class="step__note">An example prompt: any teammate, any request. Typed by hand, a teammate is <code>@agent-</code> plus its name, as here. Or type <code>@</code> and pick it from the list. Either way, that teammate takes the job.</p>
         </div>
       </li>
 
@@ -328,10 +320,10 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <div class="step__do">
           <p class="step__label"><span class="step__n">4</span> Give it your brief <span class="step__opt">optional</span></p>
           <div class="cmd cmd--block">
-            <pre class="cmd__code cmd__code--wrap" id="cmd-brief"><code><span class="ln">curl -fsSL --create-dirs \</span><span class="ln ln--c">-o .truecast/<wbr>agents/<wbr>security-engineer/<wbr>instance/<wbr>mandate.md \</span><span class="ln ln--c">https://raw.githubusercontent.com/<wbr>wastedcode/<wbr>truecast/<wbr>main/<wbr>personas/<wbr>security-engineer/<wbr>instance-template/<wbr>mandate.md</span></code></pre>
+            <pre class="cmd__code cmd__code--wrap" id="cmd-brief"><code><span class="ln">f=.truecast/<wbr>agents/<wbr><span class="nowrap">security-engineer/</span><wbr>instance/<wbr>mandate.md</span><span class="ln">[ -e "$f" ] &amp;&amp; echo "$f exists; left as is" || curl <span class="nowrap">-fsSL</span> <span class="nowrap">--create-dirs</span> -o "$f" \</span><span class="ln ln--c">  https://raw.githubusercontent.com/<wbr>wastedcode/<wbr>truecast/<wbr>main/<wbr>personas/<wbr><span class="nowrap">security-engineer/</span><wbr><span class="nowrap">instance-template/</span><wbr>mandate.md</span></code></pre>
             <button class="copy" type="button" data-copy="cmd-brief" aria-label="Copy the command that starts a brief" hidden><span class="copy__label">Copy</span></button>
           </div>
-          <p class="step__note">In your repo, in a terminal (macOS, Linux or WSL). It saves the template: the project and its trust model, your job here, how you work. Fill it in; the teammate reads it first. Another teammate? Swap <code>security-engineer</code> for its name in both places.</p>
+          <p class="step__note">In your repo, in a terminal (macOS, Linux or WSL). It saves the template: the project and its trust model, your job here, how you work. If you already have a brief there, it leaves it alone. Fill it in; the teammate reads it first. Another teammate? Swap <code>security-engineer</code> for its name in both places.</p>
         </div>
       </li>
     </ol>
@@ -375,6 +367,11 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
           <div class="cmd">
             <pre class="cmd__code" id="cmd-rm2"><code><span class="seg">claude plugin uninstall</span> <span class="seg">truecast@truecast</span></code></pre>
             <button class="copy" type="button" data-copy="cmd-rm2" aria-label="Copy the installer uninstall command" hidden><span class="copy__label">Copy</span></button>
+          </div>
+          <p class="later__where">To forget the catalog too, which deletes Claude Code’s copy of it:</p>
+          <div class="cmd">
+            <pre class="cmd__code" id="cmd-rm3"><code><span class="seg">claude plugin marketplace remove</span> <span class="seg">truecast</span></code></pre>
+            <button class="copy" type="button" data-copy="cmd-rm3" aria-label="Copy the marketplace remove command" hidden><span class="copy__label">Copy</span></button>
           </div>
         </div>
       </div>
@@ -423,14 +420,14 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
       <p>First time? Run <a href="#step-1">step 1</a> above, once.</p>
     </div>
     <figure class="cast" aria-labelledby="cast-cap">
-      <figcaption id="cast-cap" class="fig-label cast__cap"><span><span class="fig-label__n">Fig. 5</span> Every playbook drawn to one scale, one band per file. For scale, the two other agents in Fig. 2:</span> <!--gen:roster-ref--><span class="pbt pbt--roster" style="--max:17215;--maxf:24"><span class="pb pb--hw" style="--files:1;--words:76" aria-hidden="true"><i style="--w:76;--i:0"></i></span><span class="pbt__lab">← hand-written, 76 words</span></span><span class="pbt pbt--roster" style="--max:17215;--maxf:24"><span class="pb pb--hw" style="--files:1;--words:1007" aria-hidden="true"><i style="--w:1007;--i:0"></i></span><span class="pbt__lab">← free collection, 1,007 words</span></span><!--/gen--></figcaption>
+      <figcaption id="cast-cap" class="fig-label cast__cap"><span><span class="fig-label__n">Fig. 5</span> Every playbook drawn to one scale, one band per file. Size shows what’s inside; it isn’t a score, and in Fig. 2 the 76-word agent caught as much. The two other agents from Fig. 2:</span> <!--gen:roster-ref--><span class="pbt pbt--roster" style="--max:17215;--maxf:24"><span class="pb pb--hw" style="--files:1;--words:76" aria-hidden="true"><i style="--w:76;--i:0"></i></span><span class="pbt__lab">← hand-written, 76 words</span></span><span class="pbt pbt--roster" style="--max:17215;--maxf:24"><span class="pb pb--hw" style="--files:1;--words:1007" aria-hidden="true"><i style="--w:1007;--i:0"></i></span><span class="pbt__lab">← free collection, 1,007 words</span></span><!--/gen--></figcaption>
       <!--gen:roster--><ul class="roster" role="list" style="--max:17215;--maxf:24"><li class="roster__head" aria-hidden="true"><span></span><span>Teammate · its playbook, to scale</span><span>The call it helps with</span><span>Can touch</span><span></span></li><li class="roster__row roster__row--first" id="t-software-architect">
       <span class="roster__grp">Build</span>
       <div class="roster__id">
         <h3 class="roster__name">software-architect</h3>
         <div class="roster__cmd"><code id="i-software-architect"><span class="seg">/truecast:install</span> <span class="seg">software-architect</span></code><button class="copy copy--icon" type="button" data-copy="i-software-architect" aria-label="Copy /truecast:install software-architect" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“How should this be built so it lasts?”</p>
+      <div class="roster__q"><p>“How should this be built so it lasts?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a design doc with a real diagram, and an ADR for each hard-to-change call</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, writes files, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:22;--words:13025" aria-hidden="true"><i style="--w:1755;--i:0"></i><i style="--w:447;--i:1"></i><i style="--w:1008;--i:2"></i><i style="--w:343;--i:3"></i><i style="--w:548;--i:4"></i><i style="--w:348;--i:5"></i><i style="--w:476;--i:6"></i><i style="--w:496;--i:7"></i><i style="--w:363;--i:8"></i><i style="--w:530;--i:9"></i><i style="--w:578;--i:10"></i><i style="--w:592;--i:11"></i><i style="--w:393;--i:12"></i><i style="--w:422;--i:13"></i><i style="--w:470;--i:14"></i><i style="--w:370;--i:15"></i><i style="--w:356;--i:16"></i><i style="--w:353;--i:17"></i><i style="--w:491;--i:18"></i><i style="--w:595;--i:19"></i><i style="--w:1260;--i:20"></i><i style="--w:831;--i:21"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">18</span> skills</span> <span class="nowrap">· <span class="num">22</span> files</span> <span class="nowrap">· <span class="num">13,025</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/software-architect/core">See inside<span class="sr"> software-architect</span>&nbsp;→</a>
@@ -441,7 +438,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">software-engineer</h3>
         <div class="roster__cmd"><code id="i-software-engineer"><span class="seg">/truecast:install</span> <span class="seg">software-engineer</span></code><button class="copy copy--icon" type="button" data-copy="i-software-engineer" aria-label="Copy /truecast:install software-engineer" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Can I trust this code?”</p>
+      <div class="roster__q"><p>“Can I trust this code?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> code proven by trying to break it, shipped in small safe steps</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:16;--words:6697" aria-hidden="true"><i style="--w:926;--i:0"></i><i style="--w:997;--i:1"></i><i style="--w:294;--i:2"></i><i style="--w:325;--i:3"></i><i style="--w:497;--i:4"></i><i style="--w:430;--i:5"></i><i style="--w:251;--i:6"></i><i style="--w:318;--i:7"></i><i style="--w:251;--i:8"></i><i style="--w:275;--i:9"></i><i style="--w:259;--i:10"></i><i style="--w:307;--i:11"></i><i style="--w:436;--i:12"></i><i style="--w:304;--i:13"></i><i style="--w:390;--i:14"></i><i style="--w:437;--i:15"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">13</span> skills</span> <span class="nowrap">· <span class="num">16</span> files</span> <span class="nowrap">· <span class="num">6,697</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/software-engineer/core">See inside<span class="sr"> software-engineer</span>&nbsp;→</a>
@@ -452,7 +449,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">qa</h3>
         <div class="roster__cmd"><code id="i-qa"><span class="seg">/truecast:install</span> <span class="seg">qa</span></code><button class="copy copy--icon" type="button" data-copy="i-qa" aria-label="Copy /truecast:install qa" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“What breaks before a user finds it?”</p>
+      <div class="roster__q"><p>“What breaks before a user finds it?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a ship or don’t-ship verdict, with the blocker list</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, runs commands, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:20;--words:13107" aria-hidden="true"><i style="--w:1654;--i:0"></i><i style="--w:401;--i:1"></i><i style="--w:431;--i:2"></i><i style="--w:468;--i:3"></i><i style="--w:906;--i:4"></i><i style="--w:445;--i:5"></i><i style="--w:433;--i:6"></i><i style="--w:465;--i:7"></i><i style="--w:721;--i:8"></i><i style="--w:647;--i:9"></i><i style="--w:421;--i:10"></i><i style="--w:430;--i:11"></i><i style="--w:428;--i:12"></i><i style="--w:656;--i:13"></i><i style="--w:369;--i:14"></i><i style="--w:876;--i:15"></i><i style="--w:445;--i:16"></i><i style="--w:450;--i:17"></i><i style="--w:721;--i:18"></i><i style="--w:1740;--i:19"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">17</span> skills</span> <span class="nowrap">· <span class="num">20</span> files</span> <span class="nowrap">· <span class="num">13,107</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/qa/core">See inside<span class="sr"> qa</span>&nbsp;→</a>
@@ -463,7 +460,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">security-engineer</h3>
         <div class="roster__cmd"><code id="i-security-engineer"><span class="seg">/truecast:install</span> <span class="seg">security-engineer</span></code><button class="copy copy--icon" type="button" data-copy="i-security-engineer" aria-label="Copy /truecast:install security-engineer" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Can this get someone owned?”</p>
+      <div class="roster__q"><p>“Can this get someone owned?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> findings at file:line, each graded, and a GO or NO-GO</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, runs commands, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0"></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3"></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17"></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">17</span> skills</span> <span class="nowrap">· <span class="num">21</span> files</span> <span class="nowrap">· <span class="num">12,697</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/security-engineer/core">See inside<span class="sr"> security-engineer</span>&nbsp;→</a>
@@ -474,7 +471,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">infrastructure</h3>
         <div class="roster__cmd"><code id="i-infrastructure"><span class="seg">/truecast:install</span> <span class="seg">infrastructure</span></code><button class="copy copy--icon" type="button" data-copy="i-infrastructure" aria-label="Copy /truecast:install infrastructure" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Will this hold up in production?”</p>
+      <div class="roster__q"><p>“Will this hold up in production?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> commands that run first time, with how to undo them</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:24;--words:14121" aria-hidden="true"><i style="--w:1796;--i:0"></i><i style="--w:389;--i:1"></i><i style="--w:1091;--i:2"></i><i style="--w:416;--i:3"></i><i style="--w:478;--i:4"></i><i style="--w:478;--i:5"></i><i style="--w:543;--i:6"></i><i style="--w:617;--i:7"></i><i style="--w:557;--i:8"></i><i style="--w:387;--i:9"></i><i style="--w:652;--i:10"></i><i style="--w:454;--i:11"></i><i style="--w:433;--i:12"></i><i style="--w:622;--i:13"></i><i style="--w:432;--i:14"></i><i style="--w:397;--i:15"></i><i style="--w:408;--i:16"></i><i style="--w:446;--i:17"></i><i style="--w:418;--i:18"></i><i style="--w:415;--i:19"></i><i style="--w:560;--i:20"></i><i style="--w:433;--i:21"></i><i style="--w:960;--i:22"></i><i style="--w:739;--i:23"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">21</span> skills</span> <span class="nowrap">· <span class="num">24</span> files</span> <span class="nowrap">· <span class="num">14,121</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/infrastructure/core">See inside<span class="sr"> infrastructure</span>&nbsp;→</a>
@@ -485,7 +482,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">product-manager</h3>
         <div class="roster__cmd"><code id="i-product-manager"><span class="seg">/truecast:install</span> <span class="seg">product-manager</span></code><button class="copy copy--icon" type="button" data-copy="i-product-manager" aria-label="Copy /truecast:install product-manager" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Are we building the right thing?”</p>
+      <div class="roster__q"><p>“Are we building the right thing?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a validated spec, its success bar, and an acceptance verdict</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:21;--words:8570" aria-hidden="true"><i style="--w:911;--i:0"></i><i style="--w:330;--i:1"></i><i style="--w:1004;--i:2"></i><i style="--w:372;--i:3"></i><i style="--w:186;--i:4"></i><i style="--w:267;--i:5"></i><i style="--w:351;--i:6"></i><i style="--w:331;--i:7"></i><i style="--w:148;--i:8"></i><i style="--w:153;--i:9"></i><i style="--w:159;--i:10"></i><i style="--w:177;--i:11"></i><i style="--w:545;--i:12"></i><i style="--w:363;--i:13"></i><i style="--w:630;--i:14"></i><i style="--w:366;--i:15"></i><i style="--w:443;--i:16"></i><i style="--w:483;--i:17"></i><i style="--w:568;--i:18"></i><i style="--w:253;--i:19"></i><i style="--w:530;--i:20"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">17</span> skills</span> <span class="nowrap">· <span class="num">21</span> files</span> <span class="nowrap">· <span class="num">8,570</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/product-manager/core">See inside<span class="sr"> product-manager</span>&nbsp;→</a>
@@ -496,7 +493,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">product-researcher</h3>
         <div class="roster__cmd"><code id="i-product-researcher"><span class="seg">/truecast:install</span> <span class="seg">product-researcher</span></code><button class="copy copy--icon" type="button" data-copy="i-product-researcher" aria-label="Copy /truecast:install product-researcher" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“What are users actually telling us?”</p>
+      <div class="roster__q"><p>“What are users actually telling us?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> findings ranked by confidence, each with its receipts</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:21;--words:8035" aria-hidden="true"><i style="--w:1182;--i:0"></i><i style="--w:300;--i:1"></i><i style="--w:994;--i:2"></i><i style="--w:287;--i:3"></i><i style="--w:406;--i:4"></i><i style="--w:293;--i:5"></i><i style="--w:267;--i:6"></i><i style="--w:336;--i:7"></i><i style="--w:234;--i:8"></i><i style="--w:267;--i:9"></i><i style="--w:307;--i:10"></i><i style="--w:224;--i:11"></i><i style="--w:263;--i:12"></i><i style="--w:292;--i:13"></i><i style="--w:250;--i:14"></i><i style="--w:249;--i:15"></i><i style="--w:365;--i:16"></i><i style="--w:435;--i:17"></i><i style="--w:386;--i:18"></i><i style="--w:359;--i:19"></i><i style="--w:339;--i:20"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">16</span> skills</span> <span class="nowrap">· <span class="num">21</span> files</span> <span class="nowrap">· <span class="num">8,035</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/product-researcher/core">See inside<span class="sr"> product-researcher</span>&nbsp;→</a>
@@ -507,7 +504,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">ui-ux-designer</h3>
         <div class="roster__cmd"><code id="i-ui-ux-designer"><span class="seg">/truecast:install</span> <span class="seg">ui-ux-designer</span></code><button class="copy copy--icon" type="button" data-copy="i-ui-ux-designer" aria-label="Copy /truecast:install ui-ux-designer" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Can people actually use this?”</p>
+      <div class="roster__q"><p>“Can people actually use this?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> user flows and a design it has rendered and checked at every size</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:24;--words:17215" aria-hidden="true"><i style="--w:1715;--i:0"></i><i style="--w:736;--i:1"></i><i style="--w:1801;--i:2"></i><i style="--w:469;--i:3"></i><i style="--w:615;--i:4"></i><i style="--w:535;--i:5"></i><i style="--w:363;--i:6"></i><i style="--w:417;--i:7"></i><i style="--w:620;--i:8"></i><i style="--w:487;--i:9"></i><i style="--w:645;--i:10"></i><i style="--w:462;--i:11"></i><i style="--w:836;--i:12"></i><i style="--w:726;--i:13"></i><i style="--w:447;--i:14"></i><i style="--w:499;--i:15"></i><i style="--w:403;--i:16"></i><i style="--w:635;--i:17"></i><i style="--w:439;--i:18"></i><i style="--w:651;--i:19"></i><i style="--w:458;--i:20"></i><i style="--w:757;--i:21"></i><i style="--w:1352;--i:22"></i><i style="--w:1147;--i:23"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">21</span> skills</span> <span class="nowrap">· <span class="num">24</span> files</span> <span class="nowrap">· <span class="num">17,215</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/ui-ux-designer/core">See inside<span class="sr"> ui-ux-designer</span>&nbsp;→</a>
@@ -518,7 +515,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">brand-designer</h3>
         <div class="roster__cmd"><code id="i-brand-designer"><span class="seg">/truecast:install</span> <span class="seg">brand-designer</span></code><button class="copy copy--icon" type="button" data-copy="i-brand-designer" aria-label="Copy /truecast:install brand-designer" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Would anyone remember us?”</p>
+      <div class="roster__q"><p>“Would anyone remember us?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> one brand idea, a mark tested at 16px, and the identity as tokens</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:11;--words:5060" aria-hidden="true"><i style="--w:884;--i:0"></i><i style="--w:325;--i:1"></i><i style="--w:316;--i:2"></i><i style="--w:1311;--i:3"></i><i style="--w:399;--i:4"></i><i style="--w:237;--i:5"></i><i style="--w:330;--i:6"></i><i style="--w:343;--i:7"></i><i style="--w:318;--i:8"></i><i style="--w:233;--i:9"></i><i style="--w:364;--i:10"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">9</span> skills</span> <span class="nowrap">· <span class="num">11</span> files</span> <span class="nowrap">· <span class="num">5,060</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/brand-designer/core">See inside<span class="sr"> brand-designer</span>&nbsp;→</a>
@@ -529,7 +526,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">product-marketer</h3>
         <div class="roster__cmd"><code id="i-product-marketer"><span class="seg">/truecast:install</span> <span class="seg">product-marketer</span></code><button class="copy copy--icon" type="button" data-copy="i-product-marketer" aria-label="Copy /truecast:install product-marketer" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Why would anyone care?”</p>
+      <div class="roster__q"><p>“Why would anyone care?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> the positioning, the copy, and a will-it-land verdict</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:23;--words:16771" aria-hidden="true"><i style="--w:1752;--i:0"></i><i style="--w:1772;--i:1"></i><i style="--w:937;--i:2"></i><i style="--w:388;--i:3"></i><i style="--w:388;--i:4"></i><i style="--w:491;--i:5"></i><i style="--w:407;--i:6"></i><i style="--w:412;--i:7"></i><i style="--w:764;--i:8"></i><i style="--w:946;--i:9"></i><i style="--w:406;--i:10"></i><i style="--w:387;--i:11"></i><i style="--w:433;--i:12"></i><i style="--w:1889;--i:13"></i><i style="--w:387;--i:14"></i><i style="--w:424;--i:15"></i><i style="--w:417;--i:16"></i><i style="--w:849;--i:17"></i><i style="--w:469;--i:18"></i><i style="--w:364;--i:19"></i><i style="--w:947;--i:20"></i><i style="--w:886;--i:21"></i><i style="--w:656;--i:22"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">18</span> skills</span> <span class="nowrap">· <span class="num">23</span> files</span> <span class="nowrap">· <span class="num">16,771</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/product-marketer/core">See inside<span class="sr"> product-marketer</span>&nbsp;→</a>
@@ -540,7 +537,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">sales</h3>
         <div class="roster__cmd"><code id="i-sales"><span class="seg">/truecast:install</span> <span class="seg">sales</span></code><button class="copy copy--icon" type="button" data-copy="i-sales" aria-label="Copy /truecast:install sales" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Who would actually pay for this?”</p>
+      <div class="roster__q"><p>“Who would actually pay for this?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a painkiller-or-vitamin verdict and a buyer profile, with the evidence</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:20;--words:12361" aria-hidden="true"><i style="--w:1298;--i:0"></i><i style="--w:464;--i:1"></i><i style="--w:902;--i:2"></i><i style="--w:462;--i:3"></i><i style="--w:452;--i:4"></i><i style="--w:397;--i:5"></i><i style="--w:425;--i:6"></i><i style="--w:437;--i:7"></i><i style="--w:419;--i:8"></i><i style="--w:416;--i:9"></i><i style="--w:437;--i:10"></i><i style="--w:1121;--i:11"></i><i style="--w:546;--i:12"></i><i style="--w:467;--i:13"></i><i style="--w:469;--i:14"></i><i style="--w:382;--i:15"></i><i style="--w:718;--i:16"></i><i style="--w:858;--i:17"></i><i style="--w:679;--i:18"></i><i style="--w:1012;--i:19"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">16</span> skills</span> <span class="nowrap">· <span class="num">20</span> files</span> <span class="nowrap">· <span class="num">12,361</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/sales/core">See inside<span class="sr"> sales</span>&nbsp;→</a>
@@ -551,13 +548,13 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
         <h3 class="roster__name">vc-seed</h3>
         <div class="roster__cmd"><code id="i-vc-seed"><span class="seg">/truecast:install</span> <span class="seg">vc-seed</span></code><button class="copy copy--icon" type="button" data-copy="i-vc-seed" aria-label="Copy /truecast:install vc-seed" hidden><span class="copy__label">Copy</span></button></div>
       </div>
-      <p class="roster__q">“Would an investor write the check?”</p>
+      <div class="roster__q"><p>“Would an investor write the check?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> an invest-or-pass call and the one risk it would underwrite</p></div>
       <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
       <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:20;--words:8470" aria-hidden="true"><i style="--w:949;--i:0"></i><i style="--w:916;--i:1"></i><i style="--w:362;--i:2"></i><i style="--w:282;--i:3"></i><i style="--w:326;--i:4"></i><i style="--w:475;--i:5"></i><i style="--w:275;--i:6"></i><i style="--w:391;--i:7"></i><i style="--w:341;--i:8"></i><i style="--w:301;--i:9"></i><i style="--w:348;--i:10"></i><i style="--w:348;--i:11"></i><i style="--w:352;--i:12"></i><i style="--w:286;--i:13"></i><i style="--w:330;--i:14"></i><i style="--w:295;--i:15"></i><i style="--w:293;--i:16"></i><i style="--w:409;--i:17"></i><i style="--w:543;--i:18"></i><i style="--w:648;--i:19"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">16</span> skills</span> <span class="nowrap">· <span class="num">20</span> files</span> <span class="nowrap">· <span class="num">8,470</span> words</span></span></p>
       <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/vc-seed/core">See inside<span class="sr"> vc-seed</span>&nbsp;→</a>
     </li></ul><!--/gen-->
     </figure>
-    <p class="roster__key">“Can touch” sums up the tools each one declares; the install plan lists them exactly before you say yes. <span class="roster__defs"><span class="nowrap">reads = Read, Grep (+ Glob)</span> · <span class="nowrap">writes files = Write</span> · <span class="nowrap">edits files = Edit + Write</span> · <span class="nowrap">runs commands = Bash,</span> which can also change files · <span class="nowrap">web = WebSearch + WebFetch</span></span></p>
+    <p class="roster__key">“Can touch” sums up the tools each one declares; the install plan lists them exactly before you say yes. <span class="roster__defs"><span class="nowrap">reads = Read, Grep (+ Glob)</span> · <span class="nowrap">writes files = Write</span> · <span class="nowrap">edits files = Edit + Write</span> · <span class="nowrap">runs commands = Bash,</span> which can also change files · <span class="nowrap">web = WebSearch + WebFetch</span></span> <span class="roster__defs">“Its agent file asks for” is what each one’s instructions tell it to hand back, not a result we’ve tested; only security-engineer has been tested (Fig. 2).</span></p>
   </div>
 </section>
 
@@ -565,7 +562,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
 <section class="sec trust" id="trust" aria-labelledby="trust-h">
   <div class="wrap">
     <div class="sec__head">
-      <h2 id="trust-h">You approve what it writes.</h2>
+      <h2 id="trust-h">You approve every file the installer writes.</h2>
     </div>
     <div class="trust__grid">
       <div class="trust__col">
@@ -581,10 +578,10 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
       </div>
       <div class="trust__col">
       <div class="cell cell--refuse">
-        <h3>It won’t overwrite your files.</h3>
+        <h3>It won’t overwrite an agent file you wrote.</h3>
         <p>We pointed it at a repo that already had a hand-written <code>security-engineer.md</code>. It refused:</p>
         <figure class="out out--err">
-          <figcaption class="out__label">Its output <span>· captured <span class="nowrap">2026-10-16</span>, paths trimmed to …</span></figcaption>
+          <figcaption class="out__label">Its output <span>· captured <span class="nowrap">2026-10-16</span>, paths trimmed to …, one machine-readable line left out</span></figcaption>
           <pre><code>…/.claude/agents/security-engineer.md exists and truecast did not write it.
 <span class="err">error:</span> refusing to overwrite a file truecast did not generate: …/.claude/agents/security-engineer.md</code></pre>
         </figure>
@@ -603,15 +600,15 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
 <!-- 7 · FAQ -->
 <section class="sec faq" id="faq" aria-labelledby="faq-h">
   <div class="wrap faq__grid">
-    <h2 id="faq-h">Questions</h2>
+    <h2 id="faq-h">Questions.</h2>
     <div class="faq__list">
       <details>
         <summary>I already wrote an agent file. Why switch?</summary>
-        <div class="faq__a"><p>If it does the job, keep it: in <a href="#proof">our fair test</a> a 76-word agent caught as much as ours. truecast won’t overwrite it, and won’t install over it. What it adds is the rest: twelve roles already written, a brief each keeps for your repo, versioned updates that never touch that brief, and a plan before anything is written. To run ours beside yours, rename your file first, or install ours as a plugin with <code class="brk"><span class="nowrap">/plugin install</span> <span class="nowrap">security-engineer</span> <span class="nowrap">--marketplace</span> <span class="nowrap">wastedcode/truecast</span></code> (Claude Code 2.1.275 or later) and call it as <code class="brk"><span class="nowrap">security-engineer:</span><wbr><span class="nowrap">security-engineer</span></code>.</p></div>
+        <div class="faq__a"><p>If it does the job, keep it: in <a href="#proof">our fair test</a> a 76-word agent caught as much as ours. truecast won’t overwrite it, and won’t install over it. What it adds is the rest: twelve roles already written, a brief you keep for each one in your repo, versioned updates that never touch that brief, and a plan before anything is written. To run ours beside yours, rename your file first, or install ours as a plugin with <code class="brk"><span class="nowrap">/plugin install</span> <span class="nowrap">security-engineer</span> <span class="nowrap">--marketplace</span> <span class="nowrap">wastedcode/truecast</span></code> (Claude Code 2.1.275 or later) and call it as <code class="brk"><span class="nowrap">@agent-security-engineer:</span><wbr><span class="nowrap">security-engineer</span></code>.</p></div>
       </details>
       <details>
         <summary>What about the big free agent collections?</summary>
-        <div class="faq__a"><p>We tested one: the 1,007-word <code>security-engineer</code> from VoltAgent’s collection, given the same prompt six times. It caught 6 of the 18 holes we scored, against 9 for ours and 9 for a 76-word agent, and it was the cheapest at $0.68 a run. <a href="#proof">Fig.&nbsp;2</a> has every run, and <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md">the 18 reports are unedited</a>. It’s one review, so read it as one test, not a benchmark.</p></div>
+        <div class="faq__a"><p>We tested one: the 1,007-word <code>security-engineer</code> from VoltAgent’s collection, given the same prompt six times. Over the six runs it raised 6 of a possible 18 (three holes, six runs), against 9 for ours and 9 for a 76-word agent, and it was the cheapest at $0.68 a run. <a href="#proof">Fig.&nbsp;2</a> has every run, and <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md">the 18 reports are unedited</a>. It’s one review, so read it as one test, not a benchmark.</p></div>
       </details>
       <details>
         <summary>What does it cost?</summary>
@@ -619,7 +616,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
       </details>
       <details>
         <summary>Does it learn my project?</summary>
-        <div class="faq__a"><p>Not on its own yet. It reads your brief every time. A learning loop that proposes brief updates for you to approve is planned, not shipped.</p></div>
+        <div class="faq__a"><p>Not on its own. It reads your brief every time, so what it knows about your project is what you’ve written there. Edit the brief and the next run picks it up.</p></div>
       </details>
       <details>
         <summary>Can my whole team get it?</summary>
@@ -636,7 +633,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
 }</code></pre>
             <button class="copy" type="button" data-copy="cmd-team" aria-label="Copy the settings.json snippet" hidden><span class="copy__label">Copy</span></button>
           </div>
-          <p>Installed this way it answers to <code class="brk"><span class="nowrap">product-manager:</span><wbr><span class="nowrap">product-manager</span></code>, and updates come with the marketplace, without the plan step. Commit it only for a marketplace you trust.</p>
+          <p>Installed this way you call it as <code class="brk"><span class="nowrap">@agent-product-manager:</span><wbr><span class="nowrap">product-manager</span></code>, and updates come with the marketplace, without the plan step. Commit it only for a marketplace you trust.</p>
         </div>
       </details>
       <details>
@@ -657,6 +654,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
       <a class="btn" href="#step-1" data-copy-step1>Go to step&nbsp;1</a>
       <a class="arrow-link arrow-link--on-fill" href="https://github.com/wastedcode/truecast">Read the source on GitHub&nbsp;→</a>
     </div>
+    <p class="close__ask">Used one? <a href="https://github.com/wastedcode/truecast/issues/new/choose">Tell us what it caught, or missed&nbsp;→</a></p>
   </div>
 </section>
 

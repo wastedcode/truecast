@@ -43,7 +43,7 @@ it. Everything it copies comes from the marketplace clone already on your disk �
 install time, and there is no truecast server.
 
 **First run only.** If `/truecast:install` isn't recognized right after installing the plugin, run
-`/reload-plugins`. If `@<name>` isn't recognized after a successful install, restart Claude Code once —
+`/reload-plugins`. If the teammate isn't in the `@` list after a successful install, restart Claude Code once —
 `~/.claude/agents/` has to exist when the session starts. Neither is needed again.
 
 **The other three commands**
@@ -59,6 +59,16 @@ install time, and there is no truecast server.
 session). To update the installer itself, run `claude plugin update truecast@truecast` and restart Claude
 Code: refreshing the marketplace alone doesn't replace the installer's slash commands, and auto-update is
 off by default for third-party marketplaces.
+
+**Take it all back out.** Three steps, each undoing one layer:
+
+```
+/truecast:remove <name>                     # in Claude Code: lists what it will delete, then waits for a yes
+claude plugin uninstall truecast@truecast   # in your terminal: removes the installer
+claude plugin marketplace remove truecast   # forgets the catalog and deletes Claude Code's clone of it
+```
+
+Your brief (`.truecast/agents/<name>/instance/mandate.md` in your repo) is yours; none of these touch it.
 
 **This project only.** `/truecast:install <name> --project` writes the teammate to
 `<repo>/.claude/agents/<name>.md` instead of your home, scaffolds

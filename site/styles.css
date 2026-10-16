@@ -193,7 +193,8 @@ a code { color: inherit; }
 .run__otherk { font-family: var(--font-sans); font-size: var(--text-xs); color: var(--color-text-2); }
 .run__otherv { font-family: var(--font-sans); font-size: var(--text-xs); color: var(--color-text); font-weight: var(--weight-strong); }   /* our words, not a quote: sans */
 .run__other a { font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--weight-strong); }
-.run__cap { margin-top: var(--space-3); }
+.run__note { margin-top: var(--space-3); font-size: var(--text-xs); line-height: 1.5; color: var(--color-text-3); }   /* the method, in sans: as Fig. 2's note */
+.run__note code { color: var(--color-text-2); }
 .run__legend { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;
                margin-top: var(--space-4); font: var(--text-xs)/1.4 var(--font-mono); color: var(--color-text-3); }
 .legend__k { margin-right: var(--space-1); }
@@ -238,6 +239,7 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .cmp { margin-top: clamp(2.5rem, 5vw, 4rem); }
 .ledger { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .ledger caption { caption-side: top; padding-bottom: var(--space-4); }
+.fig-label__m { display: block; max-width: 42rem; }   /* a caption holds the body measure, even across a full-width table */
 .ledger thead th { text-align: left; vertical-align: bottom; padding: var(--space-4) var(--space-5); }
 .ledger thead th:nth-child(2), .ledger thead th:nth-child(3) { border-top: var(--rule-hair) solid var(--color-line-strong); }
 .ledger thead th:nth-child(4) { border-top: var(--rule-surface) solid var(--color-accent); background: var(--color-accent-wash); }
@@ -270,7 +272,15 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .ledger__tot { border-top-color: var(--color-line-strong) !important; }
 .ledger__tot td.meas { font-size: var(--text-base); }
 .ledger__note { margin-top: var(--space-3); font-size: var(--text-xs); line-height: 1.5; color: var(--color-text-3); max-width: 52rem; }
-@media (max-width: 63.99rem) {   /* three quoted columns need a desktop row; below that, each row lists its three answers */
+.ledger__who { white-space: nowrap; }   /* a name, never "@security-" / "engineer" */
+@media (min-width: 45rem) and (max-width: 63.99rem) {   /* tablets get the table, a step tighter */
+  .ledger thead th, .ledger tbody td { padding-inline: var(--space-3); }
+  .ledger tbody th { padding-right: var(--space-4); }
+  .ledger__who { font-size: var(--text-sm); }
+  .ledger thead td { width: 19%; }
+}
+@media (min-width: 56rem) and (max-width: 63.99rem) { .ledger__who { font-size: var(--text-base); } }
+@media (max-width: 44.99rem) {   /* phones: each row lists its three answers */
   .ledger, .ledger tbody, .ledger thead, .ledger tr, .ledger th, .ledger td { display: block; width: auto; }
   .ledger caption { display: block; }
   .ledger thead tr { display: grid; gap: var(--space-3); padding-bottom: var(--space-4); }
@@ -510,6 +520,7 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
   --color-go: var(--tc-go-light);
   background: var(--color-bg); color: var(--color-text);
   border-top: var(--rule-surface) solid var(--color-accent);
+  border-bottom: var(--rule-hair) solid var(--color-line);   /* in dark, the next section shares the field's ground: this is its edge */
   padding-block: clamp(3rem, 9vw, 7rem);
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .field { --color-bg: var(--tc-ink-900); --color-surface: var(--tc-ink-850); } }
@@ -537,11 +548,7 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .roster__cmd code { font-size: 0.75rem; color: var(--color-text-2); }
 @media (max-width: 22.5rem) { .roster__cmd code { font-size: 0.6875rem; white-space: normal; } }
 .roster__cmd code .seg { white-space: nowrap; }
-@media (max-width: 63.99rem) {
-  .js .roster__id { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
-  .js .roster__cmd { margin-top: 0; }
-  .js .roster__cmd code { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-}
+.roster__cmd code { min-width: 0; white-space: normal; }   /* at a tight width the name drops under /truecast:install; the icon stays beside it */
 .copy--icon { min-width: 0; width: 2rem; height: 2rem; padding: 0; border: var(--rule-hair) solid transparent; border-radius: var(--radius-2);
               color: var(--color-text-3); font-size: var(--text-xs); }
 .copy--icon .copy__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
@@ -554,6 +561,8 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .copy--icon:hover { color: var(--color-text); background: var(--color-surface); border-color: var(--color-line); }
 .copy--icon:focus-visible { outline-offset: 0; }
 .roster__q { grid-area: q; font-size: var(--text-base); line-height: 1.4; color: var(--color-text); }
+.roster__out { margin-top: var(--space-2); font-size: var(--text-sm); line-height: 1.45; color: var(--color-text-2); }
+.roster__out .roster__k { display: block; }
 .roster__touch { grid-area: touch; font-size: var(--text-sm); color: var(--color-text-2); }
 .roster__k { font: var(--text-xs)/1.5 var(--font-mono); color: var(--color-text-3); }
 .roster__pb { display: contents; }
@@ -628,6 +637,8 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .btn:active { transform: scale(0.96); }
 .close :focus-visible { outline-color: var(--tc-paper); }
 .arrow-link--on-fill { color: var(--color-on-fill); }
+.close__ask { font-size: var(--text-sm); color: var(--color-on-fill); }
+.close__ask a { color: var(--color-on-fill); font-weight: var(--weight-strong); }
 @media (max-width: 47.99rem) {
   .close { padding-block: clamp(4.5rem, 10vw, 8rem); }
   .close__cores { display: none; }   /* at phone width the twelve read as texture; the roster just showed them */
@@ -642,11 +653,11 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .foot { padding-block: var(--space-6); font-size: var(--text-sm); color: var(--color-text-2); }
 .foot__in { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-4) var(--space-6); }
 .foot__who { display: flex; align-items: center; gap: var(--space-3); }
-.foot__mark { display: block; color: var(--color-accent); }
+.foot__mark { display: block; padding: 0.25rem; margin: -0.25rem; color: var(--color-accent); }   /* a 24px target around the 16px mark */
 .foot__mark svg { width: 1rem; height: 1rem; }
 .foot__mark rect { fill: currentColor; }
 .foot__nav { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
-.foot__nav a { color: var(--color-text-2); }
+.foot__nav a { display: inline-flex; align-items: center; min-height: 1.5rem; color: var(--color-text-2); }
 @media (max-width: 30rem) { .foot__nav { display: grid; grid-template-columns: repeat(3, max-content); } }
 .foot__nav a:hover { color: var(--color-text); }
 
@@ -659,6 +670,7 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 @media (pointer: coarse) {
   .later__sum, .alt__old summary { min-height: 2.75rem; align-items: center; }
   .roster__in, .foot__nav a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+  .copy--icon { width: 2.75rem; height: 2.75rem; margin-block: -0.375rem; }
   .roster__in { justify-self: end; align-self: center; }
 }
 
@@ -666,15 +678,22 @@ h3 { font-size: var(--text-lg); font-weight: var(--weight-display); letter-spaci
 .scroll-hint { display: none; font-weight: 400; color: var(--color-text-3); }
 @media (max-width: 47.99rem) { .scroll-hint { display: inline; } }
 @media (max-width: 30rem) {
-  .cmd { flex-direction: column; }
+  /* Copy stays inside the box, at its right edge (a 44px target); only the hero's stacks as a full-width bar */
+  .cmd--hero { flex-direction: column; }
   .cmd__code { font-size: 0.71875rem; padding-inline: var(--space-3); padding-left: calc(var(--space-3) + 2ch); }
   .cmd--block .cmd__code { padding-left: var(--space-3); }
-  .cmd .copy:not(.copy--icon) { min-height: 2.75rem; border-left: 0; border-top: var(--rule-hair) solid var(--color-line-strong);
-                                border-radius: 0 0 calc(var(--radius-2) - 1px) calc(var(--radius-2) - 1px); }
-  .cmd--hero .copy { border-top: 0; }
-  .cmd--block .copy { align-items: center; padding-top: 0; }
+  .cmd .copy:not(.copy--icon) { min-width: 3.5rem; min-height: 2.75rem; padding-inline: var(--space-3); font-size: var(--text-xs); }
+  .cmd--hero .copy { min-height: 2.75rem; border-left: 0; border-top: 0; font-size: var(--text-sm);
+                     border-radius: 0 0 calc(var(--radius-2) - 1px) calc(var(--radius-2) - 1px); }
+  .cmd--block .copy { align-items: flex-start; padding-top: 0.75rem; }
   .step { padding-left: 0; }
   .step::before { display: none; }
   .step .step__label { margin-left: 0; gap: var(--space-3); }
   .alt { padding: var(--space-5) var(--space-4); }
+}
+@media (max-width: 24rem) {   /* too narrow to share a row: Copy goes under the command, as a full-width bar */
+  .cmd { flex-direction: column; }
+  .cmd .copy:not(.copy--icon) { border-left: 0; border-top: var(--rule-hair) solid var(--color-line-strong); border-radius: 0 0 calc(var(--radius-2) - 1px) calc(var(--radius-2) - 1px); }
+  .cmd--hero .copy { border-top: 0; }
+  .cmd--block .copy { align-items: center; padding-top: 0; }
 }

@@ -10,6 +10,12 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Security
+- Every dependency moved to its latest release in one change. This clears all four open Dependabot
+  alerts: `@simple-git/argv-parser` (critical, via `simple-git` 3.36.0 → 4.0.2), `fast-copy` (via
+  `pino-pretty` 13.2.0), and `vitest` / `@vitest/mocker` (4.1.10 → 5.0.5). `pnpm audit` reports no known
+  vulnerabilities; the full gate (typecheck, 414 tests, lint, build, `publish --check`) passes unchanged.
+
 ### Fixed
 - **Plugin-installed teammates sent users to the CLI for a standing brief.** Every `agents/<name>.md`
   said "they can install you with the `truecast` CLI"; the brief is one file in the repo, read on either

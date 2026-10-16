@@ -2,6 +2,7 @@
 description: Install a truecast expert teammate so you can @-mention it by name in any project.
 argument-hint: <persona-name> [--project]
 allowed-tools: Bash, Read
+disable-model-invocation: true
 ---
 
 Install the truecast persona named in `$ARGUMENTS`. Follow these steps exactly and in order. Do not

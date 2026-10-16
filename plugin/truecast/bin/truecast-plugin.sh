@@ -47,7 +47,7 @@ export LC_ALL=C
 # bash 3.2 (macOS), which has no such option and would otherwise abort here under `set -u`.
 shopt -u patsub_replacement 2>/dev/null || true
 
-PLUGIN_VERSION="0.1.0"
+PLUGIN_VERSION="0.1.1"
 
 NL=$'\n'
 CR=$'\r'
@@ -269,6 +269,21 @@ safe_write() {
   fi
 }
 
+# A fresh temp file beside $1, for a write-then-rename. mktemp creates it with O_EXCL under a random suffix
+# (still `.tmp-`, the name the CLI's doctor sweeps after an interrupted write),
+# so it can never be a path an untrusted repo pre-planted as a symlink — a predictable `$file.tmp-$$`
+# could be, and `cp`/`>` would follow it out of the repo (into ~/.bashrc, say). Mode follows the umask,
+# exactly as the plain `cp`/`>` it replaces would have created it.
+fresh_tmp() {
+  local tmp
+  tmp=$(mktemp "$1.tmp-XXXXXX") || die 8 "cannot create a temp file beside $1"
+  chmod "$(printf '%o' $((0666 & ~$(umask))))" "$tmp" || {
+    rm -f "$tmp"
+    die 8 "cannot set the mode of $tmp"
+  }
+  printf '%s' "$tmp"
+}
+
 json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 
 # Does this file carry the generated stamp in its header window? The stamp sits under the frontmatter,
@@ -316,6 +331,28 @@ render_body() {
   local tpl
   tpl=$(cat "$CLONE_DIR/subagent.md") || die 8 "cannot read $CLONE_DIR/subagent.md"
   printf '%s\n' "${tpl//\{\{TRUECAST_HOME\}\}/$TC_HOME}" >"$WORK/body" || die 8 "cannot stage the agent body"
+  check_frontmatter "$WORK/body"
+}
+
+# SEC-F2: this lane writes a USER-scope agent, where Claude Code honours frontmatter it ignores in plugin
+# subagents — `hooks` (shell commands that run with no prompt), `mcpServers`, `permissionMode`,
+# `initialPrompt`. The plan only shows `tools`, so a tampered marketplace copy could smuggle those past
+# consent. truecast's generator only ever writes these four keys, one per line; anything else is refused.
+check_frontmatter() {
+  local line n=0
+  while IFS= read -r line; do
+    n=$((n + 1))
+    if [ "$n" -eq 1 ]; then
+      [ "$line" = "---" ] || die 7 "the agent template has no frontmatter — refusing to install it"
+      continue
+    fi
+    [ "$line" = "---" ] && return 0
+    case "$line" in
+    name:* | description:* | model:* | tools:*) ;;
+    *) die 7 "refusing an agent template with frontmatter beyond name/description/model/tools: '${line%%:*}'" ;;
+    esac
+  done <"$1"
+  die 7 "the agent template's frontmatter never closes — refusing to install it"
 }
 
 # ---------------------------------------------------------------- state --
@@ -434,7 +471,7 @@ clone_origin() {
 # 2. meta.json — written ONLY when absent. Merging JSON in shell (no jq guarantee) is a duplication we
 #    refuse; any CLI install/update repairs a stale record (D5).
 write_meta_if_absent() {
-  local name=$1 ver=$2 meta remote commit
+  local name=$1 ver=$2 meta remote commit tmp
   meta="$TC_HOME/personas/$name/meta.json"
   safe_write "$TC_HOME" "$meta"
   [ -e "$meta" ] && return 0
@@ -443,9 +480,10 @@ write_meta_if_absent() {
   case "$commit" in
   "" | *[!0-9a-f]*) commit="local" ;;
   esac
+  tmp=$(fresh_tmp "$meta")
   printf '{\n  "source": "%s#personas/%s",\n  "versions": [\n    {\n      "ver": "%s",\n      "commit": "%s"\n    }\n  ]\n}\n' \
-    "$(json_escape "$remote")" "$name" "$ver" "$commit" >"$meta.tmp-$$" || die 8 "cannot write $meta"
-  mv "$meta.tmp-$$" "$meta" || die 8 "cannot write $meta"
+    "$(json_escape "$remote")" "$name" "$ver" "$commit" >"$tmp" || die 8 "cannot write $meta"
+  mv "$tmp" "$meta" || die 8 "cannot write $meta"
 }
 
 # 3. re-point `current` — only at a version dir that exists and holds a manifest (the shell mirror of
@@ -466,7 +504,7 @@ REPAIR=false
 
 RESTART=false
 write_agent_file() {
-  local target=$1 root=$2 dir
+  local target=$1 root=$2 dir tmp
   dir=$(dirname "$target")
   # Claude Code reads the agents dir at session start; if it isn't there yet, say so. Decided BEFORE
   # any mkdir, because on the user lane the root IS this dir and creating it would hide the answer.
@@ -478,8 +516,9 @@ write_agent_file() {
   mkdir -p "$root" || die 8 "cannot create $root"
   safe_write "$root" "$target"
   mkdir -p "$dir" || die 8 "cannot create $dir"
-  cp "$WORK/body" "$target.tmp-$$" || die 8 "cannot write $target"
-  mv "$target.tmp-$$" "$target" || die 8 "cannot write $target"
+  tmp=$(fresh_tmp "$target")
+  cat "$WORK/body" >"$tmp" || die 8 "cannot write $target"
+  mv "$tmp" "$target" || die 8 "cannot write $target"
 }
 
 # --project only: the file is machine-local (absolute pointers into THIS user's home), so it must never
@@ -504,7 +543,7 @@ remove_gitignore_line() {
   [ -L "$gi" ] && return 0 # never rewrite through a symlink; leave it entirely alone
   [ -f "$gi" ] || return 0
   grep -qxF "$line" "$gi" 2>/dev/null || return 0
-  tmp="$gi.tmp-$$"
+  tmp=$(fresh_tmp "$gi")
   grep -vxF "$line" "$gi" >"$tmp"
   case $? in
   0 | 1) mv "$tmp" "$gi" || die 8 "cannot rewrite $gi" ;; # 1 = the file is now empty, which is fine

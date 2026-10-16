@@ -2,6 +2,7 @@
 description: Update an installed truecast teammate to the version in your local marketplace copy.
 argument-hint: <persona-name> | --all
 allowed-tools: Bash, Read
+disable-model-invocation: true
 ---
 
 Update the truecast persona named in `$ARGUMENTS` (or every installed one, with `--all`). Follow these

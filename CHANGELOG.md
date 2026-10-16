@@ -10,6 +10,21 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Security
+- **Installer plugin 0.1.1 — `--project` could be made to write outside the repo.** Every write-then-rename
+  used a predictable temp name (`<file>.tmp-<pid>`) beside its target; inside an untrusted repo, a
+  pre-planted symlink at that name redirected the write — `remove --project` could put the repo's
+  `.gitignore` text into a shell startup file. Temp files now come from `mktemp` (exclusive, random
+  suffix). Found by truecast's own `security-engineer`.
+- The installer now refuses an agent template with frontmatter beyond `name`/`description`/`model`/`tools`
+  (user-scope agents honour `hooks`, `mcpServers`, `permissionMode`, `initialPrompt`, which the plan never
+  showed), and the four `/truecast:*` commands set `disable-model-invocation: true` so text in a repo
+  can't steer Claude into running them.
+
+### Fixed
+- `truecast publish --settings` and the README wrote `enabledPlugins` as an array; Claude Code reads an
+  object mapping `plugin@marketplace` to `true`.
+
 ### Changed
 - **Every persona now holds the frontier bar: work no human has produced — past the whole frontier of its
   craft, first time.** The engine injects a `## The bar: past the frontier, first time` block into every

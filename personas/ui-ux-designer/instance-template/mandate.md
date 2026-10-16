@@ -1,7 +1,8 @@
 # Mandate — UI/UX Designer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the designer what this
-> project is, who uses it, and on what surface, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the designer what this project is, who uses it, and on what surface, then delete this
+> guidance block.
 
 ## This project
 - **What it is / what it's for:** «one line — what are we building, and what job does it do for its user?»

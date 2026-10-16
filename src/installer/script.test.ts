@@ -250,6 +250,22 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     },
   );
 
+  it.each(["install", "update"])(
+    "commands/%s.md relays the mention form the script prints, never a bare `@<name>`",
+    (c) => {
+      const md = readCommand(c);
+      expect(md).toContain("`@agent-<name>`");
+      expect(md).not.toMatch(/`@<name>`,? (is ready|isn't recognised)/);
+    },
+  );
+
+  it("commands/update.md carries --project through plan AND apply (never one file planned, another written)", () => {
+    const md = readCommand("update");
+    expect(md).toContain('bash "$S" update <name|--all> [--project]');
+    expect(md).toContain('bash "$S" update <name> [--project] [--force] --yes');
+    expect(md).toContain("on **both** the Step 1 and the Step 3 command line");
+  });
+
   it("commands/update.md documents the --all apply form and per-member follow-up", () => {
     const md = readCommand("update");
     expect(md).toContain('bash "$S" update --all --yes');
@@ -311,12 +327,48 @@ describe.skipIf(!bash)("update", () => {
     expect(existsSync(join(personaDir("alpha"), "1.0.0", "core"))).toBe(true); // old version kept
   });
 
+  it("an applied update prints the same documented mention form as install", () => {
+    runBumped("install", "alpha", "--yes");
+    bumpTo("1.1.0");
+    const r = runBumped("update", "alpha", "--force", "--yes");
+    expect(r.result?.status).toBe("updated");
+    expect(r.stderr).toContain("mention it as @agent-alpha, or type @ and pick it");
+    expect(r.stderr).not.toMatch(/@alpha\b/);
+  });
+
   it("refuses to replace a differing generated file without --force (the consent round trip)", () => {
     runBumped("install", "alpha", "--yes");
     bumpTo("1.1.0");
     const r = runBumped("update", "alpha", "--yes");
     expect(r.status).toBe(7);
     expect(r.stderr).toContain("--force");
+  });
+
+  it("--project plans and applies to the repo's agent file, never the user one", () => {
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    const projectAgent = join(project, ".claude", "agents", "alpha.md");
+    runBumped("install", "alpha", "--project", project, "--yes");
+    bumpTo("1.1.0", ["do-the-thing", "ship"]);
+
+    const plan = runBumped("update", "alpha", "--project", project);
+    expect(plan.result?.status).toBe("plan");
+    expect(plan.result?.target).toBe(projectAgent);
+
+    const applied = runBumped("update", "alpha", "--project", project, "--force", "--yes");
+    expect(applied.result?.status).toBe("updated");
+    expect(applied.result?.target).toBe(projectAgent);
+    expect(readFileSync(projectAgent, "utf8")).toContain("ship");
+    expect(existsSync(agent("alpha"))).toBe(false); // user scope untouched
+  });
+
+  it("--all refuses --project (exit 2): a repo's teammates are updated by name", () => {
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    run("install", "alpha", "--yes");
+    const r = run("update", "--all", "--project", project);
+    expect(r.status).toBe(2);
+    expect(r.stderr).toContain("--project");
   });
 
   it("update on a persona that isn't installed exits 3 and points at install", () => {
@@ -726,6 +778,14 @@ describe.skipIf(!bash)("failure design", () => {
     const second = run("install", "beta", "--yes"); // the dir now exists
     expect(second.result?.restart).toBe("false");
     expect(second.stderr).toContain("restart Claude Code once");
+  });
+
+  it("the ready line teaches a mention form Claude Code documents (`@agent-<name>` or the @ picker)", () => {
+    // a bare `@alpha` is not a documented form — typed, it can resolve as a file mention instead
+    const r = run("install", "alpha", "--yes");
+    expect(r.stderr).toContain("mention it as @agent-alpha, or type @ and pick it");
+    expect(r.stderr).toContain("if @agent-alpha isn't recognised, restart Claude Code once");
+    expect(r.stderr).not.toMatch(/@alpha\b/);
   });
 
   it("T-S1: a hostile persona name never reaches the filesystem (exit 2)", () => {

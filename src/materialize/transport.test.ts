@@ -101,6 +101,17 @@ describe("renderSystemPrompt — the plugin transport differs only where it must
     expect(body).not.toContain("does not exist yet, that is your first task");
   });
 
+  it("tells the user how to keep a brief (one repo file), not to go install the CLI", () => {
+    // the brief is read on either lane; a teammate that sends plugin users to the CLI repeats a falsehood
+    for (const name of personaNames) {
+      const body = render(name);
+      expect(body, name).toContain(
+        `To make a brief stick across sessions, they can save it as \`.truecast/agents/${name}/instance/mandate.md\` in the repo.`,
+      );
+      expect(body, name).not.toContain("`truecast` CLI");
+    }
+  });
+
   it("keeps the per-project job path project-relative — the same path the subagent names", () => {
     expect(render(sample)).toContain(`.truecast/agents/${sample}/instance/mandate.md`);
     expect(render(sample, TRUECAST_HOME_PLACEHOLDER)).toContain(

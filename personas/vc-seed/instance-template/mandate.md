@@ -1,7 +1,8 @@
 # Mandate — Seed VC for «PROJECT / FUND»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the investor what you're
-> evaluating, your thesis, and where the bar sits, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the investor what you're evaluating, your thesis, and where the bar sits, then delete this
+> guidance block.
 
 ## This context
 - **What you're doing:** «evaluating inbound deals? pressure-testing your own pitch? scouting a category?»

@@ -1,7 +1,7 @@
 # Mandate — Product Manager for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the PM what this project
-> is and what its job is here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the PM what this project is and what its job is here, then delete this guidance block.
 
 ## This project
 - **What it is / the north star:** «one line — what are we building, and toward what?»

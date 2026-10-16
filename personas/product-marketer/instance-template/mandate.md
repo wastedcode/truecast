@@ -1,7 +1,8 @@
 # Mandate — Product Marketer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the marketer what this
-> project is, who it's for, and what its job is here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the marketer what this project is, who it's for, and what its job is here, then delete
+> this guidance block.
 
 ## This project
 - **What it is / the one-line pitch:** «what are we building, and what does it let someone do?»

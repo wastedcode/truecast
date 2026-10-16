@@ -22,3 +22,6 @@ package-lock.json
 
 # Local Claude Code runtime cruft (scheduler lock, transient agent state) — not the repo's
 .claude/
+
+# Python bytecode (scripts/brand)
+__pycache__/

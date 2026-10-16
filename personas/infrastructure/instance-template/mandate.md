@@ -1,7 +1,8 @@
 # Mandate — Infrastructure / Platform Engineer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the infra engineer what this
-> project runs on and what its job is here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches it.
+> Tell the infra engineer what this project runs on and what its job is here, then delete this guidance
+> block.
 
 ## This project — the production boundary (decides the rigor)
 - **What it is:** «one line — what are we shipping and running?»

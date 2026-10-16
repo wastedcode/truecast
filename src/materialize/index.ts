@@ -181,7 +181,7 @@ export function renderSystemPrompt(
   sections.push(ENGINE_FRONTIER_BAR);
   sections.push(
     transport.kind === "plugin"
-      ? `## Your job in this project\nWork from the user's brief for this project if they've given you one — a \`${instanceBase}/mandate.md\`, a \`CLAUDE.md\`, or direction in this conversation. **If there's no brief, that's not an error: ask the user what they need from you here, then proceed from your craft.** For a standing mandate that persists across sessions, they can install you with the \`truecast\` CLI; you run fine without it.`
+      ? `## Your job in this project\nWork from the user's brief for this project if they've given you one — a \`${instanceBase}/mandate.md\`, a \`CLAUDE.md\`, or direction in this conversation. **If there's no brief, that's not an error: ask the user what they need from you here, then proceed from your craft.** To make a brief stick across sessions, they can save it as \`${instanceBase}/mandate.md\` in the repo.`
       : // The absolute-pointer overlay (D1), verbatim: the craft is global, the job is per-repo, and a
         // repo with no brief is a normal state — not a failure the persona should report as one.
         `## Your job in this project

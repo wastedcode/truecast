@@ -1,7 +1,8 @@
 # Mandate — Software Engineer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the engineer what this
-> project is, where the code lives, and how it's built and run here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the engineer what this project is, where the code lives, and how it's built and run here,
+> then delete this guidance block.
 
 ## This project
 - **What it is / what we ship:** «one line — what are we building?»

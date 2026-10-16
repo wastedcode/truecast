@@ -1,0 +1,186 @@
+/* truecast identity tokens: the one source for colour, type, space and motion.
+   Import before any page CSS:  <link rel="stylesheet" href="/brand/tokens.css">
+   Read BRAND.md for the why. Every text pairing below is checked (scripts/brand/check_contrast.py);
+   a pairing that isn't listed in BRAND.md isn't allowed. */
+
+/* ---------- type: both faces are OFL, self-hosted, subset to Latin ---------- */
+@font-face {
+  font-family: "Schibsted Grotesk";
+  src: url("fonts/schibsted-grotesk.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Martian Mono";
+  src: url("fonts/martian-mono.woff2") format("woff2"); /* width pinned at 87.5 */
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- palette (raw values; use the roles below in components) ---------- */
+  --tc-blue:        #1F36FF;  /* true blue: the brand. Fill, mark, links on light */
+  --tc-blue-press:  #1729D6;  /* hover/pressed on a blue fill */
+  --tc-blue-light:  #8C9BFF;  /* true blue on dark grounds (mark, links, device) */
+  --tc-blue-wash:   #E8EBFF;  /* tint behind blue text on light */
+  --tc-blue-deep:   #161D52;  /* tint behind light-blue text on dark */
+
+  --tc-ink:         #0B0D1A;  /* never pure black */
+  --tc-ink-900:     #12152A;
+  --tc-ink-850:     #1A1E36;
+  --tc-ink-800:     #262A45;
+  --tc-ink-700:     #3A3F60;
+  --tc-grey-600:    #474B5E;
+  --tc-grey-500:    #62667A;
+  --tc-grey-400:    #8A8FA8;
+  --tc-grey-300:    #B4B8CC;
+  --tc-grey-200:    #DCDFE9;
+  --tc-grey-100:    #ECEEF5;
+  --tc-grey-50:     #F5F6FA;
+  --tc-paper:       #FFFFFF;  /* cool white. Never cream: cream is the platform's ground */
+  --tc-paper-dim:   #F3F4FA;  /* text on dark */
+
+  /* verdicts: on light grounds, and their light-on-dark counterparts (only on verdict text and grades) */
+  --tc-go:              #0B6E3A;
+  --tc-conditional:     #8A5300;
+  --tc-no-go:           #C01522;
+  --tc-go-light:        #5DD497;
+  --tc-conditional-light: #F2BA55;
+  --tc-no-go-light:     #FF8A8A;
+
+  /* ---------- type ---------- */
+  --font-sans: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --weight-text: 400;
+  --weight-strong: 600;
+  --weight-display: 800;
+
+  --text-xs:   0.8125rem;                                   /* 13 — mono labels, small print */
+  --text-sm:   0.9375rem;                                   /* 15 */
+  --text-base: 1.0625rem;                                   /* 17 — body */
+  --text-lg:   1.25rem;                                     /* 20 — lead */
+  --text-xl:   clamp(1.5rem, 1.2rem + 1vw, 1.875rem);       /* 24→30 — h3 */
+  --text-2xl:  clamp(2rem, 1.45rem + 2.2vw, 3.25rem);       /* 32→52 — h2 */
+  --text-display: clamp(2.75rem, 1.5rem + 5vw, 5.75rem);    /* 44→92 — h1 */
+  --mono-scale: 0.86em;      /* Martian sits large; set inline code at this size */
+
+  --leading-display: 1.0;
+  --leading-heading: 1.08;
+  --leading-body: 1.55;
+  --tracking-display: -0.035em;
+  --tracking-heading: -0.025em;
+  --tracking-text: 0;
+  --measure: 64ch;
+
+  /* ---------- space (4px base) and layout ---------- */
+  --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem; --space-4: 1rem;
+  --space-5: 1.5rem;   --space-6: 2rem;    --space-7: 3rem;    --space-8: 4rem;
+  --space-9: 6rem;     --space-10: 8rem;
+  --page-max: 76rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* square on purpose: the mark is cut, not rounded */
+  --radius-0: 0;
+  --radius-1: 2px;   /* inputs, code pills, tags */
+  --radius-2: 4px;   /* buttons, cards */
+  --radius-3: 8px;   /* large panels, the transcript card */
+  --radius-icon: 22%; /* app icon / favicon tile only */
+
+  --rule-hair: 1px;
+  --rule-surface: 3px;  /* the surface line every core hangs from */
+
+  /* ---------- the core (signature device) ---------- */
+  --core-width: 24px;
+  --core-cut: 2px;            /* gap between bands */
+  --core-words-per-px: 40;    /* one scale per view; comparisons are only true at one scale */
+
+  /* ---------- motion ---------- */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(0.6, 0, 0.2, 1);
+  --dur-1: 120ms;  /* hover, press */
+  --dur-2: 200ms;  /* reveal, copy confirmation */
+  --dur-3: 360ms;  /* the core draws down: per band */
+  --core-stagger: 28ms;
+
+  /* ---------- roles: LIGHT (default) ---------- */
+  color-scheme: light dark;
+  --color-bg:            var(--tc-paper);
+  --color-surface:       var(--tc-grey-50);
+  --color-surface-2:     var(--tc-grey-100);
+  --color-line:          var(--tc-grey-200);
+  --color-line-strong:   var(--tc-grey-300);
+  --color-text:          var(--tc-ink);
+  --color-text-2:        var(--tc-grey-600);
+  --color-text-3:        var(--tc-grey-500);   /* ≥4.5:1 on bg and surface; not on surface-2 */
+  --color-accent:        var(--tc-blue);        /* links, focus, the mark, the device */
+  --color-accent-wash:   var(--tc-blue-wash);
+  --color-fill:          var(--tc-blue);        /* primary button, blue fields */
+  --color-fill-press:    var(--tc-blue-press);
+  --color-on-fill:       var(--tc-paper);
+  --color-code-bg:       var(--tc-grey-50);
+  --color-focus:         var(--tc-blue);
+
+  /* verdicts: the only non-blue colour. Use for real verdict text, never decoration */
+  --color-go:            var(--tc-go);
+  --color-conditional:   var(--tc-conditional);
+  --color-no-go:         var(--tc-no-go);
+  --color-go-wash:       #E3F4EA;
+  --color-conditional-wash: #FBF0DC;
+  --color-no-go-wash:    #FCE6E7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:            var(--tc-ink);
+    --color-surface:       var(--tc-ink-900);
+    --color-surface-2:     var(--tc-ink-850);
+    --color-line:          var(--tc-ink-800);
+    --color-line-strong:   var(--tc-ink-700);
+    --color-text:          var(--tc-paper-dim);
+    --color-text-2:        var(--tc-grey-300);
+    --color-text-3:        var(--tc-grey-400);
+    --color-accent:        var(--tc-blue-light);
+    --color-accent-wash:   var(--tc-blue-deep);
+    --color-fill:          var(--tc-blue);
+    --color-fill-press:    var(--tc-blue-press);
+    --color-on-fill:       var(--tc-paper);
+    --color-code-bg:       var(--tc-ink-900);
+    --color-focus:         var(--tc-blue-light);
+    --color-go:            var(--tc-go-light);
+    --color-conditional:   var(--tc-conditional-light);
+    --color-no-go:         var(--tc-no-go-light);
+    --color-go-wash:       #0F2B1E;
+    --color-conditional-wash: #2E2210;
+    --color-no-go-wash:    #33141A;
+  }
+}
+/* explicit override, same values (keep in step with the block above) */
+:root[data-theme="dark"] {
+  --color-bg:            var(--tc-ink);
+  --color-surface:       var(--tc-ink-900);
+  --color-surface-2:     var(--tc-ink-850);
+  --color-line:          var(--tc-ink-800);
+  --color-line-strong:   var(--tc-ink-700);
+  --color-text:          var(--tc-paper-dim);
+  --color-text-2:        var(--tc-grey-300);
+  --color-text-3:        var(--tc-grey-400);
+  --color-accent:        var(--tc-blue-light);
+  --color-accent-wash:   var(--tc-blue-deep);
+  --color-fill:          var(--tc-blue);
+  --color-fill-press:    var(--tc-blue-press);
+  --color-on-fill:       var(--tc-paper);
+  --color-code-bg:       var(--tc-ink-900);
+  --color-focus:         var(--tc-blue-light);
+  --color-go:            var(--tc-go-light);
+  --color-conditional:   var(--tc-conditional-light);
+  --color-no-go:         var(--tc-no-go-light);
+  --color-go-wash:       #0F2B1E;
+  --color-conditional-wash: #2E2210;
+  --color-no-go-wash:    #33141A;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-1: 0ms; --dur-2: 0ms; --dur-3: 0ms; --core-stagger: 0ms; }
+}

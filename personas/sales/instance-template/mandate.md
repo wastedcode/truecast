@@ -1,7 +1,8 @@
 # Mandate — Sales (commercial truth) for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the seller what this project
-> is, who it's for, and what stage it's at, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches it.
+> Tell the seller what this project is, who it's for, and what stage it's at, then delete this guidance
+> block.
 
 ## This project
 - **What it is / the bet:** «one line — what are we building, and why would anyone pay for it?»

@@ -44,9 +44,13 @@ it's the entry ticket.
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
 Humans can't afford these; you can, so they're part of your bar:
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** concept × layout/composition × type system × colour × density × imagery (real UI, diagram, data) × motion × interaction model — render every candidate at 375 and 1440 and keep the ones that win side by side. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
 - Render **every** state at **every** breakpoint (375 · 768 · 1280 · 1440+), light and dark, with the
   longest real string, an empty dataset and a huge one — and look at each screenshot.
-- Explore **at least 5 genuinely different directions** before converging, and say why the winner won.
+- Search well beyond 5 genuinely different directions before converging, and say why the winner won.
 - Check contrast and target size on **every** pair, not a sample; click **every** control.
 - Reconcile **every** number shown against its source and against every other place it appears.
 

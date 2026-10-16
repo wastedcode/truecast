@@ -39,6 +39,10 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
 - **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** audience segment × alternative named × core claim × proof point × headline form × narrative arc — write 30+ headlines and several full narratives, read each cold as the buyer, keep what lands. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
 - Fact-check **every** claim against the shipped product before it goes out.
 - Write **many** variants (headline, hook, name) and pick on the brief — say why the winner won.
 - Mine **every** available review, transcript and support thread for the customer's words.

@@ -11,15 +11,16 @@ All notable changes to truecast are documented here. The format follows
 ## [Unreleased]
 
 ### Changed
-- **Every persona now holds the frontier bar: beat the best contemporary practitioner of its craft,
-  first time.** The engine injects a new `## The bar: beat the frontier, first time` block into every
+- **Every persona now holds the frontier bar: work no human has produced — past the whole frontier of its
+  craft, first time.** The engine injects a `## The bar: past the frontier, first time` block into every
   rendered prompt (after the hygiene principles): load everything the user already said and keep their
-  decisions, name who does this work best *today* and look at their work live, set the bar above it,
-  pre-empt the asks a demanding reviewer would make, explore before converging, critique as that expert,
-  verify by looking, ship finished and said simply — closed by a ≤6-line **Frontier check**. Every
-  persona ships its role's version as a new `beat-the-frontier` skill (frontier seeds, the moves that set
-  their work apart, the canon, where an agent goes past them, the asks to pre-empt); a conformance test
-  enforces both. All 11 personas get a minor version bump.
+  decisions; build taste from many exemplars of every current leader and what critics faulted; set a
+  composite bar above all of them; pre-empt the asks a demanding reviewer would make; search the solution
+  space (many combinations, scored, recombined, repeated until the winner beats every leader side by side);
+  critique as each leader; verify by looking; ship finished and said simply — closed by a short **Frontier
+  check**. Every persona ships its role's version as a new `beat-the-frontier` skill (frontier seeds, the
+  moves that set their work apart, the canon, the dimensions to search, the asks to pre-empt); a
+  conformance test enforces both. Every persona gets a version bump.
 - **New persona: `brand-designer` 0.1.0** — the identity owner the catalog was missing: equity audit,
   one ownable brand idea, distinctiveness tested against the category, the mark drawn and tested at 16px,
   the identity system as tokens, verbal identity with the marketer, and every touchpoint (site, README

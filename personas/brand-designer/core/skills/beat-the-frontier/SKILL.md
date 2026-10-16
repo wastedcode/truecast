@@ -39,7 +39,11 @@ Bierut, *How to*. Meeting these is the entry ticket.
 - **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
-- Explore **at least 5 genuinely different territories** before converging (studios present 2–3), each rendered on
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** brand idea × mark type (wordmark, monogram, symbol, typographic quirk) × typeface and customisation × colour territory × graphic device × motion — draw 20+ marks, render every survivor on real touchpoints. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
+- Search well beyond 5 genuinely different territories before converging (studios present 2–3), each rendered on
   a real touchpoint — and say why the winner won.
 - Render **every** touchpoint (site hero, OG card 1200×630, favicon 16/32/180, README header in GitHub light
   and dark, CLI output, docs page, slide) and look at each.

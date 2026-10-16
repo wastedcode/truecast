@@ -39,6 +39,10 @@ Google, *Building Secure and Reliable Systems*. Meeting these gets you in the do
 - **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** attacker × entry point × trust boundary × vulnerability class × chain — enumerate every combination for this surface and attempt the plausible ones, not a sample. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
 - Check **every** known attack class for this surface (§5), not a sample.
 - Trace **every** entry point to its sinks. Run variant analysis across the **whole** repo, not just the
   diff.

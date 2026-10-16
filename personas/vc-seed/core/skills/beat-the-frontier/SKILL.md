@@ -38,6 +38,10 @@ Gil, *High Growth Handbook* · Mallaby, *The Power Law*. Meeting these gets you 
 - **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** market framing × comparable × failure mode × founder signal × outcome scenario — generate the strongest bull and bear cases from many angles before forming the verdict. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
 - Check **every** load-bearing claim in the deck against what's verifiable (product, public data,
   competitor sites, pricing, hiring), not a sample.
 - Scan the **whole** competitive field, including the incumbent's cheapest response and adjacent

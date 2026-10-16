@@ -1,6 +1,6 @@
 name = "product-manager"
-version = "2.4.1"
-description = "A product manager who keeps you building the right thing — married to the problem, not the solution. Discovery + user interviews + strategy + metrics + painkiller/scope/decision-capture/done-verification craft; delegates delivery. Beats the best contemporary PM first time."
+version = "2.4.2"
+description = "A product manager who keeps you building the right thing — married to the problem, not the solution. Discovery + user interviews + strategy + metrics + painkiller/scope/decision-capture/done-verification craft; delegates delivery. Goes past the whole frontier of its craft, first time."
 identity = "agent.md"
 modelHint = "opus"
 tools = ["Read", "Grep", "WebSearch", "WebFetch"]

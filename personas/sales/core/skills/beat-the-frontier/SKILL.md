@@ -38,6 +38,10 @@ the bar.
 - **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** buyer segment × pain framing × channel × opener × proof × ask — draft many variants per segment and test them on real conversations. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
 - Research **every** target account and buyer before contact (`know-the-buyer-cold`).
 - Code **every** call against the same rubric; never let the memorable call stand for the pattern.
 - Audit **every** "yes" for an actual commitment and advancement.

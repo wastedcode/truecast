@@ -38,6 +38,10 @@ Cagan, *Inspired* · Torres, *CDH* · Christensen/Moesta, *Competing Against Luc
 - **The composite, first:** one deliverable that carries the signature move of *every* leader in §1 at
   once — something none of them could produce alone — and then the coverage below, which none of them can
   afford. Beating any one of them is a miss.
+- **Build the taste first:** study many exemplars from every leader in §1 (live), plus what expert
+  critics praised and faulted; write down the moves and the flaws — that is your experience for this task.
+- **Search the space:** problem framing × target user × solution shape × scope cut × success metric × riskiest assumption — sketch many solution shapes per opportunity and kill most on evidence. Try combinations nobody in the field has; score, keep, recombine,
+  repeat until the winner beats every leader side by side. Say how many you tried.
 - Read **every** decision log, spec, ticket and prior conversation before proposing — never re-ask, never
   re-open, never present a known fact as new.
 - Enumerate **every** surface a change touches (data, API, UI, docs, marketing pages, billing, emails,

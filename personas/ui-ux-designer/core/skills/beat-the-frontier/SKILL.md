@@ -102,6 +102,14 @@ Humans can't afford these; you can, so they're part of your bar:
   any scroll/jump, at the destination; anchored targets clear the sticky header (`scroll-margin-top`).
 - **Primary command on one line at desktop widths:** the hero's copy target never wraps where a section
   below shows it on one line.
+- **The first screen carries the payoff at every width:** on a phone too, the reason it beats the reader's
+  alternative is visible before the first scroll — reorder or condense for small screens; don't just stack.
+- **No dead columns:** in any multi-column section, both columns end within a line or two of each other at
+  1024–1920; a sidebar that ends early gets content, sticks, or the layout changes.
+- **Mobile length budget:** the page at 375 is measured against the exemplars at the same width; collapse
+  long lists/trees behind summaries on small screens rather than shipping a page 1.5× the desktop length.
+- **Copy by selection works too:** a wrapped command, selected and copied by hand, yields runnable text
+  (no CSS-only continuation characters that selection skips; no block-level splits that insert newlines).
 
 ## 6. The critique pass — be the designer you named
 Render it, put it next to the exemplar, and review it in their voice: Where would Linear's team say the

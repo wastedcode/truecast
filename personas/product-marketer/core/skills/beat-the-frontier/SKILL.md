@@ -98,6 +98,9 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
   it (nouns, install path, claims) — update them in the same change or flag the drift.
 - **Disclosure safety:** if proof reveals a vulnerability, the fix ships before or with the page, and the page
   tells existing users exactly how to get it.
+- **Fair comparisons:** quote the alternative's full conclusion, not the half that flatters you — a
+  skeptical reader will open the receipt. And test against the *strongest* alternative a savvy reader
+  actually uses (the popular free/pro option), not the weakest one you can beat.
 
 ## 6. The critique pass — be the marketer you named
 Review it in their voice: Would Dunford say the alternative and category are missing? Would Pierri flag

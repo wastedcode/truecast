@@ -74,6 +74,8 @@ Bierut, *How to*. Meeting these is the entry ticket.
   README and figures — and it's self-explanatory where it appears (labelled at the point of use).
 - **The share card carries the strongest proof:** the frame people meet in a feed shows the receipt (the
   discriminating fact), not just the headline.
+- **The first viewport says whose page this is:** the signature device or owned colour is visible above the
+  fold at every width — with the logo cropped out, the hero still reads as this brand, not the category default.
 
 ## 6. The critique pass — be the studio you named
 Render everything on one board next to the exemplar. Review in their voice: Would Pentagram find the idea

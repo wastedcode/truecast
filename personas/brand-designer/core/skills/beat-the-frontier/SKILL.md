@@ -79,6 +79,10 @@ Bierut, *How to*. Meeting these is the entry ticket.
 - **Generated assets follow the story:** when the page's claim changes, regenerate the share card and every
   asset built from it in the same pass; a card telling a retired story is a false claim in the most-seen place.
 
+- **Data-drawn assets are rebuilt from the tree at hand-off:** when a mark, card or board encodes real data
+  (counts, sizes, versions), the generator reads it from the source at build time and has a `--check` mode;
+  re-run it against the current tree before hand-off, and hand over the command so the next change re-runs it.
+
 ## 6. The critique pass — be the studio you named
 Render everything on one board next to the exemplar. Review in their voice: Would Pentagram find the idea
 in every asset? Would Metalab say it blends into the AI-tool crowd? Would a type designer find a kerning

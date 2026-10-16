@@ -106,6 +106,15 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
   holds only for the exact thing only ours did. Name the specific thing; don't generalise it.
 - **Derived copies move with the claim:** when the story changes, every derived copy changes in the same
   pass — share card, meta/OG description, alt text, README, listings, generated assets.
+- **The lead survives its own proof:** before writing the hero, write the one sentence the strongest skeptic
+  will say after reading every loss in the proof ("it tied a 76-word agent"). The lead and the case under it
+  must still stand with that sentence next to them; if the proof shows a factor didn't change the outcome,
+  the page doesn't sell that factor as the reason to switch.
+- **Run facts come from the run logs:** model actually used (including fallbacks), harness version, cost,
+  interruptions and incomplete runs are read from each run's log before they go on the page, never from
+  the plan for the run.
+- **Version claims are open-ended:** "X has the fix" becomes "X or later" — the next merge must not make the
+  sentence false.
 - **Platform syntax is quoted from the platform:** commands, mention forms and UI labels a user will type or
   look for are copied from the platform's current docs (e.g. how a name is actually invoked), not paraphrased.
 

@@ -112,6 +112,10 @@ Humans can't afford these; you can, so they're part of your bar:
   (no CSS-only continuation characters that selection skips; no block-level splits that insert newlines).
 - **Copy edits keep the receipts:** when you change any sentence during a fix, re-check it against the
   claim ledger and the source; a fix never broadens a claim. Regenerate every derived asset it appears in.
+- **Generated figures are rebuilt from the tree at hand-off:** any number, bar or list drawn from source
+  files (word counts, versions, file trees) is produced by a generator with a `--check` mode; before hand-off
+  you re-run every generator against the current tree and the check is clean, and the hand-off names the
+  commands. A figure that was right when drawn and wrong at merge is a false claim.
 - **Typographic roles are semantic:** a face or style that means something on the page (e.g. mono = literally
   typed/printed) is used only for that, everywhere.
 

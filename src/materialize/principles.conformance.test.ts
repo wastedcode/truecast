@@ -3,7 +3,12 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { loadPersona } from "../persona/index.js";
-import { ENGINE_PRINCIPLES, renderSystemPrompt, TRUECAST_HOME_PLACEHOLDER } from "./index.js";
+import {
+  ENGINE_FRONTIER_BAR,
+  ENGINE_PRINCIPLES,
+  renderSystemPrompt,
+  TRUECAST_HOME_PLACEHOLDER,
+} from "./index.js";
 
 /**
  * The engine owns the universal operating principles: EVERY persona's rendered prompt must carry them,
@@ -32,6 +37,26 @@ describe("engine principles — conformance across every shipped persona", () =>
     );
     expect(prompt).toContain(ENGINE_PRINCIPLES);
   });
+
+  it.each(personaNames)(
+    "%s renders with the frontier bar + carries its beat-the-frontier skill",
+    (name) => {
+      const persona = loadPersona(join(personasDir, name));
+      const prompt = renderSystemPrompt(
+        { name, version: persona.manifest.version, coreDir: persona.coreDir },
+        persona,
+        { kind: "subagent", truecastHome: TRUECAST_HOME_PLACEHOLDER },
+      );
+      expect(prompt).toContain(ENGINE_FRONTIER_BAR);
+      // the engine block points every persona at its role's version of the loop — it must exist
+      expect(persona.manifest.skills).toContain("skills/beat-the-frontier/SKILL.md");
+      // and sits after the hygiene principles, before the per-project job pointer
+      expect(prompt.indexOf(ENGINE_PRINCIPLES)).toBeLessThan(prompt.indexOf(ENGINE_FRONTIER_BAR));
+      expect(prompt.indexOf(ENGINE_FRONTIER_BAR)).toBeLessThan(
+        prompt.indexOf("Your job in this project"),
+      );
+    },
+  );
 
   it("injects principles independent of persona content (publisher cannot omit them)", () => {
     const persona = loadPersona(join(personasDir, personaNames[0]));

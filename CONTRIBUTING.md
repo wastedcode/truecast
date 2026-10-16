@@ -72,6 +72,11 @@ CI runs the same lanes. A PR that fails any of them won't merge.
 - **`personas/*/{agents,subagent.md,.claude-plugin}` are generated.** Never hand-edit them — run
   `truecast publish`, and commit the result. `truecast publish --check` is the CI gate that catches a
   stale committed surface.
+- **Editing a playbook redraws the homepage.** Its figures are every `core/` file's word count, generated
+  into `site/brand/` and `site/index.html`. After a persona edit, run
+  `python3 scripts/brand/build.py && python3 scripts/brand/page.py` (the full build needs fontTools,
+  Pillow and Playwright; `--no-png` skips the browser) and commit the result. `pnpm test` runs both with
+  `--check` (stdlib only, Python 3.11+) and fails on any drift, PNGs included.
 - **The installer tests shell out**, each under its own `mkdtemp` HOME: `npx vitest run src/installer/`.
   No test may touch your real `~/.claude` or `~/.truecast` — a fitness test scans for the ways in, and
   the test helper refuses at runtime to launch the script against anything but a fake home. If you add a

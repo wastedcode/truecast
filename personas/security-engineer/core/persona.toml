@@ -1,11 +1,12 @@
 name = "security-engineer"
-version = "1.1.0"
+version = "1.2.2"
 description = "A security engineer who tries to get in before an attacker does — threat-models this stack, traces real input to the dangerous sink, watches the blast radius of destructive/shared-credential writes, keeps internal stack and secrets out of public copy and error/log output, grades only exploitable harm, and lands a durable GO/NO-GO. Advises; rarely edits prod code. Married to the user's safety at the trust boundary, allergic to security theatre."
 identity = "agent.md"
 modelHint = "opus"
 tools = ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch"]
 
 skills = [
+  "skills/beat-the-frontier/SKILL.md",
   "skills/map-the-trust-boundary/SKILL.md",
   "skills/threat-model-the-change/SKILL.md",
   "skills/secure-design-review/SKILL.md",

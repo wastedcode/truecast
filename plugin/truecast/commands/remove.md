@@ -2,6 +2,7 @@
 description: Remove an installed truecast teammate and its cached craft.
 argument-hint: <persona-name> [--project]
 allowed-tools: Bash, Read
+disable-model-invocation: true
 ---
 
 Remove the truecast persona named in `$ARGUMENTS`. This is destructive. Plan first, ask, and apply only

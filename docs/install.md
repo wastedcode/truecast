@@ -4,20 +4,35 @@ Three ways to get a teammate. Start with the first.
 
 ## In Claude Code (recommended)
 
-Two lines to set truecast up, one line per teammate — all in a live session, no terminal:
+Set truecast up once from your terminal (Claude Code 2.1.292 or later; check with `claude --version`):
+
+```sh
+claude plugin install truecast --marketplace wastedcode/truecast
+```
+
+Then, in Claude Code, one line per teammate:
 
 ```
-/plugin marketplace add wastedcode/truecast
-/plugin install truecast@truecast
 /truecast:install product-manager
 ```
 
-Now `@product-manager` answers to that bare name, in this project and every other one.
+Was Claude Code already open when you ran the first line? Run `/reload-plugins` first, so the session
+sees the installer.
+
+**Already in a session?** On 2.1.275 or later, `/plugin install truecast --marketplace wastedcode/truecast`
+does the setup without leaving Claude Code. It asks before adding the marketplace, then opens the plugin's
+details: choose **Install for you**. On older versions, run `/plugin marketplace add wastedcode/truecast`,
+then `/plugin install truecast@truecast`, which opens the same panel. Either way, then run
+`/truecast:install <name>`.
+
+Now `product-manager` is a teammate in this project and every other one, under its own name. Ask for it
+in plain words, or type `@` and pick it from the list (it inserts `@agent-product-manager`) to be sure it
+takes the job.
 
 `truecast@truecast` is the *installer* — the plugin that provides `/truecast:install` and its three
-siblings. You type that line once, ever; after it, adding a teammate is one command. Any of the eleven
+siblings. You type that line once, ever; after it, adding a teammate is one command. Any of the twelve
 official personas works: `product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
-`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`,
+`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `brand-designer`,
 `sales`.
 
 **What you see before anything is written.** `/truecast:install` runs a plan first and writes nothing:
@@ -28,7 +43,7 @@ it. Everything it copies comes from the marketplace clone already on your disk �
 install time, and there is no truecast server.
 
 **First run only.** If `/truecast:install` isn't recognized right after installing the plugin, run
-`/reload-plugins`. If `@<name>` isn't recognized after a successful install, restart Claude Code once —
+`/reload-plugins`. If the teammate isn't in the `@` list after a successful install, restart Claude Code once —
 `~/.claude/agents/` has to exist when the session starts. Neither is needed again.
 
 **The other three commands**
@@ -40,15 +55,29 @@ install time, and there is no truecast server.
 ```
 
 `/truecast:update` installs from your local copy of the marketplace. To fetch newer personas first, run
-`/plugin marketplace update truecast`.
+`claude plugin marketplace update truecast` in your terminal (or `/plugin marketplace update truecast` in a
+session). To update the installer itself, run `claude plugin update truecast@truecast` and restart Claude
+Code: refreshing the marketplace alone doesn't replace the installer's slash commands, and auto-update is
+off by default for third-party marketplaces.
+
+**Take it all back out.** Three steps, each undoing one layer:
+
+```
+/truecast:remove <name>                     # in Claude Code: lists what it will delete, then waits for a yes
+claude plugin uninstall truecast@truecast   # in your terminal: removes the installer
+claude plugin marketplace remove truecast   # forgets the catalog and deletes Claude Code's clone of it
+```
+
+Your brief (`.truecast/agents/<name>/instance/mandate.md` in your repo) is yours; none of these touch it.
 
 **This project only.** `/truecast:install <name> --project` writes the teammate to
 `<repo>/.claude/agents/<name>.md` instead of your home, scaffolds
 `.truecast/agents/<name>/instance/mandate.md` if it's missing, and gitignores the agent file — it points
 at absolute paths in *your* home, so it isn't portable and must not be committed.
 
-This lane and the CLI share one on-disk copy and write the same bytes, so a teammate installed by one is
-updatable by the other. See [where things land](#where-things-land).
+From CLI 0.3.0, this lane and the CLI share one on-disk copy and write the same bytes, so a teammate
+installed by one is updatable by the other. npm still serves 0.2.0, which doesn't. See
+[where things land](#where-things-land).
 
 ## Straight from the marketplace (no installer)
 

@@ -1,0 +1,12 @@
+{
+  "author": {
+    "name": "Inder Singh"
+  },
+  "description": "A brand designer who gives the product an identity people recognize, remember and trust",
+  "displayName": "Brand Designer",
+  "homepage": "https://truecast.dev",
+  "license": "MIT",
+  "name": "brand-designer",
+  "repository": "https://github.com/wastedcode/truecast",
+  "version": "0.1.6"
+}

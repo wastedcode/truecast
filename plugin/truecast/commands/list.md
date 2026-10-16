@@ -2,6 +2,7 @@
 description: List the truecast teammates you have installed and the ones available to install.
 argument-hint: (no arguments)
 allowed-tools: Bash, Read
+disable-model-invocation: true
 ---
 
 Show the user what truecast personas are installed and available. This is read-only: one call, no

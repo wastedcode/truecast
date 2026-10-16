@@ -10,7 +10,88 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
-## [0.3.0] - 2026-08-12
+### Fixed
+- **Plugin-installed teammates sent users to the CLI for a standing brief.** Every `agents/<name>.md`
+  said "they can install you with the `truecast` CLI"; the brief is one file in the repo, read on either
+  lane. It now says to save it as `.truecast/agents/<name>/instance/mandate.md`.
+- **Mandate templates named only `truecast update`.** Plugin-lane users have `/truecast:update`; the
+  template now names both.
+- **The homepage's playbook figures could drift from the playbooks.** `scripts/brand/build.py --check`
+  and `page.py --check` regenerate in memory and fail on any difference (the data-drawn PNGs are pinned by
+  a hash of the data they were rendered from), and `pnpm test` runs both. The hand-written agent's word
+  count is now read from the published proof rather than a git-ignored file, so a clean checkout builds
+  the same numbers. The first run caught three playbooks that had grown since the figures were drawn.
+- `truecast publish --settings` and the README wrote `enabledPlugins` as an array; Claude Code reads an
+  object mapping `plugin@marketplace` to `true`.
+
+### Changed
+- **Every persona gets a `beat-the-frontier` skill and a closing Frontier check.** The engine injects a
+  `## The bar: past the frontier, first time` block into every rendered prompt (after the hygiene principles): load everything the user already said and keep their
+  decisions; build taste from many exemplars of every current leader and what critics faulted; set a
+  composite bar above all of them; pre-empt the asks a demanding reviewer would make; search the solution
+  space (many combinations, scored, recombined, repeated until the winner beats every leader side by side);
+  critique as each leader; verify by looking; ship finished and said simply — closed by a short **Frontier
+  check**. Every persona ships its role's version as a new `beat-the-frontier` skill (frontier seeds, the
+  moves that set their work apart, the canon, the dimensions to search, the asks to pre-empt); a
+  conformance test enforces both. Every persona gets a version bump. The bar lives in the engine block and
+  each persona's skill, not in the one-line description Claude Code shows in its agent picker: no
+  description claims it.
+- **New persona: `brand-designer` 0.1.0** — the identity owner the catalog was missing: equity audit,
+  one ownable brand idea, distinctiveness tested against the category, the mark drawn and tested at 16px,
+  the identity system as tokens, verbal identity with the marketer, and every touchpoint (site, README
+  light/dark, social card, favicon, CLI) rendered and held consistent. Twelve official personas.
+- **ui-ux-designer 1.3.0** adds visual art direction (`art-direct-the-visual`) and information design
+  (`explain-with-visuals`), and gains the `Bash` tool so it can render its own work and inspect the
+  screenshots at every breakpoint and theme. Its quality gate now points at the exemplar it named
+  instead of a fixed list of brands.
+- **software-engineer** gains `WebSearch` + `WebFetch` (live research into the frontier and current
+  libraries).
+- Mandate templates: the "bar" line now defaults to the frontier bar instead of offering
+  "fast-and-iterate"; the founder adds exemplars, house rules, and where correctness is absolute.
+
+## Installer plugin 0.1.2 - 2026-10-16
+
+The `truecast@truecast` plugin (`/truecast:install` and friends). Take it with
+`claude plugin marketplace update truecast` and `claude plugin update truecast@truecast`, then restart Claude Code.
+
+### Fixed
+- **`/truecast:update` dropped `--project` between its plan and its apply step.** The command accepted
+  the flag, but its Step 1 and Step 3 templates never carried it, so a user could be shown a plan for the
+  repo's `.claude/agents/<name>.md` and then have `~/.claude/agents/<name>.md` written instead. Both
+  templates now carry `[--project]`, the script's usage names it, and `update --all --project` is refused
+  (exit 2) rather than guessed at — a repo's teammates are updated by name. Found in the homepage's fair
+  test by VoltAgent's security-engineer (`free-6`) and by truecast's (`truecast-4`); both reports are in
+  `site/proof/rerun/`. Regression tests cover both paths.
+- **The ready message taught a mention form Claude Code doesn't document.** It said "mention it as
+  `@security-engineer`"; typed, a bare `@name` can resolve as a file. It now says "mention it as
+  `@agent-security-engineer`, or type @ and pick it", and `/truecast:install` and `/truecast:update`
+  relay the same form.
+
+## Installer plugin 0.1.1 - 2026-10-16
+
+The `truecast@truecast` plugin (`/truecast:install` and friends). Take it with
+`claude plugin marketplace update truecast` and `claude plugin update truecast@truecast`, then restart Claude Code.
+
+### Security
+- **Installer plugin 0.1.1 — `--project` could be made to write outside the repo.** Every write-then-rename
+  used a predictable temp name (`<file>.tmp-<pid>`) beside its target; inside an untrusted repo, a
+  pre-planted symlink at that name redirected the write — `remove --project` could put the repo's
+  `.gitignore` text into a shell startup file. Temp files now come from `mktemp` (exclusive, random
+  suffix). Found by truecast's own `security-engineer`.
+- The installer now refuses an agent template with frontmatter beyond `name`/`description`/`model`/`tools`
+  (user-scope agents honour `hooks`, `mcpServers`, `permissionMode`, `initialPrompt`, which the plan never
+  showed), and the four `/truecast:*` commands set `disable-model-invocation: true` so text in a repo
+  can't steer Claude into running them.
+
+### Fixed
+- **Installer plugin 0.1.1 — no more false fork warning after a CLI install.** `/truecast:install` compared
+  the recorded source with the marketplace clone's origin as raw strings, so
+  `https://github.com/wastedcode/truecast` (what the CLI records) vs `…/truecast.git` (how Claude Code
+  clones) printed `source-mismatch: … it may be a fork`. Both sides are now normalised before comparing
+  (host case, one trailing `/` and `.git`, SSH → HTTPS, `#fragment` ignored); a different owner or host
+  still warns.
+
+## [0.3.0] - unreleased (npm: 0.2.0)
 
 ### Added
 - **`/truecast:install` — install a teammate from inside Claude Code, and `@`-mention it by its bare
@@ -141,8 +222,8 @@ Initial public release.
   `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `sales` — each
   built from independent research and acceptance-tested against real-world demands.
 
-[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/wastedcode/truecast/compare/v0.2.0...v0.3.0
+[Unreleased]: https://github.com/wastedcode/truecast/compare/v0.2.0...HEAD
+[0.3.0]: https://github.com/wastedcode/truecast/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/wastedcode/truecast/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/wastedcode/truecast/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wastedcode/truecast/releases/tag/v0.1.0

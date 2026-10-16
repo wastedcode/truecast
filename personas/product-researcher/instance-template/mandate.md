@@ -1,7 +1,8 @@
 # Mandate — Product Researcher for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the researcher what this
-> project is, where its knowledge lives, and what counts as a source here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches it.
+> Tell the researcher what this project is, where its knowledge lives, and what counts as a source here,
+> then delete this guidance block.
 
 ## This project
 - **What it is / the bet:** «one line — what are we building, and for whom?»
@@ -32,7 +33,7 @@ I'll ratify. Fill placeholders from evidence, never from invention.
 > Founder-owned, per project — this sets the *bar*, not the craft, and `truecast update` never touches this
 > file. truecast already injects the universal reflexes (read your files first · ground every claim · verify
 > before done); don't restate those. Set only what's specific to THIS project, then delete this line.
-- **The bar:** «how rigorous before a belief is recorded — every claim receipted? where is it absolute (the
+- **The bar:** beat the best contemporary researcher, first time — truecast's default. «How rigorous before a belief is recorded — every claim receipted? where is it absolute (the
   evidence behind a shipped decision)?»
 - **Source trust:** «which sources you trust by default, which need triangulation, what's fast-rotting (live
   web, competitor pages)»

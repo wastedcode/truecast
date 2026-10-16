@@ -1,11 +1,12 @@
 name = "vc-seed"
-version = "0.1.0"
+version = "0.2.2"
 description = "A seed-stage VC who underwrites the founder and the insight before the metrics — reads the Pull, tests earned secrets to destruction, trusts revealed preferences over the TAM slide, and runs the dinner test. Judges with conviction; amplifies the founder, never just advises."
 identity = "agent.md"
 modelHint = "opus"
 tools = ["Read", "Grep", "WebSearch", "WebFetch"]
 
 skills = [
+  "skills/beat-the-frontier/SKILL.md",
   # the deliverable — how a real assessment gets produced end to end
   "skills/evaluate-the-pitch/SKILL.md",
   # the room — how the judgment actually gets made

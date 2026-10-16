@@ -1,6 +1,7 @@
 import {
   chmodSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -122,7 +123,8 @@ describe.skipIf(!bash)("install — plan, consent, apply", () => {
     // suffixes only: `scanStale` globs on `.staging-`/`.tmp-`, and the atomic-rename discipline is what
     // matters — not which variable holds the path, which is free to be refactored
     expect(script).toMatch(/STAGING=.*\.staging-\$\$/);
-    expect(script).toMatch(/cp .*"\$target\.tmp-\$\$"/);
+    // the agent file's temp is mktemp'd as `<file>.tmp-XXXXXX` — still `.tmp-`, but never guessable (SEC-F1)
+    expect(script).toMatch(/mktemp "\$1\.tmp-XXXXXX"/);
   });
 });
 
@@ -164,6 +166,25 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     expect(scanned, "found no deletes at all — the regex has stopped matching").toBeGreaterThan(3);
     // and safe_rm is what proves containment for everything routed through it
     expect(source.slice(bodyStart, bodyEnd)).toContain('inside "$1" "$2" || die 7');
+  });
+
+  it("SEC-F3: no command can be triggered by the model (each pre-approves Bash for its turn)", () => {
+    for (const c of commands) {
+      const fm =
+        readFileSync(join(pluginDir, "commands", `${c}.md`), "utf8").split("\n---")[0] ?? "";
+      expect(fm, c).toMatch(/^disable-model-invocation: true$/m);
+    }
+  });
+
+  it("SEC-F1: no write goes through a predictable temp name — mktemp via fresh_tmp only", () => {
+    // `$$` is guessable; a repo can pre-plant a symlink at `<file>.tmp-<pid>` and a redirect follows it.
+    const code = source
+      .split("\n")
+      .filter((l) => !l.trim().startsWith("#"))
+      .join("\n");
+    expect(code).not.toMatch(/\.tmp-\$\$/);
+    expect(code).not.toMatch(/\.tmp-\$\{?\$\}?/);
+    expect(code.match(/fresh_tmp "\$/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
   });
 
   /** The prose is hard-wrapped, so match on collapsed whitespace — a re-wrap must not fail the gate. */
@@ -229,6 +250,22 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     },
   );
 
+  it.each(["install", "update"])(
+    "commands/%s.md relays the mention form the script prints, never a bare `@<name>`",
+    (c) => {
+      const md = readCommand(c);
+      expect(md).toContain("`@agent-<name>`");
+      expect(md).not.toMatch(/`@<name>`,? (is ready|isn't recognised)/);
+    },
+  );
+
+  it("commands/update.md carries --project through plan AND apply (never one file planned, another written)", () => {
+    const md = readCommand("update");
+    expect(md).toContain('bash "$S" update <name|--all> [--project]');
+    expect(md).toContain('bash "$S" update <name> [--project] [--force] --yes');
+    expect(md).toContain("on **both** the Step 1 and the Step 3 command line");
+  });
+
   it("commands/update.md documents the --all apply form and per-member follow-up", () => {
     const md = readCommand("update");
     expect(md).toContain('bash "$S" update --all --yes');
@@ -290,12 +327,48 @@ describe.skipIf(!bash)("update", () => {
     expect(existsSync(join(personaDir("alpha"), "1.0.0", "core"))).toBe(true); // old version kept
   });
 
+  it("an applied update prints the same documented mention form as install", () => {
+    runBumped("install", "alpha", "--yes");
+    bumpTo("1.1.0");
+    const r = runBumped("update", "alpha", "--force", "--yes");
+    expect(r.result?.status).toBe("updated");
+    expect(r.stderr).toContain("mention it as @agent-alpha, or type @ and pick it");
+    expect(r.stderr).not.toMatch(/@alpha\b/);
+  });
+
   it("refuses to replace a differing generated file without --force (the consent round trip)", () => {
     runBumped("install", "alpha", "--yes");
     bumpTo("1.1.0");
     const r = runBumped("update", "alpha", "--yes");
     expect(r.status).toBe(7);
     expect(r.stderr).toContain("--force");
+  });
+
+  it("--project plans and applies to the repo's agent file, never the user one", () => {
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    const projectAgent = join(project, ".claude", "agents", "alpha.md");
+    runBumped("install", "alpha", "--project", project, "--yes");
+    bumpTo("1.1.0", ["do-the-thing", "ship"]);
+
+    const plan = runBumped("update", "alpha", "--project", project);
+    expect(plan.result?.status).toBe("plan");
+    expect(plan.result?.target).toBe(projectAgent);
+
+    const applied = runBumped("update", "alpha", "--project", project, "--force", "--yes");
+    expect(applied.result?.status).toBe("updated");
+    expect(applied.result?.target).toBe(projectAgent);
+    expect(readFileSync(projectAgent, "utf8")).toContain("ship");
+    expect(existsSync(agent("alpha"))).toBe(false); // user scope untouched
+  });
+
+  it("--all refuses --project (exit 2): a repo's teammates are updated by name", () => {
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    run("install", "alpha", "--yes");
+    const r = run("update", "--all", "--project", project);
+    expect(r.status).toBe(2);
+    expect(r.stderr).toContain("--project");
   });
 
   it("update on a persona that isn't installed exits 3 and points at install", () => {
@@ -593,6 +666,36 @@ describe.skipIf(!bash)("failure design", () => {
       expect(r.stderr).toContain("someone-else");
     });
 
+    it("stays SILENT when the CLI recorded the same repo spelled differently (.git, ssh, case, /)", () => {
+      // Claude Code clones the marketplace as `…/truecast.git`; the CLI records the URL the docs give
+      // (`…/truecast`). Comparing raw strings called every CLI-installed teammate "a fork" (QA, round 2).
+      const shim = join(fake.home, "originshim");
+      mkdirSync(shim, { recursive: true });
+      writeFileSync(
+        join(shim, "git"),
+        "#!/bin/sh\ncase \"$*\" in *'config --get remote.origin.url'*)" +
+          " echo 'https://github.com/acme/truecast.git' ;; *) exit 1 ;; esac\n",
+      );
+      chmodSync(join(shim, "git"), 0o755);
+      const env = { ...fake.env, PATH: `${shim}:${fake.env.PATH}` };
+      runScript(clone, ["install", "alpha", "--yes"], env);
+      for (const spelling of [
+        "https://github.com/acme/truecast",
+        "https://github.com/acme/truecast/",
+        "https://GitHub.com/acme/truecast.git",
+        "git@github.com:acme/truecast.git",
+        "ssh://git@github.com/acme/truecast",
+      ]) {
+        setSource(`${spelling}#personas/alpha`);
+        expect(runScript(clone, ["install", "alpha"], env).stderr, spelling).not.toContain(
+          "source-mismatch",
+        );
+      }
+      // …while a genuinely different owner still warns
+      setSource("https://github.com/someone-else/truecast#personas/alpha");
+      expect(runScript(clone, ["install", "alpha"], env).stderr).toContain("may be a fork");
+    });
+
     it("stays SILENT for the same persona from THIS copy (the ordinary re-install)", () => {
       run("install", "alpha", "--yes");
       rmSync(agent("alpha"));
@@ -677,6 +780,14 @@ describe.skipIf(!bash)("failure design", () => {
     expect(second.stderr).toContain("restart Claude Code once");
   });
 
+  it("the ready line teaches a mention form Claude Code documents (`@agent-<name>` or the @ picker)", () => {
+    // a bare `@alpha` is not a documented form — typed, it can resolve as a file mention instead
+    const r = run("install", "alpha", "--yes");
+    expect(r.stderr).toContain("mention it as @agent-alpha, or type @ and pick it");
+    expect(r.stderr).toContain("if @agent-alpha isn't recognised, restart Claude Code once");
+    expect(r.stderr).not.toMatch(/@alpha\b/);
+  });
+
   it("T-S1: a hostile persona name never reaches the filesystem (exit 2)", () => {
     for (const name of ["../evil", "a;rm -rf /", "/etc/passwd", ".", "UPPER", "trailing-"]) {
       const r = run("install", name, "--yes");
@@ -684,6 +795,30 @@ describe.skipIf(!bash)("failure design", () => {
     }
     expect(existsSync(fake.truecastHome)).toBe(false);
     expect(existsSync(fake.claudeHome)).toBe(false);
+  });
+
+  it("SEC-F2: a template smuggling user-scope-only frontmatter (hooks) is refused before any write", () => {
+    const evil = makeClone([{ name: "alpha", version: "1.0.0" }], "tc-evilfm-");
+    try {
+      const tpl = join(evil, "personas", "alpha", "subagent.md");
+      const original = readFileSync(tpl, "utf8");
+      for (const key of [
+        "hooks:",
+        "mcpServers:",
+        "permissionMode: bypassPermissions",
+        "initialPrompt: hi",
+      ]) {
+        writeFileSync(tpl, original.replace("\ntools:", `\n${key}\ntools:`));
+        const r = runScript(evil, ["install", "alpha", "--yes"], fake.env);
+        expect(r.status, key).toBe(7);
+        expect(`${r.stderr}`, key).toContain("frontmatter");
+        expect(existsSync(agent("alpha")), key).toBe(false);
+      }
+      writeFileSync(tpl, original); // the untampered template still installs (the gate is not over-tight)
+      expect(runScript(evil, ["install", "alpha", "--yes"], fake.env).status).toBe(0);
+    } finally {
+      rmSync(evil, { recursive: true, force: true });
+    }
   });
 
   it("T-S3: a hostile manifest VERSION cannot escape the home (exit 3, nothing touched outside)", () => {
@@ -824,6 +959,34 @@ describe.skipIf(!bash)("failure design", () => {
       expect(readFileSync(agent("alpha"), "utf8")).toContain("GENERATED by truecast");
     }
     expect(existsSync(join(personaDir("alpha"), "1.0.0", "core"))).toBe(true);
+  });
+
+  // SEC-F1 (found by truecast's own security-engineer, 2026-10): every write-then-rename used a
+  // predictable `$file.tmp-$$` beside the target — inside the untrusted repo on --project. A repo that
+  // pre-planted symlinks at those names had `cp`/`>` follow them out of the repo (the remove path wrote the
+  // repo's own .gitignore text into ~/.bashrc). Temp files now come from mktemp (O_EXCL, random name).
+  it("SEC-F1: --project install + remove leave regular files with normal modes and no temp residue", () => {
+    const project = join(fake.home, "repo");
+    mkdirSync(project, { recursive: true });
+    writeFileSync(join(project, ".gitignore"), "node_modules\n");
+    const installed = runScript(
+      clone,
+      ["install", "alpha", "--project", project, "--yes"],
+      fake.env,
+    );
+    expect(installed.status, installed.stderr).toBe(0);
+    const agentFile = join(project, ".claude", "agents", "alpha.md");
+    const gi = join(project, ".gitignore");
+    for (const f of [agentFile, gi]) {
+      expect(lstatSync(f).isSymbolicLink(), f).toBe(false);
+      expect(lstatSync(f).mode & 0o777, f).toBe(0o666 & ~process.umask());
+    }
+    const removed = runScript(clone, ["remove", "alpha", "--project", project, "--yes"], fake.env);
+    expect(removed.status, removed.stderr).toBe(0);
+    expect(lstatSync(gi).mode & 0o777).toBe(0o666 & ~process.umask());
+    const residue = (dir: string): string[] =>
+      existsSync(dir) ? readdirSync(dir).filter((n) => n.includes(".tmp-")) : [];
+    expect([...residue(project), ...residue(join(project, ".claude", "agents"))]).toEqual([]);
   });
 
   it("NEW-1: a plain remove still works (the guard is not a blanket refusal)", () => {

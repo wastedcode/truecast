@@ -1,68 +1,86 @@
-# truecast
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="site/brand/readme-header-dark.png">
+    <img alt="truecast" src="site/brand/readme-header-light.png" width="840">
+  </picture>
+</h1>
 
 > The expert teammates Claude Code doesn't ship with.
 
-Install portable, versioned **expert personas** — a product manager, an architect, a security reviewer
-— into any project, run them in Claude Code, and keep your own customizations when the author improves
-them.
+Install expert teammates for Claude Code — a product manager, an architect, a security engineer — and
+call them by name. Each works from its own playbook, versioned, and reads the brief you keep in your repo;
+updates improve the playbook and never touch your brief. (In the code and the authoring docs, a teammate
+is a *persona*.)
 
-**Status:** working end-to-end — `install` · `update` · `list` · `remove` · `doctor` · `prompt` · `publish`,
-with a per-persona ownership ledger, atomic updates, and a sandboxed git/GitHub fetch. The same four verbs
-run from inside a Claude Code session as `/truecast:install` and friends, no terminal. Verified driving real
-Claude Code sessions (as a subagent and as a standalone agent); `publish` generates a Claude Code plugin
-marketplace (validated with `claude plugin validate`). Pre-1.0; the self-improving loop is next.
+Our own `security-engineer` found a way for a hostile repo to write into your `~/.bashrc` through our
+installer; we fixed it in [`834b03d`](https://github.com/wastedcode/truecast/commit/834b03d). Then we gave
+the same prompt to it and two other agents, six runs each. A 76-word agent caught as many holes; ours was
+the only one that ended every run on an explicit GO or NO-GO. Every run is published:
+[the test](site/proof/rerun/README.md) · [truecast.dev](https://truecast.dev)
 
-## What a persona is
-A persona is a small, greppable corpus + an identity, split into two owners:
+## What a teammate is
+A teammate is a playbook it can open on the job, plus the brief you keep for your repo. Two owners:
 
-- **`core/`** — the provider's craft: `agent.md` (identity) + `skills/` + `knowledge/`, indexed by
-  `persona.toml`. Read-only; one global copy; you adopt updates deliberately.
-- **`instance/`** — your per-project job (`mandate.md`) + accumulated notes (`work.md`). Yours,
-  committed in your repo, **never touched by an update.**
+- **The playbook, `core/`** — its author's: `agent.md` (identity) + `skills/` + `knowledge/`, plain
+  Markdown indexed by `persona.toml`. Read-only; one global copy; you adopt updates deliberately.
+- **Your brief, `instance/mandate.md`** — yours, committed in your repo, **never touched by an update.**
+  (Accumulated notes in `work.md` are planned: nothing writes them yet.)
 
 A bundled example: [`personas/product-manager/`](personas/product-manager/).
 
 ## Why a teammate, not a prompt
 You could paste "act like a security expert" into your prompt. Two reasons not to:
 
-- **Its own context window.** Each persona runs as a native Claude Code **subagent** — Anthropic's own
-  mechanism — so its deep work happens off your main thread and returns one distilled result instead of
-  flooding your conversation. Anthropic's research team puts it plainly: *"Each subagent might explore
-  extensively, using tens of thousands of tokens or more, but returns only a condensed, distilled summary
-  of its work"* ([context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)).
-- **Structured craft it reads on the job, not a costume.** A persona is a versioned corpus of skills the
-  agent Reads when a task matches — not vibes baked into a one-off prompt. You adopt the author's
-  improvements deliberately, and your per-project customizations survive the update.
+- **Its own context window.** Each teammate runs as a native Claude Code **subagent**, so its digging
+  happens off your main thread. In [the review on truecast.dev](site/proof/), `security-engineer` worked
+  through 66,578 tokens in its own context and handed the session back a 2,780-token report.
+- **Twelve roles, already written and kept current.** Each teammate carries a versioned playbook of
+  skills it can open mid-task. You adopt its author's improvements deliberately, and your brief survives
+  every update. (On catching bugs alone, a short prompt held its own in [our test](site/proof/rerun/README.md).)
 
-## Add a teammate from inside Claude Code
+## Add a teammate
 
-Two lines to set truecast up, one line per teammate — no terminal:
+Set truecast up once from your terminal (Claude Code 2.1.292 or later), then add teammates in Claude Code,
+one line each:
 
+```sh
+claude plugin install truecast --marketplace wastedcode/truecast
 ```
-/plugin marketplace add wastedcode/truecast
-/plugin install truecast@truecast
+```
 /truecast:install product-manager
 ```
 
-Now `@product-manager` answers to that bare name, in this project and every other one. The
-`truecast@truecast` line installs the *installer* — the plugin that provides `/truecast:install`,
+Already in a session? On 2.1.275 or later, `/plugin install truecast --marketplace wastedcode/truecast`
+does the setup in place: it opens the plugin panel, where you choose **Install for you**. On older
+versions: `/plugin marketplace add wastedcode/truecast`, then `/plugin install truecast@truecast`.
+
+Now `product-manager` is a teammate in this project and every other one, under its own name. Ask for it
+in plain words, or type `@` and pick it from the list to be sure it takes the job. Typed by hand, it's
+`@agent-product-manager`.
+
+The `truecast` plugin is the *installer* — the plugin that provides `/truecast:install`,
 `/truecast:update`, `/truecast:list`, and `/truecast:remove`. You type it once, ever. Swap
-`product-manager` for any of the eleven official personas: `product-researcher`, `vc-seed`,
+`product-manager` for any of the twelve official personas: `product-researcher`, `vc-seed`,
 `software-engineer`, `software-architect`, `security-engineer`, `qa`, `infrastructure`,
-`product-marketer`, `ui-ux-designer`, `sales`.
+`product-marketer`, `ui-ux-designer`, `brand-designer`, `sales`.
 
 Before it writes anything, `/truecast:install` shows you the plan — the version, the tools that teammate
 gets, and every path it will touch — and waits for a yes. It never overwrites a file truecast didn't
 write, and it copies from the marketplace clone already on your disk. First run only: if
-`/truecast:install` isn't recognized yet, `/reload-plugins`; if `@<name>` isn't, restart Claude Code once.
+`/truecast:install` isn't recognized yet (say, Claude Code was already open), `/reload-plugins`; if
+the teammate isn't in the `@` list, restart Claude Code once. To take it all back out:
+[three commands](docs/install.md#in-claude-code-recommended).
 
-Updates come through the marketplace: `/plugin marketplace update truecast`, then
-`/truecast:update <name>` (or `--all`). Details in
-[docs/managing-personas.md](docs/managing-personas.md#which-lane-youre-on).
+Updates come through the marketplace. In your terminal, `claude plugin marketplace update truecast`
+fetches new versions of every teammate and `claude plugin update truecast@truecast` updates the installer
+itself (restart Claude Code after it). Then, in a session, `/truecast:update <name>` (or `--all`). Details in
+[docs/managing-personas.md](docs/managing-personas.md#which-lane-youre-on). On Windows, run Claude Code inside
+WSL; native Windows isn't tested yet.
 
-The first time you run a teammate with no job set, it asks what the project needs and writes its own
-`mandate.md`. Want installs from any git URL, `doctor`, `prompt`, and an ownership ledger? Use the
-`truecast` CLI below — same on-disk copy, so the two lanes can update each other's installs.
+The first time you run a teammate with no job set, it asks what the project needs and works from your
+answer; to make that brief stick across sessions, save it as `.truecast/agents/<name>/instance/mandate.md`. Want installs from any git URL, `doctor`, `prompt`, and an ownership ledger? Use the
+`truecast` CLI below. (From CLI 0.3.0 the two lanes share one on-disk copy and can update each other's
+installs; npm still serves 0.2.0.)
 
 ## Get the `truecast` CLI
 ```sh
@@ -92,8 +110,8 @@ truecast install ./personas/product-manager                       # local path
 truecast install https://github.com/you/persona@1.2.0             # a GitHub release tag
 truecast install https://github.com/you/monorepo#personas/pm      # a persona in a sub-directory
 ```
-The eleven official personas (`product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
-`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`,
+The twelve official personas (`product-manager`, `product-researcher`, `vc-seed`, `software-engineer`,
+`software-architect`, `security-engineer`, `qa`, `infrastructure`, `product-marketer`, `ui-ux-designer`, `brand-designer`,
 `sales`) live in this repo under [`personas/`](personas/) — install any with `…/truecast#personas/<name>`.
 Then write the persona's job for this project in `.truecast/agents/<name>/instance/mandate.md`.
 
@@ -147,7 +165,7 @@ Add this to the repo's `.claude/settings.json` and commit it:
   "extraKnownMarketplaces": {
     "truecast": { "source": { "source": "github", "repo": "wastedcode/truecast" } }
   },
-  "enabledPlugins": ["product-manager@truecast"]
+  "enabledPlugins": { "product-manager@truecast": true }
 }
 ```
 When someone opens the repo in Claude Code and trusts the folder, Claude Code offers to install the
@@ -178,6 +196,13 @@ never clobbers a file it doesn't own.
 
 `publish` is the parallel path. Instead of materializing into `~/.claude`, it generates the committed
 plugin and marketplace files that Claude Code installs from.
+
+## Status
+Working end-to-end — `install` · `update` · `list` · `remove` · `doctor` · `prompt` · `publish`,
+with a per-persona ownership ledger, atomic updates, and a sandboxed git/GitHub fetch. The same four verbs
+run from inside a Claude Code session as `/truecast:install` and friends, no terminal. Verified driving real
+Claude Code sessions (as a subagent and as a standalone agent); `publish` generates a Claude Code plugin
+marketplace (validated with `claude plugin validate`). Pre-1.0; the self-improving loop is next.
 
 ## Docs
 [`docs/`](docs/) — [install](docs/install.md), [managing personas](docs/managing-personas.md),

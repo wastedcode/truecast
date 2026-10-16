@@ -85,6 +85,19 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
   pages without a face lose to ones with one.
 - **Show the range:** examples span the audience (not every example from one role/use case).
 - **Tight:** each point made once; no section restating another; no block repeated on the page.
+- **The discriminating contrast on the first screen:** the one fact that separates you from the reader's
+  alternative (theirs vs yours, side by side) is visible without scrolling — your side alone proves nothing.
+- **Every number names what it measures:** a version, count or score is labelled with its subject (the
+  product's version vs a component's); no two figures on the page can be read as contradicting each other.
+- **Promises agree everywhere:** the hero's promise ("one command") matches every section that delivers it.
+- **Every instruction is executable today:** each FAQ answer, workaround and "just do X" is something the
+  product actually supports right now — run it or cite the code; never advise a feature that isn't wired.
+- **The reader's real context:** design the path for the state they're actually in (the tool already open,
+  mid-task), the exit (how to undo/remove), and the true cost (which plan/model/tier it draws on).
+- **Every linked surface tells the same story:** the README, docs and listings the page links to agree with
+  it (nouns, install path, claims) — update them in the same change or flag the drift.
+- **Disclosure safety:** if proof reveals a vulnerability, the fix ships before or with the page, and the page
+  tells existing users exactly how to get it.
 
 ## 6. The critique pass — be the marketer you named
 Review it in their voice: Would Dunford say the alternative and category are missing? Would Pierri flag

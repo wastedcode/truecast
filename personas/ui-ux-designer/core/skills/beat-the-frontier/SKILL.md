@@ -94,6 +94,14 @@ Humans can't afford these; you can, so they're part of your bar:
   and where to get help/report security issues.
 - **Diagrams:** every element labelled; the point lands in one look (`explain-with-visuals`).
 - **Keyboard:** focus rings never clipped; no long runs of decorative tab stops.
+- **One dataset, one visual language:** the same data (and the brand's signature device) is drawn one way
+  everywhere on the surface — never bars here and bands there.
+- **Comparisons show every item at every width:** a figure that compares N things shows all N on a phone
+  (reflow, wrap, small multiples) — no hidden sideways scroll for the thing the figure exists to show.
+- **Feedback where the eyes are:** confirmation appears next to the control the user is looking at — after
+  any scroll/jump, at the destination; anchored targets clear the sticky header (`scroll-margin-top`).
+- **Primary command on one line at desktop widths:** the hero's copy target never wraps where a section
+  below shows it on one line.
 
 ## 6. The critique pass — be the designer you named
 Render it, put it next to the exemplar, and review it in their voice: Where would Linear's team say the

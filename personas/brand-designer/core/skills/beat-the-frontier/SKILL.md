@@ -70,6 +70,10 @@ Bierut, *How to*. Meeting these is the entry ticket.
   appears in dark and light feeds.
 - **A device that carries the page:** the identity supplies a signature graphic device the page can repeat
   section to section, so the site is recognizable with the logo removed.
+- **The device is identical everywhere:** one drawing system for the signature device across page, card,
+  README and figures — and it's self-explanatory where it appears (labelled at the point of use).
+- **The share card carries the strongest proof:** the frame people meet in a feed shows the receipt (the
+  discriminating fact), not just the headline.
 
 ## 6. The critique pass — be the studio you named
 Render everything on one board next to the exemplar. Review in their voice: Would Pentagram find the idea

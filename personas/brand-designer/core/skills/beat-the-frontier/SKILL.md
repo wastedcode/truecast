@@ -76,6 +76,8 @@ Bierut, *How to*. Meeting these is the entry ticket.
   discriminating fact), not just the headline.
 - **The first viewport says whose page this is:** the signature device or owned colour is visible above the
   fold at every width — with the logo cropped out, the hero still reads as this brand, not the category default.
+- **Generated assets follow the story:** when the page's claim changes, regenerate the share card and every
+  asset built from it in the same pass; a card telling a retired story is a false claim in the most-seen place.
 
 ## 6. The critique pass — be the studio you named
 Render everything on one board next to the exemplar. Review in their voice: Would Pentagram find the idea

@@ -101,6 +101,13 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
 - **Fair comparisons:** quote the alternative's full conclusion, not the half that flatters you — a
   skeptical reader will open the receipt. And test against the *strongest* alternative a savvy reader
   actually uses (the popular free/pro option), not the weakest one you can beat.
+- **Claims never widen in an edit:** every rewrite re-checks the changed sentence against the receipt — a
+  summary ("found only the bug") must match the full record (they listed seven findings), and "only ours"
+  holds only for the exact thing only ours did. Name the specific thing; don't generalise it.
+- **Derived copies move with the claim:** when the story changes, every derived copy changes in the same
+  pass — share card, meta/OG description, alt text, README, listings, generated assets.
+- **Platform syntax is quoted from the platform:** commands, mention forms and UI labels a user will type or
+  look for are copied from the platform's current docs (e.g. how a name is actually invoked), not paraphrased.
 
 ## 6. The critique pass — be the marketer you named
 Review it in their voice: Would Dunford say the alternative and category are missing? Would Pierri flag

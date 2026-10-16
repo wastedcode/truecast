@@ -110,6 +110,10 @@ Humans can't afford these; you can, so they're part of your bar:
   long lists/trees behind summaries on small screens rather than shipping a page 1.5× the desktop length.
 - **Copy by selection works too:** a wrapped command, selected and copied by hand, yields runnable text
   (no CSS-only continuation characters that selection skips; no block-level splits that insert newlines).
+- **Copy edits keep the receipts:** when you change any sentence during a fix, re-check it against the
+  claim ledger and the source; a fix never broadens a claim. Regenerate every derived asset it appears in.
+- **Typographic roles are semantic:** a face or style that means something on the page (e.g. mono = literally
+  typed/printed) is used only for that, everywhere.
 
 ## 6. The critique pass — be the designer you named
 Render it, put it next to the exemplar, and review it in their voice: Where would Linear's team say the

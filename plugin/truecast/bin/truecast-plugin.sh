@@ -454,6 +454,19 @@ write_body_store() {
 
 # Where this marketplace copy came from — the `source` half of a meta record, and the thing a plan
 # compares against to spot a fork. One owner, so the record and the warning can never disagree.
+# The same repo, spelled the way either lane happens to record it: lowercase scheme+host, no trailing
+# `/` or `.git`, and `git@host:o/r` / `ssh://git@host/o/r` as `https://host/o/r`. Compared, never
+# persisted. Without this, a CLI install of `https://github.com/o/r` read as a "fork" of Claude Code's
+# clone of `https://github.com/o/r.git` — a false warning in the plan, on the core flow.
+same_repo_key() {
+  printf '%s' "$1" | sed -E \
+    -e 's|^git@([^:/]+):|https://\1/|' \
+    -e 's|^ssh://git@([^/]+)/|https://\1/|' \
+    -e 's|^git://|https://|' \
+    -e 's|/+$||' -e 's|\.git$||' -e 's|/+$||' |
+    awk -F/ 'BEGIN{OFS="/"} /^[A-Za-z][A-Za-z0-9+.-]*:\/\// {$1=tolower($1); $3=tolower($3)} {print}'
+}
+
 clone_origin() {
   local remote
   remote=$(git -C "$CLONE" config --get remote.origin.url 2>/dev/null)
@@ -764,7 +777,7 @@ plan_report() {
       if [ "$frag" != "$name" ]; then
         say "  source-mismatch: this install came from $recorded — a DIFFERENT persona ($frag)."
         say "    installing from this marketplace copy will replace its craft. Ask before proceeding."
-      elif [ "$origin" != "$here" ]; then
+      elif [ "$(same_repo_key "$origin")" != "$(same_repo_key "$here")" ]; then
         say "  source-mismatch: this $name came from $origin, not from this marketplace copy ($here)."
         say "    it may be a fork. Installing will replace its craft with this copy's. Ask before proceeding."
       fi

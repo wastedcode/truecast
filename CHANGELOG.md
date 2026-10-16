@@ -22,6 +22,9 @@ All notable changes to truecast are documented here. The format follows
   can't steer Claude into running them.
 
 ### Fixed
+- The installer plan no longer warns that a CLI-installed teammate "may be a fork" when the two lanes
+  merely spell the same repo differently (`…/truecast` vs Claude Code's `…/truecast.git`, SSH vs HTTPS,
+  case, trailing `/`).
 - `truecast publish --settings` and the README wrote `enabledPlugins` as an array; Claude Code reads an
   object mapping `plugin@marketplace` to `true`.
 

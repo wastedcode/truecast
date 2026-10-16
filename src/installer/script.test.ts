@@ -614,6 +614,36 @@ describe.skipIf(!bash)("failure design", () => {
       expect(r.stderr).toContain("someone-else");
     });
 
+    it("stays SILENT when the CLI recorded the same repo spelled differently (.git, ssh, case, /)", () => {
+      // Claude Code clones the marketplace as `…/truecast.git`; the CLI records the URL the docs give
+      // (`…/truecast`). Comparing raw strings called every CLI-installed teammate "a fork" (QA, round 2).
+      const shim = join(fake.home, "originshim");
+      mkdirSync(shim, { recursive: true });
+      writeFileSync(
+        join(shim, "git"),
+        "#!/bin/sh\ncase \"$*\" in *'config --get remote.origin.url'*)" +
+          " echo 'https://github.com/acme/truecast.git' ;; *) exit 1 ;; esac\n",
+      );
+      chmodSync(join(shim, "git"), 0o755);
+      const env = { ...fake.env, PATH: `${shim}:${fake.env.PATH}` };
+      runScript(clone, ["install", "alpha", "--yes"], env);
+      for (const spelling of [
+        "https://github.com/acme/truecast",
+        "https://github.com/acme/truecast/",
+        "https://GitHub.com/acme/truecast.git",
+        "git@github.com:acme/truecast.git",
+        "ssh://git@github.com/acme/truecast",
+      ]) {
+        setSource(`${spelling}#personas/alpha`);
+        expect(runScript(clone, ["install", "alpha"], env).stderr, spelling).not.toContain(
+          "source-mismatch",
+        );
+      }
+      // …while a genuinely different owner still warns
+      setSource("https://github.com/someone-else/truecast#personas/alpha");
+      expect(runScript(clone, ["install", "alpha"], env).stderr).toContain("may be a fork");
+    });
+
     it("stays SILENT for the same persona from THIS copy (the ordinary re-install)", () => {
       run("install", "alpha", "--yes");
       rmSync(agent("alpha"));

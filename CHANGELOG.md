@@ -11,6 +11,16 @@ All notable changes to truecast are documented here. The format follows
 ## [Unreleased]
 
 ### Fixed
+- **Plugin-installed teammates sent users to the CLI for a standing brief.** Every `agents/<name>.md`
+  said "they can install you with the `truecast` CLI"; the brief is one file in the repo, read on either
+  lane. It now says to save it as `.truecast/agents/<name>/instance/mandate.md`.
+- **Mandate templates named only `truecast update`.** Plugin-lane users have `/truecast:update`; the
+  template now names both.
+- **The homepage's playbook figures could drift from the playbooks.** `scripts/brand/build.py --check`
+  and `page.py --check` regenerate in memory and fail on any difference (the data-drawn PNGs are pinned by
+  a hash of the data they were rendered from), and `pnpm test` runs both. The hand-written agent's word
+  count is now read from the published proof rather than a git-ignored file, so a clean checkout builds
+  the same numbers. The first run caught three playbooks that had grown since the figures were drawn.
 - `truecast publish --settings` and the README wrote `enabledPlugins` as an array; Claude Code reads an
   object mapping `plugin@marketplace` to `true`.
 
@@ -48,8 +58,13 @@ The `truecast@truecast` plugin (`/truecast:install` and friends). Take it with
   the flag, but its Step 1 and Step 3 templates never carried it, so a user could be shown a plan for the
   repo's `.claude/agents/<name>.md` and then have `~/.claude/agents/<name>.md` written instead. Both
   templates now carry `[--project]`, the script's usage names it, and `update --all --project` is refused
-  (exit 2) rather than guessed at — a repo's teammates are updated by name. Found by the wshobson
-  security-auditor agent during the homepage's own comparison; regression tests cover both paths.
+  (exit 2) rather than guessed at — a repo's teammates are updated by name. Found in the homepage's fair
+  test by VoltAgent's security-engineer (`free-6`) and by truecast's (`truecast-4`); both reports are in
+  `site/proof/rerun/`. Regression tests cover both paths.
+- **The ready message taught a mention form Claude Code doesn't document.** It said "mention it as
+  `@security-engineer`"; typed, a bare `@name` can resolve as a file. It now says "mention it as
+  `@agent-security-engineer`, or type @ and pick it", and `/truecast:install` and `/truecast:update`
+  relay the same form.
 
 ## Installer plugin 0.1.1 - 2026-10-16
 

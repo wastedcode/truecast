@@ -1,7 +1,8 @@
 # Mandate — Brand Designer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the brand designer what this
-> project is, who it's for, and what already exists, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches it.
+> Tell the brand designer what this project is, who it's for, and what already exists, then delete this
+> guidance block.
 
 ## This project
 - **What it is / what it's for:** «one line»

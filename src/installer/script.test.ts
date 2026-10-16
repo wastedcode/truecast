@@ -250,6 +250,15 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     },
   );
 
+  it.each(["install", "update"])(
+    "commands/%s.md relays the mention form the script prints, never a bare `@<name>`",
+    (c) => {
+      const md = readCommand(c);
+      expect(md).toContain("`@agent-<name>`");
+      expect(md).not.toMatch(/`@<name>`,? (is ready|isn't recognised)/);
+    },
+  );
+
   it("commands/update.md carries --project through plan AND apply (never one file planned, another written)", () => {
     const md = readCommand("update");
     expect(md).toContain('bash "$S" update <name|--all> [--project]');
@@ -316,6 +325,15 @@ describe.skipIf(!bash)("update", () => {
     expect(readFileSync(agent("alpha"), "utf8")).toContain("ship");
     expect(existsSync(join(personaDir("alpha"), "1.1.0", "core"))).toBe(true);
     expect(existsSync(join(personaDir("alpha"), "1.0.0", "core"))).toBe(true); // old version kept
+  });
+
+  it("an applied update prints the same documented mention form as install", () => {
+    runBumped("install", "alpha", "--yes");
+    bumpTo("1.1.0");
+    const r = runBumped("update", "alpha", "--force", "--yes");
+    expect(r.result?.status).toBe("updated");
+    expect(r.stderr).toContain("mention it as @agent-alpha, or type @ and pick it");
+    expect(r.stderr).not.toMatch(/@alpha\b/);
   });
 
   it("refuses to replace a differing generated file without --force (the consent round trip)", () => {
@@ -760,6 +778,14 @@ describe.skipIf(!bash)("failure design", () => {
     const second = run("install", "beta", "--yes"); // the dir now exists
     expect(second.result?.restart).toBe("false");
     expect(second.stderr).toContain("restart Claude Code once");
+  });
+
+  it("the ready line teaches a mention form Claude Code documents (`@agent-<name>` or the @ picker)", () => {
+    // a bare `@alpha` is not a documented form — typed, it can resolve as a file mention instead
+    const r = run("install", "alpha", "--yes");
+    expect(r.stderr).toContain("mention it as @agent-alpha, or type @ and pick it");
+    expect(r.stderr).toContain("if @agent-alpha isn't recognised, restart Claude Code once");
+    expect(r.stderr).not.toMatch(/@alpha\b/);
   });
 
   it("T-S1: a hostile persona name never reaches the filesystem (exit 2)", () => {

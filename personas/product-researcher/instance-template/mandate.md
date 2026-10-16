@@ -1,7 +1,8 @@
 # Mandate — Product Researcher for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the researcher what this
-> project is, where its knowledge lives, and what counts as a source here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches it.
+> Tell the researcher what this project is, where its knowledge lives, and what counts as a source here,
+> then delete this guidance block.
 
 ## This project
 - **What it is / the bet:** «one line — what are we building, and for whom?»

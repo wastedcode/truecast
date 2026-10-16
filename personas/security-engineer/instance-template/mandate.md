@@ -1,7 +1,8 @@
 # Mandate — Security Engineer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the security engineer the
-> project's trust model and what its job is here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the security engineer the project's trust model and what its job is here, then delete this
+> guidance block.
 
 ## This project — the trust model (decides what's in scope)
 - **What it is:** «one line — what are we building?»

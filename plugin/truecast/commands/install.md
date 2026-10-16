@@ -62,9 +62,9 @@ bash "$S" install <name> [--project] [--force] --yes
 
 On `status=installed`, tell the user:
 
-- `@<name>` is ready — mention it by name in any project.
-- If `restart=true`, or if `@<name>` isn't recognised, restart Claude Code once (the agents directory has
-  to exist when the session starts).
+- It is ready — mention it as `@agent-<name>` in any project, or type `@` and pick it from the list.
+- If `restart=true`, or if `@agent-<name>` isn't recognised, restart Claude Code once (the agents
+  directory has to exist when the session starts).
 - To give it a mandate in this repo, write `.truecast/agents/<name>/instance/mandate.md`.
 
 If the user declines at any point, confirm that nothing was written.

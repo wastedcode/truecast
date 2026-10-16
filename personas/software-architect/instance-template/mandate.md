@@ -1,7 +1,8 @@
 # Mandate — Software Architect for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the architect what this
-> project is, where it's going, and what its job is here, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the architect what this project is, where it's going, and what its job is here, then delete
+> this guidance block.
 
 ## This project
 - **What it is / where it's going:** «one line — what are we building, and what's the next horizon the

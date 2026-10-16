@@ -716,8 +716,9 @@ do_install_or_update() {
   HINT=""
 
   say ""
-  say "✓ $name@$ver is ready — mention it as @$name."
-  say "  if @$name isn't recognised, restart Claude Code once (the agents directory is read at session start)."
+  # @agent-<name> is the typed form Claude Code documents; a bare @<name> can resolve as a file mention.
+  say "✓ $name@$ver is ready — mention it as @agent-$name, or type @ and pick it."
+  say "  if @agent-$name isn't recognised, restart Claude Code once (the agents directory is read at session start)."
   if [ "$verb" = install ]; then
     result installed "$name" "$ver" "$from" "$target" "$RESTART" "$drift" false
   else

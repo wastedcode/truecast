@@ -2,6 +2,7 @@
 """Fill the generated blocks in site/index.html from the repo's real data.
 
     python3 scripts/brand/page.py
+    python3 scripts/brand/page.py --check   # exit 1 if a block is out of date with cores.json (writes nothing)
 
 Every drawn playbook on the page comes from site/brand/cores.json (run build.py first if a playbook
 changed): one band per file in personas/<name>/core, sized by its word count (wc -w). Roster rows come
@@ -12,6 +13,7 @@ from __future__ import annotations
 import html
 import json
 import re
+import sys
 import tomllib
 from pathlib import Path
 
@@ -213,6 +215,14 @@ def main() -> None:
     missing = set(BLOCKS) - seen
     if missing:
         raise SystemExit(f"index.html has no block for: {sorted(missing)}")
+    if "--check" in sys.argv:
+        if out != src:
+            stale = sorted(n for n in seen if f"<!--gen:{n}-->{BLOCKS[n]()}<!--/gen-->" not in src)
+            print(f"✗ site/index.html is stale — generated blocks differ: {', '.join(stale)}", file=sys.stderr)
+            print("  → run 'python3 scripts/brand/page.py' and commit the result", file=sys.stderr)
+            raise SystemExit(1)
+        print("✓ site/index.html's generated blocks are up to date")
+        return
     PAGE.write_text(out, encoding="utf-8")
     print("filled", sorted(seen))
 

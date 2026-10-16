@@ -70,8 +70,9 @@ Never say a persona was updated unless you have seen `status=updated` or `status
 bash "$S" update <name> [--project] [--force] --yes
 ```
 
-On `status=updated`, tell the user the version span and that `@<name>` is ready. If `restart=true`, or if
-`@<name>` isn't recognised, they should restart Claude Code once.
+On `status=updated`, tell the user the version span and that it is ready as `@agent-<name>` (or type `@`
+and pick it). If `restart=true`, or if `@agent-<name>` isn't recognised, they should restart Claude Code
+once.
 
 ## `--all`
 

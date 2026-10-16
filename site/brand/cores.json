@@ -633,7 +633,7 @@
   {
    "name": "ui-ux-designer",
    "files": 24,
-   "words": 16898,
+   "words": 17215,
    "core": [
     {
      "path": "agent.md",
@@ -645,7 +645,7 @@
     },
     {
      "path": "skills/beat-the-frontier/SKILL.md",
-     "words": 1484
+     "words": 1801
     },
     {
      "path": "skills/build-on-the-design-system/SKILL.md",
@@ -736,7 +736,7 @@
   {
    "name": "brand-designer",
    "files": 11,
-   "words": 4924,
+   "words": 5060,
    "core": [
     {
      "path": "agent.md",
@@ -752,7 +752,7 @@
     },
     {
      "path": "skills/beat-the-frontier/SKILL.md",
-     "words": 1175
+     "words": 1311
     },
     {
      "path": "skills/build-the-identity-system/SKILL.md",
@@ -787,7 +787,7 @@
   {
    "name": "product-marketer",
    "files": 23,
-   "words": 16393,
+   "words": 16771,
    "core": [
     {
      "path": "agent.md",
@@ -795,7 +795,7 @@
     },
     {
      "path": "skills/beat-the-frontier/SKILL.md",
-     "words": 1394
+     "words": 1772
     },
     {
      "path": "skills/build-the-messaging-house/SKILL.md",
@@ -1059,7 +1059,7 @@
   }
  ],
  "handwritten": {
-  "path": "internal/proof/handwritten-agent.md",
+  "path": "site/proof/README.md",
   "words": 76
  }
 }

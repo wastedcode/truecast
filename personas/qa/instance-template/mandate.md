@@ -1,7 +1,8 @@
 # Mandate — QA / Quality Engineer for «PROJECT»
 
-> This is YOUR copy. Edit it freely — `truecast update` never touches it. Tell the QA engineer what this
-> project is, what "shippable" means here, and how you want it to work, then delete this guidance block.
+> This is YOUR copy. Edit it freely — `/truecast:update` (or the `truecast update` CLI) never touches
+> it. Tell the QA engineer what this project is, what "shippable" means here, and how you want it to
+> work, then delete this guidance block.
 
 ## This project — what "good enough to ship" means here
 - **What it is:** «one line — what are we building, and for whom?»

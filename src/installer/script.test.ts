@@ -250,6 +250,13 @@ describe("the shipped surface's own safety rules (no bash needed)", () => {
     },
   );
 
+  it("commands/update.md carries --project through plan AND apply (never one file planned, another written)", () => {
+    const md = readCommand("update");
+    expect(md).toContain('bash "$S" update <name|--all> [--project]');
+    expect(md).toContain('bash "$S" update <name> [--project] [--force] --yes');
+    expect(md).toContain("on **both** the Step 1 and the Step 3 command line");
+  });
+
   it("commands/update.md documents the --all apply form and per-member follow-up", () => {
     const md = readCommand("update");
     expect(md).toContain('bash "$S" update --all --yes');
@@ -317,6 +324,33 @@ describe.skipIf(!bash)("update", () => {
     const r = runBumped("update", "alpha", "--yes");
     expect(r.status).toBe(7);
     expect(r.stderr).toContain("--force");
+  });
+
+  it("--project plans and applies to the repo's agent file, never the user one", () => {
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    const projectAgent = join(project, ".claude", "agents", "alpha.md");
+    runBumped("install", "alpha", "--project", project, "--yes");
+    bumpTo("1.1.0", ["do-the-thing", "ship"]);
+
+    const plan = runBumped("update", "alpha", "--project", project);
+    expect(plan.result?.status).toBe("plan");
+    expect(plan.result?.target).toBe(projectAgent);
+
+    const applied = runBumped("update", "alpha", "--project", project, "--force", "--yes");
+    expect(applied.result?.status).toBe("updated");
+    expect(applied.result?.target).toBe(projectAgent);
+    expect(readFileSync(projectAgent, "utf8")).toContain("ship");
+    expect(existsSync(agent("alpha"))).toBe(false); // user scope untouched
+  });
+
+  it("--all refuses --project (exit 2): a repo's teammates are updated by name", () => {
+    const project = join(fake.home, "myapp");
+    mkdirSync(join(project, ".git"), { recursive: true });
+    run("install", "alpha", "--yes");
+    const r = run("update", "--all", "--project", project);
+    expect(r.status).toBe(2);
+    expect(r.stderr).toContain("--project");
   });
 
   it("update on a persona that isn't installed exits 3 and points at install", () => {

@@ -7,7 +7,7 @@
 # executing a prose runbook is the biggest risk in this feature, so the runbook is code (D0).
 #
 #   truecast-plugin.sh install <name> [--project [path]] [--force] [--yes]
-#   truecast-plugin.sh update  <name>|--all             [--force] [--yes]
+#   truecast-plugin.sh update  <name>|--all [--project [path]] [--force] [--yes]
 #   truecast-plugin.sh list
 #   truecast-plugin.sh remove  <name> [--project [path]]         [--yes]
 #
@@ -47,7 +47,7 @@ export LC_ALL=C
 # bash 3.2 (macOS), which has no such option and would otherwise abort here under `set -u`.
 shopt -u patsub_replacement 2>/dev/null || true
 
-PLUGIN_VERSION="0.1.1"
+PLUGIN_VERSION="0.1.2"
 
 NL=$'\n'
 CR=$'\r'
@@ -804,6 +804,9 @@ cmd_install() {
 cmd_update() {
   if [ "$ALL" = 1 ]; then
     [ -z "$NAME" ] || die 2 "pass a persona name or --all, not both"
+    # --all walks the USER store; a repo's teammates are its own .claude/agents files, and spraying every
+    # user-scope persona into a repo is never what "update all" means. Refuse rather than guess.
+    [ "$PROJECT" = 1 ] && die 2 "--all is user-scope only: update a repo's teammate by name, e.g. 'update <name> --project'"
     local any=0 failed=0 name flags="" out code line
     [ "$YES" = 1 ] && flags="$flags --yes"
     [ "$FORCE" = 1 ] && flags="$flags --force"
@@ -845,7 +848,7 @@ cmd_update() {
     return 0
   fi
 
-  [ -n "$NAME" ] || die 2 "usage: truecast-plugin.sh update <persona-name>|--all [--force] [--yes]"
+  [ -n "$NAME" ] || die 2 "usage: truecast-plugin.sh update <persona-name>|--all [--project [path]] [--force] [--yes]"
   require_name "$NAME"
   [ "$PROJECT" = 1 ] && resolve_project_root
   local from

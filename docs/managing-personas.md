@@ -42,7 +42,10 @@ Four commands, 1:1 with the CLI verbs, all from inside a session:
   versions included. Projects holding a `.truecast/agents/<name>/core` symlink break next session — they
   can't be enumerated, so you get warned, not protected. (`--project` removes only that repo's agent
   file; the shared craft stays, because a user-scope teammate still reads it.)
-- **macOS and Linux.** This lane needs `bash`; on Windows, use the CLI.
+- **macOS, Linux and WSL.** This lane needs `bash`. On Windows, run Claude Code inside WSL; native Windows
+  isn't tested yet.
+- **Update the installer too.** `claude plugin update truecast@truecast`, then restart Claude Code. A
+  marketplace refresh updates the personas the installer copies, not the installer's own slash commands.
 
 ### personas installed as their own plugin
 

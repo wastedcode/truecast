@@ -33,8 +33,9 @@ All notable changes to truecast are documented here. The format follows
   critique as each leader; verify by looking; ship finished and said simply — closed by a short **Frontier
   check**. Every persona ships its role's version as a new `beat-the-frontier` skill (frontier seeds, the
   moves that set their work apart, the canon, the dimensions to search, the asks to pre-empt); a
-  conformance test enforces both. Every persona gets a version bump. The `security-engineer`,
-  `infrastructure` and `vc-seed` descriptions now end on what each one actually does.
+  conformance test enforces both. Every persona gets a version bump. The bar lives in the engine block and
+  each persona's skill, not in the one-line description Claude Code shows in its agent picker: no
+  description claims it.
 - **New persona: `brand-designer` 0.1.0** — the identity owner the catalog was missing: equity audit,
   one ownable brand idea, distinctiveness tested against the category, the mark drawn and tested at 16px,
   the identity system as tokens, verbal identity with the marketer, and every touchpoint (site, README

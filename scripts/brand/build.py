@@ -49,7 +49,7 @@ INK_TEXT_DARK = "#F3F4FA"
 
 # ---- the mark: 14 units tall (2 + 1 + 8 + 1 + 2), placed on a 16-unit canvas --------------------------------------------------------------
 # A T. The crossbar is the agent file Claude Code sees (the surface); the stem is the playbook under
-# it, cut where skills end and knowledge begins: 8:2 on the grid (all twelve playbooks: 81:19).
+# it, cut where skills end and knowledge begins: 8:2 on the grid (all twelve playbooks: see split()).
 MARK = [(1, 1, 14, 2), (5, 4, 6, 8), (5, 13, 6, 2)]          # free-standing; occupies 1..15
 TILE_MARK = [(3, 3, 10, 2), (6, 6, 4, 5), (6, 12, 4, 1)]     # inside a 16-unit tile, 3-unit margin
 
@@ -423,15 +423,33 @@ def build_manifest() -> None:
 
 
 
+def split(data) -> str:
+    """The mark's skills:knowledge cut, measured across every playbook. agent.md is the crossbar, not the
+    stem, so it counts toward neither side."""
+    sk = [sum(r["words"] for p in data["personas"] for r in p["core"] if r["path"].startswith(d))
+          for d in ("skills/", "knowledge/")]
+    return f"{round(100 * sk[0] / sum(sk))}:{round(100 * sk[1] / sum(sk))}"
+
+
+def check_brand_md(data) -> None:
+    """BRAND.md is written by hand but quotes numbers drawn from the repo. Fail if any of them drifted."""
+    se = next(p for p in data["personas"] if p["name"] == "security-engineer")
+    text = (OUT / "BRAND.md").read_text(encoding="utf-8")
+    want = {f"skills to knowledge runs {split(data)}": "the mark's split",
+            f"({se['files']} files, {se['words']:,} words)": "security-engineer's playbook",
+            f"all {len(data['personas'])} playbooks": "the playbook count"}
+    for needle, what in want.items():
+        if needle not in " ".join(text.split()):
+            _stale.append(f"BRAND.md: {what} should read '{needle}'")
+
+
 def build_specimen(data) -> None:
     """site/brand/index.html: the system on one page, built on tokens.css. ?theme=dark|light forces a theme."""
     inline = lambda f: generated(f).replace(' width="', ' data-w="', 1).replace(' height="', ' data-h="', 1)
     ps = data["personas"]
     se = next(p for p in ps if p["name"] == "security-engineer")
     hw = data["handwritten"]
-    # the mark's skills:knowledge cut, measured across every playbook (agent.md belongs to neither)
-    sk = [sum(r["words"] for p in ps for r in p["core"] if r["path"].startswith(d)) for d in ("skills/", "knowledge/")]
-    split = f"{round(100 * sk[0] / sum(sk))}:{round(100 * sk[1] / sum(sk))}"
+    cut = split(data)
     sw = ["tc-blue", "tc-blue-light", "tc-ink", "tc-paper", "tc-grey-600", "tc-grey-300"]
     names = "".join(f'<li><span class="n">{p["name"]}</span><span class="w">{p["files"]} · {p["words"]:,}</span></li>' for p in ps)
     write("index.html", f"""<!doctype html>
@@ -485,7 +503,7 @@ img.touch{{max-width:100%;height:auto;border:var(--rule-hair) solid var(--color-
   <p class="lead">The truecast identity. A teammate is the name you call and the playbook under it, and the brand shows both: the agent file at the surface, the core below, every band a real file.</p>
 
   <section><div><p class="label">01 · the mark</p><h2>A T, cut where the playbook is.</h2>
-    <p>The crossbar is the agent file Claude Code sees, <code>~/.claude/agents/&lt;name&gt;.md</code>. The stem is the playbook under it in <code>~/.truecast</code>, cut where skills end and knowledge begins: 8:2 on a 14-unit grid (the favicon re-draws it 5:1 for 16px). Across all {len(ps)} playbooks the real split is {split}.</p>
+    <p>The crossbar is the agent file Claude Code sees, <code>~/.claude/agents/&lt;name&gt;.md</code>. The stem is the playbook under it in <code>~/.truecast</code>, cut where skills end and knowledge begins: 8:2 on a 14-unit grid (the favicon re-draws it 5:1 for 16px). Across all {len(ps)} playbooks, skills to knowledge runs {cut} (the agent files are the crossbar, not the stem).</p>
     <p>The wordmark is Schibsted Grotesk ExtraBold, outlined and re-spaced by eye. The mark stands exactly as tall as its t.</p></div>
     <div class="mark-row">
       <div class="plate" style="background:var(--tc-paper);border:1px solid var(--color-line)"><img src="logo.svg" alt="truecast logo on white" height="44"></div>
@@ -541,12 +559,14 @@ def check() -> None:
     write("cores.json", json.dumps(data, indent=1) + "\n")
     build_device(data)
     build_specimen(data)
+    check_brand_md(data)
     if not PNG_STAMP.exists() or PNG_STAMP.read_text(encoding="utf-8") != png_stamp(data):
         _stale.append("the PNGs drawn from cores.json (og.png, github-social.png, readme-header-*.png)")
     if _stale:
         print("✗ site/brand is stale — a playbook or the proof changed since the last build:", *_stale, sep="\n    ",
               file=sys.stderr)
-        print("  → run 'python3 scripts/brand/build.py && python3 scripts/brand/page.py' and commit the result",
+        print("  → run 'python3 scripts/brand/build.py && python3 scripts/brand/page.py' (and fix BRAND.md by hand"
+              " if it's listed), then commit the result",
               file=sys.stderr)
         raise SystemExit(1)
     print("✓ site/brand is up to date with the playbooks and the proof")
@@ -566,6 +586,9 @@ def main() -> None:
     if "--no-png" not in sys.argv:
         build_pngs(data)
         PNG_STAMP.write_text(png_stamp(data), encoding="utf-8")
+    check_brand_md(data)
+    if _stale:
+        raise SystemExit("✗ " + "\n  ".join(_stale))
     print("built", sorted(str(p.relative_to(OUT)) for p in OUT.rglob("*") if p.is_file()))
 
 

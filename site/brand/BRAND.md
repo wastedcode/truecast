@@ -10,8 +10,11 @@ is at [`/brand/`](index.html) (`?theme=dark` forces dark).
 
 A teammate is two things: the name you call (`@security-engineer`, one agent file Claude Code sees)
 and the playbook under it (21 files, 12,697 words). A one-file agent is mostly its name; truecast shows
-what's under it. The two largest free collections ship one file per agent: their security agents are 897
-and 1,146 words (`curl … | wc -w`, checked 2026-10-16).
+what's under it. The two most-starred free collections ship one file per agent: VoltAgent's
+[`security-engineer.md`](https://github.com/VoltAgent/awesome-claude-code-subagents/blob/408d3c9eee2d0c75c12a3abb5de29e53c2ca6b9e/categories/03-infrastructure/security-engineer.md)
+is 1,007 words (the one the [proof](../proof/README.md) ran) and wshobson's
+[`security-auditor.md`](https://github.com/wshobson/agents/blob/044b4b21f083948e69ec878a7b07c8d0951a6ffa/plugins/security-scanning/agents/security-auditor.md)
+is 1,146 (`curl … | wc -w` at the pinned commits, checked 2026-10-16).
 
 **Personality.** *Exact, not cold* (numbers you can check) · *candid, not modest* (shows the receipt,
 including where it lost) · *expert, not exclusive* (plain words, real output) · *quiet, not timid* (one
@@ -30,7 +33,9 @@ One blue, and nothing warm. If it can't be checked, it doesn't ship.
   truecast never looks first-party. The old amber-on-charcoal sat right next to Claude's palette.
 - **The mark is a T, cut where the playbook is.** The crossbar is the agent file (the surface); the
   stem is the playbook beneath it, cut where skills end and knowledge begins: 8:2 on a 14-unit grid (the favicon re-draws it 5:1 for 16px).
-  Across all 12 playbooks the split is 81:19. It's the device (below) reduced to one teammate.
+  Across all 12 playbooks, skills to knowledge runs 81:19 (agent files excluded: they're the crossbar, not
+  the stem; `build.py` computes it from `cores.json` and prints it on [`/brand/`](index.html)). It's the device
+  (below) reduced to one teammate.
 - **Schibsted Grotesk** (display and text): a grotesk from a media group's print heritage. It reports;
   it doesn't pitch. **Martian Mono** (width 87.5) for everything you'd type or read in a terminal. It's
   sturdy enough to sit beside the grotesk, and it isn't the category default (JetBrains, Geist, Berkeley).

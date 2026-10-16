@@ -60,8 +60,8 @@ Updates come through the marketplace: `/plugin marketplace update truecast`, the
 `/truecast:update <name>` (or `--all`). Details in
 [docs/managing-personas.md](docs/managing-personas.md#which-lane-youre-on).
 
-The first time you run a teammate with no job set, it asks what the project needs and writes its own
-`mandate.md`. Want installs from any git URL, `doctor`, `prompt`, and an ownership ledger? Use the
+The first time you run a teammate with no job set, it asks what the project needs and works from your
+answer; to make that brief stick across sessions, save it as `.truecast/agents/<name>/instance/mandate.md`. Want installs from any git URL, `doctor`, `prompt`, and an ownership ledger? Use the
 `truecast` CLI below — same on-disk copy, so the two lanes can update each other's installs.
 
 ## Get the `truecast` CLI
@@ -147,7 +147,7 @@ Add this to the repo's `.claude/settings.json` and commit it:
   "extraKnownMarketplaces": {
     "truecast": { "source": { "source": "github", "repo": "wastedcode/truecast" } }
   },
-  "enabledPlugins": ["product-manager@truecast"]
+  "enabledPlugins": { "product-manager@truecast": true }
 }
 ```
 When someone opens the repo in Claude Code and trusts the folder, Claude Code offers to install the

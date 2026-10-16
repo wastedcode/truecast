@@ -61,6 +61,15 @@ Bierut, *How to*. Meeting these is the entry ticket.
   file names and sizes ready to drop in.
 - **Voice matches look:** the words and the visuals have the same personality.
 - **Nothing to tweak:** spacing, kerning, alignment, and colour values checked at the pixel.
+- **Not the platform's look:** if the product is built on or sold through a platform (an OS, an AI
+  vendor, a marketplace), map *that platform's own identity* too and stay out of it — a third-party product
+  that looks first-party borrows prestige and confuses users. Run the logo-swap test with the platform's
+  mark, not just competitors'.
+- **One mark everywhere:** wordmark, favicon, avatar and social card share one drawn form; no variant glyphs.
+- **Social card is a brand asset:** branded (mark + device), legible at feed size, designed for how it
+  appears in dark and light feeds.
+- **A device that carries the page:** the identity supplies a signature graphic device the page can repeat
+  section to section, so the site is recognizable with the logo removed.
 
 ## 6. The critique pass — be the studio you named
 Render everything on one board next to the exemplar. Review in their voice: Would Pentagram find the idea

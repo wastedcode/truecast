@@ -60,6 +60,31 @@ Dunford, *Obviously Awesome* · Moore, *Crossing the Chasm* · Schwartz, *Breakt
 - **Names that work:** said aloud, misread, searched — no name that looks like a typo of a common word.
 - **Consistent:** one term per concept across site, docs and product.
 - **Tied to the announcement:** every piece connects back to what we're actually launching.
+- **Show the payoff, not just the setup:** the page shows the product *producing the result the buyer
+  hires it for* — real output, captured from a real run, with its source. If that artifact doesn't exist
+  yet, specify exactly how to produce it for real and get it produced (a teammate with the tools runs the
+  product); never cut the proof and never fake it. Install/safety proof is secondary to outcome proof.
+- **Beat the real alternative, not a strawman:** research what the savviest buyer actually uses today —
+  DIY, free/community options, incumbents, the platform's built-ins — and lead with what *only this* does
+  better. If the opening promise is something they already get free, the reader leaves in five seconds.
+- **The claim ledger:** list every claim, number, version, count, label ("verbatim", "only", "every",
+  "never") and promise on the page with its source line. Each must be literally true *for what a visitor
+  gets from the public channel the day the page ships* (published package version, default branch, tags,
+  live links → 200). Unsourced numbers are cut. Understatement of risk (e.g. network access) counts as false.
+- **The CTA works exactly as written:** walk the primary action in the real tool, the way the page tells
+  people to do it (copy, paste, run). If the tool takes one command per submit, the page gives one command
+  per copy, in order, with what the user will see at each step. Every config snippet is checked against the
+  platform's official reference.
+- **Hour-1 truth:** describe the first-run experience the product actually gives (read the code/docs) —
+  don't undersell it as homework or oversell it as magic.
+- **Every premise true for the reader:** a headline that tells the reader what they "already have" or "do"
+  must be literally true of them.
+- **One meaning per word:** no term used for two things, and no collision with the platform's own
+  vocabulary (if the platform has "Skills" or "plans", say how yours differ or use another word).
+- **Who's behind it:** an accountable maker (person/org), license, and any real adoption signal; trust
+  pages without a face lose to ones with one.
+- **Show the range:** examples span the audience (not every example from one role/use case).
+- **Tight:** each point made once; no section restating another; no block repeated on the page.
 
 ## 6. The critique pass — be the marketer you named
 Review it in their voice: Would Dunford say the alternative and category are missing? Would Pierri flag

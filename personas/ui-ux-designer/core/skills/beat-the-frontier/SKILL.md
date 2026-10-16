@@ -70,6 +70,30 @@ Humans can't afford these; you can, so they're part of your bar:
 - **Honest:** no invented stats, logos or testimonials; leave the slot empty until a real one exists.
 - **Feels fast:** no layout shift, perceived speed handled (skeletons, optimistic updates).
 - **The house rules:** the project's design principles and the version the founder already approved.
+- **The primary flow, walked for real:** run the page's main action exactly as a visitor would (copy →
+  paste → run in the actual tool). If you can't run it, design it so it can't fail: one command per copy
+  button, steps in order, what they'll see at each step. Every entry point (hero, per-item buttons, final
+  CTA) leads into a path that works for a first-time visitor.
+- **A homepage arc, not a document:** a focal hero, then varied beats — change scale, layout and ground
+  between sections; at least one full-bleed moment; a signature device carried through. Set a length budget
+  against the exemplars' page heights; never show the same block twice.
+- **Fold balance:** at 1024–1920 the hero's columns end together; no dead block beside a tall visual;
+  the hero visual is meaningful in its first frame (no blank panel while an animation starts).
+- **Dark theme designed, not swapped:** surfaces step up in elevation (cards clearly separate from the
+  page, ≥ ~1.15:1 luminance step plus border); check every component in dark, not just text contrast.
+- **Typography controlled at every width:** headline and eyebrow line breaks chosen at 320/390/768/1440
+  (`text-wrap: balance`, deliberate breaks) — no orphaned word or leading separator; no letter-spacing on
+  monospace; underlines with arrows render as one continuous unit.
+- **Code is copyable by eye:** never wraps mid-token or mid-object — size it, let it scroll, or reflow it
+  deliberately; every command block gets the same copy affordance; rendered samples never mix raw markup
+  (`**`) with formatting.
+- **Responsive truth:** hiding or eliding content on small screens never changes what a label claims
+  ("verbatim", "full"); the hierarchy (what's primary) stays the same at every width; repeated rows align
+  to one grid with equal widths.
+- **Nav and footer:** every nav label matches where it lands; the footer names the maker, license, year,
+  and where to get help/report security issues.
+- **Diagrams:** every element labelled; the point lands in one look (`explain-with-visuals`).
+- **Keyboard:** focus rings never clipped; no long runs of decorative tab stops.
 
 ## 6. The critique pass — be the designer you named
 Render it, put it next to the exemplar, and review it in their voice: Where would Linear's team say the

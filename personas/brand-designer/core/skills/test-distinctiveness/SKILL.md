@@ -10,7 +10,8 @@ Joining the convention makes you invisible.
 
 ## Map the category
 Screenshot the homepage, favicon and social card of every notable competitor and adjacent tool (search for
-the current set — not a remembered list). Record for each: dominant colour(s), mark type (letter, symbol,
+the current set — not a remembered list) — **and the platform the product is built on or sold through**
+(a third-party tool must not look first-party). Record for each: dominant colour(s), mark type (letter, symbol,
 wordmark), typeface style, imagery style, tone. Lay them on one board. Name the conventions (what ≥half do)
 and the empty territories.
 

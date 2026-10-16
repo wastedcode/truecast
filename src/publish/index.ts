@@ -340,6 +340,9 @@ export function settingsSnippet(plan: PublishPlan): string {
     extraKnownMarketplaces: {
       [plan.marketplaceName]: { source: { source: "github", repo: plan.repoSlug } },
     },
-    enabledPlugins: plan.personas.map((n) => `${n}@${plan.marketplaceName}`),
+    // Claude Code's settings schema: an object mapping `plugin@marketplace` → boolean (not an array).
+    enabledPlugins: Object.fromEntries(
+      plan.personas.map((n) => [`${n}@${plan.marketplaceName}`, true] as const),
+    ),
   });
 }

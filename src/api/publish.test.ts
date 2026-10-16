@@ -274,7 +274,9 @@ describe("planPublish — the installer plugin rides through as a read input (D1
       // it is a READ input: publish generates none of its files
       expect(plan.files.some((f) => f.path.startsWith("plugin/"))).toBe(false);
       // and it is never auto-enabled in a consuming repo
-      expect(JSON.parse(settingsSnippet(plan)).enabledPlugins).toEqual(["alpha-agent@agents"]);
+      expect(JSON.parse(settingsSnippet(plan)).enabledPlugins).toEqual({
+        "alpha-agent@agents": true,
+      });
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
@@ -318,7 +320,7 @@ describe("publish verb — settings / check / dry-run / write", () => {
       source: "github",
       repo: "acme/agents",
     });
-    expect(snip.enabledPlugins).toEqual(["alpha-agent@agents", "beta-agent@agents"]);
+    expect(snip.enabledPlugins).toEqual({ "alpha-agent@agents": true, "beta-agent@agents": true });
     expect(r.settings).not.toContain("autoUpdate"); // security F1
   });
 

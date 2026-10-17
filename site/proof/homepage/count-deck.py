@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Count visible words in the deck's 'On the page' blocks. [Copy] buttons and {gen:…} wrappers are not words themselves."""
 import re, sys
-s = open(sys.argv[1] if len(sys.argv) > 1 else "copy-deck.md").read()
+from pathlib import Path
+s = Path(sys.argv[1] if len(sys.argv) > 1 else "copy-deck.md").read_text()
 total = 0
 for m in re.finditer(r"On the page:\n```\n(.*?)```", s, re.S):
     b = m.group(1).replace("[Copy]", "")

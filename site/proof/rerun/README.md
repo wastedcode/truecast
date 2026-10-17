@@ -97,6 +97,7 @@ as a problem:
   all six runs followed it. Only two runs opened skills from the playbook (`truecast-1`, `truecast-2`: the
   verdict and grading skills). Those two were also the two that found the hooks hole; two runs are too few
   to call that a cause. The other agents grade by severity and mostly answer the prompt's yes/no question.
+- **What `truecast-2` opened** (Fig. 1 on truecast.dev), from its session log: 17 tool calls; the 11th printed `skills/grade-and-remediate-risk/SKILL.md` and `skills/write-the-security-verdict/SKILL.md` (with `sed`). No other playbook file was opened, and no knowledge note.
 - **One review, one kind of work.** This says nothing yet about the other eleven teammates.
 
 Rerun it: the prompt, the repo commit and the agent files are all above.

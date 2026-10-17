@@ -32,7 +32,7 @@ A bundled example: [`personas/product-manager/`](personas/product-manager/).
 You could paste "act like a security expert" into your prompt. Two reasons not to:
 
 - **Its own context window.** Each teammate runs as a native Claude Code **subagent**, so its digging
-  happens off your main thread. In [the review on truecast.dev](site/proof/), `security-engineer` worked
+  happens off your main thread. In [our first published review](site/proof/), `security-engineer` worked
   through 66,578 tokens in its own context and handed the session back a 2,780-token report.
 - **Twelve roles, already written and kept current.** Each teammate carries a versioned playbook of
   skills it can open mid-task. You adopt its author's improvements deliberately, and your brief survives

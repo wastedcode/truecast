@@ -1,0 +1,50 @@
+{
+ "A1": {
+  "total_cost_usd": 2.8946,
+  "duration_ms": 476028,
+  "num_turns": 48,
+  "blind_id": "deck-356"
+ },
+ "A2": {
+  "total_cost_usd": 2.7977,
+  "duration_ms": 564553,
+  "num_turns": 45,
+  "blind_id": "deck-953"
+ },
+ "B1": {
+  "total_cost_usd": 17.991,
+  "duration_ms": 2811691,
+  "num_turns": 66,
+  "blind_id": "deck-727"
+ },
+ "B2": {
+  "total_cost_usd": 12.5647,
+  "duration_ms": 154527,
+  "num_turns": 12,
+  "blind_id": "deck-723"
+ },
+ "C1": {
+  "total_cost_usd": 1.7613,
+  "duration_ms": 299329,
+  "num_turns": 24,
+  "blind_id": "deck-400"
+ },
+ "C2": {
+  "total_cost_usd": 2.0936,
+  "duration_ms": 497214,
+  "num_turns": 36,
+  "blind_id": "deck-370"
+ },
+ "D1": {
+  "total_cost_usd": 13.8823,
+  "duration_ms": 6970,
+  "num_turns": 1,
+  "blind_id": "deck-736"
+ },
+ "D2": {
+  "total_cost_usd": 7.6868,
+  "duration_ms": 148835,
+  "num_turns": 13,
+  "blind_id": "deck-655"
+ }
+}

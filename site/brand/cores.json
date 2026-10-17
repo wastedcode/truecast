@@ -787,15 +787,15 @@
   {
    "name": "product-marketer",
    "files": 23,
-   "words": 16902,
+   "words": 17026,
    "core": [
     {
      "path": "agent.md",
-     "words": 1752
+     "words": 1859
     },
     {
      "path": "skills/beat-the-frontier/SKILL.md",
-     "words": 1903
+     "words": 1920
     },
     {
      "path": "skills/build-the-messaging-house/SKILL.md",

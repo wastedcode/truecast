@@ -10,6 +10,13 @@ All notable changes to truecast are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- **product-marketer 1.6.0 must run an outside judge before it hands off.** It picks something that can
+  disagree with it (a fresh context, a script over its claims, a measurement, a person), fixes what it
+  returns, and names the judge and each round's result in the hand-off. In a blind bake-off of the homepage
+  copy deck (4 arms × 2 runs, 3 judges ranking all 8 side by side for the boldest idea that holds up), the
+  judge arm placed 1st and 2nd with every judge.
+
 ### Security
 - Every dependency moved to its latest release in one change. This clears all four open Dependabot
   alerts: `@simple-git/argv-parser` (critical, via `simple-git` 3.36.0 → 4.0.2), `fast-copy` (via

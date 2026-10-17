@@ -1,0 +1,93 @@
+{
+ "about": "security-engineer 1.2.2's playbook (personas/security-engineer/core) as the fair test ran it on 2026-10-16: one row per file, wc -w. Snapshotted from site/brand/cores.json on 2026-10-17 while the persona was still 1.2.2. Fig. 1 and Fig. 2 on truecast.dev are drawn from this file, so a later playbook edit can't put a new size on an old test.",
+ "name": "security-engineer",
+ "version": "1.2.2",
+ "files": 21,
+ "words": 12697,
+ "core": [
+  {
+   "path": "agent.md",
+   "words": 1463
+  },
+  {
+   "path": "skills/beat-the-frontier/SKILL.md",
+   "words": 969
+  },
+  {
+   "path": "skills/cryptography-sanity-check/SKILL.md",
+   "words": 365
+  },
+  {
+   "path": "skills/grade-and-remediate-risk/SKILL.md",
+   "words": 415
+  },
+  {
+   "path": "skills/handle-vuln-disclosure/SKILL.md",
+   "words": 587
+  },
+  {
+   "path": "skills/harden-by-default/SKILL.md",
+   "words": 818
+  },
+  {
+   "path": "skills/hunt-vuln-classes/SKILL.md",
+   "words": 449
+  },
+  {
+   "path": "skills/map-the-trust-boundary/SKILL.md",
+   "words": 402
+  },
+  {
+   "path": "skills/respond-to-incident/SKILL.md",
+   "words": 450
+  },
+  {
+   "path": "skills/review-authn-authz/SKILL.md",
+   "words": 439
+  },
+  {
+   "path": "skills/review-detection-and-logging/SKILL.md",
+   "words": 647
+  },
+  {
+   "path": "skills/review-external-surfaces-for-disclosure/SKILL.md",
+   "words": 572
+  },
+  {
+   "path": "skills/secrets-and-config-discipline/SKILL.md",
+   "words": 403
+  },
+  {
+   "path": "skills/secure-ai-systems/SKILL.md",
+   "words": 494
+  },
+  {
+   "path": "skills/secure-design-review/SKILL.md",
+   "words": 422
+  },
+  {
+   "path": "skills/secure-supply-chain/SKILL.md",
+   "words": 416
+  },
+  {
+   "path": "skills/threat-model-the-change/SKILL.md",
+   "words": 424
+  },
+  {
+   "path": "skills/write-the-security-verdict/SKILL.md",
+   "words": 411
+  },
+  {
+   "path": "knowledge/modern-attack-surface.md",
+   "words": 734
+  },
+  {
+   "path": "knowledge/threat-modeling-and-principles.md",
+   "words": 1145
+  },
+  {
+   "path": "knowledge/vuln-classes-reference.md",
+   "words": 672
+  }
+ ]
+}

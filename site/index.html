@@ -36,6 +36,11 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1" fill="none" stroke="currentColor"/><path d="M10.5 3.5v-1a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h1" fill="none" stroke="currentColor"/></symbol>
+  <symbol id="i-done" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 16 16"><path d="M3.5 8a4.5 4.5 0 1 0 1.4-3.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 1.8v3.2h3.2" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+</svg>
 
 <header class="top">
   <div class="wrap top__in">
@@ -51,610 +56,189 @@
 
 <main id="main">
 
-<!-- 1 · Hero: the promise, the command, and the proof running beside it -->
+<!-- 1 · Hero: what it is, one command, and it working on something real -->
 <section class="hero" aria-labelledby="h1">
-  <div class="wrap hero__grid">
-    <h1 id="h1" class="hero__title">The expert teammates Claude&nbsp;Code doesn’t ship&nbsp;with.</h1>
-
+  <div class="wrap hero__in">
     <div class="hero__copy">
-      <p class="lead">Twelve specialists, already written: security, QA, architecture, product, design, sales and more. Set it up once, then type <code>@</code> and pick one. Each works from a playbook it can open on the job and a brief you keep in your repo, and updates never touch your brief.</p>
-
-      <p class="hero__note">We tested our <code class="nowrap">security-engineer</code> against a 76-word agent you could write yourself: the same prompt, six runs each. It caught as many holes, no more, and it was the only one that ended every run on an explicit GO or NO-GO. <a class="arrow-link" href="#proof">↓&nbsp;All 18 runs, published</a></p>
-
+      <h1 id="h1">The expert teammates Claude Code doesn’t ship with.</h1>
+      <p class="hero__sub"><!--gen:team-n-->Twelve<!--/gen--> ready-made specialists, from security engineer to seed investor. Type&nbsp;<kbd>@</kbd>, pick one, and it takes the job.</p>
       <div class="cmd cmd--hero">
-        <pre class="cmd__code" id="cmd-step1"><code><span class="seg seg--a">claude plugin install truecast</span> <span class="cont" aria-hidden="true">\</span><span class="seg seg--split">--marketplace wastedcode/truecast</span></code></pre>
-        <button class="copy" type="button" data-copy="cmd-step1" aria-label="Copy the install command" hidden><span class="copy__label">Copy</span></button>
+        <code class="cmd__code" id="cmd-hero">claude plugin install truecast <span class="seg">--marketplace</span> <span class="seg">wastedcode/truecast</span></code>
+        <button class="copy" type="button" data-copy="cmd-hero" aria-label="Copy the install command" hidden><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
       </div>
-      <p class="hero__then">In your terminal, on Claude Code 2.1.292 or later. Then in Claude Code: <code class="nowrap">/truecast:install security-engineer</code> (already open? <code class="nowrap">/reload-plugins</code> first).</p>
-      <p class="hero__links"><span class="hero__free">Free and open source (MIT)</span> <a class="arrow-link" href="#install-session">Install from inside a session&nbsp;→</a></p>
+      <p class="hero__then">Then in Claude Code: <code>/truecast:install security-engineer</code></p>
+      <p class="hero__meta">Claude Code 2.1.292 or later · free, MIT</p>
     </div>
 
-    <figure class="run" aria-labelledby="run-cap">
-      <figcaption id="run-cap" class="fig-label run__cap"><span class="fig-label__n">Fig. 1</span> A real review, <span class="nowrap">2026-10-16</span>, run the usual way. All 10 tool calls from its log (both skills opened in one), paths trimmed; verdict and findings verbatim.</figcaption>
-      <div class="run__card">
-        <div class="run__pb" aria-hidden="true">
-          <!--gen:fig1-core--><svg class="core" viewBox="0 0 40 363.43" width="40" height="363.43" aria-hidden="true" focusable="false"><rect class="surface" width="40" height="3"/><rect class="lit" style="--i:0" x="0.5" y="6.50" width="39" height="35.58" data-path="agent.md" data-words="1463"/><rect class="unread" style="--i:1" x="0.5" y="45.08" width="39" height="23.23" data-path="skills/beat-the-frontier/SKILL.md" data-words="969"/><rect class="unread" style="--i:2" x="0.5" y="71.30" width="39" height="8.12" data-path="skills/cryptography-sanity-check/SKILL.md" data-words="365"/><rect class="lit" style="--i:3" x="0.5" y="82.43" width="39" height="9.38" data-path="skills/grade-and-remediate-risk/SKILL.md" data-words="415"/><rect class="unread" style="--i:4" x="0.5" y="94.80" width="39" height="13.68" data-path="skills/handle-vuln-disclosure/SKILL.md" data-words="587"/><rect class="unread" style="--i:5" x="0.5" y="111.48" width="39" height="19.45" data-path="skills/harden-by-default/SKILL.md" data-words="818"/><rect class="unread" style="--i:6" x="0.5" y="133.93" width="39" height="10.22" data-path="skills/hunt-vuln-classes/SKILL.md" data-words="449"/><rect class="unread" style="--i:7" x="0.5" y="147.15" width="39" height="9.05" data-path="skills/map-the-trust-boundary/SKILL.md" data-words="402"/><rect class="unread" style="--i:8" x="0.5" y="159.20" width="39" height="10.25" data-path="skills/respond-to-incident/SKILL.md" data-words="450"/><rect class="unread" style="--i:9" x="0.5" y="172.45" width="39" height="9.97" data-path="skills/review-authn-authz/SKILL.md" data-words="439"/><rect class="unread" style="--i:10" x="0.5" y="185.43" width="39" height="15.18" data-path="skills/review-detection-and-logging/SKILL.md" data-words="647"/><rect class="unread" style="--i:11" x="0.5" y="203.60" width="39" height="13.30" data-path="skills/review-external-surfaces-for-disclosure/SKILL.md" data-words="572"/><rect class="unread" style="--i:12" x="0.5" y="219.90" width="39" height="9.07" data-path="skills/secrets-and-config-discipline/SKILL.md" data-words="403"/><rect class="unread" style="--i:13" x="0.5" y="231.98" width="39" height="11.35" data-path="skills/secure-ai-systems/SKILL.md" data-words="494"/><rect class="unread" style="--i:14" x="0.5" y="246.33" width="39" height="9.55" data-path="skills/secure-design-review/SKILL.md" data-words="422"/><rect class="unread" style="--i:15" x="0.5" y="258.88" width="39" height="9.40" data-path="skills/secure-supply-chain/SKILL.md" data-words="416"/><rect class="unread" style="--i:16" x="0.5" y="271.27" width="39" height="9.60" data-path="skills/threat-model-the-change/SKILL.md" data-words="424"/><rect class="lit" style="--i:17" x="0.5" y="283.88" width="39" height="9.28" data-path="skills/write-the-security-verdict/SKILL.md" data-words="411"/><rect class="unread" style="--i:18" x="0.5" y="296.15" width="39" height="17.35" data-path="knowledge/modern-attack-surface.md" data-words="734"/><rect class="unread" style="--i:19" x="0.5" y="316.50" width="39" height="27.62" data-path="knowledge/threat-modeling-and-principles.md" data-words="1145"/><rect class="unread" style="--i:20" x="0.5" y="347.12" width="39" height="15.80" data-path="knowledge/vuln-classes-reference.md" data-words="672"/></svg><!--/gen-->
+    <figure class="f1" aria-labelledby="f1-cap">
+      <div class="f1__card">
+        <p class="f1__who"><code>security-engineer</code>, reviewing our own installer</p>
+        <p class="f1__ask"><span aria-hidden="true">›</span> … Can anything here get a user owned? …</p>
+        <div class="f1__body">
+          <!--gen:fig1--><p class="f1__pbk">its playbook · <span class="num">21</span> files · it opened <span class="num">2</span> skills</p><div class="f1__draw"><svg class="core tee" viewBox="0 0 120 335.04" width="120" height="335" aria-hidden="true" focusable="false"><rect class="cross" style="--i:0" x="0" y="0" width="120" height="12.19" data-path="agent.md" data-words="1463"/><rect class="unread" style="--i:1" x="40.5" y="16.69" width="39" height="23.23" data-path="skills/beat-the-frontier/SKILL.md" data-words="969"/><rect class="unread" style="--i:2" x="40.5" y="42.92" width="39" height="8.12" data-path="skills/cryptography-sanity-check/SKILL.md" data-words="365"/><rect class="lit" style="--i:3;--k:1" x="40.5" y="54.04" width="39" height="9.38" data-path="skills/grade-and-remediate-risk/SKILL.md" data-words="415"/><rect class="unread" style="--i:4" x="40.5" y="66.42" width="39" height="13.68" data-path="skills/handle-vuln-disclosure/SKILL.md" data-words="587"/><rect class="unread" style="--i:5" x="40.5" y="83.09" width="39" height="19.45" data-path="skills/harden-by-default/SKILL.md" data-words="818"/><rect class="unread" style="--i:6" x="40.5" y="105.54" width="39" height="10.22" data-path="skills/hunt-vuln-classes/SKILL.md" data-words="449"/><rect class="unread" style="--i:7" x="40.5" y="118.77" width="39" height="9.05" data-path="skills/map-the-trust-boundary/SKILL.md" data-words="402"/><rect class="unread" style="--i:8" x="40.5" y="130.82" width="39" height="10.25" data-path="skills/respond-to-incident/SKILL.md" data-words="450"/><rect class="unread" style="--i:9" x="40.5" y="144.07" width="39" height="9.97" data-path="skills/review-authn-authz/SKILL.md" data-words="439"/><rect class="unread" style="--i:10" x="40.5" y="157.04" width="39" height="15.18" data-path="skills/review-detection-and-logging/SKILL.md" data-words="647"/><rect class="unread" style="--i:11" x="40.5" y="175.22" width="39" height="13.30" data-path="skills/review-external-surfaces-for-disclosure/SKILL.md" data-words="572"/><rect class="unread" style="--i:12" x="40.5" y="191.52" width="39" height="9.07" data-path="skills/secrets-and-config-discipline/SKILL.md" data-words="403"/><rect class="unread" style="--i:13" x="40.5" y="203.59" width="39" height="11.35" data-path="skills/secure-ai-systems/SKILL.md" data-words="494"/><rect class="unread" style="--i:14" x="40.5" y="217.94" width="39" height="9.55" data-path="skills/secure-design-review/SKILL.md" data-words="422"/><rect class="unread" style="--i:15" x="40.5" y="230.49" width="39" height="9.40" data-path="skills/secure-supply-chain/SKILL.md" data-words="416"/><rect class="unread" style="--i:16" x="40.5" y="242.89" width="39" height="9.60" data-path="skills/threat-model-the-change/SKILL.md" data-words="424"/><rect class="lit" style="--i:17;--k:2" x="40.5" y="255.49" width="39" height="9.28" data-path="skills/write-the-security-verdict/SKILL.md" data-words="411"/><rect class="unread" style="--i:18" x="40.5" y="267.77" width="39" height="17.35" data-path="knowledge/modern-attack-surface.md" data-words="734"/><rect class="unread" style="--i:19" x="40.5" y="288.12" width="39" height="27.62" data-path="knowledge/threat-modeling-and-principles.md" data-words="1145"/><rect class="unread" style="--i:20" x="40.5" y="318.74" width="39" height="15.80" data-path="knowledge/vuln-classes-reference.md" data-words="672"/></svg><span class="f1__lab" style="--y:58.7px;--k:1"><code>grade-<wbr>and-<wbr>remediate-<wbr>risk</code></span><span class="f1__lab" style="--y:260.1px;--k:2"><code>write-<wbr>the-<wbr>security-<wbr>verdict</code></span></div><!--/gen-->
         </div>
-        <div class="run__pbh" aria-hidden="true">
-          <span class="run__pbk">its playbook · 21 files</span>
-          <!--gen:fig1-core-h--><span class="pbt pbt--fig1" style="--max:12697;--maxf:21"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0" class=lit></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3" class=lit></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17" class=lit></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span><!--/gen-->
+        <div class="f1__out">
+          <p class="f1__verdict"><strong>Verdict:</strong> yes, someone can get owned, but only through <code>--project</code>. That path is <strong class="nogo">NO-GO</strong> until F1 is fixed. …</p>
+          <p class="f1__find"><span class="chip">F1 · P1</span> <span>a hostile repo can write any file in your home …</span> <span class="tag">fixed in 0.1.1</span></p>
         </div>
-        <div class="run__log">
-          <p class="run__who"><span class="run__name">@security-engineer</span> <span class="run__meta"><span class="nowrap">security-engineer@1.2.2</span> · <span class="nowrap">claude-opus-5-5</span></span></p>
-          <p class="run__prompt"><span aria-hidden="true">› </span>review plugin/truecast/bin/truecast-plugin.sh … Can anything here get a user owned?</p>
-          <ol class="trace" aria-label="What it did, in order">
-            <li><span class="trace__v">checked</span> <span class="trace__o">.truecast/<wbr>…/<wbr>instance/ <span class="trace__inl">no brief</span></span></li>
-            <li><span class="trace__v">read</span> <span class="trace__o">bin/<wbr>truecast-plugin.sh</span></li>
-            <li><span class="trace__v">read</span> <span class="trace__o">commands/<wbr>*.md</span></li>
-            <li class="is-pb" data-band="skills/grade-and-remediate-risk/SKILL.md"><span class="trace__v">opened</span> <span class="trace__o">grade-and-<wbr>remediate-<wbr>risk</span></li>
-            <li class="is-pb" data-band="skills/write-the-security-verdict/SKILL.md"><span class="trace__v">opened</span> <span class="trace__o">write-the-<wbr>security-<wbr>verdict</span></li>
-            <li><span class="trace__v">read</span> <span class="trace__o">personas/<wbr>*/<wbr>subagent.md</span></li>
-            <li><span class="trace__v">fetched</span> <span class="trace__o">code.claude.com/<wbr>…/<wbr><span class="nowrap">slash-commands</span></span></li>
-            <li><span class="trace__v">fetched</span> <span class="trace__o">code.claude.com/<wbr>…/<wbr><span class="nowrap">sub-agents</span></span></li>
-            <li><span class="trace__v">ran</span> <span class="trace__o">the attack in a sandbox <span class="trace__inl nowrap">3 runs</span></span></li>
-          </ol>
-          <div class="run__out">
-            <p class="verdict">Verdict: <span class="verdict--nogo">NO-GO</span> <span class="verdict__rest">for <span class="nowrap">--project</span> until F1 is fixed.</span></p>
-            <p class="run__finding">F1 — P0 for the <span class="nowrap">--project</span> lane. … Confirmed.</p>
-            <p class="run__finding">F2 — P1. … the user only sees part of what they’re agreeing to.</p>
-          </div>
-          <p class="run__other"><span class="run__otherk">Fair test, 6 runs each:</span> <span class="run__otherv">the other two found F1 at least as often. Ours graded it P1 in 4 of 5, and ended every run on GO or NO-GO.</span> <a href="#proof">Fig.&nbsp;2</a></p>
-        </div>
-        <p class="run__legend" aria-hidden="true"><span class="legend__k">its playbook, 21 files:</span> <span class="legend__i"><span class="key key--on"></span>its agent file and the 2 skills it opened</span> <span class="legend__i"><span class="key key--off"></span>not opened on this run</span></p>
+        <button class="replay" type="button" aria-label="Replay Fig. 1" hidden><svg class="ico" aria-hidden="true"><use href="#i-replay"/></svg></button>
       </div>
-      <p class="run__note">We asked our Claude Code session to use the teammate, and the session wrote the prompt it got. Only that prompt asked about writes to <code class="nowrap">~/.claude</code>, where F2 sits, so F2 can’t be credited to the playbook. A safety classifier cut a later turn; <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/security-engineer.md">its report</a> says so.</p>
+      <figcaption class="cap" id="f1-cap"><span class="cap__n">Fig. 1</span> Fair-test run 2 of 6, rerun on the pre-fix code. Verbatim; … marks a cut. <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/truecast-2.md">Full report&nbsp;→</a></figcaption>
     </figure>
-
   </div>
 </section>
 
-<!-- 2 · Proof: same installer, three agents -->
-<section class="sec proof" id="proof" aria-labelledby="proof-h">
+<!-- 2 · The fair test, loss first -->
+<section class="sec sec--proof" id="proof" aria-labelledby="proof-h">
   <div class="wrap">
-    <div class="sec__head">
-      <h2 id="proof-h">It found a real hole in our installer. So did a 76-word&nbsp;agent.</h2>
-      <p class="sec__intro">Fig.&nbsp;1’s review showed that a hostile repo could get its text written into your <code class="nowrap">~/.bashrc</code>. We fixed it, then gave the same prompt, byte for byte, to three <code class="nowrap">security-engineer</code> agents, six runs each. The 76-word one found that hole in all six. Ours found no more holes overall. What only ours did was end every run on an explicit GO or NO-GO, with its findings ranked by when to fix them.</p>
-    </div>
-
-    <figure class="cmp" aria-labelledby="cmp-cap">
-      <table class="ledger" aria-labelledby="cmp-cap">
-        <caption id="cmp-cap" class="fig-label"><span class="fig-label__m"><span class="fig-label__n">Fig. 2</span> One prompt to all three, 6 runs each, <span class="nowrap">2026-10-16</span>. Each square is one run, in order; filled means its report raised it. Scored on the three holes fixed in <code>834b03d</code>. Each playbook is drawn to one scale, one band per file.</span></caption>
-        <thead>
-          <tr>
-            <td></td>
-            <th scope="col"><span class="ledger__who">Hand-written</span><!--gen:ledger-hw--><span class="pbt pbt--ledger" style="--max:12697;--maxf:21"><span class="pb" style="--files:1;--words:76" aria-hidden="true"><i style="--w:76;--i:0"></i></span></span><!--/gen--><span class="ledger__size">1 file · 76 words</span></th>
-            <th scope="col"><span class="ledger__who">Free collection</span><!--gen:ledger-fc--><span class="pbt pbt--ledger" style="--max:12697;--maxf:21"><span class="pb" style="--files:1;--words:1007" aria-hidden="true"><i style="--w:1007;--i:0"></i></span></span><!--/gen--><span class="ledger__size">1 file · 1,007 words</span></th>
-            <th scope="col"><span class="ledger__who ledger__who--tc">@security-engineer</span><!--gen:ledger-se--><span class="pbt pbt--ledger" style="--max:12697;--maxf:21"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0"></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3"></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17"></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span><!--/gen--><span class="ledger__size">21 files · 12,697 words</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="ledger__hit">
-            <th scope="row">A hostile repo writes into your <code class="nowrap">~/.bashrc</code><span class="ledger__sub">temp files · F1 in Fig.&nbsp;1</span></th>
-            <td data-col="Hand-written"><span class="ledger__v"><span class="hits" role="img" aria-label="6 of 6 runs"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="hits__n num">6 of 6</span></span></td>
-            <td data-col="Free collection"><span class="ledger__v"><span class="hits" role="img" aria-label="5 of 6 runs"><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="hits__n num">5 of 6</span></span></td>
-            <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="5 of 6 runs"><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="hits__n num">5 of 6</span></span></td>
-          </tr>
-          <tr class="ledger__hit">
-            <th scope="row">Agent files carry hooks the plan never showed<span class="ledger__sub">hooks · F2</span></th>
-            <td data-col="Hand-written"><span class="ledger__v"><span class="hits" role="img" aria-label="1 of 6 runs"><i></i><i></i><i></i><i></i><i class="on"></i><i></i></span><span class="hits__n num">1 of 6</span></span></td>
-            <td data-col="Free collection"><span class="ledger__v"><span class="hits" role="img" aria-label="1 of 6 runs"><i></i><i class="on"></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">1 of 6</span></span></td>
-            <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="2 of 6 runs"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">2 of 6</span></span></td>
-          </tr>
-          <tr class="ledger__hit">
-            <th scope="row">Claude could run the commands unasked, with all of Bash allowed<span class="ledger__sub">shell · F3</span></th>
-            <td data-col="Hand-written"><span class="ledger__v"><span class="hits" role="img" aria-label="2 of 6 runs"><i></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="hits__n num">2 of 6</span></span></td>
-            <td data-col="Free collection"><span class="ledger__v"><span class="hits" role="img" aria-label="0 of 6 runs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">0 of 6</span></span></td>
-            <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="2 of 6 runs"><i class="on"></i><i></i><i></i><i></i><i class="on"></i><i></i></span><span class="hits__n num">2 of 6</span></span></td>
-          </tr>
-          <tr class="ledger__short ledger__tot">
-            <th scope="row">All three holes</th>
-            <td data-col="Hand-written" class="meas"><span class="ledger__v">9 of 18</span></td>
-            <td data-col="Free collection" class="meas"><span class="ledger__v">6 of 18</span></td>
-            <td data-col="@security-engineer" class="meas"><span class="ledger__v">9 of 18</span></td>
-          </tr>
-          <tr class="ledger__hit">
-            <th scope="row">Closed on an explicit GO or NO-GO</th>
-            <td data-col="Hand-written"><span class="ledger__v"><span class="hits" role="img" aria-label="0 of 6 runs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">0 of 6</span></span></td>
-            <td data-col="Free collection"><span class="ledger__v"><span class="hits" role="img" aria-label="0 of 6 runs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="hits__n num">0 of 6</span></span></td>
-            <td data-col="@security-engineer"><span class="ledger__v"><span class="hits" role="img" aria-label="6 of 6 runs"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="hits__n num">6 of 6</span></span></td>
-          </tr>
-          <tr class="ledger__short">
-            <th scope="row">Average run</th>
-            <td data-col="Hand-written" class="meas"><span class="ledger__v"><span class="nowrap">$0.85</span> <span class="nowrap">· 3.7&nbsp;min</span></span></td>
-            <td data-col="Free collection" class="meas"><span class="ledger__v"><span class="nowrap">$0.68</span> <span class="nowrap">· 2.7&nbsp;min</span></span></td>
-            <td data-col="@security-engineer" class="meas"><span class="ledger__v"><span class="nowrap">$1.04</span> <span class="nowrap">· 4.3&nbsp;min</span></span></td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="ledger__note">The free-collection agent is <code>security-engineer.md</code> from VoltAgent’s awesome-claude-code-subagents; we changed only its tools and model lines to match. A safety classifier interrupted 4, 3 and 3 of the runs; every one still returned a report, and free-3’s says it couldn’t finish.</p>
+    <h2 id="proof-h">It found a real hole in our installer. So did a 76-word agent.</h2>
+    <figure class="f2" aria-labelledby="f2-cap">
+      <div class="f2__scroll"><!--gen:fig2--><table class="ft" role="table"><thead role="rowgroup"><tr role="row"><td role="cell"></td><th scope="col" role="columnheader"><span class="ft__who"><a href="https://github.com/wastedcode/truecast/blob/main/site/proof/README.md#the-hand-written-agent-76-words-verbatim">Hand-written</a> · <span class="num">76</span> words</span><span class="pbt pbt--ledger" style="--max:12697;--maxf:21"><span class="pb" style="--files:1;--words:76" aria-hidden="true"><i style="--w:76;--i:0"></i></span></span></th><th scope="col" role="columnheader"><span class="ft__who"><a href="https://github.com/VoltAgent/awesome-claude-code-subagents/blob/408d3c9eee2d0c75c12a3abb5de29e53c2ca6b9e/categories/03-infrastructure/security-engineer.md">VoltAgent collection</a> · <span class="num">1,007</span> words</span><span class="pbt pbt--ledger" style="--max:12697;--maxf:21"><span class="pb" style="--files:1;--words:1007" aria-hidden="true"><i style="--w:1007;--i:0"></i></span></span></th><th scope="col" role="columnheader"><span class="ft__who">truecast · <span class="num">12,697</span> words in <span class="num">21</span> files</span><span class="pbt pbt--ledger" style="--max:12697;--maxf:21"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0"></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3"></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17"></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span></th></tr></thead><tbody role="rowgroup"><tr role="row"><th scope="row" role="rowheader">Hostile repo writes into your home</th><td role="cell"><span class="sq" aria-hidden="true"><i class="on" style="--r:0"></i><i class="on" style="--r:1"></i><i class="on" style="--r:2"></i><i class="on" style="--r:3"></i><i class="on" style="--r:4"></i><i class="on" style="--r:5"></i></span><span class="ft__n num">6 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="on" style="--r:0"></i><i class="off" style="--r:1"></i><i class="on" style="--r:2"></i><i class="on" style="--r:3"></i><i class="on" style="--r:4"></i><i class="on" style="--r:5"></i></span><span class="ft__n num">5 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="on" style="--r:1"></i><i class="on" style="--r:2"></i><i class="on" style="--r:3"></i><i class="on" style="--r:4"></i><i class="on" style="--r:5"></i></span><span class="ft__n num">5 of 6</span></td></tr><tr role="row"><th scope="row" role="rowheader">Hooks the install plan didn’t show</th><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="off" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="on" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">1 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="on" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="off" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">1 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="on" style="--r:0"></i><i class="on" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="off" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">2 of 6</span></td></tr><tr role="row"><th scope="row" role="rowheader">Unrestricted Bash, pre-approved</th><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="on" style="--r:1"></i><i class="on" style="--r:2"></i><i class="off" style="--r:3"></i><i class="off" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">2 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="off" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="off" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">0 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="on" style="--r:0"></i><i class="off" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="on" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">2 of 6</span></td></tr><tr class="ft__tot" role="row"><th scope="row" role="rowheader">Total</th><td role="cell"><span class="ft__n ft__n--tot num">9 of 18</span></td><td role="cell"><span class="ft__n ft__n--tot num">6 of 18</span></td><td role="cell"><span class="ft__n ft__n--tot num">9 of 18</span></td></tr><tr class="ft__go" role="row"><th scope="row" role="rowheader">Ended on GO or NO-GO</th><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="off" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="off" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">0 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="off" style="--r:0"></i><i class="off" style="--r:1"></i><i class="off" style="--r:2"></i><i class="off" style="--r:3"></i><i class="off" style="--r:4"></i><i class="off" style="--r:5"></i></span><span class="ft__n num">0 of 6</span></td><td role="cell"><span class="sq" aria-hidden="true"><i class="on" style="--r:0"></i><i class="on" style="--r:1"></i><i class="on" style="--r:2"></i><i class="on" style="--r:3"></i><i class="on" style="--r:4"></i><i class="on" style="--r:5"></i></span><span class="ft__n num">6 of 6</span></td></tr><tr class="ft__avg" role="row"><th scope="row" role="rowheader">Average run</th><td role="cell"><span class="ft__n num">$0.85</span></td><td role="cell"><span class="ft__n num">$0.68</span></td><td role="cell"><span class="ft__n num">$1.04</span></td></tr></tbody></table><!--/gen--></div>
+      <div class="f2__foot">
+        <p class="f2__say">The GO or NO-GO comes from our agent file; you could ask yours for one. A one-file agent, yours or a collection’s, stops there. Ours has a playbook behind it, your brief beside it, and updates you approve.</p>
+        <figcaption class="cap" id="f2-cap"><span class="cap__n">Fig. 2</span> Same prompt, six runs each, 2026-10-16. Model: <code>claude-opus-5-5</code>; 8 of 18 runs switched to <code>claude-opus-4-8</code> partway. <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md">All 18 reports&nbsp;→</a></figcaption>
+      </div>
     </figure>
-
-    <div class="proof__foot">
-      <div class="proof__why">
-        <p>So at catching these, a short prompt held its own. No run of any agent found all three holes, and ours found as many as the 76-word one, at $1.04 a run against $0.85. The GO or NO-GO comes from its agent file, not from catching more. None of the other twelve runs made that call, though one hand-written run ended “Don’t ship this until #1 and #2 are fixed.” You could ask your own agent for the same.</p>
-        <p><strong class="proof__only">That’s one review, of one kind, and it says nothing yet about the other eleven.</strong> What you get is twelve roles already written, a brief you keep for each one in your repo, and updates that never touch it. Every run is published, so you can check this one.</p>
-      </div>
-      <div class="proof__links">
-        <a class="arrow-link" href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md">All 18 reports, and how we scored them&nbsp;→</a>
-        <a class="arrow-link" href="https://github.com/wastedcode/truecast/blob/main/site/proof/README.md#the-first-review">Fig.&nbsp;1’s review, and the prompt each agent got&nbsp;→</a>
-        <p class="small">Claude Code 2.1.301 · claude-opus-5-5, though in 8 of the 18 runs Claude Code switched to claude-opus-4-8 partway (hand-written 4, free collection 2, ours 2; <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md#method">which runs</a>) · each run with <code class="nowrap">claude -p --agent</code>, so every agent got the prompt itself</p>
-      <div class="proof__fixed" id="get-the-fix">
-        <p>We fixed all three holes Fig.&nbsp;1 found in <a href="https://github.com/wastedcode/truecast/commit/834b03d"><code>834b03d</code></a>. The fair test turned up a fourth, which we didn’t score because we’d fixed the scoring first: an update could write somewhere other than the place its plan showed. One free-collection run and one of ours raised it. Installer 0.1.2 fixes all four; <code>claude plugin list</code> shows your version.</p>
-        <p class="proof__upd">Already have truecast? <a class="arrow-link" href="#later-h">Update it: the two commands are under Later&nbsp;↓</a></p>
-</div>
-      </div>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- 3 · How it works: what's inside a teammate -->
-<section class="sec how" id="how" aria-labelledby="how-h">
-  <div class="wrap">
-    <div class="sec__head">
-      <h2 id="how-h">A teammate is a playbook, your brief, and its own context&nbsp;window.</h2>
-    </div>
-    <div class="how__grid">
-      <div class="part part--playbook">
-        <h3>The playbook.</h3>
-        <p>17 skills, 3 reference notes and its agent file for <code>security-engineer</code>: 12,697 words of plain Markdown (Fig. 3). It can open any of them mid-task; in Fig.&nbsp;1 it opened two. These load only into that teammate; they aren’t Claude Code Skills and don’t crowd your main session.</p>
-      </div>
-
-      <figure class="sect" aria-labelledby="sect-cap">
-        <figcaption id="sect-cap" class="fig-label"><span class="fig-label__n">Fig. 3</span> <code>personas/<wbr>security-engineer/<wbr>core/</code>: the 21 Markdown files it can open, one band per file, sized by its length.</figcaption>
-        <details class="sect__body sect__fold" open>
-          <summary class="sect__sum"><!--gen:tree-h--><span class="pbt pbt--tree" style="--max:12697;--maxf:21"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0"></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3"></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17"></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span><!--/gen--><span class="sect__sumt"><span>21 files · 12,697 words</span><span class="sect__open">List all 21 files</span></span></summary>
-          <!--gen:tree--><ol class="sect__list" role="list"><li style="--w:1463"><span class="sect__n">agent.md</span><span class="sect__w num">1,463</span></li><li class="sect__dir">skills/ <span>17 skills, each a SKILL.md</span></li><li style="--w:969"><span class="sect__n">beat-<wbr>the-<wbr>frontier</span><span class="sect__w num">969</span></li><li style="--w:365"><span class="sect__n">cryptography-<wbr>sanity-<wbr>check</span><span class="sect__w num">365</span></li><li style="--w:415"><span class="sect__n">grade-<wbr>and-<wbr>remediate-<wbr>risk</span><span class="sect__w num">415</span></li><li style="--w:587"><span class="sect__n">handle-<wbr>vuln-<wbr>disclosure</span><span class="sect__w num">587</span></li><li style="--w:818"><span class="sect__n">harden-<wbr>by-<wbr>default</span><span class="sect__w num">818</span></li><li style="--w:449"><span class="sect__n">hunt-<wbr>vuln-<wbr>classes</span><span class="sect__w num">449</span></li><li style="--w:402"><span class="sect__n">map-<wbr>the-<wbr>trust-<wbr>boundary</span><span class="sect__w num">402</span></li><li style="--w:450"><span class="sect__n">respond-<wbr>to-<wbr>incident</span><span class="sect__w num">450</span></li><li style="--w:439"><span class="sect__n">review-<wbr>authn-<wbr>authz</span><span class="sect__w num">439</span></li><li style="--w:647"><span class="sect__n">review-<wbr>detection-<wbr>and-<wbr>logging</span><span class="sect__w num">647</span></li><li style="--w:572"><span class="sect__n">review-<wbr>external-<wbr>surfaces-<wbr>for-<wbr>disclosure</span><span class="sect__w num">572</span></li><li style="--w:403"><span class="sect__n">secrets-<wbr>and-<wbr>config-<wbr>discipline</span><span class="sect__w num">403</span></li><li style="--w:494"><span class="sect__n">secure-<wbr>ai-<wbr>systems</span><span class="sect__w num">494</span></li><li style="--w:422"><span class="sect__n">secure-<wbr>design-<wbr>review</span><span class="sect__w num">422</span></li><li style="--w:416"><span class="sect__n">secure-<wbr>supply-<wbr>chain</span><span class="sect__w num">416</span></li><li style="--w:424"><span class="sect__n">threat-<wbr>model-<wbr>the-<wbr>change</span><span class="sect__w num">424</span></li><li style="--w:411"><span class="sect__n">write-<wbr>the-<wbr>security-<wbr>verdict</span><span class="sect__w num">411</span></li><li class="sect__dir">knowledge/ <span>3 reference notes</span></li><li style="--w:734"><span class="sect__n">modern-<wbr>attack-<wbr>surface.md</span><span class="sect__w num">734</span></li><li style="--w:1145"><span class="sect__n">threat-<wbr>modeling-<wbr>and-<wbr>principles.md</span><span class="sect__w num">1,145</span></li><li style="--w:672"><span class="sect__n">vuln-<wbr>classes-<wbr>reference.md</span><span class="sect__w num">672</span></li></ol><p class="sect__total"><span>21 files</span><span class="num">12,697 words</span></p><!--/gen-->
-          <p class="sect__more">Plus <code>persona.toml</code>, its manifest: name, version and tools.</p>
-        </details>
-        <a class="arrow-link sect__all" href="https://github.com/wastedcode/truecast/tree/main/personas/security-engineer/core">Open the folder on GitHub&nbsp;↗</a>
+<!-- 3 · What you're installing, and why your session stays clean -->
+<section class="sec sec--what" aria-labelledby="what-h">
+  <div class="wrap what">
+    <div class="what__a">
+      <h2 id="what-h">Behind each name, a playbook you can read.</h2>
+      <figure class="f3" aria-labelledby="f3-cap">
+        <div class="f3__draw">
+          <div class="f3__tee"><!--gen:fig3--><svg class="core tee" viewBox="0 0 120 335.04" width="120" height="335" aria-hidden="true" focusable="false"><rect class="cross" style="--i:0" x="0" y="0" width="120" height="12.19" data-path="agent.md" data-words="1463"/><rect style="--i:1" x="40.5" y="16.69" width="39" height="23.23" data-path="skills/beat-the-frontier/SKILL.md" data-words="969"/><rect style="--i:2" x="40.5" y="42.92" width="39" height="8.12" data-path="skills/cryptography-sanity-check/SKILL.md" data-words="365"/><rect style="--i:3" x="40.5" y="54.04" width="39" height="9.38" data-path="skills/grade-and-remediate-risk/SKILL.md" data-words="415"/><rect style="--i:4" x="40.5" y="66.42" width="39" height="13.68" data-path="skills/handle-vuln-disclosure/SKILL.md" data-words="587"/><rect style="--i:5" x="40.5" y="83.09" width="39" height="19.45" data-path="skills/harden-by-default/SKILL.md" data-words="818"/><rect style="--i:6" x="40.5" y="105.54" width="39" height="10.22" data-path="skills/hunt-vuln-classes/SKILL.md" data-words="449"/><rect style="--i:7" x="40.5" y="118.77" width="39" height="9.05" data-path="skills/map-the-trust-boundary/SKILL.md" data-words="402"/><rect style="--i:8" x="40.5" y="130.82" width="39" height="10.25" data-path="skills/respond-to-incident/SKILL.md" data-words="450"/><rect style="--i:9" x="40.5" y="144.07" width="39" height="9.97" data-path="skills/review-authn-authz/SKILL.md" data-words="439"/><rect style="--i:10" x="40.5" y="157.04" width="39" height="15.18" data-path="skills/review-detection-and-logging/SKILL.md" data-words="647"/><rect style="--i:11" x="40.5" y="175.22" width="39" height="13.30" data-path="skills/review-external-surfaces-for-disclosure/SKILL.md" data-words="572"/><rect style="--i:12" x="40.5" y="191.52" width="39" height="9.07" data-path="skills/secrets-and-config-discipline/SKILL.md" data-words="403"/><rect style="--i:13" x="40.5" y="203.59" width="39" height="11.35" data-path="skills/secure-ai-systems/SKILL.md" data-words="494"/><rect style="--i:14" x="40.5" y="217.94" width="39" height="9.55" data-path="skills/secure-design-review/SKILL.md" data-words="422"/><rect style="--i:15" x="40.5" y="230.49" width="39" height="9.40" data-path="skills/secure-supply-chain/SKILL.md" data-words="416"/><rect style="--i:16" x="40.5" y="242.89" width="39" height="9.60" data-path="skills/threat-model-the-change/SKILL.md" data-words="424"/><rect style="--i:17" x="40.5" y="255.49" width="39" height="9.28" data-path="skills/write-the-security-verdict/SKILL.md" data-words="411"/><rect style="--i:18" x="40.5" y="267.77" width="39" height="17.35" data-path="knowledge/modern-attack-surface.md" data-words="734"/><rect style="--i:19" x="40.5" y="288.12" width="39" height="27.62" data-path="knowledge/threat-modeling-and-principles.md" data-words="1145"/><rect style="--i:20" x="40.5" y="318.74" width="39" height="15.80" data-path="knowledge/vuln-classes-reference.md" data-words="672"/></svg><!--/gen--><span class="f3__upd" aria-hidden="true"></span></div>
+          <dl class="f3__labs">
+            <div class="f3__agent"><dt><code>security-engineer.md</code></dt><dd>the agent file, listed when you type&nbsp;<kbd>@</kbd></dd></div>
+            <div class="f3__pb"><dt>its playbook</dt><dd><span class="num"><!--gen:se-files-->21<!--/gen--></span> files, <span class="num"><!--gen:se-words-->12,697<!--/gen--></span> words. It can open any of them mid-job.</dd></div>
+            <div class="f3__brief"><dt>your brief</dt><dd><code class="path">.truecast/<wbr>agents/<wbr>security-engineer/<wbr>instance/<wbr>mandate.md</code> in your repo, once you add it. It reads this first.</dd></div>
+          </dl>
+        </div>
+        <p class="f3__rule"><span class="f3__arrow" aria-hidden="true">↓</span> updates replace the playbook · stop at your brief</p>
+        <figcaption class="cap" id="f3-cap"><span class="cap__n">Fig. 3</span> <a href="https://github.com/wastedcode/truecast/tree/main/personas/security-engineer/core">Open the folder on GitHub&nbsp;→</a></figcaption>
       </figure>
-
-      <div class="part part--brief">
-        <h3>Your brief.</h3>
-        <p>One file in your repo, <code class="path"><span>.truecast/</span><wbr><span>agents/</span><wbr><span>security-engineer/</span><wbr><span>instance/</span><wbr><span>mandate.md</span></code>: what the project is, what matters, where the bar is. It reads it first. Updates never touch it. No brief? It works from what you ask. <a class="arrow-link nowrap" href="#step-4">Start one: step&nbsp;4&nbsp;↓</a></p>
-
-        <figure class="wall" aria-labelledby="wall-cap">
-          <figcaption id="wall-cap" class="fig-label"><span class="fig-label__n">Fig. 4</span> Where an update writes, and where it stops.</figcaption>
-          <div class="wall__row">
-            <p class="wall__in" aria-hidden="true"><span class="wall__cmd">update</span><span class="wall__arrow"></span></p>
-            <div class="place place--author">
-              <p class="place__k">The playbook <span class="place__who">its author’s</span></p>
-              <p class="place__path"><code class="path"><span>~/</span><wbr><span>.truecast/</span><wbr><span>personas/</span><wbr><span>security-engineer/</span></code></p>
-              <p class="place__ver"><span class="ver">1.1.0</span> <span aria-hidden="true">→</span><span class="sr"> then </span> <span class="ver ver--now">1.2.2</span></p>
-            </div>
-            <p class="wall__stop"><span class="wall__label">updates stop here</span></p>
-            <div class="place place--you">
-              <p class="place__k">Your brief <span class="place__who">yours</span></p>
-              <p class="place__path"><code class="path"><span>your-repo/</span><wbr><span>.truecast/</span><wbr><span>agents/</span><wbr><span>security-engineer/</span><wbr><span>instance/</span><wbr><span>mandate.md</span></code></p>
-              <p class="place__ver">never written by an update</p>
-            </div>
+    </div>
+    <div class="what__b">
+      <h3 class="what__h">Each teammate is a native Claude Code subagent.</h3>
+      <figure class="f4" aria-labelledby="f4-cap">
+        <div class="f4__draw" style="--ctx:66578;--rep:2780">
+          <div class="f4__col f4__col--ctx">
+            <div class="f4__well"><span class="f4__bar"></span><span class="f4__ticks" aria-hidden="true"><i style="--t:0"></i><i style="--t:1"></i><i style="--t:2"></i><i style="--t:3"></i><i style="--t:4"></i><i style="--t:5"></i><i style="--t:6"></i><i style="--t:7"></i><i style="--t:8"></i><i style="--t:9"></i></span><span class="f4__rep f4__rep--src"></span></div>
+            <p class="f4__lab"><b>its context</b> <span class="num">66,578</span> tokens · <span class="num">10</span> tool calls</p>
           </div>
-        </figure>
-      </div>
-
-      <div class="part part--context">
-        <h3>Its own context window.</h3>
-        <p>Each teammate is a native Claude Code subagent. It reads and tests in its own context and hands your session back the 2,780-token report. The 66k tokens of digging stay in its own context.</p>
-        <figure class="ctx" aria-labelledby="ctx-cap">
-          <div class="ctx__row">
-            <span class="ctx__k">its context</span>
-            <span class="ctx__bar" style="--t:66578" aria-hidden="true"></span>
-            <span class="ctx__v">66,578 tokens · 10 tool calls</span>
+          <div class="f4__col f4__col--you">
+            <div class="f4__well"><span class="f4__rep f4__rep--dst"></span></div>
+            <p class="f4__lab"><b>your session gets</b> <span class="num">2,780</span> tokens: the report</p>
           </div>
-          <div class="ctx__row ctx__row--you">
-            <span class="ctx__k">your session gets</span>
-            <span class="ctx__bar" style="--t:2780" aria-hidden="true"></span>
-            <span class="ctx__v">2,780 tokens: the report</span>
-          </div>
-          <figcaption id="ctx-cap" class="small">The review in Fig. 1, from its session log. Both bars to one scale.</figcaption>
-        </figure>
-      </div>
+        </div>
+        <figcaption class="cap" id="f4-cap"><span class="cap__n">Fig. 4</span> From an earlier review’s session log, to one scale. <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/README.md#method">How we counted&nbsp;→</a></figcaption>
+      </figure>
     </div>
   </div>
 </section>
 
-<!-- 4 · Install -->
-<section class="sec install" id="install" aria-labelledby="install-h">
+<!-- 4 · Install: two commands, and the moment you consent -->
+<section class="sec sec--install" id="install" aria-labelledby="install-h">
   <div class="wrap">
-    <div class="sec__head">
-      <h2 id="install-h">Two commands to set up. Then call it by name.</h2>
-    </div>
-
-    <div class="install__grid">
-    <div class="install__main">
-    <ol class="steps">
-      <li class="step" id="step-1">
-        <div class="step__do">
-          <p class="step__label"><span class="step__n">1</span> In your terminal</p>
+    <h2 id="install-h">Two commands. A teammate is written only after you approve its plan.</h2>
+    <figure class="f5" aria-labelledby="f5-cap">
+      <ol class="steps" role="list">
+        <li class="step" id="step-1">
+          <p class="step__where">terminal</p>
+          <h3 class="step__h"><span class="step__n">1</span> Once, the installer</h3>
           <div class="cmd">
-            <pre class="cmd__code" id="cmd-step1b"><code><span class="seg seg--a">claude plugin install truecast</span> <span class="cont" aria-hidden="true">\</span><span class="seg seg--split">--marketplace wastedcode/truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-step1b" aria-label="Copy the step 1 command" hidden><span class="copy__label">Copy</span></button>
+            <code class="cmd__code" id="cmd-1">claude plugin install truecast <span class="seg">--marketplace</span> <span class="seg">wastedcode/truecast</span></code>
+            <button class="copy" type="button" data-copy="cmd-1" aria-label="Copy step 1" hidden><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
           </div>
-          <p class="step__note">Needs Claude Code 2.1.292 or later; check with <code class="nowrap">claude --version</code>. That’s the installer. You run it once per machine.</p>
-        </div>
-        <figure class="out out--wrap">
-          <figcaption class="out__label">You’ll see, at the end <span>· verbatim, captured <span class="nowrap">2026-10-16</span></span></figcaption>
-          <pre><code><span class="ok">✔</span> Successfully added marketplace: truecast (declared in user settings)
-Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully installed plugin: truecast@truecast (scope: user)</code></pre>
-        </figure>
-      </li>
-
-      <li class="step" id="step-2">
-        <div class="step__do">
-          <p class="step__label"><span class="step__n">2</span> In Claude Code, in any project</p>
+          <pre class="out" tabindex="0" aria-label="Step 1 output"><span class="cut">…</span>
+✔ Successfully installed plugin: truecast@truecast (scope: user)</pre>
+        </li>
+        <li class="step" id="step-2">
+          <p class="step__where">in Claude Code</p>
+          <h3 class="step__h"><span class="step__n">2</span> Once per teammate</h3>
           <div class="cmd">
-            <pre class="cmd__code" id="cmd-step2"><code><span class="seg">/truecast:install</span> <span class="seg">security-engineer</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-step2" aria-label="Copy the step 2 command" hidden><span class="copy__label">Copy</span></button>
+            <code class="cmd__code" id="cmd-2"><span class="seg">/truecast:install</span> <span class="seg">security-engineer</span></code>
+            <button class="copy" type="button" data-copy="cmd-2" aria-label="Copy step 2" hidden><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
           </div>
-          <p class="step__note">Was Claude Code already open when you ran step 1? Run <code class="nowrap">/reload-plugins</code> first. Then you’ll see its plan before anything is written. Say yes and it’s ready.</p>
-          <p class="step__note">Want a different one? Swap the name, or copy it from <a href="#teammates">the twelve below&nbsp;↓</a></p>
-        </div>
-        <figure class="out">
-          <figcaption class="out__label">The plan the installer prints <span>· verbatim, home shown as ~, its machine-readable last line left off</span><span class="scroll-hint"> · scrolls sideways</span></figcaption>
-          <pre tabindex="0" role="region" aria-label="The plan, verbatim"><code>plan: install security-engineer@1.2.2   (from your local marketplace copy)
-  tools granted to @security-engineer: Read, Grep, Glob, Bash, WebSearch, WebFetch
-  writes:
-    craft    ~/.truecast/personas/security-engineer/1.2.2/core/
-    record   ~/.truecast/personas/security-engineer/meta.json
-    pointer  ~/.truecast/personas/security-engineer/current → 1.2.2
-    agent    ~/.claude/agents/security-engineer.md
-  nothing has been written yet.
-<span class="out__dim">  note: the agents directory does not exist yet — you will need to restart Claude Code once.</span></code></pre>
-          <p class="out__foot">Claude shows you this plan before it asks. The last line appears only if you’ve never had a <code>~/.claude/agents/</code> folder. If it does, restart Claude Code once before step 3.</p>
-        </figure>
-      </li>
-
-      <li class="step" id="step-3">
-        <div class="step__do">
-          <p class="step__label"><span class="step__n">3</span> Call it by name</p>
-          <div class="cmd cmd--prompt">
-            <pre class="cmd__code" id="cmd-step3"><code>@agent-security-engineer review the changes on this branch before I merge</code></pre>
-            <button class="copy" type="button" data-copy="cmd-step3" aria-label="Copy the example prompt" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p class="step__note">An example prompt: any teammate, any request. Typed by hand, a teammate is <code>@agent-</code> plus its name, as here. Or type <code>@</code> and pick it from the list. Either way, that teammate takes the job.</p>
-        </div>
-      </li>
-
-      <li class="step step--last" id="step-4">
-        <div class="step__do">
-          <p class="step__label"><span class="step__n">4</span> Give it your brief <span class="step__opt">optional</span></p>
-          <div class="cmd cmd--block">
-            <pre class="cmd__code cmd__code--wrap" id="cmd-brief"><code><span class="ln">f=.truecast/<wbr>agents/<wbr><span class="nowrap">security-engineer/</span><wbr>instance/<wbr>mandate.md</span><span class="ln">[ -e "$f" ] &amp;&amp; echo "$f exists; left as is" || curl <span class="nowrap">-fsSL</span> <span class="nowrap">--create-dirs</span> -o "$f" \</span><span class="ln ln--c">  https://raw.githubusercontent.com/<wbr>wastedcode/<wbr>truecast/<wbr>main/<wbr>personas/<wbr><span class="nowrap">security-engineer/</span><wbr><span class="nowrap">instance-template/</span><wbr>mandate.md</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-brief" aria-label="Copy the command that starts a brief" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p class="step__note">In your repo, in a terminal (macOS, Linux or WSL). It saves the template: the project and its trust model, your job here, how you work. If you already have a brief there, it leaves it alone. Fill it in; the teammate reads it first. Another teammate? Swap <code>security-engineer</code> for its name in both places.</p>
-        </div>
-      </li>
-    </ol>
-
-    <div class="later" role="group" aria-labelledby="later-h">
-      <h3 class="later__h" id="later-h">Later</h3>
-      <details class="later__fold" open>
-      <summary class="later__sum">Take the improvements, or take it back out</summary>
-      <div class="later__rows">
-      <div class="later__row">
-        <p class="later__k">Take the improvements</p>
-        <div class="later__cmds">
-          <p class="later__where">In your terminal, then restart Claude Code:</p>
+          <p class="step__say">Claude shows you the installer’s plan, then asks “Install it?”</p>
+          <pre class="out plan" tabindex="0" aria-label="The install plan"><span class="pl" style="--l:0">plan: install <span class="nw">security-engineer</span>@1.2.2   (from your local marketplace copy)</span>
+<span class="pl hl" style="--l:1;--h:0">  tools granted to @<span class="nw">security-engineer</span>: Read, Grep, Glob, Bash, WebSearch, WebFetch</span>
+<span class="pl" style="--l:2">  writes:</span>
+<span class="pl hl" style="--l:3;--h:1">    craft    ~/<wbr>.truecast/<wbr>personas/<wbr><span class="nw">security-engineer</span>/<wbr>1.2.2/<wbr>core/</span>
+<span class="pl" style="--l:4">    <span class="cut">…</span></span>
+<span class="pl hl" style="--l:5;--h:2">    agent    ~/<wbr>.claude/<wbr>agents/<wbr><span class="nw">security-engineer</span>.md</span>
+<span class="pl hl" style="--l:6;--h:3">  nothing has been written yet.</span></pre>
+          <p class="step__note">Claude Code already open? <code>/reload-plugins</code> first.</p>
+        </li>
+        <li class="step step--use" id="step-3">
+          <p class="step__where">in Claude Code</p>
+          <h3 class="step__h">Then use it</h3>
           <div class="cmd">
-            <pre class="cmd__code" id="cmd-up1"><code><span class="seg">claude plugin marketplace update</span> <span class="seg">truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-up1" aria-label="Copy the marketplace update command" hidden><span class="copy__label">Copy</span></button>
+            <code class="cmd__code" id="cmd-3"><span class="seg">@agent-security-engineer</span> review the changes on this branch before I merge</code>
+            <button class="copy" type="button" data-copy="cmd-3" aria-label="Copy the example prompt" hidden><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
           </div>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-up1b"><code><span class="seg">claude plugin update</span> <span class="seg">truecast@truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-up1b" aria-label="Copy the installer update command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p class="later__note">The first fetches new versions of every teammate. The second updates the installer itself.</p>
-          <p class="later__where">Then, in Claude Code:</p>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-up2"><code><span class="seg">/truecast:update</span> <span class="seg">security-engineer</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-up2" aria-label="Copy the teammate update command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p class="later__note">It shows the new version’s plan first. Your brief is never touched.</p>
-        </div>
+          <p class="step__note">Or type <kbd>@</kbd> and pick it. Missing? Restart Claude Code once.</p>
+        </li>
+      </ol>
+      <div class="f5__side">
+        <p id="install-session">Already in a session? <code class="brk">/plugin install truecast <span>--marketplace</span> <span>wastedcode/truecast</span></code> (2.1.275 or later)</p>
+        <p>Your brief: <a href="https://github.com/wastedcode/truecast/tree/main/personas/security-engineer/instance-template">start from the template&nbsp;→</a></p>
+        <p>No truecast server: it installs from the copy Claude Code cloned.</p>
+        <p>Update, remove, Windows: <a href="https://github.com/wastedcode/truecast/blob/main/docs/install.md">the docs&nbsp;→</a></p>
+        <figcaption class="cap" id="f5-cap"><span class="cap__n">Fig. 5</span> Output verbatim, 2026-10-17; home shown as&nbsp;~; … marks a cut.</figcaption>
       </div>
-      <div class="later__row">
-        <p class="later__k">Take it back out</p>
-        <div class="later__cmds">
-          <p class="later__where">In Claude Code:</p>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-rm"><code><span class="seg">/truecast:remove</span> <span class="seg">security-engineer</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-rm" aria-label="Copy the remove command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p class="later__note">Same deal: it lists what it will delete and waits for your yes. <code class="nowrap">/truecast:list</code> shows what you have.</p>
-          <p class="later__where">To remove the installer too, in your terminal:</p>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-rm2"><code><span class="seg">claude plugin uninstall</span> <span class="seg">truecast@truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-rm2" aria-label="Copy the installer uninstall command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p class="later__where">To forget the catalog too, which deletes Claude Code’s copy of it:</p>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-rm3"><code><span class="seg">claude plugin marketplace remove</span> <span class="seg">truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-rm3" aria-label="Copy the marketplace remove command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-        </div>
-      </div>
-      </div>
-      </details>
-    </div>
-    </div>
-
-    <div class="alt" id="install-session" role="group" aria-labelledby="alt-h">
-      <h3 class="alt__h" id="alt-h">Already in a Claude Code session?</h3>
-      <p class="alt__lead">On 2.1.275 or later, this replaces step 1:</p>
-      <div class="cmd">
-        <pre class="cmd__code" id="cmd-alt0"><code><span class="seg">/plugin install truecast</span> <span class="seg">--marketplace</span> <span class="seg">wastedcode/truecast</span></code></pre>
-        <button class="copy" type="button" data-copy="cmd-alt0" aria-label="Copy the in-session install command" hidden><span class="copy__label">Copy</span></button>
-      </div>
-      <p class="alt__note">It asks before adding the marketplace, then opens the plugin’s details. Choose <strong>Install for you</strong>, then run step 2. If <code class="nowrap">/truecast:install</code> isn’t there yet, run <code class="nowrap">/reload-plugins</code>.</p>
-      <details class="alt__old">
-        <summary>On a version before 2.1.275?</summary>
-        <p class="alt__lead">Run these one at a time:</p>
-        <div class="alt__cmds">
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-alt1"><code><span class="seg">/plugin marketplace add</span> <span class="seg">wastedcode/truecast</span></code></pre>
-            <button class="copy" type="button" data-copy="cmd-alt1" aria-label="Copy the marketplace add command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <div class="cmd">
-            <pre class="cmd__code" id="cmd-alt2"><code>/plugin install truecast@truecast</code></pre>
-            <button class="copy" type="button" data-copy="cmd-alt2" aria-label="Copy the plugin install command" hidden><span class="copy__label">Copy</span></button>
-          </div>
-        </div>
-        <p class="alt__note">The second opens the same panel. Choose <strong>Install for you</strong>, then run step 2.</p>
-      </details>
-      <details class="alt__old alt__win">
-        <summary>On Windows?</summary>
-        <p class="alt__note">Run Claude Code inside WSL and follow the steps here. Native Windows isn’t tested yet.</p>
-      </details>
-    </div>
-    </div>
+    </figure>
   </div>
 </section>
 
 <!-- 5 · The twelve -->
-<section class="twelve field" id="teammates" aria-labelledby="twelve-h">
+<section class="sec sec--team" id="teammates" aria-labelledby="team-h">
   <div class="wrap">
-    <div class="field__head">
-      <h2 id="twelve-h">Twelve teammates. Pick the call you’d rather not make alone.</h2>
-      <p>First time? Run <a href="#step-1">step 1</a> above, once.</p>
-    </div>
-    <figure class="cast" aria-labelledby="cast-cap">
-      <figcaption id="cast-cap" class="fig-label cast__cap"><span><span class="fig-label__n">Fig. 5</span> Every playbook drawn to one scale, one band per file. Size shows what’s inside; it isn’t a score, and in Fig. 2 the 76-word agent caught as much. The two other agents from Fig. 2:</span> <!--gen:roster-ref--><span class="pbt pbt--roster" style="--max:17284;--maxf:24"><span class="pb pb--hw" style="--files:1;--words:76" aria-hidden="true"><i style="--w:76;--i:0"></i></span><span class="pbt__lab">← hand-written, 76 words</span></span><span class="pbt pbt--roster" style="--max:17284;--maxf:24"><span class="pb pb--hw" style="--files:1;--words:1007" aria-hidden="true"><i style="--w:1007;--i:0"></i></span><span class="pbt__lab">← free collection, 1,007 words</span></span><!--/gen--></figcaption>
-      <!--gen:roster--><ul class="roster" role="list" style="--max:17284;--maxf:24"><li class="roster__head" aria-hidden="true"><span></span><span>Teammate · its playbook, to scale</span><span>The call it helps with</span><span>Can touch</span><span></span></li><li class="roster__row roster__row--first" id="t-software-architect">
-      <span class="roster__grp">Build</span>
-      <div class="roster__id">
-        <h3 class="roster__name">software-architect</h3>
-        <div class="roster__cmd"><code id="i-software-architect"><span class="seg">/truecast:install</span> <span class="seg">software-architect</span></code><button class="copy copy--icon" type="button" data-copy="i-software-architect" aria-label="Copy /truecast:install software-architect" hidden><span class="copy__label">Copy</span></button></div>
+    <h2 id="team-h"><!--gen:team-n-->Twelve<!--/gen--> teammates. Pick the call you’d rather not make alone.</h2>
+    <figure class="f6" aria-labelledby="f6-cap">
+      <!--gen:roster--><ul class="ro" role="list" style="--max:17284;--maxf:24"><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/software-architect/core"><code>software-architect</code></a><span class="ro__q">How should this be built so it lasts?</span><span class="pbt pbt--roster" title="22 files · 13,025 words"><span class="pb" style="--files:22;--words:13025" aria-hidden="true"><i style="--w:1755;--i:0"></i><i style="--w:447;--i:1"></i><i style="--w:1008;--i:2"></i><i style="--w:343;--i:3"></i><i style="--w:548;--i:4"></i><i style="--w:348;--i:5"></i><i style="--w:476;--i:6"></i><i style="--w:496;--i:7"></i><i style="--w:363;--i:8"></i><i style="--w:530;--i:9"></i><i style="--w:578;--i:10"></i><i style="--w:592;--i:11"></i><i style="--w:393;--i:12"></i><i style="--w:422;--i:13"></i><i style="--w:470;--i:14"></i><i style="--w:370;--i:15"></i><i style="--w:356;--i:16"></i><i style="--w:353;--i:17"></i><i style="--w:491;--i:18"></i><i style="--w:595;--i:19"></i><i style="--w:1260;--i:20"></i><i style="--w:831;--i:21"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install software-architect" aria-label="Copy /truecast:install software-architect" hidden></button></li><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/software-engineer/core"><code>software-engineer</code></a><span class="ro__q">Can I trust this code?</span><span class="pbt pbt--roster" title="16 files · 6,697 words"><span class="pb" style="--files:16;--words:6697" aria-hidden="true"><i style="--w:926;--i:0"></i><i style="--w:997;--i:1"></i><i style="--w:294;--i:2"></i><i style="--w:325;--i:3"></i><i style="--w:497;--i:4"></i><i style="--w:430;--i:5"></i><i style="--w:251;--i:6"></i><i style="--w:318;--i:7"></i><i style="--w:251;--i:8"></i><i style="--w:275;--i:9"></i><i style="--w:259;--i:10"></i><i style="--w:307;--i:11"></i><i style="--w:436;--i:12"></i><i style="--w:304;--i:13"></i><i style="--w:390;--i:14"></i><i style="--w:437;--i:15"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install software-engineer" aria-label="Copy /truecast:install software-engineer" hidden></button></li><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/qa/core"><code>qa</code></a><span class="ro__q">What breaks before a user finds it?</span><span class="pbt pbt--roster" title="20 files · 13,107 words"><span class="pb" style="--files:20;--words:13107" aria-hidden="true"><i style="--w:1654;--i:0"></i><i style="--w:401;--i:1"></i><i style="--w:431;--i:2"></i><i style="--w:468;--i:3"></i><i style="--w:906;--i:4"></i><i style="--w:445;--i:5"></i><i style="--w:433;--i:6"></i><i style="--w:465;--i:7"></i><i style="--w:721;--i:8"></i><i style="--w:647;--i:9"></i><i style="--w:421;--i:10"></i><i style="--w:430;--i:11"></i><i style="--w:428;--i:12"></i><i style="--w:656;--i:13"></i><i style="--w:369;--i:14"></i><i style="--w:876;--i:15"></i><i style="--w:445;--i:16"></i><i style="--w:450;--i:17"></i><i style="--w:721;--i:18"></i><i style="--w:1740;--i:19"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install qa" aria-label="Copy /truecast:install qa" hidden></button></li><li class="ro__row ro__row--lane"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/security-engineer/core"><code>security-engineer</code></a><span class="ro__q">Can this get someone owned?</span><span class="pbt pbt--roster" title="21 files · 12,697 words"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0"></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3"></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17"></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install security-engineer" aria-label="Copy /truecast:install security-engineer" hidden></button></li><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/infrastructure/core"><code>infrastructure</code></a><span class="ro__q">Will this hold up in production?</span><span class="pbt pbt--roster" title="24 files · 14,121 words"><span class="pb" style="--files:24;--words:14121" aria-hidden="true"><i style="--w:1796;--i:0"></i><i style="--w:389;--i:1"></i><i style="--w:1091;--i:2"></i><i style="--w:416;--i:3"></i><i style="--w:478;--i:4"></i><i style="--w:478;--i:5"></i><i style="--w:543;--i:6"></i><i style="--w:617;--i:7"></i><i style="--w:557;--i:8"></i><i style="--w:387;--i:9"></i><i style="--w:652;--i:10"></i><i style="--w:454;--i:11"></i><i style="--w:433;--i:12"></i><i style="--w:622;--i:13"></i><i style="--w:432;--i:14"></i><i style="--w:397;--i:15"></i><i style="--w:408;--i:16"></i><i style="--w:446;--i:17"></i><i style="--w:418;--i:18"></i><i style="--w:415;--i:19"></i><i style="--w:560;--i:20"></i><i style="--w:433;--i:21"></i><i style="--w:960;--i:22"></i><i style="--w:739;--i:23"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install infrastructure" aria-label="Copy /truecast:install infrastructure" hidden></button></li><li class="ro__row ro__row--lane"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/product-manager/core"><code>product-manager</code></a><span class="ro__q">Are we building the right thing?</span><span class="pbt pbt--roster" title="21 files · 8,570 words"><span class="pb" style="--files:21;--words:8570" aria-hidden="true"><i style="--w:911;--i:0"></i><i style="--w:330;--i:1"></i><i style="--w:1004;--i:2"></i><i style="--w:372;--i:3"></i><i style="--w:186;--i:4"></i><i style="--w:267;--i:5"></i><i style="--w:351;--i:6"></i><i style="--w:331;--i:7"></i><i style="--w:148;--i:8"></i><i style="--w:153;--i:9"></i><i style="--w:159;--i:10"></i><i style="--w:177;--i:11"></i><i style="--w:545;--i:12"></i><i style="--w:363;--i:13"></i><i style="--w:630;--i:14"></i><i style="--w:366;--i:15"></i><i style="--w:443;--i:16"></i><i style="--w:483;--i:17"></i><i style="--w:568;--i:18"></i><i style="--w:253;--i:19"></i><i style="--w:530;--i:20"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install product-manager" aria-label="Copy /truecast:install product-manager" hidden></button></li><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/product-researcher/core"><code>product-researcher</code></a><span class="ro__q">What are users telling us?</span><span class="pbt pbt--roster" title="21 files · 8,035 words"><span class="pb" style="--files:21;--words:8035" aria-hidden="true"><i style="--w:1182;--i:0"></i><i style="--w:300;--i:1"></i><i style="--w:994;--i:2"></i><i style="--w:287;--i:3"></i><i style="--w:406;--i:4"></i><i style="--w:293;--i:5"></i><i style="--w:267;--i:6"></i><i style="--w:336;--i:7"></i><i style="--w:234;--i:8"></i><i style="--w:267;--i:9"></i><i style="--w:307;--i:10"></i><i style="--w:224;--i:11"></i><i style="--w:263;--i:12"></i><i style="--w:292;--i:13"></i><i style="--w:250;--i:14"></i><i style="--w:249;--i:15"></i><i style="--w:365;--i:16"></i><i style="--w:435;--i:17"></i><i style="--w:386;--i:18"></i><i style="--w:359;--i:19"></i><i style="--w:339;--i:20"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install product-researcher" aria-label="Copy /truecast:install product-researcher" hidden></button></li><li class="ro__row ro__row--lane"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/ui-ux-designer/core"><code>ui-ux-designer</code></a><span class="ro__q">Can people use this?</span><span class="pbt pbt--roster" title="24 files · 17,284 words"><span class="pb" style="--files:24;--words:17284" aria-hidden="true"><i style="--w:1715;--i:0"></i><i style="--w:736;--i:1"></i><i style="--w:1870;--i:2"></i><i style="--w:469;--i:3"></i><i style="--w:615;--i:4"></i><i style="--w:535;--i:5"></i><i style="--w:363;--i:6"></i><i style="--w:417;--i:7"></i><i style="--w:620;--i:8"></i><i style="--w:487;--i:9"></i><i style="--w:645;--i:10"></i><i style="--w:462;--i:11"></i><i style="--w:836;--i:12"></i><i style="--w:726;--i:13"></i><i style="--w:447;--i:14"></i><i style="--w:499;--i:15"></i><i style="--w:403;--i:16"></i><i style="--w:635;--i:17"></i><i style="--w:439;--i:18"></i><i style="--w:651;--i:19"></i><i style="--w:458;--i:20"></i><i style="--w:757;--i:21"></i><i style="--w:1352;--i:22"></i><i style="--w:1147;--i:23"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install ui-ux-designer" aria-label="Copy /truecast:install ui-ux-designer" hidden></button></li><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/brand-designer/core"><code>brand-designer</code></a><span class="ro__q">Would anyone remember us?</span><span class="pbt pbt--roster" title="11 files · 5,116 words"><span class="pb" style="--files:11;--words:5116" aria-hidden="true"><i style="--w:884;--i:0"></i><i style="--w:325;--i:1"></i><i style="--w:316;--i:2"></i><i style="--w:1367;--i:3"></i><i style="--w:399;--i:4"></i><i style="--w:237;--i:5"></i><i style="--w:330;--i:6"></i><i style="--w:343;--i:7"></i><i style="--w:318;--i:8"></i><i style="--w:233;--i:9"></i><i style="--w:364;--i:10"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install brand-designer" aria-label="Copy /truecast:install brand-designer" hidden></button></li><li class="ro__row ro__row--lane"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/product-marketer/core"><code>product-marketer</code></a><span class="ro__q">Why would anyone care?</span><span class="pbt pbt--roster" title="23 files · 17,026 words"><span class="pb" style="--files:23;--words:17026" aria-hidden="true"><i style="--w:1859;--i:0"></i><i style="--w:1920;--i:1"></i><i style="--w:937;--i:2"></i><i style="--w:388;--i:3"></i><i style="--w:388;--i:4"></i><i style="--w:491;--i:5"></i><i style="--w:407;--i:6"></i><i style="--w:412;--i:7"></i><i style="--w:764;--i:8"></i><i style="--w:946;--i:9"></i><i style="--w:406;--i:10"></i><i style="--w:387;--i:11"></i><i style="--w:433;--i:12"></i><i style="--w:1889;--i:13"></i><i style="--w:387;--i:14"></i><i style="--w:424;--i:15"></i><i style="--w:417;--i:16"></i><i style="--w:849;--i:17"></i><i style="--w:469;--i:18"></i><i style="--w:364;--i:19"></i><i style="--w:947;--i:20"></i><i style="--w:886;--i:21"></i><i style="--w:656;--i:22"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install product-marketer" aria-label="Copy /truecast:install product-marketer" hidden></button></li><li class="ro__row"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/sales/core"><code>sales</code></a><span class="ro__q">Who would pay for this?</span><span class="pbt pbt--roster" title="20 files · 12,361 words"><span class="pb" style="--files:20;--words:12361" aria-hidden="true"><i style="--w:1298;--i:0"></i><i style="--w:464;--i:1"></i><i style="--w:902;--i:2"></i><i style="--w:462;--i:3"></i><i style="--w:452;--i:4"></i><i style="--w:397;--i:5"></i><i style="--w:425;--i:6"></i><i style="--w:437;--i:7"></i><i style="--w:419;--i:8"></i><i style="--w:416;--i:9"></i><i style="--w:437;--i:10"></i><i style="--w:1121;--i:11"></i><i style="--w:546;--i:12"></i><i style="--w:467;--i:13"></i><i style="--w:469;--i:14"></i><i style="--w:382;--i:15"></i><i style="--w:718;--i:16"></i><i style="--w:858;--i:17"></i><i style="--w:679;--i:18"></i><i style="--w:1012;--i:19"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install sales" aria-label="Copy /truecast:install sales" hidden></button></li><li class="ro__row ro__row--lane"><a class="ro__name" href="https://github.com/wastedcode/truecast/tree/main/personas/vc-seed/core"><code>vc-seed</code></a><span class="ro__q">Would an investor write the check?</span><span class="pbt pbt--roster" title="20 files · 8,470 words"><span class="pb" style="--files:20;--words:8470" aria-hidden="true"><i style="--w:949;--i:0"></i><i style="--w:916;--i:1"></i><i style="--w:362;--i:2"></i><i style="--w:282;--i:3"></i><i style="--w:326;--i:4"></i><i style="--w:475;--i:5"></i><i style="--w:275;--i:6"></i><i style="--w:391;--i:7"></i><i style="--w:341;--i:8"></i><i style="--w:301;--i:9"></i><i style="--w:348;--i:10"></i><i style="--w:348;--i:11"></i><i style="--w:352;--i:12"></i><i style="--w:286;--i:13"></i><i style="--w:330;--i:14"></i><i style="--w:295;--i:15"></i><i style="--w:293;--i:16"></i><i style="--w:409;--i:17"></i><i style="--w:543;--i:18"></i><i style="--w:648;--i:19"></i></span></span><button class="copy copy--icon" type="button" data-copy-text="/truecast:install vc-seed" aria-label="Copy /truecast:install vc-seed" hidden></button></li></ul><!--/gen-->
+      <div class="f6__foot">
+        <p class="f6__cmd"><code>/truecast:install &lt;name&gt;</code></p>
+        <figcaption class="cap" id="f6-cap"><span class="cap__n">Fig. 6</span> One band per file, one scale. Tested so far: security-engineer, product-marketer.</figcaption>
       </div>
-      <div class="roster__q"><p>“How should this be built so it lasts?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a design doc with a real diagram, and an ADR for each hard-to-change call</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, writes files, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:22;--words:13025" aria-hidden="true"><i style="--w:1755;--i:0"></i><i style="--w:447;--i:1"></i><i style="--w:1008;--i:2"></i><i style="--w:343;--i:3"></i><i style="--w:548;--i:4"></i><i style="--w:348;--i:5"></i><i style="--w:476;--i:6"></i><i style="--w:496;--i:7"></i><i style="--w:363;--i:8"></i><i style="--w:530;--i:9"></i><i style="--w:578;--i:10"></i><i style="--w:592;--i:11"></i><i style="--w:393;--i:12"></i><i style="--w:422;--i:13"></i><i style="--w:470;--i:14"></i><i style="--w:370;--i:15"></i><i style="--w:356;--i:16"></i><i style="--w:353;--i:17"></i><i style="--w:491;--i:18"></i><i style="--w:595;--i:19"></i><i style="--w:1260;--i:20"></i><i style="--w:831;--i:21"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">18</span> skills</span> <span class="nowrap">· <span class="num">22</span> files</span> <span class="nowrap">· <span class="num">13,025</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/software-architect/core">See inside<span class="sr"> software-architect</span>&nbsp;→</a>
-    </li>
-<li class="roster__row" id="t-software-engineer">
-      <span class="roster__grp" aria-hidden="true"></span>
-      <div class="roster__id">
-        <h3 class="roster__name">software-engineer</h3>
-        <div class="roster__cmd"><code id="i-software-engineer"><span class="seg">/truecast:install</span> <span class="seg">software-engineer</span></code><button class="copy copy--icon" type="button" data-copy="i-software-engineer" aria-label="Copy /truecast:install software-engineer" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Can I trust this code?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> code proven by trying to break it, shipped in small safe steps</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:16;--words:6697" aria-hidden="true"><i style="--w:926;--i:0"></i><i style="--w:997;--i:1"></i><i style="--w:294;--i:2"></i><i style="--w:325;--i:3"></i><i style="--w:497;--i:4"></i><i style="--w:430;--i:5"></i><i style="--w:251;--i:6"></i><i style="--w:318;--i:7"></i><i style="--w:251;--i:8"></i><i style="--w:275;--i:9"></i><i style="--w:259;--i:10"></i><i style="--w:307;--i:11"></i><i style="--w:436;--i:12"></i><i style="--w:304;--i:13"></i><i style="--w:390;--i:14"></i><i style="--w:437;--i:15"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">13</span> skills</span> <span class="nowrap">· <span class="num">16</span> files</span> <span class="nowrap">· <span class="num">6,697</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/software-engineer/core">See inside<span class="sr"> software-engineer</span>&nbsp;→</a>
-    </li>
-<li class="roster__row" id="t-qa">
-      <span class="roster__grp" aria-hidden="true"></span>
-      <div class="roster__id">
-        <h3 class="roster__name">qa</h3>
-        <div class="roster__cmd"><code id="i-qa"><span class="seg">/truecast:install</span> <span class="seg">qa</span></code><button class="copy copy--icon" type="button" data-copy="i-qa" aria-label="Copy /truecast:install qa" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“What breaks before a user finds it?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a ship or don’t-ship verdict, with the blocker list</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, runs commands, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:20;--words:13107" aria-hidden="true"><i style="--w:1654;--i:0"></i><i style="--w:401;--i:1"></i><i style="--w:431;--i:2"></i><i style="--w:468;--i:3"></i><i style="--w:906;--i:4"></i><i style="--w:445;--i:5"></i><i style="--w:433;--i:6"></i><i style="--w:465;--i:7"></i><i style="--w:721;--i:8"></i><i style="--w:647;--i:9"></i><i style="--w:421;--i:10"></i><i style="--w:430;--i:11"></i><i style="--w:428;--i:12"></i><i style="--w:656;--i:13"></i><i style="--w:369;--i:14"></i><i style="--w:876;--i:15"></i><i style="--w:445;--i:16"></i><i style="--w:450;--i:17"></i><i style="--w:721;--i:18"></i><i style="--w:1740;--i:19"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">17</span> skills</span> <span class="nowrap">· <span class="num">20</span> files</span> <span class="nowrap">· <span class="num">13,107</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/qa/core">See inside<span class="sr"> qa</span>&nbsp;→</a>
-    </li>
-<li class="roster__row roster__row--first" id="t-security-engineer">
-      <span class="roster__grp">Ship</span>
-      <div class="roster__id">
-        <h3 class="roster__name">security-engineer</h3>
-        <div class="roster__cmd"><code id="i-security-engineer"><span class="seg">/truecast:install</span> <span class="seg">security-engineer</span></code><button class="copy copy--icon" type="button" data-copy="i-security-engineer" aria-label="Copy /truecast:install security-engineer" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Can this get someone owned?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> findings at file:line, each graded, and a GO or NO-GO</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, runs commands, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:21;--words:12697" aria-hidden="true"><i style="--w:1463;--i:0"></i><i style="--w:969;--i:1"></i><i style="--w:365;--i:2"></i><i style="--w:415;--i:3"></i><i style="--w:587;--i:4"></i><i style="--w:818;--i:5"></i><i style="--w:449;--i:6"></i><i style="--w:402;--i:7"></i><i style="--w:450;--i:8"></i><i style="--w:439;--i:9"></i><i style="--w:647;--i:10"></i><i style="--w:572;--i:11"></i><i style="--w:403;--i:12"></i><i style="--w:494;--i:13"></i><i style="--w:422;--i:14"></i><i style="--w:416;--i:15"></i><i style="--w:424;--i:16"></i><i style="--w:411;--i:17"></i><i style="--w:734;--i:18"></i><i style="--w:1145;--i:19"></i><i style="--w:672;--i:20"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">17</span> skills</span> <span class="nowrap">· <span class="num">21</span> files</span> <span class="nowrap">· <span class="num">12,697</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/security-engineer/core">See inside<span class="sr"> security-engineer</span>&nbsp;→</a>
-    </li>
-<li class="roster__row" id="t-infrastructure">
-      <span class="roster__grp" aria-hidden="true"></span>
-      <div class="roster__id">
-        <h3 class="roster__name">infrastructure</h3>
-        <div class="roster__cmd"><code id="i-infrastructure"><span class="seg">/truecast:install</span> <span class="seg">infrastructure</span></code><button class="copy copy--icon" type="button" data-copy="i-infrastructure" aria-label="Copy /truecast:install infrastructure" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Will this hold up in production?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> commands that run first time, with how to undo them</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:24;--words:14121" aria-hidden="true"><i style="--w:1796;--i:0"></i><i style="--w:389;--i:1"></i><i style="--w:1091;--i:2"></i><i style="--w:416;--i:3"></i><i style="--w:478;--i:4"></i><i style="--w:478;--i:5"></i><i style="--w:543;--i:6"></i><i style="--w:617;--i:7"></i><i style="--w:557;--i:8"></i><i style="--w:387;--i:9"></i><i style="--w:652;--i:10"></i><i style="--w:454;--i:11"></i><i style="--w:433;--i:12"></i><i style="--w:622;--i:13"></i><i style="--w:432;--i:14"></i><i style="--w:397;--i:15"></i><i style="--w:408;--i:16"></i><i style="--w:446;--i:17"></i><i style="--w:418;--i:18"></i><i style="--w:415;--i:19"></i><i style="--w:560;--i:20"></i><i style="--w:433;--i:21"></i><i style="--w:960;--i:22"></i><i style="--w:739;--i:23"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">21</span> skills</span> <span class="nowrap">· <span class="num">24</span> files</span> <span class="nowrap">· <span class="num">14,121</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/infrastructure/core">See inside<span class="sr"> infrastructure</span>&nbsp;→</a>
-    </li>
-<li class="roster__row roster__row--first" id="t-product-manager">
-      <span class="roster__grp">Decide</span>
-      <div class="roster__id">
-        <h3 class="roster__name">product-manager</h3>
-        <div class="roster__cmd"><code id="i-product-manager"><span class="seg">/truecast:install</span> <span class="seg">product-manager</span></code><button class="copy copy--icon" type="button" data-copy="i-product-manager" aria-label="Copy /truecast:install product-manager" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Are we building the right thing?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a validated spec, its success bar, and an acceptance verdict</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:21;--words:8570" aria-hidden="true"><i style="--w:911;--i:0"></i><i style="--w:330;--i:1"></i><i style="--w:1004;--i:2"></i><i style="--w:372;--i:3"></i><i style="--w:186;--i:4"></i><i style="--w:267;--i:5"></i><i style="--w:351;--i:6"></i><i style="--w:331;--i:7"></i><i style="--w:148;--i:8"></i><i style="--w:153;--i:9"></i><i style="--w:159;--i:10"></i><i style="--w:177;--i:11"></i><i style="--w:545;--i:12"></i><i style="--w:363;--i:13"></i><i style="--w:630;--i:14"></i><i style="--w:366;--i:15"></i><i style="--w:443;--i:16"></i><i style="--w:483;--i:17"></i><i style="--w:568;--i:18"></i><i style="--w:253;--i:19"></i><i style="--w:530;--i:20"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">17</span> skills</span> <span class="nowrap">· <span class="num">21</span> files</span> <span class="nowrap">· <span class="num">8,570</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/product-manager/core">See inside<span class="sr"> product-manager</span>&nbsp;→</a>
-    </li>
-<li class="roster__row" id="t-product-researcher">
-      <span class="roster__grp" aria-hidden="true"></span>
-      <div class="roster__id">
-        <h3 class="roster__name">product-researcher</h3>
-        <div class="roster__cmd"><code id="i-product-researcher"><span class="seg">/truecast:install</span> <span class="seg">product-researcher</span></code><button class="copy copy--icon" type="button" data-copy="i-product-researcher" aria-label="Copy /truecast:install product-researcher" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“What are users actually telling us?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> findings ranked by confidence, each with its receipts</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:21;--words:8035" aria-hidden="true"><i style="--w:1182;--i:0"></i><i style="--w:300;--i:1"></i><i style="--w:994;--i:2"></i><i style="--w:287;--i:3"></i><i style="--w:406;--i:4"></i><i style="--w:293;--i:5"></i><i style="--w:267;--i:6"></i><i style="--w:336;--i:7"></i><i style="--w:234;--i:8"></i><i style="--w:267;--i:9"></i><i style="--w:307;--i:10"></i><i style="--w:224;--i:11"></i><i style="--w:263;--i:12"></i><i style="--w:292;--i:13"></i><i style="--w:250;--i:14"></i><i style="--w:249;--i:15"></i><i style="--w:365;--i:16"></i><i style="--w:435;--i:17"></i><i style="--w:386;--i:18"></i><i style="--w:359;--i:19"></i><i style="--w:339;--i:20"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">16</span> skills</span> <span class="nowrap">· <span class="num">21</span> files</span> <span class="nowrap">· <span class="num">8,035</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/product-researcher/core">See inside<span class="sr"> product-researcher</span>&nbsp;→</a>
-    </li>
-<li class="roster__row roster__row--first" id="t-ui-ux-designer">
-      <span class="roster__grp">Design</span>
-      <div class="roster__id">
-        <h3 class="roster__name">ui-ux-designer</h3>
-        <div class="roster__cmd"><code id="i-ui-ux-designer"><span class="seg">/truecast:install</span> <span class="seg">ui-ux-designer</span></code><button class="copy copy--icon" type="button" data-copy="i-ui-ux-designer" aria-label="Copy /truecast:install ui-ux-designer" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Can people actually use this?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> user flows and a design it has rendered and checked at every size</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:24;--words:17284" aria-hidden="true"><i style="--w:1715;--i:0"></i><i style="--w:736;--i:1"></i><i style="--w:1870;--i:2"></i><i style="--w:469;--i:3"></i><i style="--w:615;--i:4"></i><i style="--w:535;--i:5"></i><i style="--w:363;--i:6"></i><i style="--w:417;--i:7"></i><i style="--w:620;--i:8"></i><i style="--w:487;--i:9"></i><i style="--w:645;--i:10"></i><i style="--w:462;--i:11"></i><i style="--w:836;--i:12"></i><i style="--w:726;--i:13"></i><i style="--w:447;--i:14"></i><i style="--w:499;--i:15"></i><i style="--w:403;--i:16"></i><i style="--w:635;--i:17"></i><i style="--w:439;--i:18"></i><i style="--w:651;--i:19"></i><i style="--w:458;--i:20"></i><i style="--w:757;--i:21"></i><i style="--w:1352;--i:22"></i><i style="--w:1147;--i:23"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">21</span> skills</span> <span class="nowrap">· <span class="num">24</span> files</span> <span class="nowrap">· <span class="num">17,284</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/ui-ux-designer/core">See inside<span class="sr"> ui-ux-designer</span>&nbsp;→</a>
-    </li>
-<li class="roster__row" id="t-brand-designer">
-      <span class="roster__grp" aria-hidden="true"></span>
-      <div class="roster__id">
-        <h3 class="roster__name">brand-designer</h3>
-        <div class="roster__cmd"><code id="i-brand-designer"><span class="seg">/truecast:install</span> <span class="seg">brand-designer</span></code><button class="copy copy--icon" type="button" data-copy="i-brand-designer" aria-label="Copy /truecast:install brand-designer" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Would anyone remember us?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> one brand idea, a mark tested at 16px, and the identity as tokens</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, edits files, runs commands, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:11;--words:5116" aria-hidden="true"><i style="--w:884;--i:0"></i><i style="--w:325;--i:1"></i><i style="--w:316;--i:2"></i><i style="--w:1367;--i:3"></i><i style="--w:399;--i:4"></i><i style="--w:237;--i:5"></i><i style="--w:330;--i:6"></i><i style="--w:343;--i:7"></i><i style="--w:318;--i:8"></i><i style="--w:233;--i:9"></i><i style="--w:364;--i:10"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">9</span> skills</span> <span class="nowrap">· <span class="num">11</span> files</span> <span class="nowrap">· <span class="num">5,116</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/brand-designer/core">See inside<span class="sr"> brand-designer</span>&nbsp;→</a>
-    </li>
-<li class="roster__row roster__row--first" id="t-product-marketer">
-      <span class="roster__grp">Market</span>
-      <div class="roster__id">
-        <h3 class="roster__name">product-marketer</h3>
-        <div class="roster__cmd"><code id="i-product-marketer"><span class="seg">/truecast:install</span> <span class="seg">product-marketer</span></code><button class="copy copy--icon" type="button" data-copy="i-product-marketer" aria-label="Copy /truecast:install product-marketer" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Why would anyone care?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> the positioning, the copy, and a will-it-land verdict</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:23;--words:16902" aria-hidden="true"><i style="--w:1752;--i:0"></i><i style="--w:1903;--i:1"></i><i style="--w:937;--i:2"></i><i style="--w:388;--i:3"></i><i style="--w:388;--i:4"></i><i style="--w:491;--i:5"></i><i style="--w:407;--i:6"></i><i style="--w:412;--i:7"></i><i style="--w:764;--i:8"></i><i style="--w:946;--i:9"></i><i style="--w:406;--i:10"></i><i style="--w:387;--i:11"></i><i style="--w:433;--i:12"></i><i style="--w:1889;--i:13"></i><i style="--w:387;--i:14"></i><i style="--w:424;--i:15"></i><i style="--w:417;--i:16"></i><i style="--w:849;--i:17"></i><i style="--w:469;--i:18"></i><i style="--w:364;--i:19"></i><i style="--w:947;--i:20"></i><i style="--w:886;--i:21"></i><i style="--w:656;--i:22"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">18</span> skills</span> <span class="nowrap">· <span class="num">23</span> files</span> <span class="nowrap">· <span class="num">16,902</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/product-marketer/core">See inside<span class="sr"> product-marketer</span>&nbsp;→</a>
-    </li>
-<li class="roster__row" id="t-sales">
-      <span class="roster__grp" aria-hidden="true"></span>
-      <div class="roster__id">
-        <h3 class="roster__name">sales</h3>
-        <div class="roster__cmd"><code id="i-sales"><span class="seg">/truecast:install</span> <span class="seg">sales</span></code><button class="copy copy--icon" type="button" data-copy="i-sales" aria-label="Copy /truecast:install sales" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Who would actually pay for this?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> a painkiller-or-vitamin verdict and a buyer profile, with the evidence</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:20;--words:12361" aria-hidden="true"><i style="--w:1298;--i:0"></i><i style="--w:464;--i:1"></i><i style="--w:902;--i:2"></i><i style="--w:462;--i:3"></i><i style="--w:452;--i:4"></i><i style="--w:397;--i:5"></i><i style="--w:425;--i:6"></i><i style="--w:437;--i:7"></i><i style="--w:419;--i:8"></i><i style="--w:416;--i:9"></i><i style="--w:437;--i:10"></i><i style="--w:1121;--i:11"></i><i style="--w:546;--i:12"></i><i style="--w:467;--i:13"></i><i style="--w:469;--i:14"></i><i style="--w:382;--i:15"></i><i style="--w:718;--i:16"></i><i style="--w:858;--i:17"></i><i style="--w:679;--i:18"></i><i style="--w:1012;--i:19"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">16</span> skills</span> <span class="nowrap">· <span class="num">20</span> files</span> <span class="nowrap">· <span class="num">12,361</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/sales/core">See inside<span class="sr"> sales</span>&nbsp;→</a>
-    </li>
-<li class="roster__row roster__row--first" id="t-vc-seed">
-      <span class="roster__grp">Raise</span>
-      <div class="roster__id">
-        <h3 class="roster__name">vc-seed</h3>
-        <div class="roster__cmd"><code id="i-vc-seed"><span class="seg">/truecast:install</span> <span class="seg">vc-seed</span></code><button class="copy copy--icon" type="button" data-copy="i-vc-seed" aria-label="Copy /truecast:install vc-seed" hidden><span class="copy__label">Copy</span></button></div>
-      </div>
-      <div class="roster__q"><p>“Would an investor write the check?”</p><p class="roster__out"><span class="roster__k">Its agent file asks for:</span> an invest-or-pass call and the one risk it would underwrite</p></div>
-      <p class="roster__touch"><span class="roster__k">Can touch:</span> reads, web</p>
-      <p class="roster__pb"><span class="pbt pbt--roster"><span class="pb" style="--files:20;--words:8470" aria-hidden="true"><i style="--w:949;--i:0"></i><i style="--w:916;--i:1"></i><i style="--w:362;--i:2"></i><i style="--w:282;--i:3"></i><i style="--w:326;--i:4"></i><i style="--w:475;--i:5"></i><i style="--w:275;--i:6"></i><i style="--w:391;--i:7"></i><i style="--w:341;--i:8"></i><i style="--w:301;--i:9"></i><i style="--w:348;--i:10"></i><i style="--w:348;--i:11"></i><i style="--w:352;--i:12"></i><i style="--w:286;--i:13"></i><i style="--w:330;--i:14"></i><i style="--w:295;--i:15"></i><i style="--w:293;--i:16"></i><i style="--w:409;--i:17"></i><i style="--w:543;--i:18"></i><i style="--w:648;--i:19"></i></span></span><span class="roster__pbn"><span class="nowrap"><span class="num">16</span> skills</span> <span class="nowrap">· <span class="num">20</span> files</span> <span class="nowrap">· <span class="num">8,470</span> words</span></span></p>
-      <a class="roster__in arrow-link" href="https://github.com/wastedcode/truecast/tree/main/personas/vc-seed/core">See inside<span class="sr"> vc-seed</span>&nbsp;→</a>
-    </li></ul><!--/gen-->
     </figure>
-    <p class="roster__key">“Can touch” sums up the tools each one declares; the install plan lists them exactly before you say yes. <span class="roster__defs"><span class="nowrap">reads = Read, Grep (+ Glob)</span> · <span class="nowrap">writes files = Write</span> · <span class="nowrap">edits files = Edit + Write</span> · <span class="nowrap">runs commands = Bash,</span> which can also change files · <span class="nowrap">web = WebSearch + WebFetch</span></span> <span class="roster__defs">“Its agent file asks for” is what each one’s instructions tell it to hand back, not a result we’ve tested; only security-engineer has been tested (Fig. 2).</span></p>
   </div>
 </section>
 
-<!-- 6 · Trust -->
-<section class="sec trust" id="trust" aria-labelledby="trust-h">
-  <div class="wrap">
-    <div class="sec__head">
-      <h2 id="trust-h">You approve every file the installer writes.</h2>
+<!-- 6 · Made by its own teammates -->
+<section class="sec sec--made" aria-labelledby="made-h">
+  <div class="wrap made">
+    <div class="made__a">
+      <h2 id="made-h">This page was written and built by two of them.</h2>
+      <figure class="f7" aria-labelledby="f7-cap">
+        <ol class="chain" role="list">
+          <li><a class="node" href="https://github.com/wastedcode/truecast/blob/main/site/proof/homepage/copy-deck.md"><code>product-marketer</code> <span class="num">1.6.0</span></a></li>
+          <li><a class="node" href="https://github.com/wastedcode/truecast/blob/main/site/proof/homepage/designer.md"><code>ui-ux-designer</code> <span class="num">1.3.6</span></a></li>
+          <li><span class="node node--page">this page</span></li>
+        </ol>
+        <figcaption class="cap" id="f7-cap"><span class="cap__n">Fig. 7</span> <a href="https://github.com/wastedcode/truecast/tree/main/site/proof/homepage">Every hand-off, review and later change&nbsp;→</a></figcaption>
+      </figure>
+      <p class="made__say">Before writing this, product-marketer was tested blind: four versions, two drafts each of our last homepage, scored by fresh Claude sessions. As shipped, it did no better than the bare model. With one rule added (have a fresh session check the work before handing off), all three judges ranked its drafts first and second. It still made more serious mistakes, and cost five times as much. That’s 1.6.0.</p>
     </div>
-    <div class="trust__grid">
-      <div class="trust__col">
-      <div class="cell cell--plan">
-        <h3>You see the plan.</h3>
-        <p>The version, the tools, every path it will write, and then it waits. If it would replace a file it wrote before, it shows you the diff.</p>
-        <p class="cell__quote"><code>nothing has been written yet.</code> <span class="nowrap">· from the plan in <a href="#step-2">step&nbsp;2</a></span></p>
-      </div>
-      <div class="cell cell--tools">
-        <h3>Every tool is on the label.</h3>
-        <p>Five of the twelve can only read, search and fetch web pages. Seven can also run commands or write files. The “Can touch” column above and the install plan say which.</p>
-      </div>
-      </div>
-      <div class="trust__col">
-      <div class="cell cell--refuse">
-        <h3>It won’t overwrite an agent file you wrote.</h3>
-        <p>We pointed it at a repo that already had a hand-written <code>security-engineer.md</code>. It refused:</p>
-        <figure class="out out--err">
-          <figcaption class="out__label">Its output <span>· captured <span class="nowrap">2026-10-16</span>, paths trimmed to …, one machine-readable line left out</span></figcaption>
-          <pre><code>…/.claude/agents/security-engineer.md exists and truecast did not write it.
-<span class="err">error:</span> refusing to overwrite a file truecast did not generate: …/.claude/agents/security-engineer.md</code></pre>
-        </figure>
-        <p><code>--force</code> doesn’t override that.</p>
-      </div>
-      <div class="cell cell--servers">
-        <h3>Nothing runs on our servers. We don’t have any.</h3>
-        <p>The installer copies from the clone Claude Code already made from GitHub. truecast collects nothing. Teammates with web tools can fetch pages, like any Claude Code agent with those tools.</p>
-      </div>
-      </div>
-    </div>
-    <p class="maker">Open source, MIT. Built by Inder Singh (<a href="https://github.com/wastedcode">wastedcode</a>). Found a hole? <a href="https://github.com/wastedcode/truecast/blob/main/SECURITY.md">SECURITY.md</a>: we aim to acknowledge within 72 hours.</p>
+    <figure class="f8" aria-labelledby="f8-cap">
+      <!--gen:fig8--><table class="bo" role="table"><thead role="rowgroup"><tr role="row"><td role="cell"></td><th scope="col" role="columnheader">as shipped</th><th scope="col" role="columnheader" class=is-b>+ the rule</th><th scope="col" role="columnheader">bare model</th><th scope="col" role="columnheader">rewrite</th></tr></thead><tbody role="rowgroup"><tr role="row"><th scope="row" role="rowheader">mistakes per draft</th><td role="cell"><span class="dot" style="--p:0.8333"><i aria-hidden="true"></i><span class="num">10.0</span></span></td><td role="cell" class=is-b><span class="dot" style="--p:0.6500"><i aria-hidden="true"></i><span class="num">7.8</span></span></td><td role="cell"><span class="dot" style="--p:0.8167"><i aria-hidden="true"></i><span class="num">9.8</span></span></td><td role="cell"><span class="dot" style="--p:0.6500"><i aria-hidden="true"></i><span class="num">7.8</span></span></td></tr><tr role="row"><th scope="row" role="rowheader">serious ones</th><td role="cell"><span class="dot" style="--p:0.7600"><i aria-hidden="true"></i><span class="num">3.8</span></span></td><td role="cell" class=is-b><span class="dot" style="--p:0.6600"><i aria-hidden="true"></i><span class="num">3.3</span></span></td><td role="cell"><span class="dot" style="--p:0.3600"><i aria-hidden="true"></i><span class="num">1.8</span></span></td><td role="cell"><span class="dot" style="--p:0.2600"><i aria-hidden="true"></i><span class="num">1.3</span></span></td></tr><tr role="row"><th scope="row" role="rowheader">boldest-idea rank (1 is best)</th><td role="cell"><span class="dot" style="--p:0.4714"><i aria-hidden="true"></i><span class="num">4.3</span></span></td><td role="cell" class=is-b><span class="dot" style="--p:0.0714"><i aria-hidden="true"></i><span class="num">1.5</span></span></td><td role="cell"><span class="dot" style="--p:0.7143"><i aria-hidden="true"></i><span class="num">6.0</span></span></td><td role="cell"><span class="dot" style="--p:0.7429"><i aria-hidden="true"></i><span class="num">6.2</span></span></td></tr></tbody></table><!--/gen-->
+      <figcaption class="cap" id="f8-cap"><span class="cap__n">Fig. 8</span> <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/bakeoff/README.md">Every draft, score and rubric&nbsp;→</a></figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- 7 · FAQ -->
-<section class="sec faq" id="faq" aria-labelledby="faq-h">
-  <div class="wrap faq__grid">
-    <h2 id="faq-h">Questions.</h2>
-    <div class="faq__list">
-      <details>
-        <summary>I already wrote an agent file. Why switch?</summary>
-        <div class="faq__a"><p>If it does the job, keep it: in <a href="#proof">our fair test</a> a 76-word agent caught as much as ours. truecast won’t overwrite it, and won’t install over it. What it adds is the rest: twelve roles already written, a brief you keep for each one in your repo, versioned updates that never touch that brief, and a plan before anything is written. To run ours beside yours, rename your file first, or install ours as a plugin with <code class="brk"><span class="nowrap">/plugin install</span> <span class="nowrap">security-engineer</span> <span class="nowrap">--marketplace</span> <span class="nowrap">wastedcode/truecast</span></code> (Claude Code 2.1.275 or later) and call it as <code class="brk"><span class="nowrap">@agent-security-engineer:</span><wbr><span class="nowrap">security-engineer</span></code>.</p></div>
-      </details>
-      <details>
-        <summary>What about the big free agent collections?</summary>
-        <div class="faq__a"><p>We tested one: the 1,007-word <code>security-engineer</code> from VoltAgent’s collection, given the same prompt six times. Over the six runs it raised 6 of a possible 18 (three holes, six runs), against 9 for ours and 9 for a 76-word agent, and it was the cheapest at $0.68 a run. <a href="#proof">Fig.&nbsp;2</a> has every run, and <a href="https://github.com/wastedcode/truecast/blob/main/site/proof/rerun/README.md">the 18 reports are unedited</a>. It’s one review, so read it as one test, not a benchmark.</p></div>
-      </details>
-      <details>
-        <summary>What does it cost?</summary>
-        <div class="faq__a"><p>Nothing to install. Each teammate runs on Opus, on your own Claude Code usage (subscription or API key). In the fair test a truecast review averaged $1.04 for the whole session at API prices, against $0.85 with a 76-word agent and $0.68 with the free-collection one.</p></div>
-      </details>
-      <details>
-        <summary>Does it learn my project?</summary>
-        <div class="faq__a"><p>Not on its own. It reads your brief every time, so what it knows about your project is what you’ve written there. Edit the brief and the next run picks it up.</p></div>
-      </details>
-      <details>
-        <summary>Can my whole team get it?</summary>
-        <div class="faq__a">
-          <p>Yes. Merge these two keys into the repo’s <code>.claude/settings.json</code>, and Claude Code offers the teammate to anyone who trusts the folder:</p>
-          <div class="cmd cmd--block">
-            <pre class="cmd__code" id="cmd-team" tabindex="0" role="region" aria-label="The settings.json keys"><code>{
-  "extraKnownMarketplaces": {
-    "truecast": {
-      "source": { "source": "github", "repo": "wastedcode/truecast" }
-    }
-  },
-  "enabledPlugins": { "product-manager@truecast": true }
-}</code></pre>
-            <button class="copy" type="button" data-copy="cmd-team" aria-label="Copy the settings.json snippet" hidden><span class="copy__label">Copy</span></button>
-          </div>
-          <p>Installed this way you call it as <code class="brk"><span class="nowrap">@agent-product-manager:</span><wbr><span class="nowrap">product-manager</span></code>, and updates come with the marketplace, without the plan step. Commit it only for a marketplace you trust.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Can I write my own?</summary>
-        <div class="faq__a"><p>Yes. A teammate is a folder of Markdown and one <code>persona.toml</code>. <a class="arrow-link" href="https://github.com/wastedcode/truecast/blob/main/docs/authoring-personas.md">Authoring guide&nbsp;→</a> Open a PR to add it to the catalog.</p>
-        <p class="small">The installer and the file formats are pre-1.0; they may change between minor versions.</p></div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- 8 · Close: the social card's frame -->
+<!-- 7 · Close -->
 <section class="close" aria-labelledby="close-h">
-  <div class="close__cores" aria-hidden="true"><!--gen:close-cores--><svg class="core close__cores-svg" viewBox="0 0 348 920" width="348" height="920" aria-hidden="true" focusable="false" preserveAspectRatio="xMinYMin slice"><rect class="surface" x="0" y="0" width="348" height="4"/><rect style="--i:0" x="0" y="8.0" width="18" height="87.8"/><rect style="--i:1" x="0" y="97.8" width="18" height="22.4"/><rect style="--i:2" x="0" y="122.1" width="18" height="50.4"/><rect style="--i:3" x="0" y="174.5" width="18" height="17.1"/><rect style="--i:4" x="0" y="193.7" width="18" height="27.4"/><rect style="--i:5" x="0" y="223.1" width="18" height="17.4"/><rect style="--i:6" x="0" y="242.5" width="18" height="23.8"/><rect style="--i:7" x="0" y="268.2" width="18" height="24.8"/><rect style="--i:8" x="0" y="295.1" width="18" height="18.1"/><rect style="--i:9" x="0" y="315.2" width="18" height="26.5"/><rect style="--i:10" x="0" y="343.7" width="18" height="28.9"/><rect style="--i:11" x="0" y="374.6" width="18" height="29.6"/><rect style="--i:12" x="0" y="406.2" width="18" height="19.6"/><rect style="--i:13" x="0" y="427.8" width="18" height="21.1"/><rect style="--i:14" x="0" y="450.9" width="18" height="23.5"/><rect style="--i:15" x="0" y="476.4" width="18" height="18.5"/><rect style="--i:16" x="0" y="496.9" width="18" height="17.8"/><rect style="--i:17" x="0" y="516.8" width="18" height="17.6"/><rect style="--i:18" x="0" y="536.4" width="18" height="24.6"/><rect style="--i:19" x="0" y="562.9" width="18" height="29.8"/><rect style="--i:20" x="0" y="594.7" width="18" height="63.0"/><rect style="--i:21" x="0" y="659.7" width="18" height="41.5"/><rect style="--i:0" x="30" y="8.0" width="18" height="46.3"/><rect style="--i:1" x="30" y="56.3" width="18" height="49.9"/><rect style="--i:2" x="30" y="108.2" width="18" height="14.7"/><rect style="--i:3" x="30" y="124.9" width="18" height="16.2"/><rect style="--i:4" x="30" y="143.1" width="18" height="24.9"/><rect style="--i:5" x="30" y="170.0" width="18" height="21.5"/><rect style="--i:6" x="30" y="193.5" width="18" height="12.6"/><rect style="--i:7" x="30" y="208.0" width="18" height="15.9"/><rect style="--i:8" x="30" y="225.9" width="18" height="12.6"/><rect style="--i:9" x="30" y="240.5" width="18" height="13.8"/><rect style="--i:10" x="30" y="256.2" width="18" height="12.9"/><rect style="--i:11" x="30" y="271.2" width="18" height="15.3"/><rect style="--i:12" x="30" y="288.5" width="18" height="21.8"/><rect style="--i:13" x="30" y="312.3" width="18" height="15.2"/><rect style="--i:14" x="30" y="329.5" width="18" height="19.5"/><rect style="--i:15" x="30" y="351.0" width="18" height="21.9"/><rect style="--i:0" x="60" y="8.0" width="18" height="82.7"/><rect style="--i:1" x="60" y="92.7" width="18" height="20.1"/><rect style="--i:2" x="60" y="114.8" width="18" height="21.6"/><rect style="--i:3" x="60" y="138.3" width="18" height="23.4"/><rect style="--i:4" x="60" y="163.7" width="18" height="45.3"/><rect style="--i:5" x="60" y="211.0" width="18" height="22.2"/><rect style="--i:6" x="60" y="235.2" width="18" height="21.6"/><rect style="--i:7" x="60" y="258.9" width="18" height="23.2"/><rect style="--i:8" x="60" y="284.1" width="18" height="36.0"/><rect style="--i:9" x="60" y="322.2" width="18" height="32.4"/><rect style="--i:10" x="60" y="356.6" width="18" height="21.1"/><rect style="--i:11" x="60" y="379.6" width="18" height="21.5"/><rect style="--i:12" x="60" y="403.1" width="18" height="21.4"/><rect style="--i:13" x="60" y="426.5" width="18" height="32.8"/><rect style="--i:14" x="60" y="461.3" width="18" height="18.4"/><rect style="--i:15" x="60" y="481.8" width="18" height="43.8"/><rect style="--i:16" x="60" y="527.5" width="18" height="22.2"/><rect style="--i:17" x="60" y="551.8" width="18" height="22.5"/><rect style="--i:18" x="60" y="576.3" width="18" height="36.0"/><rect style="--i:19" x="60" y="614.3" width="18" height="87.0"/><rect style="--i:0" x="90" y="8.0" width="18" height="73.2"/><rect style="--i:1" x="90" y="83.2" width="18" height="48.5"/><rect style="--i:2" x="90" y="133.6" width="18" height="18.2"/><rect style="--i:3" x="90" y="153.9" width="18" height="20.8"/><rect style="--i:4" x="90" y="176.6" width="18" height="29.4"/><rect style="--i:5" x="90" y="208.0" width="18" height="40.9"/><rect style="--i:6" x="90" y="250.9" width="18" height="22.4"/><rect style="--i:7" x="90" y="275.3" width="18" height="20.1"/><rect style="--i:8" x="90" y="297.4" width="18" height="22.5"/><rect style="--i:9" x="90" y="321.9" width="18" height="21.9"/><rect style="--i:10" x="90" y="345.9" width="18" height="32.4"/><rect style="--i:11" x="90" y="380.2" width="18" height="28.6"/><rect style="--i:12" x="90" y="410.8" width="18" height="20.1"/><rect style="--i:13" x="90" y="433.0" width="18" height="24.7"/><rect style="--i:14" x="90" y="459.7" width="18" height="21.1"/><rect style="--i:15" x="90" y="482.8" width="18" height="20.8"/><rect style="--i:16" x="90" y="505.6" width="18" height="21.2"/><rect style="--i:17" x="90" y="528.8" width="18" height="20.6"/><rect style="--i:18" x="90" y="551.3" width="18" height="36.7"/><rect style="--i:19" x="90" y="590.0" width="18" height="57.2"/><rect style="--i:20" x="90" y="649.3" width="18" height="33.6"/><rect style="--i:0" x="120" y="8.0" width="18" height="89.8"/><rect style="--i:1" x="120" y="99.8" width="18" height="19.4"/><rect style="--i:2" x="120" y="121.2" width="18" height="54.5"/><rect style="--i:3" x="120" y="177.8" width="18" height="20.8"/><rect style="--i:4" x="120" y="200.6" width="18" height="23.9"/><rect style="--i:5" x="120" y="226.5" width="18" height="23.9"/><rect style="--i:6" x="120" y="252.4" width="18" height="27.1"/><rect style="--i:7" x="120" y="281.6" width="18" height="30.9"/><rect style="--i:8" x="120" y="314.4" width="18" height="27.9"/><rect style="--i:9" x="120" y="344.3" width="18" height="19.4"/><rect style="--i:10" x="120" y="365.6" width="18" height="32.6"/><rect style="--i:11" x="120" y="400.2" width="18" height="22.7"/><rect style="--i:12" x="120" y="424.9" width="18" height="21.6"/><rect style="--i:13" x="120" y="448.6" width="18" height="31.1"/><rect style="--i:14" x="120" y="481.7" width="18" height="21.6"/><rect style="--i:15" x="120" y="505.3" width="18" height="19.9"/><rect style="--i:16" x="120" y="527.1" width="18" height="20.4"/><rect style="--i:17" x="120" y="549.5" width="18" height="22.3"/><rect style="--i:18" x="120" y="573.8" width="18" height="20.9"/><rect style="--i:19" x="120" y="596.7" width="18" height="20.8"/><rect style="--i:20" x="120" y="619.5" width="18" height="28.0"/><rect style="--i:21" x="120" y="649.5" width="18" height="21.6"/><rect style="--i:22" x="120" y="673.1" width="18" height="48.0"/><rect style="--i:23" x="120" y="723.1" width="18" height="37.0"/><rect style="--i:0" x="150" y="8.0" width="18" height="45.5"/><rect style="--i:1" x="150" y="55.5" width="18" height="16.5"/><rect style="--i:2" x="150" y="74.0" width="18" height="50.2"/><rect style="--i:3" x="150" y="126.2" width="18" height="18.6"/><rect style="--i:4" x="150" y="146.8" width="18" height="9.3"/><rect style="--i:5" x="150" y="158.2" width="18" height="13.3"/><rect style="--i:6" x="150" y="173.5" width="18" height="17.6"/><rect style="--i:7" x="150" y="193.1" width="18" height="16.6"/><rect style="--i:8" x="150" y="211.6" width="18" height="7.4"/><rect style="--i:9" x="150" y="221.0" width="18" height="7.7"/><rect style="--i:10" x="150" y="230.7" width="18" height="8.0"/><rect style="--i:11" x="150" y="240.6" width="18" height="8.8"/><rect style="--i:12" x="150" y="251.5" width="18" height="27.2"/><rect style="--i:13" x="150" y="280.7" width="18" height="18.1"/><rect style="--i:14" x="150" y="300.9" width="18" height="31.5"/><rect style="--i:15" x="150" y="334.4" width="18" height="18.3"/><rect style="--i:16" x="150" y="354.7" width="18" height="22.1"/><rect style="--i:17" x="150" y="378.8" width="18" height="24.1"/><rect style="--i:18" x="150" y="404.9" width="18" height="28.4"/><rect style="--i:19" x="150" y="435.3" width="18" height="12.7"/><rect style="--i:20" x="150" y="450.0" width="18" height="26.5"/><rect style="--i:0" x="180" y="8.0" width="18" height="59.1"/><rect style="--i:1" x="180" y="69.1" width="18" height="15.0"/><rect style="--i:2" x="180" y="86.1" width="18" height="49.7"/><rect style="--i:3" x="180" y="137.8" width="18" height="14.3"/><rect style="--i:4" x="180" y="154.2" width="18" height="20.3"/><rect style="--i:5" x="180" y="176.5" width="18" height="14.7"/><rect style="--i:6" x="180" y="193.1" width="18" height="13.3"/><rect style="--i:7" x="180" y="208.5" width="18" height="16.8"/><rect style="--i:8" x="180" y="227.3" width="18" height="11.7"/><rect style="--i:9" x="180" y="241.0" width="18" height="13.3"/><rect style="--i:10" x="180" y="256.3" width="18" height="15.3"/><rect style="--i:11" x="180" y="273.7" width="18" height="11.2"/><rect style="--i:12" x="180" y="286.9" width="18" height="13.2"/><rect style="--i:13" x="180" y="302.0" width="18" height="14.6"/><rect style="--i:14" x="180" y="318.6" width="18" height="12.5"/><rect style="--i:15" x="180" y="333.1" width="18" height="12.4"/><rect style="--i:16" x="180" y="347.6" width="18" height="18.2"/><rect style="--i:17" x="180" y="367.8" width="18" height="21.8"/><rect style="--i:18" x="180" y="391.6" width="18" height="19.3"/><rect style="--i:19" x="180" y="412.9" width="18" height="17.9"/><rect style="--i:20" x="180" y="432.8" width="18" height="16.9"/><rect style="--i:0" x="210" y="8.0" width="18" height="85.8"/><rect style="--i:1" x="210" y="95.8" width="18" height="36.8"/><rect style="--i:2" x="210" y="134.6" width="18" height="93.5"/><rect style="--i:3" x="210" y="230.1" width="18" height="23.4"/><rect style="--i:4" x="210" y="255.5" width="18" height="30.8"/><rect style="--i:5" x="210" y="288.2" width="18" height="26.8"/><rect style="--i:6" x="210" y="317.0" width="18" height="18.1"/><rect style="--i:7" x="210" y="337.1" width="18" height="20.9"/><rect style="--i:8" x="210" y="360.0" width="18" height="31.0"/><rect style="--i:9" x="210" y="393.0" width="18" height="24.4"/><rect style="--i:10" x="210" y="419.4" width="18" height="32.2"/><rect style="--i:11" x="210" y="453.6" width="18" height="23.1"/><rect style="--i:12" x="210" y="478.7" width="18" height="41.8"/><rect style="--i:13" x="210" y="522.5" width="18" height="36.3"/><rect style="--i:14" x="210" y="560.8" width="18" height="22.4"/><rect style="--i:15" x="210" y="585.1" width="18" height="24.9"/><rect style="--i:16" x="210" y="612.1" width="18" height="20.1"/><rect style="--i:17" x="210" y="634.2" width="18" height="31.8"/><rect style="--i:18" x="210" y="668.0" width="18" height="21.9"/><rect style="--i:19" x="210" y="692.0" width="18" height="32.5"/><rect style="--i:20" x="210" y="726.5" width="18" height="22.9"/><rect style="--i:21" x="210" y="751.4" width="18" height="37.9"/><rect style="--i:22" x="210" y="791.2" width="18" height="67.6"/><rect style="--i:23" x="210" y="860.9" width="18" height="57.4"/><rect style="--i:0" x="240" y="8.0" width="18" height="44.2"/><rect style="--i:1" x="240" y="54.2" width="18" height="16.2"/><rect style="--i:2" x="240" y="72.5" width="18" height="15.8"/><rect style="--i:3" x="240" y="90.2" width="18" height="68.3"/><rect style="--i:4" x="240" y="160.6" width="18" height="19.9"/><rect style="--i:5" x="240" y="182.5" width="18" height="11.8"/><rect style="--i:6" x="240" y="196.4" width="18" height="16.5"/><rect style="--i:7" x="240" y="214.9" width="18" height="17.1"/><rect style="--i:8" x="240" y="234.0" width="18" height="15.9"/><rect style="--i:9" x="240" y="251.9" width="18" height="11.7"/><rect style="--i:10" x="240" y="265.6" width="18" height="18.2"/><rect style="--i:0" x="270" y="8.0" width="18" height="87.6"/><rect style="--i:1" x="270" y="97.6" width="18" height="95.2"/><rect style="--i:2" x="270" y="194.8" width="18" height="46.9"/><rect style="--i:3" x="270" y="243.6" width="18" height="19.4"/><rect style="--i:4" x="270" y="265.0" width="18" height="19.4"/><rect style="--i:5" x="270" y="286.4" width="18" height="24.6"/><rect style="--i:6" x="270" y="312.9" width="18" height="20.4"/><rect style="--i:7" x="270" y="335.3" width="18" height="20.6"/><rect style="--i:8" x="270" y="357.9" width="18" height="38.2"/><rect style="--i:9" x="270" y="398.1" width="18" height="47.3"/><rect style="--i:10" x="270" y="447.4" width="18" height="20.3"/><rect style="--i:11" x="270" y="469.7" width="18" height="19.4"/><rect style="--i:12" x="270" y="491.1" width="18" height="21.6"/><rect style="--i:13" x="270" y="514.7" width="18" height="94.5"/><rect style="--i:14" x="270" y="611.2" width="18" height="19.4"/><rect style="--i:15" x="270" y="632.5" width="18" height="21.2"/><rect style="--i:16" x="270" y="655.7" width="18" height="20.9"/><rect style="--i:17" x="270" y="678.6" width="18" height="42.5"/><rect style="--i:18" x="270" y="723.0" width="18" height="23.4"/><rect style="--i:19" x="270" y="748.5" width="18" height="18.2"/><rect style="--i:20" x="270" y="768.7" width="18" height="47.4"/><rect style="--i:21" x="270" y="818.0" width="18" height="44.3"/><rect style="--i:22" x="270" y="864.3" width="18" height="32.8"/><rect style="--i:0" x="300" y="8.0" width="18" height="64.9"/><rect style="--i:1" x="300" y="74.9" width="18" height="23.2"/><rect style="--i:2" x="300" y="100.1" width="18" height="45.1"/><rect style="--i:3" x="300" y="147.2" width="18" height="23.1"/><rect style="--i:4" x="300" y="172.3" width="18" height="22.6"/><rect style="--i:5" x="300" y="196.9" width="18" height="19.9"/><rect style="--i:6" x="300" y="218.8" width="18" height="21.2"/><rect style="--i:7" x="300" y="242.0" width="18" height="21.9"/><rect style="--i:8" x="300" y="265.9" width="18" height="20.9"/><rect style="--i:9" x="300" y="288.8" width="18" height="20.8"/><rect style="--i:10" x="300" y="311.6" width="18" height="21.9"/><rect style="--i:11" x="300" y="335.5" width="18" height="56.0"/><rect style="--i:12" x="300" y="393.5" width="18" height="27.3"/><rect style="--i:13" x="300" y="422.8" width="18" height="23.4"/><rect style="--i:14" x="300" y="448.2" width="18" height="23.4"/><rect style="--i:15" x="300" y="473.6" width="18" height="19.1"/><rect style="--i:16" x="300" y="494.7" width="18" height="35.9"/><rect style="--i:17" x="300" y="532.6" width="18" height="42.9"/><rect style="--i:18" x="300" y="577.5" width="18" height="34.0"/><rect style="--i:19" x="300" y="613.5" width="18" height="50.6"/><rect style="--i:0" x="330" y="8.0" width="18" height="47.5"/><rect style="--i:1" x="330" y="57.5" width="18" height="45.8"/><rect style="--i:2" x="330" y="105.2" width="18" height="18.1"/><rect style="--i:3" x="330" y="125.3" width="18" height="14.1"/><rect style="--i:4" x="330" y="141.4" width="18" height="16.3"/><rect style="--i:5" x="330" y="159.8" width="18" height="23.8"/><rect style="--i:6" x="330" y="185.5" width="18" height="13.8"/><rect style="--i:7" x="330" y="201.2" width="18" height="19.6"/><rect style="--i:8" x="330" y="222.8" width="18" height="17.1"/><rect style="--i:9" x="330" y="241.9" width="18" height="15.1"/><rect style="--i:10" x="330" y="258.9" width="18" height="17.4"/><rect style="--i:11" x="330" y="278.3" width="18" height="17.4"/><rect style="--i:12" x="330" y="297.7" width="18" height="17.6"/><rect style="--i:13" x="330" y="317.3" width="18" height="14.3"/><rect style="--i:14" x="330" y="333.6" width="18" height="16.5"/><rect style="--i:15" x="330" y="352.1" width="18" height="14.8"/><rect style="--i:16" x="330" y="368.9" width="18" height="14.7"/><rect style="--i:17" x="330" y="385.5" width="18" height="20.4"/><rect style="--i:18" x="330" y="407.9" width="18" height="27.1"/><rect style="--i:19" x="330" y="437.1" width="18" height="32.4"/></svg><!--/gen--></div>
+  <div class="close__cores"><!--gen:close-cores--><svg class="core close__svg" viewBox="0 0 348 920" width="348" height="920" aria-hidden="true" focusable="false"><rect class="surface" x="0" y="0" width="348" height="4"/><rect style="--i:0" x="0" y="8.0" width="18" height="87.8"/><rect style="--i:1" x="0" y="97.8" width="18" height="22.4"/><rect style="--i:2" x="0" y="122.1" width="18" height="50.4"/><rect style="--i:3" x="0" y="174.5" width="18" height="17.1"/><rect style="--i:4" x="0" y="193.7" width="18" height="27.4"/><rect style="--i:5" x="0" y="223.1" width="18" height="17.4"/><rect style="--i:6" x="0" y="242.5" width="18" height="23.8"/><rect style="--i:7" x="0" y="268.2" width="18" height="24.8"/><rect style="--i:8" x="0" y="295.1" width="18" height="18.1"/><rect style="--i:9" x="0" y="315.2" width="18" height="26.5"/><rect style="--i:10" x="0" y="343.7" width="18" height="28.9"/><rect style="--i:11" x="0" y="374.6" width="18" height="29.6"/><rect style="--i:12" x="0" y="406.2" width="18" height="19.6"/><rect style="--i:13" x="0" y="427.8" width="18" height="21.1"/><rect style="--i:14" x="0" y="450.9" width="18" height="23.5"/><rect style="--i:15" x="0" y="476.4" width="18" height="18.5"/><rect style="--i:16" x="0" y="496.9" width="18" height="17.8"/><rect style="--i:17" x="0" y="516.8" width="18" height="17.6"/><rect style="--i:18" x="0" y="536.4" width="18" height="24.6"/><rect style="--i:19" x="0" y="562.9" width="18" height="29.8"/><rect style="--i:20" x="0" y="594.7" width="18" height="63.0"/><rect style="--i:21" x="0" y="659.7" width="18" height="41.5"/><rect style="--i:0" x="30" y="8.0" width="18" height="46.3"/><rect style="--i:1" x="30" y="56.3" width="18" height="49.9"/><rect style="--i:2" x="30" y="108.2" width="18" height="14.7"/><rect style="--i:3" x="30" y="124.9" width="18" height="16.2"/><rect style="--i:4" x="30" y="143.1" width="18" height="24.9"/><rect style="--i:5" x="30" y="170.0" width="18" height="21.5"/><rect style="--i:6" x="30" y="193.5" width="18" height="12.6"/><rect style="--i:7" x="30" y="208.0" width="18" height="15.9"/><rect style="--i:8" x="30" y="225.9" width="18" height="12.6"/><rect style="--i:9" x="30" y="240.5" width="18" height="13.8"/><rect style="--i:10" x="30" y="256.2" width="18" height="12.9"/><rect style="--i:11" x="30" y="271.2" width="18" height="15.3"/><rect style="--i:12" x="30" y="288.5" width="18" height="21.8"/><rect style="--i:13" x="30" y="312.3" width="18" height="15.2"/><rect style="--i:14" x="30" y="329.5" width="18" height="19.5"/><rect style="--i:15" x="30" y="351.0" width="18" height="21.9"/><rect style="--i:0" x="60" y="8.0" width="18" height="82.7"/><rect style="--i:1" x="60" y="92.7" width="18" height="20.1"/><rect style="--i:2" x="60" y="114.8" width="18" height="21.6"/><rect style="--i:3" x="60" y="138.3" width="18" height="23.4"/><rect style="--i:4" x="60" y="163.7" width="18" height="45.3"/><rect style="--i:5" x="60" y="211.0" width="18" height="22.2"/><rect style="--i:6" x="60" y="235.2" width="18" height="21.6"/><rect style="--i:7" x="60" y="258.9" width="18" height="23.2"/><rect style="--i:8" x="60" y="284.1" width="18" height="36.0"/><rect style="--i:9" x="60" y="322.2" width="18" height="32.4"/><rect style="--i:10" x="60" y="356.6" width="18" height="21.1"/><rect style="--i:11" x="60" y="379.6" width="18" height="21.5"/><rect style="--i:12" x="60" y="403.1" width="18" height="21.4"/><rect style="--i:13" x="60" y="426.5" width="18" height="32.8"/><rect style="--i:14" x="60" y="461.3" width="18" height="18.4"/><rect style="--i:15" x="60" y="481.8" width="18" height="43.8"/><rect style="--i:16" x="60" y="527.5" width="18" height="22.2"/><rect style="--i:17" x="60" y="551.8" width="18" height="22.5"/><rect style="--i:18" x="60" y="576.3" width="18" height="36.0"/><rect style="--i:19" x="60" y="614.3" width="18" height="87.0"/><rect style="--i:0" x="90" y="8.0" width="18" height="73.2"/><rect style="--i:1" x="90" y="83.2" width="18" height="48.5"/><rect style="--i:2" x="90" y="133.6" width="18" height="18.2"/><rect style="--i:3" x="90" y="153.9" width="18" height="20.8"/><rect style="--i:4" x="90" y="176.6" width="18" height="29.4"/><rect style="--i:5" x="90" y="208.0" width="18" height="40.9"/><rect style="--i:6" x="90" y="250.9" width="18" height="22.4"/><rect style="--i:7" x="90" y="275.3" width="18" height="20.1"/><rect style="--i:8" x="90" y="297.4" width="18" height="22.5"/><rect style="--i:9" x="90" y="321.9" width="18" height="21.9"/><rect style="--i:10" x="90" y="345.9" width="18" height="32.4"/><rect style="--i:11" x="90" y="380.2" width="18" height="28.6"/><rect style="--i:12" x="90" y="410.8" width="18" height="20.1"/><rect style="--i:13" x="90" y="433.0" width="18" height="24.7"/><rect style="--i:14" x="90" y="459.7" width="18" height="21.1"/><rect style="--i:15" x="90" y="482.8" width="18" height="20.8"/><rect style="--i:16" x="90" y="505.6" width="18" height="21.2"/><rect style="--i:17" x="90" y="528.8" width="18" height="20.6"/><rect style="--i:18" x="90" y="551.3" width="18" height="36.7"/><rect style="--i:19" x="90" y="590.0" width="18" height="57.2"/><rect style="--i:20" x="90" y="649.3" width="18" height="33.6"/><rect style="--i:0" x="120" y="8.0" width="18" height="89.8"/><rect style="--i:1" x="120" y="99.8" width="18" height="19.4"/><rect style="--i:2" x="120" y="121.2" width="18" height="54.5"/><rect style="--i:3" x="120" y="177.8" width="18" height="20.8"/><rect style="--i:4" x="120" y="200.6" width="18" height="23.9"/><rect style="--i:5" x="120" y="226.5" width="18" height="23.9"/><rect style="--i:6" x="120" y="252.4" width="18" height="27.1"/><rect style="--i:7" x="120" y="281.6" width="18" height="30.9"/><rect style="--i:8" x="120" y="314.4" width="18" height="27.9"/><rect style="--i:9" x="120" y="344.3" width="18" height="19.4"/><rect style="--i:10" x="120" y="365.6" width="18" height="32.6"/><rect style="--i:11" x="120" y="400.2" width="18" height="22.7"/><rect style="--i:12" x="120" y="424.9" width="18" height="21.6"/><rect style="--i:13" x="120" y="448.6" width="18" height="31.1"/><rect style="--i:14" x="120" y="481.7" width="18" height="21.6"/><rect style="--i:15" x="120" y="505.3" width="18" height="19.9"/><rect style="--i:16" x="120" y="527.1" width="18" height="20.4"/><rect style="--i:17" x="120" y="549.5" width="18" height="22.3"/><rect style="--i:18" x="120" y="573.8" width="18" height="20.9"/><rect style="--i:19" x="120" y="596.7" width="18" height="20.8"/><rect style="--i:20" x="120" y="619.5" width="18" height="28.0"/><rect style="--i:21" x="120" y="649.5" width="18" height="21.6"/><rect style="--i:22" x="120" y="673.1" width="18" height="48.0"/><rect style="--i:23" x="120" y="723.1" width="18" height="37.0"/><rect style="--i:0" x="150" y="8.0" width="18" height="45.5"/><rect style="--i:1" x="150" y="55.5" width="18" height="16.5"/><rect style="--i:2" x="150" y="74.0" width="18" height="50.2"/><rect style="--i:3" x="150" y="126.2" width="18" height="18.6"/><rect style="--i:4" x="150" y="146.8" width="18" height="9.3"/><rect style="--i:5" x="150" y="158.2" width="18" height="13.3"/><rect style="--i:6" x="150" y="173.5" width="18" height="17.6"/><rect style="--i:7" x="150" y="193.1" width="18" height="16.6"/><rect style="--i:8" x="150" y="211.6" width="18" height="7.4"/><rect style="--i:9" x="150" y="221.0" width="18" height="7.7"/><rect style="--i:10" x="150" y="230.7" width="18" height="8.0"/><rect style="--i:11" x="150" y="240.6" width="18" height="8.8"/><rect style="--i:12" x="150" y="251.5" width="18" height="27.2"/><rect style="--i:13" x="150" y="280.7" width="18" height="18.1"/><rect style="--i:14" x="150" y="300.9" width="18" height="31.5"/><rect style="--i:15" x="150" y="334.4" width="18" height="18.3"/><rect style="--i:16" x="150" y="354.7" width="18" height="22.1"/><rect style="--i:17" x="150" y="378.8" width="18" height="24.1"/><rect style="--i:18" x="150" y="404.9" width="18" height="28.4"/><rect style="--i:19" x="150" y="435.3" width="18" height="12.7"/><rect style="--i:20" x="150" y="450.0" width="18" height="26.5"/><rect style="--i:0" x="180" y="8.0" width="18" height="59.1"/><rect style="--i:1" x="180" y="69.1" width="18" height="15.0"/><rect style="--i:2" x="180" y="86.1" width="18" height="49.7"/><rect style="--i:3" x="180" y="137.8" width="18" height="14.3"/><rect style="--i:4" x="180" y="154.2" width="18" height="20.3"/><rect style="--i:5" x="180" y="176.5" width="18" height="14.7"/><rect style="--i:6" x="180" y="193.1" width="18" height="13.3"/><rect style="--i:7" x="180" y="208.5" width="18" height="16.8"/><rect style="--i:8" x="180" y="227.3" width="18" height="11.7"/><rect style="--i:9" x="180" y="241.0" width="18" height="13.3"/><rect style="--i:10" x="180" y="256.3" width="18" height="15.3"/><rect style="--i:11" x="180" y="273.7" width="18" height="11.2"/><rect style="--i:12" x="180" y="286.9" width="18" height="13.2"/><rect style="--i:13" x="180" y="302.0" width="18" height="14.6"/><rect style="--i:14" x="180" y="318.6" width="18" height="12.5"/><rect style="--i:15" x="180" y="333.1" width="18" height="12.4"/><rect style="--i:16" x="180" y="347.6" width="18" height="18.2"/><rect style="--i:17" x="180" y="367.8" width="18" height="21.8"/><rect style="--i:18" x="180" y="391.6" width="18" height="19.3"/><rect style="--i:19" x="180" y="412.9" width="18" height="17.9"/><rect style="--i:20" x="180" y="432.8" width="18" height="16.9"/><rect style="--i:0" x="210" y="8.0" width="18" height="85.8"/><rect style="--i:1" x="210" y="95.8" width="18" height="36.8"/><rect style="--i:2" x="210" y="134.6" width="18" height="93.5"/><rect style="--i:3" x="210" y="230.1" width="18" height="23.4"/><rect style="--i:4" x="210" y="255.5" width="18" height="30.8"/><rect style="--i:5" x="210" y="288.2" width="18" height="26.8"/><rect style="--i:6" x="210" y="317.0" width="18" height="18.1"/><rect style="--i:7" x="210" y="337.1" width="18" height="20.9"/><rect style="--i:8" x="210" y="360.0" width="18" height="31.0"/><rect style="--i:9" x="210" y="393.0" width="18" height="24.4"/><rect style="--i:10" x="210" y="419.4" width="18" height="32.2"/><rect style="--i:11" x="210" y="453.6" width="18" height="23.1"/><rect style="--i:12" x="210" y="478.7" width="18" height="41.8"/><rect style="--i:13" x="210" y="522.5" width="18" height="36.3"/><rect style="--i:14" x="210" y="560.8" width="18" height="22.4"/><rect style="--i:15" x="210" y="585.1" width="18" height="24.9"/><rect style="--i:16" x="210" y="612.1" width="18" height="20.1"/><rect style="--i:17" x="210" y="634.2" width="18" height="31.8"/><rect style="--i:18" x="210" y="668.0" width="18" height="21.9"/><rect style="--i:19" x="210" y="692.0" width="18" height="32.5"/><rect style="--i:20" x="210" y="726.5" width="18" height="22.9"/><rect style="--i:21" x="210" y="751.4" width="18" height="37.9"/><rect style="--i:22" x="210" y="791.2" width="18" height="67.6"/><rect style="--i:23" x="210" y="860.9" width="18" height="57.4"/><rect style="--i:0" x="240" y="8.0" width="18" height="44.2"/><rect style="--i:1" x="240" y="54.2" width="18" height="16.2"/><rect style="--i:2" x="240" y="72.5" width="18" height="15.8"/><rect style="--i:3" x="240" y="90.2" width="18" height="68.3"/><rect style="--i:4" x="240" y="160.6" width="18" height="19.9"/><rect style="--i:5" x="240" y="182.5" width="18" height="11.8"/><rect style="--i:6" x="240" y="196.4" width="18" height="16.5"/><rect style="--i:7" x="240" y="214.9" width="18" height="17.1"/><rect style="--i:8" x="240" y="234.0" width="18" height="15.9"/><rect style="--i:9" x="240" y="251.9" width="18" height="11.7"/><rect style="--i:10" x="240" y="265.6" width="18" height="18.2"/><rect style="--i:0" x="270" y="8.0" width="18" height="93.0"/><rect style="--i:1" x="270" y="103.0" width="18" height="96.0"/><rect style="--i:2" x="270" y="200.9" width="18" height="46.9"/><rect style="--i:3" x="270" y="249.8" width="18" height="19.4"/><rect style="--i:4" x="270" y="271.2" width="18" height="19.4"/><rect style="--i:5" x="270" y="292.6" width="18" height="24.6"/><rect style="--i:6" x="270" y="319.1" width="18" height="20.4"/><rect style="--i:7" x="270" y="341.5" width="18" height="20.6"/><rect style="--i:8" x="270" y="364.1" width="18" height="38.2"/><rect style="--i:9" x="270" y="404.3" width="18" height="47.3"/><rect style="--i:10" x="270" y="453.6" width="18" height="20.3"/><rect style="--i:11" x="270" y="475.9" width="18" height="19.4"/><rect style="--i:12" x="270" y="497.3" width="18" height="21.6"/><rect style="--i:13" x="270" y="520.9" width="18" height="94.5"/><rect style="--i:14" x="270" y="617.4" width="18" height="19.4"/><rect style="--i:15" x="270" y="638.7" width="18" height="21.2"/><rect style="--i:16" x="270" y="661.9" width="18" height="20.9"/><rect style="--i:17" x="270" y="684.8" width="18" height="42.5"/><rect style="--i:18" x="270" y="729.2" width="18" height="23.4"/><rect style="--i:19" x="270" y="754.7" width="18" height="18.2"/><rect style="--i:20" x="270" y="774.9" width="18" height="47.4"/><rect style="--i:21" x="270" y="824.2" width="18" height="44.3"/><rect style="--i:22" x="270" y="870.5" width="18" height="32.8"/><rect style="--i:0" x="300" y="8.0" width="18" height="64.9"/><rect style="--i:1" x="300" y="74.9" width="18" height="23.2"/><rect style="--i:2" x="300" y="100.1" width="18" height="45.1"/><rect style="--i:3" x="300" y="147.2" width="18" height="23.1"/><rect style="--i:4" x="300" y="172.3" width="18" height="22.6"/><rect style="--i:5" x="300" y="196.9" width="18" height="19.9"/><rect style="--i:6" x="300" y="218.8" width="18" height="21.2"/><rect style="--i:7" x="300" y="242.0" width="18" height="21.9"/><rect style="--i:8" x="300" y="265.9" width="18" height="20.9"/><rect style="--i:9" x="300" y="288.8" width="18" height="20.8"/><rect style="--i:10" x="300" y="311.6" width="18" height="21.9"/><rect style="--i:11" x="300" y="335.5" width="18" height="56.0"/><rect style="--i:12" x="300" y="393.5" width="18" height="27.3"/><rect style="--i:13" x="300" y="422.8" width="18" height="23.4"/><rect style="--i:14" x="300" y="448.2" width="18" height="23.4"/><rect style="--i:15" x="300" y="473.6" width="18" height="19.1"/><rect style="--i:16" x="300" y="494.7" width="18" height="35.9"/><rect style="--i:17" x="300" y="532.6" width="18" height="42.9"/><rect style="--i:18" x="300" y="577.5" width="18" height="34.0"/><rect style="--i:19" x="300" y="613.5" width="18" height="50.6"/><rect style="--i:0" x="330" y="8.0" width="18" height="47.5"/><rect style="--i:1" x="330" y="57.5" width="18" height="45.8"/><rect style="--i:2" x="330" y="105.2" width="18" height="18.1"/><rect style="--i:3" x="330" y="125.3" width="18" height="14.1"/><rect style="--i:4" x="330" y="141.4" width="18" height="16.3"/><rect style="--i:5" x="330" y="159.8" width="18" height="23.8"/><rect style="--i:6" x="330" y="185.5" width="18" height="13.8"/><rect style="--i:7" x="330" y="201.2" width="18" height="19.6"/><rect style="--i:8" x="330" y="222.8" width="18" height="17.1"/><rect style="--i:9" x="330" y="241.9" width="18" height="15.1"/><rect style="--i:10" x="330" y="258.9" width="18" height="17.4"/><rect style="--i:11" x="330" y="278.3" width="18" height="17.4"/><rect style="--i:12" x="330" y="297.7" width="18" height="17.6"/><rect style="--i:13" x="330" y="317.3" width="18" height="14.3"/><rect style="--i:14" x="330" y="333.6" width="18" height="16.5"/><rect style="--i:15" x="330" y="352.1" width="18" height="14.8"/><rect style="--i:16" x="330" y="368.9" width="18" height="14.7"/><rect style="--i:17" x="330" y="385.5" width="18" height="20.4"/><rect style="--i:18" x="330" y="407.9" width="18" height="27.1"/><rect style="--i:19" x="330" y="437.1" width="18" height="32.4"/></svg><!--/gen--></div>
   <div class="wrap close__in">
     <h2 id="close-h">Put a specialist on the call you’re about to make.</h2>
-    <div class="close__act">
-      <a class="btn" href="#step-1" data-copy-step1>Go to step&nbsp;1</a>
-      <a class="arrow-link arrow-link--on-fill" href="https://github.com/wastedcode/truecast">Read the source on GitHub&nbsp;→</a>
+    <div class="cmd cmd--ink">
+      <code class="cmd__code" id="cmd-close">claude plugin install truecast <span class="seg">--marketplace</span> <span class="seg">wastedcode/truecast</span></code>
+      <button class="copy" type="button" data-copy="cmd-close" aria-label="Copy the install command" hidden><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
     </div>
-    <p class="close__ask">Used one? <a href="https://github.com/wastedcode/truecast/issues/new/choose">Tell us what it caught, or missed&nbsp;→</a></p>
+    <p class="close__meta">Runs on your own Claude Code usage. Open source, made by Inder Singh (wastedcode).</p>
   </div>
 </section>
 
@@ -662,7 +246,7 @@ Installing plugin "truecast@truecast"...<span class="ok">✔</span> Successfully
 
 <footer class="foot">
   <div class="wrap foot__in">
-    <p class="foot__who"><a class="foot__mark" href="/" aria-label="truecast, home"><!--gen:mark--><svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="0" y="0" width="14" height="2" /><rect x="4" y="3" width="6" height="8" /><rect x="4" y="12" width="6" height="2" /></svg><!--/gen--></a> truecast · MIT · © 2026 Inder Singh</p>
+    <p class="foot__who"><a class="foot__mark" href="/" aria-label="truecast, home"><!--gen:mark--><svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="0" y="0" width="14" height="2" /><rect x="4" y="3" width="6" height="8" /><rect x="4" y="12" width="6" height="2" /></svg><!--/gen--></a> MIT · © 2026 Inder Singh</p>
     <nav class="foot__nav" aria-label="Project">
       <a href="https://github.com/wastedcode/truecast">GitHub</a>
       <a href="https://github.com/wastedcode/truecast/blob/main/docs/README.md">Docs</a>

@@ -34,6 +34,8 @@ kept everything.
 
 Each ran once. Cost and time are `total_cost_usd` and `duration_ms` from each session's result.
 
+**Context, for truecast's run** (from the main session's log, the subagent's `toolUseResult`): 10 tool calls; `totalTokens` 66,578, the subagent's own context at its final turn (2 input + 1,523 cache-write + 62,113 cache-read + 2,940 output); the report it handed back was 2,780 tokens (2,940 output − 160 thinking). The main session received only that report.
+
 ### What we typed (the same in all three sessions, verbatim)
 
 ```text

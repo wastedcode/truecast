@@ -130,3 +130,4 @@ pass finds nothing material.
 - **Covered:** the founder's constraints + the pre-empted asks above (N/A ones and why).
 - **Critique caught:** what the last passes found and you fixed.
 - **Verified:** every claim traced to a shipped capability; AI-tell scrub passed; read cold as the reader.
+- **Judge:** the outside judge you ran (not you), what it returned each round, and what changed.

@@ -1,0 +1,194 @@
+{
+ "deck-356": {
+  "1": {
+   "total": 10,
+   "blocker": 0,
+   "material": 3,
+   "tweak": 7,
+   "RECEIPT": 0,
+   "WIDER": 5,
+   "FACT": 3,
+   "NAMES": 1,
+   "MISS": 1
+  },
+  "2": {
+   "total": 9,
+   "blocker": 0,
+   "material": 3,
+   "tweak": 6,
+   "RECEIPT": 1,
+   "WIDER": 2,
+   "FACT": 3,
+   "NAMES": 2,
+   "MISS": 1
+  }
+ },
+ "deck-370": {
+  "1": {
+   "total": 10,
+   "blocker": 0,
+   "material": 1,
+   "tweak": 9,
+   "RECEIPT": 0,
+   "WIDER": 4,
+   "FACT": 5,
+   "NAMES": 1,
+   "MISS": 0
+  },
+  "2": {
+   "total": 8,
+   "blocker": 0,
+   "material": 1,
+   "tweak": 7,
+   "RECEIPT": 0,
+   "WIDER": 3,
+   "FACT": 3,
+   "NAMES": 1,
+   "MISS": 1
+  }
+ },
+ "deck-400": {
+  "1": {
+   "total": 13,
+   "blocker": 0,
+   "material": 2,
+   "tweak": 11,
+   "RECEIPT": 0,
+   "WIDER": 4,
+   "FACT": 4,
+   "NAMES": 2,
+   "MISS": 3
+  },
+  "2": {
+   "total": 8,
+   "blocker": 1,
+   "material": 2,
+   "tweak": 5,
+   "RECEIPT": 0,
+   "WIDER": 3,
+   "FACT": 3,
+   "NAMES": 2,
+   "MISS": 0
+  }
+ },
+ "deck-655": {
+  "1": {
+   "total": 6,
+   "blocker": 0,
+   "material": 1,
+   "tweak": 5,
+   "RECEIPT": 0,
+   "WIDER": 2,
+   "FACT": 2,
+   "NAMES": 0,
+   "MISS": 2
+  },
+  "2": {
+   "total": 8,
+   "blocker": 0,
+   "material": 1,
+   "tweak": 7,
+   "RECEIPT": 0,
+   "WIDER": 4,
+   "FACT": 1,
+   "NAMES": 1,
+   "MISS": 2
+  }
+ },
+ "deck-723": {
+  "1": {
+   "total": 7,
+   "blocker": 0,
+   "material": 2,
+   "tweak": 5,
+   "RECEIPT": 1,
+   "WIDER": 3,
+   "FACT": 2,
+   "NAMES": 0,
+   "MISS": 1
+  },
+  "2": {
+   "total": 10,
+   "blocker": 0,
+   "material": 4,
+   "tweak": 6,
+   "RECEIPT": 2,
+   "WIDER": 2,
+   "FACT": 4,
+   "NAMES": 1,
+   "MISS": 1
+  }
+ },
+ "deck-727": {
+  "1": {
+   "total": 7,
+   "blocker": 1,
+   "material": 2,
+   "tweak": 4,
+   "RECEIPT": 2,
+   "WIDER": 2,
+   "FACT": 3,
+   "NAMES": 0,
+   "MISS": 0
+  },
+  "2": {
+   "total": 7,
+   "blocker": 1,
+   "material": 3,
+   "tweak": 3,
+   "RECEIPT": 2,
+   "WIDER": 3,
+   "FACT": 1,
+   "NAMES": 1,
+   "MISS": 0
+  }
+ },
+ "deck-736": {
+  "1": {
+   "total": 10,
+   "blocker": 0,
+   "material": 2,
+   "tweak": 8,
+   "RECEIPT": 2,
+   "WIDER": 3,
+   "FACT": 1,
+   "NAMES": 3,
+   "MISS": 1
+  },
+  "2": {
+   "total": 7,
+   "blocker": 0,
+   "material": 1,
+   "tweak": 6,
+   "RECEIPT": 1,
+   "WIDER": 1,
+   "FACT": 1,
+   "NAMES": 2,
+   "MISS": 2
+  }
+ },
+ "deck-953": {
+  "1": {
+   "total": 11,
+   "blocker": 1,
+   "material": 4,
+   "tweak": 6,
+   "RECEIPT": 2,
+   "WIDER": 4,
+   "FACT": 3,
+   "NAMES": 1,
+   "MISS": 1
+  },
+  "2": {
+   "total": 10,
+   "blocker": 0,
+   "material": 4,
+   "tweak": 6,
+   "RECEIPT": 1,
+   "WIDER": 5,
+   "FACT": 2,
+   "NAMES": 1,
+   "MISS": 1
+  }
+ }
+}

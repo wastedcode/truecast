@@ -11,6 +11,7 @@ export const GRANTABLE_TOOLS = [
   "Edit",
   "Write",
   "NotebookEdit",
+  "Agent",
 ] as const;
 export const GrantableTool = z.enum(GRANTABLE_TOOLS);
 export type GrantableTool = z.infer<typeof GrantableTool>;

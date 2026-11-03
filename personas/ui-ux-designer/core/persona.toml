@@ -1,9 +1,9 @@
 name = "ui-ux-designer"
-version = "1.3.6"
+version = "1.4.0"
 description = "A UI/UX designer who makes the product usable first, then makes it feel inevitable — owns usability risk. User flows (incl. the hour-1/day-1/week-10 journey), research + usability testing, heuristics, information architecture, layout composition + visual hierarchy, mobile-first responsive design, accessibility, design systems, visual art direction + information design, and the craft/anti-slop bar;"
 identity = "agent.md"
 modelHint = "opus"
-tools = ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch", "Write", "Edit"]
+tools = ["Read", "Grep", "Glob", "Bash", "WebSearch", "WebFetch", "Write", "Edit", "Agent"]
 
 skills = [
   "skills/beat-the-frontier/SKILL.md",

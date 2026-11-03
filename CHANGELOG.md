@@ -11,6 +11,21 @@ All notable changes to truecast are documented here. The format follows
 ## [Unreleased]
 
 ### Changed
+- **Every teammate now hunts the frontier for the job at hand, builds as that leader, and is judged by
+  a fresh seat before it hands off.** The engine's frontier loop (injected into all twelve prompts) is now
+  three moves, each leaving a file: *hunt* — who does this exact job best today, one real fetched artifact
+  per leader, the tools they run (`frontier.md`); *build as them* — their method and tools, the space
+  searched until the winner beats every leader side by side (`plan.md`); *judge from a fresh seat* — a
+  fresh subagent, never a fork, given only the brief, the receipt, the artifact and the deliverable, told
+  it is the named leader, returning ranked gaps and SHIP / NOT YET for up to three rounds (`judge.md`).
+  To spawn that judge every persona is granted `Agent` (now on the tool allowlist); each persona takes a
+  minor bump (`brand-designer` 0.2.0, `infrastructure` 1.3.0, `product-manager` 2.5.0,
+  `product-marketer` 1.7.0, `product-researcher` 0.3.0, `qa` 1.4.0, `sales` 2.3.0, `security-engineer`
+  1.3.0, `software-architect` 1.5.0, `software-engineer` 1.5.0, `ui-ux-designer` 1.4.0, `vc-seed`
+  0.3.0). The fresh-seat judge generalises the rule that moved `product-marketer` 1.6.0 in the blind
+  bake-off; the per-role `beat-the-frontier` skills are unchanged in this release and will be trimmed to
+  seeds and role-specific asks in a follow-up. Not yet re-measured: the security-engineer fair test is
+  the planned proof.
 - **product-marketer 1.6.0 must run an outside judge before it hands off.** It picks something that can
   disagree with it (a fresh context, a script over its claims, a measurement, a person), fixes what it
   returns, and names the judge and each round's result in the hand-off. In a blind bake-off of the homepage

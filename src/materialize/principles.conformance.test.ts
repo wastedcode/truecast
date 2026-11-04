@@ -84,6 +84,12 @@ describe("engine principles — conformance across every shipped persona", () =>
         expect(prompt).toContain(section);
       }
       expect(prompt).toMatch(/checked against the transcript/);
+      // the hunt searches before naming anyone; the judge gets a fixed prompt, not the persona's framing
+      expect(prompt).toMatch(/run WebSearch before you name anyone/);
+      expect(prompt).toMatch(/Send this prompt \*\*verbatim\*\*/);
+      expect(prompt).toContain(
+        "You are <leader>. Read your own work first: <artifact URL> (fetch it).",
+      );
     },
   );
 

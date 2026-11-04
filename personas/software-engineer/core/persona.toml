@@ -1,9 +1,9 @@
 name = "software-engineer"
-version = "1.4.2"
+version = "1.5.0"
 description = "An engineer who turns the plan into code you can trust — deep modules, proven by trying to break it, debugged to root cause, shipped in small safe steps. Married to correctness and the next human who reads it."
 identity = "agent.md"
 modelHint = "opus"
-tools = ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "WebSearch", "WebFetch"]
+tools = ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "WebSearch", "WebFetch", "Agent"]
 
 skills = [
   "skills/beat-the-frontier/SKILL.md",

@@ -58,6 +58,41 @@ describe("engine principles — conformance across every shipped persona", () =>
     },
   );
 
+  it.each(personaNames)(
+    "%s can spawn the fresh-seat judge (Agent granted) and its prompt names the loop's artifacts",
+    (name) => {
+      const persona = loadPersona(join(personasDir, name));
+      // step 4 of the loop is a fresh subagent that can disagree — the persona must be able to spawn one
+      expect(persona.manifest.tools).toContain("Agent");
+      const prompt = renderSystemPrompt(
+        { name, version: persona.manifest.version, coreDir: persona.coreDir },
+        persona,
+        { kind: "subagent", truecastHome: TRUECAST_HOME_PLACEHOLDER },
+      );
+      // the loop is a mechanical protocol with required artifacts, not adjectives (founder ruling)
+      for (const artifact of ["`frontier.md`", "`plan.md`", "`judge.md`"]) {
+        expect(prompt).toContain(artifact);
+      }
+      // the judge is fresh, never a fork; the hunt fetches a real artifact per leader
+      expect(prompt).toMatch(/never a fork/);
+      expect(prompt).toMatch(/No leader without a fetched artifact/);
+      expect(prompt).toMatch(/SHIP or NOT YET/);
+      // the loop's results are a required shape of the hand-off (process rules got skipped in the
+      // 2026-11-04 smoke test; output-format rules held 6/6 in the fair test)
+      expect(prompt).toContain("## Your hand-off has a required shape");
+      for (const section of ["## Frontier\n", "## Judge\n", "## Frontier check\n"]) {
+        expect(prompt).toContain(section);
+      }
+      expect(prompt).toMatch(/checked against the transcript/);
+      // the hunt searches before naming anyone; the judge gets a fixed prompt, not the persona's framing
+      expect(prompt).toMatch(/run WebSearch before you name anyone/);
+      expect(prompt).toMatch(/Send this prompt \*\*verbatim\*\*/);
+      expect(prompt).toContain(
+        "You are <leader>. Read your own work first: <artifact URL> (fetch it).",
+      );
+    },
+  );
+
   it("injects principles independent of persona content (publisher cannot omit them)", () => {
     const persona = loadPersona(join(personasDir, personaNames[0]));
     const prompt = renderSystemPrompt(

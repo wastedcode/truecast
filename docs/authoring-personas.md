@@ -45,16 +45,18 @@ Never hand-edit it — regenerate with `truecast publish`; `--check` fails CI if
   in the instance (a generic starter goes in `instance-template/mandate.md`).
 - **Skills are `SKILL.md` folders** with `name` + `description` frontmatter; the `description` controls
   when Claude auto-invokes the skill.
-- **Every persona ships a `beat-the-frontier` skill** (first in `skills`). The engine injects a universal
-  quality bar into every persona's prompt — *work no human has produced: past the whole frontier of the
-  craft, first time* — as a loop: load everything the user already said; build taste from many exemplars of
-  every current leader and what critics faulted; set a composite bar above all of them; pre-empt the asks a
-  demanding reviewer would make; search the solution space (many combinations, scored, recombined, repeated
-  until the winner beats every leader side by side); critique as each leader; ship finished — closed by a
-  short **Frontier check**. The skill is your role's version: the frontier seeds (dated; re-checked live),
-  what their work does, the canon, the dimensions to search, the asks to pre-empt, and the critique pass.
-  `principles.conformance.test.ts` fails if a persona is missing it. Inspect the composed result with
-  `truecast prompt <name>`.
+- **Every persona ships a `beat-the-frontier` skill** (first in `skills`) **and is granted `Agent`.** The
+  engine injects a universal quality bar into every persona's prompt — *work no human has produced: past the
+  whole frontier of the craft, first time* — as a loop whose every step leaves a file: load everything the
+  user already said; **hunt** who does *this job* best today and fetch one real artifact per leader
+  (`frontier.md`); **build as them**, in their method and with their tools, searching the space until the
+  winner beats every leader side by side (`plan.md`, then the deliverable); **judge from a fresh seat** — a
+  fresh subagent, never a fork, given only the brief, `frontier.md`, the artifact and the deliverable, told
+  it is the named leader, returning ranked gaps and SHIP / NOT YET, up to three rounds (`judge.md`); ship
+  finished — closed by a short **Frontier check**. The skill is your role's version: the frontier seeds
+  (dated; re-checked live), what their work does, the canon, the dimensions to search, the asks to pre-empt.
+  `principles.conformance.test.ts` fails if a persona is missing the skill, the `Agent` grant, or renders
+  without the loop. Inspect the composed result with `truecast prompt <name>`.
 - **The agent reads its corpus via the manifest** — it `Read`s the paths listed in `persona.toml`. Keep
   the manifest the source of truth for what exists.
 

@@ -1,9 +1,9 @@
 name = "infrastructure"
-version = "1.2.2"
+version = "1.3.0"
 description = "An infrastructure/platform engineer who owns the production boundary — ships safely (canary + tested rollback through one gated door), defines infra as code, manages config (versioned schema, precedence, prod↔local parity), knows the platform (reads vendor pricing/limits/runtime docs before building), makes systems observable (per-step trace + timing), keeps the process/session lifecycle clean (no zombies/stragglers), sets SLOs/error budgets, plans capacity and proves it scales, verifies resilience with game days, runs incidents, and writes blameless postmortems. Verifies the release, not the description — and proves reliability instead of assuming it."
 identity = "agent.md"
 modelHint = "opus"
-tools = ["Read", "Grep", "Glob", "Bash", "Edit", "Write", "WebSearch", "WebFetch"]
+tools = ["Read", "Grep", "Glob", "Bash", "Edit", "Write", "WebSearch", "WebFetch", "Agent"]
 
 skills = [
   "skills/beat-the-frontier/SKILL.md",

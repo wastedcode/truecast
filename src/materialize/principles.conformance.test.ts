@@ -77,6 +77,13 @@ describe("engine principles — conformance across every shipped persona", () =>
       expect(prompt).toMatch(/never a fork/);
       expect(prompt).toMatch(/No leader without a fetched artifact/);
       expect(prompt).toMatch(/SHIP or NOT YET/);
+      // the loop's results are a required shape of the hand-off (process rules got skipped in the
+      // 2026-11-04 smoke test; output-format rules held 6/6 in the fair test)
+      expect(prompt).toContain("## Your hand-off has a required shape");
+      for (const section of ["## Frontier\n", "## Judge\n", "## Frontier check\n"]) {
+        expect(prompt).toContain(section);
+      }
+      expect(prompt).toMatch(/checked against the transcript/);
     },
   );
 

@@ -24,7 +24,7 @@ RELATIONS = {
 ENTRY_REQUIRED = ["id", "kind", "medium", "title", "by", "url", "archive_url", "jobs", "context", "verified", "curator"]
 JOB_REQUIRED = ["id", "type", "craft", "job", "aliases", "deliverable", "gold", "shelf", "check"]
 LIST_KEYS = {"jobs", "context", "relations", "aliases", "context_axes", "shelf", "search_further", "siblings",
-             "playbooks", "required_shape", "rejected", "steps", "whole_examples"}
+             "playbooks", "required_shape", "rejected", "steps", "whole_examples", "contrast"}
 
 
 def split_list(raw: str) -> list[str]:
@@ -107,13 +107,13 @@ def validate(entries: dict, jobs: dict, plays: dict) -> list[str]:
             errs.append(f"{where}: id must match filename")
         if j.get("gold") not in GOLD:
             errs.append(f"{where}: gold must be one of {sorted(GOLD)}")
-        for ref in j.get("shelf", []) + j.get("search_further", []):
+        for ref in j.get("shelf", []) + j.get("search_further", []) + j.get("contrast", []):
             if ref not in entries:
                 errs.append(f"{where}: shelf entry {ref!r} does not exist")
             elif stem not in entries[ref].get("jobs", []):
                 errs.append(f"{where}: {ref} is on the shelf but not tagged to {stem}")
         tagged = {s for s, e in entries.items() if stem in e.get("jobs", [])}
-        listed = set(j.get("shelf", [])) | set(j.get("search_further", []))
+        listed = set(j.get("shelf", [])) | set(j.get("search_further", [])) | set(j.get("contrast", []))
         errs += [f"{where}: {s} is tagged to this job but missing from its shelf" for s in sorted(tagged - listed)]
         for sib in j.get("siblings", []):
             if sib.partition(":")[2] not in jobs:
@@ -154,7 +154,8 @@ def render_llms(entries: dict, jobs: dict, plays: dict) -> str:
         " picking gold; a tweak held to PRD gold gets over-written.",
         "3. Read the job card, then the 2-3 shelf entries whose `context` best matches the brief. Shelf order is"
         " the curator's rank; context fit comes first.",
-        "4. Follow `relations` (same_system, contrast, explained_by) before mixing sources from different systems.",
+        "4. Follow `relations` (same_system, contrast, explained_by) before mixing sources from different systems."
+        " A job's `contrast` entries are weak or wrong-size examples kept for comparison: never model on them.",
         "5. If the shelf is empty, use the card's required_shape and check, and say that no gold was available.",
         "6. Open the linked original (or the archive snapshot) before claiming what it contains.",
         "",
@@ -169,8 +170,10 @@ def render_llms(entries: dict, jobs: dict, plays: dict) -> str:
     for j in sorted(jobs.values(), key=lambda j: (j["craft"], j["id"])):
         shelf = ", ".join(j["shelf"]) or "none (use required_shape)"
         sib = f" · siblings: {', '.join(j['siblings'])}" if j.get("siblings") else ""
+        con = f" · contrast, do NOT model on: {', '.join(j['contrast'])}" if j.get("contrast") else ""
+        far = f" · search further: {', '.join(j['search_further'])}" if j.get("search_further") else ""
         out.append(f"- [{j['id']}: {j['job']}]({j['path']}) · {j['craft']} · gold: {j['gold']} · aliases:"
-                   f" {', '.join(j['aliases'])} · shelf: {shelf}{sib}")
+                   f" {', '.join(j['aliases'])} · shelf: {shelf}{con}{far}{sib}")
     out += ["", "## Entries", ""]
     for e in sorted(entries.values(), key=lambda e: (e["kind"], e["id"])):
         date = f", {e['date']}" if e.get("date") else ""

@@ -1,0 +1,63 @@
+# truecast gold
+
+> Best-in-class public work, organised by job, for agents to find, compare and hold their work against. Plain text, CC0. Linked works belong to their owners; every entry links the owner's copy and an Internet Archive snapshot.
+
+How to use this catalog:
+1. Find the job: match the request against the job titles and aliases below (or grep jobs/ for a word). If the request is several jobs, look in Playbooks first.
+2. Check scope: each job lists size siblings (smaller / larger / alternative). Pick the right size before picking gold; a tweak held to PRD gold gets over-written.
+3. Read the job card, then the 2-3 shelf entries whose `context` best matches the brief. Shelf order is the curator's rank; context fit comes first.
+4. Follow `relations` (same_system, contrast, explained_by) before mixing sources from different systems.
+5. If the shelf is empty, use the card's required_shape and check, and say that no gold was available.
+6. Open the linked original (or the archive snapshot) before claiming what it contains.
+
+Status: prototype, 2026-11-05. All entries are agent-drafted and unratified.
+
+## Playbooks
+
+- [build-a-brand: Build a brand](playbooks/build-a-brand.md) · aliases: build a brand, brand identity, create a brand, branding, visual identity, rebrand, brand from scratch · steps: brd-004 → brd-003 → brd-001 → brd-006 → brd-011 → brd-012 → brd-014 → brd-017 → brd-050
+
+## Jobs
+
+- [brd-001: Write a brand platform](jobs/brd-001.md) · Brand & visual design · gold: low · aliases: brand platform, brand strategy, positioning, brand idea, purpose and values, brand pillars · shelf: mailchimp-rebrand-collins
+- [brd-003: Build a competitive brand landscape](jobs/brd-003.md) · Brand & visual design · gold: medium · aliases: competitive audit, brand audit, competitor landscape, category audit, whitespace map · shelf: none (use required_shape)
+- [brd-004: Write a creative brief for a rebrand](jobs/brd-004.md) · Brand & visual design · gold: low · aliases: creative brief, brand questionnaire, brand discovery, design brief, rebrand brief, intake questionnaire · shelf: none (use required_shape)
+- [brd-006: Design a logo and wordmark](jobs/brd-006.md) · Brand & visual design · gold: high · aliases: logo, logotype, wordmark, logomark, brand mark, symbol, monogram, emblem, mark, new logo, logo design · shelf: ibm-8-bar-logo, nasa-graphics-standards-manual · siblings: refresh:brd-010
+- [brd-010: Refresh an existing logo (evolution)](jobs/brd-010.md) · Brand & visual design · gold: high · aliases: logo refresh, rebrand, logo redesign, logo update, evolve the logo, modernise logo, identity refresh · shelf: slack-logo-2019, mailchimp-rebrand-collins, slack-logo-announcement-2019 · siblings: new:brd-006
+- [brd-011: Select and pair a brand typeface system](jobs/brd-011.md) · Brand & visual design · gold: high · aliases: typography, typeface, font pairing, brand fonts, type system · shelf: none (use required_shape)
+- [brd-012: Build a brand color palette](jobs/brd-012.md) · Brand & visual design · gold: high · aliases: color palette, colour palette, brand colors, color system, accessible colors · shelf: none (use required_shape)
+- [brd-014: Write a brand guidelines document](jobs/brd-014.md) · Brand & visual design · gold: high · aliases: brand guidelines, brand book, style guide, brand manual, identity guidelines, standards manual, brand standards · shelf: nasa-graphics-standards-manual, dropbox-brand-guidelines, mailchimp-brand-assets · siblings: smaller:brd-015
+- [brd-015: Create a press and media kit](jobs/brd-015.md) · Brand & visual design · gold: medium · aliases: press kit, media kit, brand assets page, logo downloads, newsroom assets · shelf: mailchimp-brand-assets · siblings: larger:brd-014
+- [brd-017: Write a voice and tone guide](jobs/brd-017.md) · Brand & visual design · gold: high · aliases: voice and tone, tone of voice, brand voice, content style guide, writing guidelines, verbal identity · shelf: mailchimp-content-style-guide
+- [brd-050: Write a brand rationale presentation](jobs/brd-050.md) · Brand & visual design · gold: medium · aliases: logo rationale, rebrand announcement, design rationale, why we changed our logo · shelf: slack-logo-announcement-2019
+- [pm-007: Write a PRD for a new feature](jobs/pm-007.md) · Product management · gold: low · aliases: PRD, product requirements document, product spec, feature spec, requirements doc, one-pager, product brief · shelf: none (use required_shape) · siblings: smaller:pm-051, alternative:pm-008, larger:pm-009
+- [pm-008: Write a Shape Up pitch](jobs/pm-008.md) · Product management · gold: high · aliases: pitch, shape up, appetite, betting table, shaped work · shelf: shape-up-write-the-pitch · siblings: alternative:pm-007
+- [pm-009: Write an Amazon-style PR/FAQ](jobs/pm-009.md) · Product management · gold: high · aliases: PR/FAQ, PRFAQ, press release FAQ, working backwards, six-pager, new product proposal · shelf: working-backwards-pr-faq · siblings: smaller:pm-007
+- [pm-051: Write a small-change spec](jobs/pm-051.md) · Product management · gold: medium · aliases: small change, tweak, ticket, issue, mini spec, bug fix spec, copy change, small feature, one-liner spec · shelf: linear-write-issues · siblings: larger:pm-007
+- [sec-002: Threat-model a whole system](jobs/sec-002.md) · Security engineering · gold: medium · aliases: threat model, threat modeling, threat modelling, data flow diagram, trust boundaries, risk register · shelf: tob-curl-threatmodel-2022 · siblings: code-level:sec-005
+- [sec-005: Audit a codebase for exploitable vulnerabilities](jobs/sec-005.md) · Security engineering · gold: high · aliases: security audit, security review, code audit, pentest report, vulnerability assessment, secure code review, appsec review · shelf: tob-homebrew-2023, cloudflare-security-audit-skill, semgrep, codeql · siblings: design-time:sec-002
+
+## Entries
+
+- [dropbox-brand-guidelines](entries/dropbox-brand-guidelines.md): Dropbox Brand Guidelines — Dropbox · artifact/document · jobs: brd-014 · context: software, digital-first, public guidelines site · use when: writing guidelines for a software brand that lives mostly on screens.
+- [ibm-8-bar-logo](entries/ibm-8-bar-logo.md): IBM 8-bar logo — Paul Rand for IBM, 1972 · artifact/visual · jobs: brd-006 · context: established company, enterprise, print and screen, one-color · use when: an established company wants a typographic mark that must survive one-color reproduction.
+- [linear-write-issues](entries/linear-write-issues.md): "Write issues not user stories" (Linear Method) — Linear · artifact/document · jobs: pm-051 · context: small change, software team, any stage · use when: the change is a tweak; step up to pm-007 only if it needs goals, non-goals and metrics.
+- [mailchimp-brand-assets](entries/mailchimp-brand-assets.md): Mailchimp brand assets page — Mailchimp · artifact/document · jobs: brd-014, brd-015 · context: public press and partner page, minimal · use when: you need a press kit or public brand page (brd-015), not internal guidelines.
+- [mailchimp-content-style-guide](entries/mailchimp-content-style-guide.md): Mailchimp Content Style Guide — Mailchimp · artifact/document · jobs: brd-017 · context: software, SMB audience, friendly voice · use when: writing a voice and tone guide for a friendly, plain-spoken software brand.
+- [mailchimp-rebrand-collins](entries/mailchimp-rebrand-collins.md): Mailchimp brand system case study — COLLINS · artifact/document · jobs: brd-010, brd-001 · context: scaleup, SMB software, product expansion, consumer-friendly B2B · use when: a rebrand is really a portfolio or positioning problem (brd-001), not just a logo refresh.
+- [nasa-graphics-standards-manual](entries/nasa-graphics-standards-manual.md): NASA Graphics Standards Manual (NHB 1430.2) — Danne & Blackburn for NASA, 1976-01 (manual in effect January 1, 1976) · artifact/document · jobs: brd-014, brd-006 · context: large organisation, many sub-units, print-era, government · use when: writing guidelines for an organisation with many teams or sub-brands that must stay consistent.
+- [shape-up-write-the-pitch](entries/shape-up-write-the-pitch.md): "Write the Pitch" (Shape Up, chapter 6) — Ryan Singer, Basecamp · artifact/document · jobs: pm-008 · context: fixed time budget, small team, product company · use when: the team works in fixed time budgets and the question is "what fits in the time we'll spend".
+- [slack-logo-2019](entries/slack-logo-2019.md): Slack logo and identity refresh — Pentagram (Michael Bierut, with Britt Cobb, Daisy Lee, Abby Matousek) with Slack's in-house team, 2019-01 · artifact/visual · jobs: brd-010 · context: scaleup, software, screen-first, existing equity to keep · use when: refreshing a mark people already recognise, especially one that breaks on non-white backgrounds.
+- [slack-logo-announcement-2019](entries/slack-logo-announcement-2019.md): "Say hello, new logo" (Slack's rationale post) — Slack, 2019-01 · artifact/document · jobs: brd-010, brd-050 · context: public rebrand announcement, existing users · use when: writing the public rationale for a logo change (brd-050).
+- [tob-curl-threatmodel-2022](entries/tob-curl-threatmodel-2022.md): cURL Threat Model — Trail of Bits for the Linux Foundation, 2022-12 · artifact/document · jobs: sec-002 · context: widely embedded library and CLI, open source · use when: threat-modelling a whole system or library (sec-002).
+- [tob-homebrew-2023](entries/tob-homebrew-2023.md): Homebrew Security Assessment — Trail of Bits (William Woodruff, Sam Alws, William Tan) for OTF, 2023-08 (review); 2024-07-26 (comprehensive report) · artifact/document · jobs: sec-005 · context: package manager, installer, CLI that runs third-party code, CI/CD · use when: auditing an installer, package manager or any tool that runs or writes third-party content.
+- [working-backwards-pr-faq](entries/working-backwards-pr-faq.md): Working Backwards PR/FAQ instructions and template — Colin Bryar and Bill Carr (Working Backwards) · artifact/document · jobs: pm-009 · context: new product or big bet, needs leadership buy-in · use when: the idea is a new product or a bet that needs a yes from leadership.
+- [brand-new](entries/brand-new.md): Brand New (UnderConsideration) — UnderConsideration · source/visual · jobs: brd-006, brd-010, brd-003, brd-050 · context: any
+- [logobook](entries/logobook.md): Logobook — Logobook · source/visual · jobs: brd-006, brd-003 · context: any
+- [cloudflare-security-audit-skill](entries/cloudflare-security-audit-skill.md): Cloudflare security-audit skill — Cloudflare, 2026-09 (last push) · tool/code · jobs: sec-005 · context: agent-run audit, parallel subagents
+- [codeql](entries/codeql.md): CodeQL — GitHub · tool/code · jobs: sec-005 · context: supported compiled and interpreted languages, data-flow bugs
+- [semgrep](entries/semgrep.md): Semgrep — Semgrep, Inc. · tool/code · jobs: sec-005 · context: many languages, custom rules
+
+## Optional
+
+- [llms-full.txt](llms-full.txt): every card and entry in one file
+- [index.jsonl](index.jsonl): the same records as JSON lines

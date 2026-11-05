@@ -1,0 +1,881 @@
+# truecast gold — full text
+
+<!-- playbooks/build-a-brand.md -->
+---
+id: build-a-brand
+type: playbook
+title: Build a brand
+aliases: [build a brand, brand identity, create a brand, branding, visual identity, rebrand, brand from scratch]
+steps: [brd-004, brd-003, brd-001, brd-006, brd-011, brd-012, brd-014, brd-017, brd-050]
+whole_examples: [mailchimp-rebrand-collins, slack-logo-2019]
+---
+# Build a brand
+
+Run the steps in order; each step's output is the next step's input. Pull the step's shelf before you start it.
+
+1. **brd-004 Creative brief** from a discovery questionnaire (no public gold: required shape + judge)
+2. **brd-003 Competitive landscape** (search Brand New, Logobook)
+3. **brd-001 Brand platform** (low gold: the Collins strategy sentence is the move)
+4. **brd-006 Logo and wordmark** — or **brd-010** if refreshing an existing mark
+5. **brd-011 Type** and **brd-012 Color**
+6. **brd-014 Guidelines**
+7. **brd-017 Voice and tone**
+8. **brd-050 Rationale** to launch it
+
+**Keep one system.** If you pick an exemplar for step 4, follow its `same_system` links for later steps
+before mixing sources: Mailchimp's identity, brand page and content style guide are one coherent system.
+
+<!-- jobs/brd-001.md -->
+---
+id: brd-001
+type: job
+craft: Brand & visual design
+job: Write a brand platform
+aliases: [brand platform, brand strategy, positioning, brand idea, purpose and values, brand pillars]
+deliverable: Brand platform doc — purpose, promise, values, personality, 5-10 pages
+gold: low
+context_axes: [stage, B2B vs consumer]
+shelf: [mailchimp-rebrand-collins]
+search_further: []
+siblings: []
+playbooks: [build-a-brand]
+check: Every value has a "we do / we don't" behavior pair
+required_shape: [business problem the brand must solve, brand idea in one sentence, audience, values with we-do/we-don't pairs, personality, proof points]
+---
+# Write a brand platform
+
+Little public gold: agencies publish outcomes, not platforms. The Collins case shows the move that matters
+(a strategy sentence tied to a business problem). Otherwise use the required shape, the check, and the judge.
+
+<!-- jobs/brd-003.md -->
+---
+id: brd-003
+type: job
+craft: Brand & visual design
+job: Build a competitive brand landscape
+aliases: [competitive audit, brand audit, competitor landscape, category audit, whitespace map]
+deliverable: Visual competitor matrix + whitespace map, 8-12 slides
+gold: medium
+context_axes: [category maturity]
+shelf: []
+search_further: [brand-new, logobook]
+siblings: []
+playbooks: [build-a-brand]
+check: Each competitor shows logo, palette, type and homepage capture
+required_shape: [competitor list with reason for inclusion, logo/palette/type per competitor, positioning map with two named axes, whitespace and the claim it allows]
+---
+# Build a competitive brand landscape
+
+<!-- jobs/brd-004.md -->
+---
+id: brd-004
+type: job
+craft: Brand & visual design
+job: Write a creative brief for a rebrand
+aliases: [creative brief, brand questionnaire, brand discovery, design brief, rebrand brief, intake questionnaire]
+deliverable: Creative brief, 2-3 pages (often produced from a discovery questionnaire)
+gold: low
+context_axes: [budget, scope]
+shelf: []
+search_further: []
+siblings: []
+playbooks: [build-a-brand]
+check: Brief states objective, audience, deliverables, budget and timeline
+required_shape: [business objective, what's broken today (with evidence), audience, equity to keep, competitors, deliverables, constraints, budget, timeline, decision maker]
+---
+# Write a creative brief for a rebrand
+
+No public gold on this shelf. Run the discovery questionnaire against the required shape, then the judge.
+
+<!-- jobs/brd-006.md -->
+---
+id: brd-006
+type: job
+craft: Brand & visual design
+job: Design a logo and wordmark
+aliases: [logo, logotype, wordmark, logomark, brand mark, symbol, monogram, emblem, mark, new logo, logo design]
+deliverable: Logo suite — primary, mark, wordmark, lockups, one-color, SVG
+gold: high
+context_axes: [category, digital-first vs print, one-color requirement]
+shelf: [ibm-8-bar-logo, nasa-graphics-standards-manual]
+search_further: [logobook, brand-new]
+siblings: [refresh:brd-010]
+playbooks: [build-a-brand]
+check: Mark legible at 16px and in one color; ships with construction grid and an incorrect-uses page
+---
+# Design a logo and wordmark
+
+For a **new** mark. If the company already has a logo people recognise, this is brd-010 (refresh).
+
+**Pick by:** closest `context` to the brief first, then shelf order. Name the pick and the runner-up.
+
+<!-- jobs/brd-010.md -->
+---
+id: brd-010
+type: job
+craft: Brand & visual design
+job: Refresh an existing logo (evolution)
+aliases: [logo refresh, rebrand, logo redesign, logo update, evolve the logo, modernise logo, identity refresh]
+deliverable: Before/after logo refresh + rationale
+gold: high
+context_axes: [equity to keep, screen vs print, scope of system]
+shelf: [slack-logo-2019, mailchimp-rebrand-collins, slack-logo-announcement-2019]
+search_further: [brand-new]
+siblings: [new:brd-006]
+playbooks: [build-a-brand]
+check: Side-by-side shows the retained recognition element and names the old mark's concrete failure
+---
+# Refresh an existing logo
+
+Keep what people recognise, fix what breaks. Slack (keep the octothorpe, cut 11 colors to 4) is the model for a
+mark that fails technically; Mailchimp is the model when the real problem is portfolio and positioning.
+
+<!-- jobs/brd-011.md -->
+---
+id: brd-011
+type: job
+craft: Brand & visual design
+job: Select and pair a brand typeface system
+aliases: [typography, typeface, font pairing, brand fonts, type system]
+deliverable: Type system — families, scale, pairing rationale, licensing
+gold: high
+context_axes: [licensing budget, product vs marketing]
+shelf: []
+search_further: []
+siblings: []
+playbooks: [build-a-brand]
+check: Every typeface listed has a license covering web and app
+required_shape: [families and roles, type scale, pairing rationale, license per use (web, app, print)]
+---
+# Select and pair a brand typeface system
+
+Shelf not curated yet in this prototype (public gold exists: Fonts In Use, Typewolf).
+
+<!-- jobs/brd-012.md -->
+---
+id: brd-012
+type: job
+craft: Brand & visual design
+job: Build a brand color palette
+aliases: [color palette, colour palette, brand colors, color system, accessible colors]
+deliverable: Palette with roles, tints, contrast matrix
+gold: high
+context_axes: [accessibility bar]
+shelf: []
+search_further: []
+siblings: []
+playbooks: [build-a-brand]
+check: Contrast matrix computed for every text/background pair
+required_shape: [named colors with roles, tints and shades, contrast matrix for every text/background pair, dark-mode mapping]
+---
+# Build a brand color palette
+
+Shelf not curated yet in this prototype (public gold exists: Radix Colors, Stripe's accessible color post).
+
+<!-- jobs/brd-014.md -->
+---
+id: brd-014
+type: job
+craft: Brand & visual design
+job: Write a brand guidelines document
+aliases: [brand guidelines, brand book, style guide, brand manual, identity guidelines, standards manual, brand standards]
+deliverable: Guidelines site or PDF, 20-60 pages
+gold: high
+context_axes: [internal vs agencies, print vs screen, number of sub-brands]
+shelf: [nasa-graphics-standards-manual, dropbox-brand-guidelines, mailchimp-brand-assets]
+search_further: []
+siblings: [smaller:brd-015]
+playbooks: [build-a-brand]
+check: Every logo usage rule has a correct and an incorrect example
+---
+# Write a brand guidelines document
+
+NASA for structure and multi-unit rules; Dropbox for a screen-first site. Mailchimp's public page is on the shelf
+as the **contrast**: it is a press page (brd-015), and modelling full guidelines on it under-delivers.
+
+<!-- jobs/brd-015.md -->
+---
+id: brd-015
+type: job
+craft: Brand & visual design
+job: Create a press and media kit
+aliases: [press kit, media kit, brand assets page, logo downloads, newsroom assets]
+deliverable: Public page with logo files, name usage, colors and don'ts
+gold: medium
+context_axes: [audience: press vs partners]
+shelf: [mailchimp-brand-assets]
+search_further: []
+siblings: [larger:brd-014]
+playbooks: []
+check: Page gives downloadable logo files, the correct name spelling and at least three don'ts
+---
+# Create a press and media kit
+
+<!-- jobs/brd-017.md -->
+---
+id: brd-017
+type: job
+craft: Brand & visual design
+job: Write a voice and tone guide
+aliases: [voice and tone, tone of voice, brand voice, content style guide, writing guidelines, verbal identity]
+deliverable: Voice & tone guide, 5-15 pages with examples
+gold: high
+context_axes: [formality, audience]
+shelf: [mailchimp-content-style-guide]
+search_further: []
+siblings: []
+playbooks: [build-a-brand]
+check: Every tone rule has a before/after example
+---
+# Write a voice and tone guide
+
+<!-- jobs/brd-050.md -->
+---
+id: brd-050
+type: job
+craft: Brand & visual design
+job: Write a brand rationale presentation
+aliases: [logo rationale, rebrand announcement, design rationale, why we changed our logo]
+deliverable: Rationale deck or post explaining the change
+gold: medium
+context_axes: [internal vs public]
+shelf: [slack-logo-announcement-2019]
+search_further: [brand-new]
+siblings: []
+playbooks: [build-a-brand]
+check: States what was kept before what changed, and the concrete problem the change fixes
+---
+# Write a brand rationale presentation
+
+<!-- jobs/pm-007.md -->
+---
+id: pm-007
+type: job
+craft: Product management
+job: Write a PRD for a new feature
+aliases: [PRD, product requirements document, product spec, feature spec, requirements doc, one-pager, product brief]
+deliverable: PRD, 2-6 pages
+gold: low
+context_axes: [stage, team size, regulated or not]
+shelf: []
+search_further: []
+siblings: [smaller:pm-051, alternative:pm-008, larger:pm-009]
+playbooks: []
+check: Has problem, goals, non-goals, success metrics and open questions sections
+required_shape: [problem and evidence, goals, non-goals, users and scenarios, requirements, success metrics, risks, open questions]
+rejected: [lenny-prds-1-pagers (paywalled: an agent can't read it), "public PRD templates" (templates, not finished PRDs)]
+---
+# Write a PRD for a new feature
+
+**No ratified gold yet.** Real PRDs are private; what's public is templates. The best-known collection
+(Lenny's Newsletter) is paywalled, so an agent can't use it. Until a ratified PRD lands here, use the required
+shape, the check, and the judge — or a sibling if the scope is wrong:
+- smaller: pm-051 small-change spec · alternative: pm-008 Shape Up pitch · larger: pm-009 PR/FAQ
+
+<!-- jobs/pm-008.md -->
+---
+id: pm-008
+type: job
+craft: Product management
+job: Write a Shape Up pitch
+aliases: [pitch, shape up, appetite, betting table, shaped work]
+deliverable: Pitch — problem, appetite, solution, rabbit holes, no-gos
+gold: high
+context_axes: [appetite, team]
+shelf: [shape-up-write-the-pitch]
+search_further: []
+siblings: [alternative:pm-007]
+playbooks: []
+check: States an appetite and at least one no-go
+---
+# Write a Shape Up pitch
+
+<!-- jobs/pm-009.md -->
+---
+id: pm-009
+type: job
+craft: Product management
+job: Write an Amazon-style PR/FAQ
+aliases: [PR/FAQ, PRFAQ, press release FAQ, working backwards, six-pager, new product proposal]
+deliverable: PR/FAQ — 1-page press release + external and internal FAQ
+gold: high
+context_axes: [internal vs external FAQ, product maturity]
+shelf: [working-backwards-pr-faq]
+search_further: []
+siblings: [smaller:pm-007]
+playbooks: []
+check: Press release fits on one page; FAQ has customer and internal parts
+---
+# Write an Amazon-style PR/FAQ
+
+<!-- jobs/pm-051.md -->
+---
+id: pm-051
+type: job
+craft: Product management
+job: Write a small-change spec
+aliases: [small change, tweak, ticket, issue, mini spec, bug fix spec, copy change, small feature, one-liner spec]
+deliverable: Issue or half-page spec — problem, the change, acceptance criteria, one metric
+gold: medium
+context_axes: [risk of the change]
+shelf: [linear-write-issues]
+search_further: []
+siblings: [larger:pm-007]
+playbooks: []
+check: Fits on half a page and has acceptance criteria; no market, persona or rollout sections
+required_shape: [problem in one sentence, the change, acceptance criteria, how we'll know (one metric or check)]
+---
+# Write a small-change spec
+
+**Added by this prototype**: the 1,000-job list had only "PRD for a new feature". Holding a tweak to PRD gold
+makes the agent over-write. Step up to pm-007 if the change needs goals, non-goals and success metrics.
+
+<!-- jobs/sec-002.md -->
+---
+id: sec-002
+type: job
+craft: Security engineering
+job: Threat-model a whole system
+aliases: [threat model, threat modeling, threat modelling, data flow diagram, trust boundaries, risk register]
+deliverable: System threat model + prioritized risk register
+gold: medium
+context_axes: [system size, regulated]
+shelf: [tob-curl-threatmodel-2022]
+search_further: []
+siblings: [code-level:sec-005]
+playbooks: []
+check: Diagrams show every trust boundary; every threat maps to a mitigation or an accepted-risk owner
+---
+# Threat-model a whole system
+
+<!-- jobs/sec-005.md -->
+---
+id: sec-005
+type: job
+craft: Security engineering
+job: Audit a codebase for exploitable vulnerabilities
+aliases: [security audit, security review, code audit, pentest report, vulnerability assessment, secure code review, appsec review]
+deliverable: Security audit report — scope, coverage, findings with PoC, severity, fix
+gold: high
+context_axes: [language, attack surface, time box]
+shelf: [tob-homebrew-2023, cloudflare-security-audit-skill, semgrep, codeql]
+search_further: []
+siblings: [design-time:sec-002]
+playbooks: []
+check: Each finding has reproduction steps and an affected file:line; report states coverage and what was not reviewed
+---
+# Audit a codebase for exploitable vulnerabilities
+
+<!-- entries/brand-new.md -->
+---
+id: brand-new
+kind: source
+medium: visual
+title: Brand New (UnderConsideration)
+by: UnderConsideration
+date:
+url: https://www.underconsideration.com/brandnew/
+archive_url: http://web.archive.org/web/20261029125651/https://www.underconsideration.com/brandnew/
+jobs: [brd-006, brd-010, brd-003, brd-050]
+context: [any]
+facets: before/after reviews of identity changes, with reader ratings
+relations: []
+verified: 2026-11-05 page fetched, title "Brand New"
+curator: draft (agent), unratified
+---
+# Brand New — a source to search, not an exemplar
+
+The largest public archive of before/after identity reviews. Use it to find refreshes in the brief's category
+and to read what critics said worked and failed.
+
+<!-- entries/cloudflare-security-audit-skill.md -->
+---
+id: cloudflare-security-audit-skill
+kind: tool
+medium: code
+title: Cloudflare security-audit skill
+by: Cloudflare
+date: 2026-09 (last push)
+url: https://github.com/cloudflare/security-audit-skill
+archive_url: http://web.archive.org/web/20261105020600/https://github.com/cloudflare/security-audit-skill
+jobs: [sec-005]
+context: [agent-run audit, parallel subagents]
+facets: phases=recon, coverage-led hunting, adversarial validation, structured output, record verification, reporting; ships report-schema.json + validators
+relations: []
+verified: 2026-11-05 repo README read via GitHub API
+curator: draft (agent), unratified
+---
+# Cloudflare security-audit skill
+
+The method behind Cloudflare's vulnerability harness, as a coding-agent skill. Its adversarial verifier
+("the agent that checks a finding is never the agent that found it") and its `findings.json` schema plus
+validator are the parts to borrow. Their own note: a single run found roughly half of what repeated runs did.
+
+<!-- entries/codeql.md -->
+---
+id: codeql
+kind: tool
+medium: code
+title: CodeQL
+by: GitHub
+date:
+url: https://codeql.github.com/
+archive_url: http://web.archive.org/web/20261023193104/https://codeql.github.com/
+jobs: [sec-005]
+context: [supported compiled and interpreted languages, data-flow bugs]
+facets: use=query code as data; taint tracking source to sink
+relations: [alternative:semgrep]
+verified: 2026-11-05 page fetched, title "CodeQL"
+curator: draft (agent), unratified
+---
+# CodeQL
+
+Interprocedural taint tracking from input to sink. Slower to set up than Semgrep; better for "can this input
+reach that call".
+
+<!-- entries/dropbox-brand-guidelines.md -->
+---
+id: dropbox-brand-guidelines
+kind: artifact
+medium: document
+title: Dropbox Brand Guidelines
+by: Dropbox
+date:
+url: https://brand.dropbox.com/
+archive_url: http://web.archive.org/web/20261024000430/https://brand.dropbox.com/
+jobs: [brd-014]
+context: [software, digital-first, public guidelines site]
+facets: sections=Framework, Voice & Tone, Logo, Typography, Iconography, Color, Imagery, Motion
+relations: [smaller_sibling:nasa-graphics-standards-manual]
+verified: 2026-11-05 page fetched, title "Dropbox Brand Guidelines"
+curator: draft (agent), unratified
+---
+# Dropbox Brand Guidelines
+
+**Why it's gold**
+- A digital-first guidelines *site*: eight sections from Framework and Voice & Tone through Motion, which the
+  print-era NASA manual can't cover.
+- Puts partner and legal resources at the top, so external users find what they need first.
+
+**Weakness**
+- Only the index was read for this entry; logo construction detail lives on sub-pages not yet reviewed.
+
+**Use when** writing guidelines for a software brand that lives mostly on screens.
+
+<!-- entries/ibm-8-bar-logo.md -->
+---
+id: ibm-8-bar-logo
+kind: artifact
+medium: visual
+title: IBM 8-bar logo
+by: Paul Rand for IBM
+date: 1972
+url: https://www.ibm.com/history/logo
+archive_url: http://web.archive.org/web/20260508203503/https://www.ibm.com/history/logo
+jobs: [brd-006]
+context: [established company, enterprise, print and screen, one-color]
+facets: mark_type=wordmark; colors=1 (black, gray, white or IBM Blue PMS 2718C); device=horizontal stripes (8, sometimes 13)
+relations: [contrast:slack-logo-2019]
+verified: 2026-11-05 page fetched, title "The IBM logo | IBM"
+curator: draft (agent), unratified
+---
+# IBM 8-bar logo — Paul Rand, 1972
+
+**Why it's gold**
+- One device carries the whole identity: the letters set in eight (sometimes 13) horizontal bars.
+- Works in a single color; IBM's own history page shows it in black, gray, white or IBM Blue.
+- Part of a lineage Rand managed: he drew the 1956 version, the 1972 bars and the 1981 rebus poster, so the
+  mark evolved instead of being replaced.
+- Fifty-plus years in use with only color and context adjusted.
+
+**Weakness**
+- Fine bars thin out at small sizes; check a 16px favicon version separately.
+- The page is a history, not a construction spec: no grid, clear space or minimum size.
+
+**Use when** an established company wants a typographic mark that must survive one-color reproduction.
+
+<!-- entries/linear-write-issues.md -->
+---
+id: linear-write-issues
+kind: artifact
+medium: document
+title: "Write issues not user stories" (Linear Method)
+by: Linear
+date:
+url: https://linear.app/method/write-issues-not-user-stories
+archive_url: http://web.archive.org/web/20260421170135/https://linear.app/method/write-issues-not-user-stories
+jobs: [pm-051]
+context: [small change, software team, any stage]
+facets: length=short essay; position=against user stories
+relations: [larger_sibling:pm-007]
+verified: 2026-11-05 page fetched, title "Write issues not user stories – Linear Method"
+curator: draft (agent), unratified
+---
+# "Write issues not user stories" — Linear
+
+**Why it's gold** (for a small change)
+- "Write only as much as you need to share to perform the task and communicate relevant information."
+- Short, direct titles that state the task.
+- Argues user stories "obscure the work to be done" by pulling product-level detail into the task level, which
+  is exactly the over-writing a full PRD template pushes onto a tweak.
+
+**Weakness**
+- Guidance, not a worked example spec.
+
+**Use when** the change is a tweak; step up to pm-007 only if it needs goals, non-goals and metrics.
+
+<!-- entries/logobook.md -->
+---
+id: logobook
+kind: source
+medium: visual
+title: Logobook
+by: Logobook
+date:
+url: https://logobook.com/
+archive_url: http://web.archive.org/web/20261105112507/https://logobook.com/
+jobs: [brd-006, brd-003]
+context: [any]
+facets: searchable archive of logos, symbols and trademarks
+relations: []
+verified: 2026-11-05 page fetched, title "Logobook - Discover the worlds finest logos, symbols and trademarks"
+curator: draft (agent), unratified
+---
+# Logobook — a source to search, not an exemplar
+
+Search here for marks by form (letter, shape, symbol) when the shelf's entries don't match the brief's
+category. Treat results as candidates: name the specific mark you picked and why.
+
+<!-- entries/mailchimp-brand-assets.md -->
+---
+id: mailchimp-brand-assets
+kind: artifact
+medium: document
+title: Mailchimp brand assets page
+by: Mailchimp
+date:
+url: https://mailchimp.com/about/brand-assets/
+archive_url: http://web.archive.org/web/20261027053130/https://mailchimp.com/about/brand-assets/
+jobs: [brd-014, brd-015]
+context: [public press and partner page, minimal]
+facets: covers=name spelling, logo + Freddie pairing, reverse version, 2 named colors, don'ts; downloads=EPS, PNG
+relations: [same_system:mailchimp-rebrand-collins, contrast:nasa-graphics-standards-manual]
+verified: 2026-11-05 page fetched, title "Mailchimp Brand Assets and Resources Guidelines | Mailchimp"
+curator: draft (agent), unratified
+---
+# Mailchimp brand assets — the minimal public page
+
+**Why it's gold** (for the small job)
+- Everything a partner or journalist needs on one page: the name ("one word, spelled with a big M and a little
+  c"), always pair the name with Freddie, use the reverse version on dark, two named colors (Cavendish Yellow,
+  Peppercorn), and four plain don'ts.
+
+**Weakness**
+- Not a guidelines system: no hex values, no construction, no type. Using it as the model for a full
+  guidelines document would under-deliver; see the contrast with the NASA manual.
+
+**Use when** you need a press kit or public brand page (brd-015), not internal guidelines.
+
+<!-- entries/mailchimp-content-style-guide.md -->
+---
+id: mailchimp-content-style-guide
+kind: artifact
+medium: document
+title: Mailchimp Content Style Guide
+by: Mailchimp
+date:
+url: https://styleguide.mailchimp.com/
+archive_url: http://web.archive.org/web/20261010131659/https://styleguide.mailchimp.com/
+jobs: [brd-017]
+context: [software, SMB audience, friendly voice]
+facets: format=public website; covers voice and tone, grammar, writing for accessibility, and more
+relations: [same_system:mailchimp-rebrand-collins]
+verified: 2026-11-05 page fetched, title "Welcome to the Mailchimp Content Style Guide"
+curator: draft (agent), unratified
+---
+# Mailchimp Content Style Guide
+
+**Why it's gold**
+- The most-cited public voice and tone guide; public, browsable, and written in the voice it describes.
+- Belongs to the same system as the Mailchimp identity, so an agent building a brand can keep visual and
+  verbal identity from one coherent source.
+
+**Weakness**
+- Long; most startups need the voice and tone part, not the full editorial manual.
+
+**Use when** writing a voice and tone guide for a friendly, plain-spoken software brand.
+
+<!-- entries/mailchimp-rebrand-collins.md -->
+---
+id: mailchimp-rebrand-collins
+kind: artifact
+medium: document
+title: Mailchimp brand system case study
+by: COLLINS
+date:
+url: https://wearecollins.com/case-studies/mailchimp/
+archive_url: http://web.archive.org/web/20260904170738/https://wearecollins.com/case-studies/mailchimp/
+jobs: [brd-010, brd-001]
+context: [scaleup, SMB software, product expansion, consumer-friendly B2B]
+facets: deliverables=portfolio architecture (35 solutions into 5 categories), logotype, logomark, palette, type, illustration, photography
+relations: [same_system:mailchimp-brand-assets, same_system:mailchimp-content-style-guide, led_to:mailchimp-brand-assets]
+verified: 2026-11-05 page fetched, title "Mailchimp | COLLINS"; the page gives no year, so date is left blank
+curator: draft (agent), unratified
+---
+# Mailchimp brand system — COLLINS
+
+**Why it's gold**
+- Starts from a business problem, not taste: email credibility "wasn't translating elsewhere", which blocked
+  cross-selling 35 added products.
+- The brand idea is a strategy sentence: "Fuel small and midsize businesses growth by democratizing
+  cutting-edge marketing technology."
+- Fixes the architecture (35 solutions into five categories) *before* the visual system.
+- One ownable visual move: a hallmark illustration style inspired by outsider art, embracing "imperfection and
+  a hand-drawn aesthetic", on a yellow-heavy palette.
+
+**Weakness**
+- Case-study page, not the full system; no rejected directions. Year not stated on the page.
+
+**Use when** a rebrand is really a portfolio or positioning problem (brd-001), not just a logo refresh.
+
+<!-- entries/nasa-graphics-standards-manual.md -->
+---
+id: nasa-graphics-standards-manual
+kind: artifact
+medium: document
+title: NASA Graphics Standards Manual (NHB 1430.2)
+by: Danne & Blackburn for NASA
+date: 1976-01 (manual in effect January 1, 1976)
+url: https://www.nasa.gov/wp-content/uploads/2015/01/nasa_graphics_manual_nhb_1430-2_jan_1976.pdf
+archive_url: http://web.archive.org/web/20261005140808/https://www.nasa.gov/wp-content/uploads/2015/01/nasa_graphics_manual_nhb_1430-2_jan_1976.pdf
+jobs: [brd-014, brd-006]
+context: [large organisation, many sub-units, print-era, government]
+facets: pages=60; sections=logotype, color, incorrect uses, grid drawing, reproduction art per center, ...
+relations: [contrast:mailchimp-brand-assets, larger_sibling:dropbox-brand-guidelines]
+verified: 2026-11-05 PDF fetched, 60 pages, title "NASA Graphics Standards Manual (NHB 1430.2) (January 1976)"
+curator: draft (agent), unratified
+---
+# NASA Graphics Standards Manual — Danne & Blackburn, 1976
+
+**Why it's gold**
+- Opens on the logotype (the "worm") and then defines everything that depends on it, in order: agency and
+  center identification, the NASA color, use of color, color standards.
+- Has an explicit **"The Logotype: Incorrect Uses"** page (1.6) and a **grid drawing for large applications**
+  (1.7). Rules come with the drawings needed to follow them.
+- Ships **reproduction art for every center** (Ames, Goddard, JPL, Johnson, Kennedy, Langley, ...): the
+  manual solves the multi-unit problem, not just the logo.
+
+**Weakness**
+- Print-era: no screen, motion, accessibility or digital-product guidance.
+
+**Use when** writing guidelines for an organisation with many teams or sub-brands that must stay consistent.
+Also the best public example of a logo shipped *with* its construction grid and misuse page (brd-006).
+
+<!-- entries/semgrep.md -->
+---
+id: semgrep
+kind: tool
+medium: code
+title: Semgrep
+by: Semgrep, Inc.
+date:
+url: https://semgrep.dev/docs/
+archive_url: http://web.archive.org/web/20260511204036/https://semgrep.dev/docs/
+jobs: [sec-005]
+context: [many languages, custom rules]
+facets: use=pattern-based static analysis; write a rule per bug class for variant analysis
+relations: [alternative:codeql]
+verified: 2026-11-05 page fetched, title "Semgrep Docs - Semgrep"
+curator: draft (agent), unratified
+---
+# Semgrep
+
+Turn one finding into a rule that finds its siblings across the codebase. Fast to write; weaker than CodeQL
+on deep data flow.
+
+<!-- entries/shape-up-write-the-pitch.md -->
+---
+id: shape-up-write-the-pitch
+kind: artifact
+medium: document
+title: "Write the Pitch" (Shape Up, chapter 6)
+by: Ryan Singer, Basecamp
+date:
+url: https://basecamp.com/shapeup/1.5-chapter-06
+archive_url: http://web.archive.org/web/20261019015413/https://basecamp.com/shapeup/1.5-chapter-06
+jobs: [pm-008]
+context: [fixed time budget, small team, product company]
+facets: ingredients=problem, appetite, solution, rabbit holes, no-gos; includes 2 real pitches (to-do groups, group notifications)
+relations: [alternative:pm-007]
+verified: 2026-11-05 page fetched, title "Write the Pitch | Shape Up"
+curator: draft (agent), unratified
+---
+# "Write the Pitch" — Shape Up
+
+**Why it's gold**
+- Five ingredients with definitions: problem, **appetite** ("how much time we want to spend and how that
+  constrains the solution"), solution, **rabbit holes**, **no-gos**.
+- Includes two real pitches from Basecamp, so the agent sees finished work, not a template.
+
+**Weakness**
+- Assumes a six-week cycle culture; teams without fixed appetites may skip the hard part.
+
+**Use when** the team works in fixed time budgets and the question is "what fits in the time we'll spend".
+
+<!-- entries/slack-logo-2019.md -->
+---
+id: slack-logo-2019
+kind: artifact
+medium: visual
+title: Slack logo and identity refresh
+by: Pentagram (Michael Bierut, with Britt Cobb, Daisy Lee, Abby Matousek) with Slack's in-house team
+date: 2019-01
+url: https://www.pentagram.com/work/slack
+archive_url: http://web.archive.org/web/20261026200641/https://www.pentagram.com/work/slack
+jobs: [brd-010]
+context: [scaleup, software, screen-first, existing equity to keep]
+facets: mark_type=symbol + wordmark; colors=4 primaries + aubergine accent (was 11); device=octothorpe rebuilt from speech bubble + lozenge
+relations: [explained_by:slack-logo-announcement-2019, contrast:ibm-8-bar-logo]
+verified: 2026-11-05 page fetched, title "Slack"
+curator: draft (agent), unratified
+---
+# Slack logo refresh — Pentagram, 2019
+
+**Why it's gold**
+- Names the old mark's failure concretely: eleven colors that "suffered against any background color other
+  than white", reproduction problems, inconsistency.
+- **Keeps the equity** (the octothorpe) and rebuilds it on a grid from two shapes, a speech bubble and a
+  lozenge, which then become the system's graphic elements.
+- Cuts the palette to four screen-optimized primaries and keeps aubergine as the accent.
+- Built to "scale up or down to optimize legibility at various sizes."
+- The logo is the first piece of a system: icons, illustrations and rounded-corner motifs from the same shapes.
+
+**Weakness**
+- The case study shows outcomes, not rejected directions; you can't see the search.
+
+**Use when** refreshing a mark people already recognise, especially one that breaks on non-white backgrounds.
+
+<!-- entries/slack-logo-announcement-2019.md -->
+---
+id: slack-logo-announcement-2019
+kind: artifact
+medium: document
+title: "Say hello, new logo" (Slack's rationale post)
+by: Slack
+date: 2019-01
+url: https://slack.com/blog/news/say-hello-new-logo
+archive_url: http://web.archive.org/web/20261026200641/https://slack.com/blog/news/say-hello-new-logo
+jobs: [brd-010, brd-050]
+context: [public rebrand announcement, existing users]
+facets: length=short blog post; states=old problems, what was kept, what changed
+relations: [explains:slack-logo-2019]
+verified: 2026-11-05 page fetched, title "Say hello, new logo. | Slack"
+curator: draft (agent), unratified
+---
+# "Say hello, new logo" — Slack, 2019
+
+**Why it's gold**
+- The rationale customers read: old logo "hard to get right" (11 colors, a prescribed 18º rotation), variant
+  versions that didn't match, recognition suffering.
+- Says what was kept ("the spirit of the original", the hash that matches the channel marker) before what
+  changed, which is how you announce a refresh without alarming existing users.
+
+**Weakness**
+- Marketing voice; no construction detail. Pair it with the Pentagram case study.
+
+**Use when** writing the public rationale for a logo change (brd-050).
+
+<!-- entries/tob-curl-threatmodel-2022.md -->
+---
+id: tob-curl-threatmodel-2022
+kind: artifact
+medium: document
+title: cURL Threat Model
+by: Trail of Bits for the Linux Foundation
+date: 2022-12
+url: https://github.com/trailofbits/publications/blob/master/reviews/2022-12-curl-threatmodel.pdf
+archive_url: http://web.archive.org/web/20261014085517/https://github.com/trailofbits/publications/blob/master/reviews/2022-12-curl-threatmodel.pdf
+jobs: [sec-002]
+context: [widely embedded library and CLI, open source]
+facets: sections=executive summary, project coverage, system diagrams (high-level data flow, binary data flow), components
+relations: [same_author:tob-homebrew-2023]
+verified: 2026-11-05 PDF fetched and read (contents)
+curator: draft (agent), unratified
+license_note: Trail of Bits publication; link only
+---
+# cURL Threat Model — Trail of Bits
+
+**Why it's gold**
+- A threat model published as its own deliverable, separate from the code review.
+- Leads with **system diagrams** (high-level data flow, binary data flow) and a component breakdown before
+  threats, so the trust boundaries are drawn, not described.
+
+**Weakness**
+- Only the contents pages were read for this entry; threats and mitigations sections not yet reviewed.
+
+**Use when** threat-modelling a whole system or library (sec-002).
+
+<!-- entries/tob-homebrew-2023.md -->
+---
+id: tob-homebrew-2023
+kind: artifact
+medium: document
+title: Homebrew Security Assessment
+by: Trail of Bits (William Woodruff, Sam Alws, William Tan) for OTF
+date: 2023-08 (review); 2024-07-26 (comprehensive report)
+url: https://github.com/trailofbits/publications/blob/master/reviews/2023-08-28-homebrew-securityreview.pdf
+archive_url: http://web.archive.org/web/20261014081453/https://github.com/trailofbits/publications/blob/master/reviews/2023-08-28-homebrew-securityreview.pdf
+jobs: [sec-005]
+context: [package manager, installer, CLI that runs third-party code, CI/CD]
+facets: effort=6 engineer-weeks (3 consultants, 2 weeks); sections=project goals, targets, coverage, automated testing, codebase maturity evaluation, summary of findings, detailed findings; findings=TOB-BREW-n with severity and category
+relations: [same_author:tob-curl-threatmodel-2022]
+verified: 2026-11-05 PDF fetched and read (contents, executive summary)
+curator: draft (agent), unratified
+license_note: "may not be reproduced or distributed in part or in whole without the express written permission of Trail of Bits"; link only
+---
+# Homebrew Security Assessment — Trail of Bits
+
+**Why it's gold**
+- States scope and effort up front (six engineer-weeks; core package manager, CI/CD, the JSON API) and has
+  explicit **Project Coverage** and **Automated Testing** sections, so the reader knows what was *not* looked at.
+- A **Codebase Maturity Evaluation** separate from the findings: the system's habits, not just its bugs.
+- Findings grouped by impact in the summary ("escape the build sandbox", "compromise the CI/CD workflow"),
+  each with a stable ID (TOB-BREW-2, ...).
+- Recommends the class fix as well as the instances: **"Document Homebrew's security model"** — what is trusted
+  (core formulae) and what isn't (third-party formulae, casks).
+
+**Weakness**
+- Time-boxed; the report itself says it is not a comprehensive list.
+
+**Use when** auditing an installer, package manager or any tool that runs or writes third-party content.
+
+<!-- entries/working-backwards-pr-faq.md -->
+---
+id: working-backwards-pr-faq
+kind: artifact
+medium: document
+title: Working Backwards PR/FAQ instructions and template
+by: Colin Bryar and Bill Carr (Working Backwards)
+date:
+url: https://workingbackwards.com/resources/working-backwards-pr-faq/
+archive_url: http://web.archive.org/web/20261020002512/https://workingbackwards.com/resources/working-backwards-pr-faq/
+jobs: [pm-009]
+context: [new product or big bet, needs leadership buy-in]
+facets: sections=heading, subheading, summary, problem, solution, quotes and getting started, external FAQ, internal FAQ
+relations: [smaller_sibling:pm-007]
+verified: 2026-11-05 page fetched, title "Working Backwards PR/FAQ Instructions & Template"
+curator: draft (agent), unratified
+---
+# Working Backwards PR/FAQ
+
+**Why it's gold**
+- Forces the customer's view first: a one-sentence heading and subheading, then the problem "from the
+  customer's point of view", then how this differs from current alternatives.
+- Splits FAQs into **external** (customers, press) and **internal** (leaders and every department: technical,
+  financial, legal, operational problems to solve).
+- "Designed to be lightweight": a first draft should take a few hours.
+
+**Weakness**
+- Built for new products; overkill for a feature on an existing surface (use pm-007 or pm-051).
+
+**Use when** the idea is a new product or a bet that needs a yes from leadership.
